@@ -23,19 +23,25 @@
 
 <div class="card-body">
 
-<div class="mb-3">
-<label>Username</label>
-<input type="text" class="form-control">
-</div>
+@if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
-<div class="mb-3">
-<label>Password</label>
-<input type="password" class="form-control">
-</div>
+    <form method="POST" action="/login">
+        @csrf
 
-<a href="/dashboard" class="btn btn-primary w-100">
-Login
-</a>
+        <div class="mb-3">
+            <input type="text" name="username" class="form-control" placeholder="NIM / NIDN / Username" required>
+        </div>
+
+        <div class="mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+
+        <button class="btn btn-primary w-100">Login</button>
+    </form>
 
 </div>
 
