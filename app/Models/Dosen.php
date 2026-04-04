@@ -21,7 +21,7 @@ class Dosen extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    /**public function pengajar()
+    public function pengajar()
     {
         return $this->hasMany(Pengajar::class, 'nidn', 'nidn');
     }
@@ -29,5 +29,5 @@ class Dosen extends Model
     public function kelasWali()
     {
         return $this->hasOne(Kelas::class, 'nidn_wali', 'nidn');
-    }*/
+    }
 }
