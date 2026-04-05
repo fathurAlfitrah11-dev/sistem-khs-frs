@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
 use App\Http\Controllers\KelasController;
-
-//Route::get('/', function () {
-    //return view('welcome');
-//});
+use App\Http\Controllers\ProdiController;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -39,4 +36,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/kelas/edit/{id_kelas}', [KelasController::class, 'edit']);
     Route::post('/kelas/update/{id_kelas}', [KelasController::class, 'update']);
     Route::get('/kelas/delete/{id_kelas}', [KelasController::class, 'delete']);
+});
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/prodi', [ProdiController::class, 'index']);
+    Route::get('/prodi/create', [ProdiController::class, 'create']);
+    Route::post('/prodi/store', [ProdiController::class, 'store']);
+    Route::get('/prodi/edit/{id}', [ProdiController::class, 'edit']);
+    Route::post('/prodi/update/{id}', [ProdiController::class, 'update']);
+    Route::get('/prodi/delete/{id}', [ProdiController::class, 'delete']);
 });
