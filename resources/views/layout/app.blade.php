@@ -8,7 +8,7 @@
    <link href="{{ asset('sbadmin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('sbadmin/css/custom.css') }}" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body id="page-top">
