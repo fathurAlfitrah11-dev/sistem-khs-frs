@@ -1,3 +1,48 @@
-* {
-    font-family: 'Poppins', sans-serif !important;
+/* ===== SIDEBAR PURPLE CLEAN ===== */
+.sidebar-purple {
+    background: #1f2235 !important;
+}
+
+/* brand */
+.sidebar-purple .sidebar-brand {
+    font-weight: 600;
+    color: #fff;
+}
+
+/* nav link base */
+.sidebar-purple .nav-link {
+    color: #bfc2ff !important;
+    margin: 4px 10px;
+    border-radius: 8px;
+    padding: 10px 12px;
+    transition: all 0.2s ease;
+}
+
+/* icon */
+.sidebar-purple .nav-link i {
+    color: #8f94ff;
+}
+
+/* hover */
+.sidebar-purple .nav-link:hover {
+    background: rgba(255,255,255,0.05);
+    color: #ffffff !important;
+}
+
+/* active menu (kayak gambar kamu) */
+.sidebar-purple .active-link {
+    background: #e5e7eb !important;
+    color: #111 !important;
+    border-radius: 8px;
+}
+
+/* divider */
+.sidebar-purple .sidebar-divider {
+    border-color: rgba(255,255,255,0.05);
+}
+
+/* section text */
+.sidebar-purple .sidebar-heading {
+    color: #6c6f93;
+    font-size: 10px;
 }
