@@ -24,7 +24,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dosen-admin', [DosenController::class, 'index']);
     Route::get('/dosen/create', [DosenController::class, 'create']);
     Route::post('/dosen/store', [DosenController::class, 'store']);
-    Route::get('/dosen/edit/{id}', [DosenController::class, 'edit']);
+    Route::post('/dosen/edit/{id}', [DosenController::class, 'edit']);
     Route::post('/dosen/update/{id}', [DosenController::class, 'update']);
     Route::get('/dosen/delete/{id}', [DosenController::class, 'delete']);
 });

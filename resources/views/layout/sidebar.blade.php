@@ -1,65 +1,74 @@
-<ul class="navbar-nav bg-primary sidebar sidebar-dark accordion">
+<div class="w-64 h-screen bg-[#3b3f63] fixed left-0 top-0 flex flex-col">
 
-    <a class="sidebar-brand d-flex align-items-center justify-content-center">
-        <div class="sidebar-brand-text mx-3">KRS APP</div>
-    </a>
+    <!-- LOGO -->
+    <div class="p-6 text-xl font-bold border-b border-white/10">
+        Smart Academyc System
+    </div>
 
-    <hr class="sidebar-divider">
+    <!-- MENU -->
+    <div class="flex-1 p-4 space-y-2 text-sm">
 
-    <li class="nav-item">
-        <a class="nav-link" href="/admin">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
+        <a href="/dashboard"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+            Dashboard
         </a>
-    </li>
-@if (Auth::user()->role === 'admin')
-    <li class="nav-item">
-        <a class="nav-link" href="/mahasiswa-admin">
-            <i class="fas fa-user"></i>
-            <span>Mahasiswa</span>
-        </a>
-    </li>
 
-    <li class="nav-item">
-        <a class="dropdown-toggle nav-link" href="#" id="dosenDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="fas fa-chalkboard-teacher"></i>
+        <a href="/kelas"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+            Kelas
+        </a>
+
+        <a href="/prodi"
+            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+            Program Studi
+        </a>
+
+        <!-- DOSEN DROPDOWN -->
+<div>
+    <button onclick="toggleDosen()"
+        class="w-full flex items-center justify-between px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+
+        <div class="flex items-center gap-3">
             <span>Dosen</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dosenDropdown">
-            <a class="dropdown-item" href="/dosen-admin">Data Dosen</a>
-            <a class="dropdown-item" href="/dosen-wali">Data Dosen Wali</a>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/prodi">
-            <i class="fas fa-building"></i>
-            <span>Program Studi</span>
+
+        <svg id="arrowDosen" class="w-4 h-4 transition-transform duration-300"
+            fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path d="M19 9l-7 7-7-7"/>
+        </svg>
+    </button>
+
+    <!-- SUB MENU -->
+    <div id="dropdownDosen" class="hidden flex flex-col ml-8 mt-2 space-y-1 text-sm">
+
+        <a href="/dosen-admin"
+            class="px-3 py-2 rounded hover:bg-[#2d3250] transition">
+            Data Dosen
         </a>
-    </li>
-    <li class="nav-item">
-        <a class="dropdown-toggle nav-link" href="#" id="akademikDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             <i class="fas fa-chalkboard-teacher"></i>
-            <span>Data Akademik</span>
+
+        <a href="/pengajar"
+            class="px-3 py-2 rounded hover:bg-[#2d3250] transition">
+            Data Pengajar
         </a>
-        <div class="dropdown-menu" aria-labelledby="akademikDropdown">
-            <a class="dropdown-item" href="/mata-kuliah">Data Mata Kuliah</a>
-            <a class="dropdown-item" href="/tahun-ajaran">Data Tahun Ajaran</a>
-            <a class="dropdown-item" href="/pengajar">Data Pengajar</a>
-        </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/kelas">
-            <i class="fas fa-book"></i>
-            <span>Kelas</span>
+
+        <a href="/dosen-wali"
+            class="px-3 py-2 rounded hover:bg-[#2d3250] transition">
+            Dosen Wali
         </a>
-    </li>
-    @endif
-    @if (Auth::user()->role === 'mahasiswa')
-    <li class="nav-item">
-        <a class="nav-link" href="/krs">
-            <i class="fas fa-file-alt"></i>
-            <span>KRS</span>
-        </a>
-    </li>
-    @endif
-</ul>
+
+    </div>
+</div>
+
+    </div>
+</div>
+<script>
+function toggleDosen() {
+    const menu = document.getElementById('dropdownDosen');
+    const arrow = document.getElementById('arrowDosen');
+
+    menu.classList.toggle('hidden');
+
+    arrow.classList.toggle('rotate-180');
+}
+</script>

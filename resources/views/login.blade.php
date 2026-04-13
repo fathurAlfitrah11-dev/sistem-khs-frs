@@ -1,53 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
-
+    <meta charset="UTF-8">
+    <title>Login - Smart Academy System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
 
+    <style>
+        body {
+            background: #2f3654;
+        }
+    </style>
 </head>
 
-<body>
+<body class="min-h-screen flex items-center justify-center">
 
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="SAS" class="mx-auto h-10 w-auto" />
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-dark-300">Login Sistem KRS</h2>
-  </div>
+    <!-- Background decoration -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 top-10 left-10"></div>
+        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 bottom-10 right-10"></div>
+        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 top-1/2 left-1/3"></div>
+    </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    @if (session('error'))
-        <div class="mb-4 text-sm font-medium text-red-500">
-            {{ session('error') }}
+    <!-- Card -->
+    <div class="relative w-full max-w-md p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
+
+        <!-- Logo -->
+        <div class="flex justify-center mb-4">
+            <h1 class="text-4xl font-bold text-orange-400">SA</h1>
         </div>
-    @endif
-    <form action="/login" method="POST" class="space-y-6">
-        @csrf
-      <div>
-        <label for="username" class="block text-sm/6 font-medium text-dark-100">Username</label>
-        <div class="mt-2">
-          <input id="username" type="text" name="username" placeholder="Masukkan username anda berupa NIM atau NIDN" autocomplete="username" class="block w-full rounded-md bg-dark/5 px-3 py-1.5 text-base text-dark outline-1 -outline-offset-1 outline-white/10 placeholder:text-dark-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-        </div>
-      </div>
 
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm/6 font-medium text-dark-100">Password</label>
-        </div>
-        <div class="mt-2">
-          <input id="password" type="password" name="password" placeholder="Masukkan Password Anda" autocomplete="current-password" class="block w-full rounded-md bg-dark/5 px-3 py-1.5 text-base text-dark outline-1 -outline-offset-1 outline-white/10 placeholder:text-dark-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
-        </div>
-      </div>
+        <!-- Title -->
+        <h2 class="text-center text-2xl font-semibold text-white mb-6">
+            Smart Academy System
+        </h2>
 
-      <div>
-        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Login</button>
-      </div>
-    </form>
+        <!-- Error -->
+        @if (session('error'))
+            <div class="mb-4 text-sm text-red-400 text-center">
+                {{ session('error') }}
+            </div>
+        @endif
 
-  </div>
-</div>
+        <!-- Form -->
+        <form action="/login" method="POST" class="space-y-5">
+            @csrf
+
+            <!-- Username -->
+            <div>
+                <label class="text-sm text-gray-300">NIM / NIDN</label>
+                <input type="text" name="username"
+                    placeholder="Ketik NIM / NIDN Anda"
+                    class="w-full mt-2 px-4 py-2 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400">
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label class="text-sm text-gray-300">Kata Sandi</label>
+                <input type="password" name="password"
+                    placeholder="Ketik Kata Sandi Anda"
+                    class="w-full mt-2 px-4 py-2 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400">
+            </div>
+
+            <!-- Button -->
+            <button type="submit"
+                class="w-full mt-6 bg-orange-400 hover:bg-orange-300 text-gray-900 font-semibold py-2 rounded-md flex items-center justify-center gap-2 transition">
+                Masuk →
+            </button>
+        </form>
+
+    </div>
 
 </body>
 </html>
