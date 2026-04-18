@@ -26,10 +26,10 @@
 
         <h2 class="text-white text-xl font-bold mb-4">Data Dosen</h2>
 
-        <div class="bg-white rounded-lg overflow-hidden">
+        <div class="bg-white overflow-hidden">
 
             <table class="w-full text-sm">
-                <thead class="bg-gray-100 text-gray-700">
+                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
                         <th class="text-left px-6 py-3">NIDN</th>
                         <th class="text-left px-6 py-3">Nama Dosen</th>
@@ -42,21 +42,30 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $d->nidn }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
-                        <td class="px-6 py-3 text-center space-x-2">
 
-                            <button onclick="openEdit('{{ $d->id }}','{{ $d->nidn }}','{{ $d->user->name }}')"
-                                class="bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Ubah
-                            </button>
+                        <td class="px-6 py-3 text-center">
+                            <div class="flex justify-center gap-2">
 
-                            <a href="/dosen/delete/{{ $d->id }}"
-                                onclick="return confirm('Yakin hapus?')"
-                                class="bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                                <i class="fa-solid fa-trash"></i>
-                                Hapus
-                            </a>
+                                {{-- VIEW --}}
+                                <button onclick="openDetail('{{ $d->nidn }}','{{ $d->user->name }}')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                                    <i class="fa-solid fa-eye text-black"></i>
+                                </button>
 
+                                {{-- EDIT --}}
+                                <button onclick="openEdit('{{ $d->id }}','{{ $d->nidn }}','{{ $d->user->name }}')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                                    <i class="fa-solid fa-pen text-black"></i>
+                                </button>
+
+                                {{-- DELETE --}}
+                                <a href="/dosen/delete/{{ $d->id }}"
+                                    onclick="return confirm('Yakin hapus?')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
+                                    <i class="fa-solid fa-trash text-black"></i>
+                                </a>
+
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -65,6 +74,8 @@
             </table>
 
         </div>
+
+        {{-- PAGINATION --}}
         <div class="flex justify-end mt-4 space-x-2">
             <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
             <button class="bg-orange-300 px-3 py-1 rounded">1</button>
@@ -84,13 +95,15 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
         <form action="/dosen/store" method="POST">
             @csrf
-
+            <label class="text-sm mb-1 block">NIDN</label>
             <input type="text" name="nidn" placeholder="NIDN"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" placeholder="Nama Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="text-sm mb-1 block">Password</label>
             <input type="password" name="password" placeholder="Password"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -113,16 +126,17 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
-        <h2 class="text-lg font-bold mb-4">Edit Dosen</h2>
+        <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
 
         <form id="formEdit" method="POST">
             @csrf
-
+            <label class="text-sm mb-1 block">NIDN</label>
             <input type="text" id="editNidn" readonly
-                class="w-full mb-3 px-3 py-2 border rounded">
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" id="editNama"
-                class="w-full mb-3 px-3 py-2 border rounded">
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -136,6 +150,33 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 </button>
             </div>
         </form>
+    </div>
+</div>
+
+<div id="detailModal"
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+        <h2 class="text-lg font-bold mb-4">Detail Dosen</h2>
+
+        <div class="space-y-3">
+            <div>
+                <label class="text-sm">NIDN</label>
+                <p id="detailNidn" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+
+            <div>
+                <label class="text-sm">Nama Dosen</label>
+                <p id="detailNama" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+        </div>
+
+        <div class="flex justify-end mt-4">
+            <button onclick="closeModal('detailModal')"
+                class="bg-gray-300 px-3 py-1 rounded text-black">
+                Tutup
+            </button>
+        </div>
     </div>
 </div>
 
@@ -153,6 +194,12 @@ function openEdit(id, nidn, nama){
     document.getElementById('editNidn').value = nidn
     document.getElementById('editNama').value = nama
     document.getElementById('formEdit').action = '/dosen/update/' + id
+}
+
+function openDetail(nidn, nama){
+    document.getElementById('detailModal').classList.remove('hidden')
+    document.getElementById('detailNidn').innerText = nidn
+    document.getElementById('detailNama').innerText = nama
 }
 </script>
 

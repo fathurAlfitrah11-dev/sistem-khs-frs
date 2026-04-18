@@ -12,23 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('krs', function (Blueprint $table) {
-            $table->id();
-
+    $table->id('id_krs');
     $table->string('nim');
-    $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-    $table->foreignId('pengajar_id')->constrained('pengajar')->onDelete('cascade');
-    $table->foreignId('tahun_ajaran_id')->constrained('tahun_ajaran')->onDelete('cascade');
-
-    $table->enum('status_krs', ['pending','disetujui','ditolak']);
-    $table->enum('status_wali', ['pending','disetujui','ditolak'])->default('pending');
-
-    $table->enum('nilai', ['A','B','C','D','E'])->nullable();
-
+    $table->foreignId('id_tahun_ajaran')->constrained('tahun_ajaran');
+    $table->enum('status', ['draft','diajukan','disetujui','ditolak'])->default('draft');
+    $table->enum('status_wali', ['pending','disetujui','ditolak'])
+              ->default('pending');
+    $table->string('nidn_wali')->nullable();
     $table->timestamps();
-    $table->unique(['nim', 'pengajar_id', 'tahun_ajaran_id']);
-    $table->index('nim');
-    $table->index('pengajar_id');
-        });
+    });
     }
 
     /**

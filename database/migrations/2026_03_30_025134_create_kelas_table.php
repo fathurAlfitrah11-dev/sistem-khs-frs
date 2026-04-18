@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id('id_kelas');
+            $table->string('semester');
+            $table->foreignId('id_prodi')->constrained('prodi')->onDelete('cascade');
             $table->enum('nama_kelas', ['A', 'B', 'C', 'D', 'E']);
             $table->enum('kategori', ['Pagi', 'Malam']);
             $table->string('nidn_wali')->nullable()->unique();

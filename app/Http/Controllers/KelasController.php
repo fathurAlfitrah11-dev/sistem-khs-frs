@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Dosen;
+use App\Models\Prodi;
 
 class KelasController extends Controller
 {
@@ -12,7 +13,8 @@ class KelasController extends Controller
     {
         $data = Kelas::all();
         $dosen = Dosen::all();
-        return view('admin.kelas.index', compact('data', 'dosen'));
+        $prodi = Prodi::all();
+        return view('admin.kelas.index', compact('data', 'dosen', 'prodi'));
     }
 
     public function create()

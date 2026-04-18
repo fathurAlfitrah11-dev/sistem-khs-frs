@@ -7,8 +7,8 @@
 
     <!-- MENU -->
     <div class="flex-1 p-4 space-y-2 text-sm">
-
-        <a href="/dashboard"
+        @if(Auth::user()->role == 'admin')
+        <a href="/admin"
             class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
             Dashboard
         </a>
@@ -22,6 +22,15 @@
             class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
             Program Studi
         </a>
+        
+        <a href="/mahasiswa"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+        Mahasiswa
+    </a>
+    <a href="/tahun-ajaran"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+        Tahun Ajaran
+    </a>
 
         <!-- DOSEN DROPDOWN -->
 <div>
@@ -58,7 +67,10 @@
         </a>
 
     </div>
+    
 </div>
+
+@endif
 
     </div>
 </div>
