@@ -6,14 +6,13 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Program Studi</h1>
-
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Program Studi"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+
+        <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Program Studi" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -53,14 +52,13 @@
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id }}', '{{ $d->nama_prodi }}')" 
-                                class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                                <button onclick="openEdit('{{ $d->id }}', '{{ $d->nama_prodi }}')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/kelas/delete/{{ $d->id }}"
-                                    onclick="return confirm('Yakin hapus?')"
+                                <a href="/kelas/delete/{{ $d->id }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
@@ -87,8 +85,7 @@
     </div>
 </div>
 
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
         <h2 class="text-lg font-bold mb-4">Tambah Program Studi</h2>
@@ -118,13 +115,11 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -132,8 +127,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="editModal"
-    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
         <h2 class="text-lg font-bold mb-4">Ubah Program Studi</h2>
@@ -142,7 +136,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             @csrf
             <label class="text-sm mb-1 block">Nama Program Studi</label>
             <select name="nama_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                 <option value="IF">Teknik Informatika</option>
+                <option value="IF">Teknik Informatika</option>
                 <option value="TRPL">Teknik Rekayasa Perangkat Lunak</option>
                 <option value="GM">Teknologi Geomatika</option>
                 <option value="TP">Teknologi Permainan</option>
@@ -151,13 +145,11 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -165,8 +157,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
         <h2 class="text-lg font-bold mb-4">Detail Program Studi</h2>
@@ -180,8 +171,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         </div>
 
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -189,24 +179,23 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 <script>
-function openModal(id){
+function openModal(id) {
     document.getElementById(id).classList.remove('hidden')
 }
 
-function closeModal(id){
+function closeModal(id) {
     document.getElementById(id).classList.add('hidden')
 }
 
-function openEdit(id, nama_prodi){
+function openEdit(id, nama_prodi) {
     document.getElementById('editModal').classList.remove('hidden')
     document.getElementById('editProdi').value = nama_prodi
 }
 
-function openDetail(nama_prodi){
+function openDetail(nama_prodi) {
     document.getElementById('detailModal').classList.remove('hidden')
     document.getElementById('detailNamaProdi').innerText = nama_prodi
 }
-
 </script>
 
 @endsection

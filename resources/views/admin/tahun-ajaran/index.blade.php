@@ -6,15 +6,15 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Tahun Ajaran</h1>
-
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
         
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Tahun Ajaran"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </div>
+      <div class="flex-1 mr-4">
+    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input type="text" placeholder="Telusuri Tahun Ajaran"
+            class="w-full outline-none text-sm text-gray-700">
+        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    </div>
+</div>
 
         <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">

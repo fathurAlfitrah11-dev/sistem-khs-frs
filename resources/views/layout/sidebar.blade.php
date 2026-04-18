@@ -32,6 +32,10 @@
         Tahun Ajaran
     </a>
 
+       <a href="/mata-kuliah"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+        Mata Kuliah
+    </a>
         <!-- DOSEN DROPDOWN -->
 <div>
     <button onclick="toggleDosen()"
