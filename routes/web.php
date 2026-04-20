@@ -7,6 +7,7 @@ use App\Http\Controllers\KelasController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\MataKuliahController;
+use App\Http\Controllers\MahasiswaController;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -46,4 +47,5 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/tahun-ajaran', [TahunAjaranController::class, 'index']);
     Route::get('/mata-kuliah', [MataKuliahController::class, 'index']);
+    Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
 });
