@@ -14,7 +14,6 @@
             background: #fff;
             color: #fff;
         }
-        
     </style>
 </head>
 <body>
@@ -22,7 +21,7 @@
 <div class="flex">
 
     {{-- SIDEBAR --}}
-    @include('layout.sidebar')
+    @include('layout.sidebar_dosen')
 
     {{-- MAIN CONTENT --}}
     <div class="flex-1 ml-64">

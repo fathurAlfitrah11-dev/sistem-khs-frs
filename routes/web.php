@@ -14,6 +14,9 @@ use App\Http\Controllers\MahasiswaRealController;
 use App\Http\Controllers\MatakuliahMahasiswaController;
 use App\Http\Controllers\KrsMahasiswaController;
 use App\Http\Controllers\KhsMahasiswaController;
+use App\Http\Controllers\DosenRealController;
+use App\Http\Controllers\MatakuliahDosenController;
+use App\Http\Controllers\PenilaianDosenController;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -71,4 +74,12 @@ Route::get('/matakuliahmahasiswa', [MatakuliahMahasiswaController::class, 'index
 Route::get('/krsmahasiswa', [KrsMahasiswaController::class, 'index']);
 
 Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
+});
+
+// DOSEN
+Route::middleware(['auth', 'role:dosen'])->group(function () {
+    Route::get('/dosen', [DosenRealController::class, 'index']);
+    Route::get('/dosen/wali/krs', [DosenWaliController::class, 'index']);
+    Route::get('/matakuliahdosen', [MatakuliahDosenController::class, 'index']);
+    Route::get('/penilaian', [PenilaianDosenController::class, 'index']);
 });
