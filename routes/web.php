@@ -10,6 +10,10 @@ use App\Http\Controllers\MataKuliahController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\PengajarController;
 use App\Http\Controllers\DosenWaliController;
+use App\Http\Controllers\MahasiswaRealController;
+use App\Http\Controllers\MatakuliahMahasiswaController;
+use App\Http\Controllers\KrsMahasiswaController;
+use App\Http\Controllers\KhsMahasiswaController;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -52,4 +56,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
     Route::get('/pengajar', [PengajarController::class, 'index']);
     Route::get('/dosen-wali', [DosenWaliController::class, 'index']);
+});
+//MAHASISWA
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+    Route::get('/mahasiswa', function () {
+        return view('mahasiswa.dashboard');
+    });
+});
+Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
+Route::get('/mahasiswa', [MahasiswaRealController::class, 'index']);
+
+Route::get('/matakuliahmahasiswa', [MatakuliahMahasiswaController::class, 'index']);
+
+Route::get('/krsmahasiswa', [KrsMahasiswaController::class, 'index']);
+
+Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
 });
