@@ -5,6 +5,7 @@
 @section('content')
 
 <div class="p-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Tahun Ajaran</h1>
 
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
         
@@ -107,7 +108,7 @@
 </div>
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
 
-    <div class="bg-[#5a5f86] p-6 rounded-xl text-white w-[400px]">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
 
         <label class="block text-sm mb-1">Tahun Awal</label>
@@ -119,11 +120,6 @@
 <input type="number" id="tahunAkhir"
     class="w-full mb-3 px-3 py-2 text-black rounded"
     placeholder="2027">
-
-{{-- hasil otomatis --}}
-<input type="text" id="hasilTahun"
-    class="w-full mb-3 px-3 py-2 text-black rounded bg-gray-200"
-    readonly placeholder="Hasil otomatis">
 
     <label class="block text-sm mb-1">Semester</label>
         <select class="w-full mb-3 px-3 py-2 text-black rounded">
@@ -144,7 +140,7 @@
 
 </div>
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] p-6 rounded-xl text-white w-[400px]">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6">
 
         <h2 class="mb-4 font-bold">Edit Tahun Ajaran</h2>
 
@@ -174,13 +170,17 @@
 
 
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] p-6 rounded-xl text-white w-[400px]">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
 
         <h2 class="mb-4 font-bold">Detail</h2>
-
-        <p id="dTahun"></p>
-        <p id="dSemester"></p>
-        <p id="dStatus"></p>
+        <div class="space-y-3">
+        <label class="text-sm">Tahun Ajaran</label>
+        <p id="dTahun" class="bg-white text-black px-3 py-2 rounded"></p>
+        <label class="text-sm">Semester</label>
+        <p id="dSemester" class="bg-white text-black px-3 py-2 rounded"></p>
+        <label class="text-sm">Status</label>
+        <p id="dStatus" class="bg-white text-black px-3 py-2 rounded"></p>
+        </div>
 
         <button onclick="closeModal('detailModal')" class="mt-4 bg-gray-300 px-3 py-1 rounded">Tutup</button>
 
@@ -209,9 +209,9 @@ function openEdit(el){
 
 function openDetail(el){
     openModal('detailModal')
-    document.getElementById('dTahun').innerText = "Tahun: " + el.dataset.tahun
-    document.getElementById('dSemester').innerText = "Semester: " + el.dataset.semester
-    document.getElementById('dStatus').innerText = "Status: " + el.dataset.status
+    document.getElementById('dTahun').innerText = el.dataset.tahun
+    document.getElementById('dSemester').innerText = el.dataset.semester
+    document.getElementById('dStatus').innerText =  el.dataset.status
 }
 const awal = document.getElementById('tahunAwal')
 const akhir = document.getElementById('tahunAkhir')

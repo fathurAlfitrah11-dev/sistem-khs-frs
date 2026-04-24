@@ -42,14 +42,14 @@
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->nama_kelas }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi }} - {{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->dosen_wali }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
-                                <button onclick="openDetail('{{ $d->nama_kelas }}', '{{ $d->semester }}', '{{ $d->prodi_id }}', 
+                                <button onclick="openDetail('{{ $d->nama_kelas }}', '{{ $d->semester }}', '{{ $d->id_prodi }}', 
                                 '{{ $d->kategori }}', '{{ $d->dosen_wali }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
@@ -57,7 +57,7 @@
 
                                 {{-- EDIT --}}
                                 <button onclick="openEdit('{{ $d->id }}', '{{ $d->nama_kelas }}', '{{ $d->semester }}',
-                                '{{ $d->prodi_id }}', '{{ $d->kategori }}', '{{ $d->dosen_wali }}')" 
+                                '{{ $d->id_prodi }}', '{{ $d->kategori }}', '{{ $d->dosen_wali }}')" 
                                 class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -102,18 +102,18 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <label class="text-sm mb-1 block">Nama Kelas</label>
             <select name="nama_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
-                <option value="Kelas A">Kelas A</option>
-                <option value="Kelas B">Kelas B</option>
-                <option value="Kelas C">Kelas C</option>
-                <option value="Kelas D">Kelas D</option>
-                <option value="Kelas E">Kelas E</option>
+                <option value="A">Kelas A</option>
+                <option value="B">Kelas B</option>
+                <option value="C">Kelas C</option>
+                <option value="D">Kelas D</option>
+                <option value="E">Kelas E</option>
             </select>
             <label class="text-sm mb-1 block">Semester</label>
             <input type="number" name="semester" placeholder="Semester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="prodi_id" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
                 <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
@@ -160,11 +160,11 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             @csrf
             <label class="text-sm mb-1 block">Nama Kelas</label>
             <select name="nama_kelas" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                 <option value="Kelas A">Kelas A</option>
-                <option value="Kelas B">Kelas B</option>
-                <option value="Kelas C">Kelas C</option>
-                <option value="Kelas D">Kelas D</option>
-                <option value="Kelas E">Kelas E</option>
+                 <option value="A">Kelas A</option>
+                <option value="B">Kelas B</option>
+                <option value="C">Kelas C</option>
+                <option value="D">Kelas D</option>
+                <option value="E">Kelas E</option>
             </select>
 
             <label class="text-sm mb-1 block">Semester</label>
@@ -172,7 +172,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 class="w-full mb-3 px-3 py-2 border rounded text-black" min="1" max="8">
 
                 <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="prodi_id" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
                 <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>

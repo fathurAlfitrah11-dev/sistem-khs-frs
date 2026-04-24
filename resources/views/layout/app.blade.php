@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/swup@4"></script>
 
     <style>
         body {
@@ -14,7 +15,14 @@
             background: #fff;
             color: #fff;
         }
-        
+        .transition-fade {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+html.is-animating .transition-fade {
+    opacity: 0;
+}
     </style>
 </head>
 <body>
@@ -25,13 +33,13 @@
     @include('layout.sidebar')
 
     {{-- MAIN CONTENT --}}
-    <div class="flex-1 ml-64">
+    <div class="flex-1 ml-64 pt-16">
 
         {{-- NAVBAR --}}
         @include('layout.navbar')
 
         {{-- CONTENT --}}
-        <div class="p-6">
+        <div id="swup" class="p-6 transition-fade">
             @yield('content')
         </div>
 
@@ -40,4 +48,9 @@
 </div>
 
 </body>
+
+<script>
+const swup = new Swup();
+</script>
+
 </html>

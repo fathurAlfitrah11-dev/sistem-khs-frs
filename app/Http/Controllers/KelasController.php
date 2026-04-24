@@ -28,16 +28,22 @@ class KelasController extends Controller
         $request->validate([
             'nama_kelas' => 'required',
             'kategori' => 'required',
+            'semester' => 'required',
+            'id_prodi' => 'required',
             'nidn_wali' => 'nullable|unique:kelas,nidn_wali'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
+            'semester.required' => 'Semester wajib diisi',
+            'id_prodi.required' => 'Program studi wajib diisi',
             'nidn_wali.unique' => 'Dosen sudah menjadi wali kelas'
         ]);
 
         Kelas::create([
     'nama_kelas' => $request->nama_kelas,
     'kategori' => $request->kategori,
+    'semester' => $request->semester,
+    'id_prodi' => $request->id_prodi,
     'nidn_wali' => $request->nidn_wali ?:null
 ]);
         return redirect('/kelas')
@@ -58,10 +64,14 @@ class KelasController extends Controller
         $request->validate([
             'nama_kelas' => 'required',
             'kategori' => 'required',
+            'semester' => 'required',
+            'id_prodi' => 'required',
             'nidn_wali' => 'nullable|unique:kelas,nidn_wali,'.$id_kelas.',id_kelas'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
+            'semester.required' => 'Semester wajib diisi',
+            'id_prodi.required' => 'Program studi wajib diisi',
             'nidn_wali.unique' => 'Dosen sudah menjadi wali kelas'
         ]);
         
@@ -70,6 +80,8 @@ class KelasController extends Controller
         $kelas->update([
     'nama_kelas' => $request->nama_kelas,
     'kategori' => $request->kategori,
+    'semester' => $request->semester,
+    'id_prodi' => $request->id_prodi,
     'nidn_wali' => $request->nidn_wali
 ]);
 

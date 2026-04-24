@@ -156,12 +156,18 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
 
         <h2 class="text-lg font-bold mb-4">Detail Mahasiswa</h2>
+        <div class="space-y-3">
+            
+        <label class="text-sm">NIM</label>
+        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNim"></span></p>
+        <label class="text-sm">Nama</label>
+        <p class="bg-white text-black px-3 py-2 rounded"><b>Nama:</b> <span id="detailNama"></span></p>
+        <label class="text-sm">Semester</label>
+        <p class="bg-white text-black px-3 py-2 rounded"><b>Semester:</b> <span id="detailSemester"></span></p>
+        <label class="text-sm">Kelas</label>
+        <p class="bg-white text-black px-3 py-2 rounded"><b>Kelas:</b> <span id="detailKelas"></span></p>
 
-        <p><b>NIM:</b> <span id="detailNim"></span></p>
-        <p><b>Nama:</b> <span id="detailNama"></span></p>
-        <p><b>Semester:</b> <span id="detailSemester"></span></p>
-        <p><b>Kelas:</b> <span id="detailKelas"></span></p>
-
+        </div>
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')"
                 class="bg-gray-300 px-3 py-1 rounded text-black">

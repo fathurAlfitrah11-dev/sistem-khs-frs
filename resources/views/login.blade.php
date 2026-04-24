@@ -26,7 +26,7 @@
 
         <!-- Logo -->
         <div class="flex justify-center mb-4">
-            <h1 class="text-4xl font-bold text-orange-400">SA</h1>
+            <img src="{{ asset('img/Logo_4-reborn.png') }}" alt="Logo" class="w-20 h-20">
         </div>
 
         <!-- Title -->

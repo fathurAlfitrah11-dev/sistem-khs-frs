@@ -92,7 +92,7 @@
 
         <form action="/prodi/store" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">Nama Program Studi</label>
+            <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 <option value="IF">Teknik Informatika</option>
@@ -101,17 +101,6 @@
                 <option value="TP">Teknologi Permainan</option>
                 <option value="TRM">Teknologi Rekayasa Multimedia</option>
                 <option value="RKS">Rekayasa Keamanan Siber</option>
-            </select>
-            <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" placeholder="Semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
-
-            <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="prodi_id" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Program Studi</option>
-                @foreach($data as $p)
-                <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
-                @endforeach
             </select>
 
             <div class="flex justify-end gap-2">
@@ -134,7 +123,7 @@
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">Nama Program Studi</label>
+            <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="IF">Teknik Informatika</option>
                 <option value="TRPL">Teknik Rekayasa Perangkat Lunak</option>
@@ -190,6 +179,7 @@ function closeModal(id) {
 function openEdit(id, nama_prodi) {
     document.getElementById('editModal').classList.remove('hidden')
     document.getElementById('editProdi').value = nama_prodi
+    document.getElementById('formEdit').action = '/prodi/update/' + id
 }
 
 function openDetail(nama_prodi) {

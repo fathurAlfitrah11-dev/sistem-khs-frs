@@ -62,12 +62,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 //MAHASISWA
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
-    Route::get('/mahasiswa', function () {
+    Route::get('/mahasiswa-real', function () {
         return view('mahasiswa.dashboard');
     });
 });
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
-Route::get('/mahasiswa', [MahasiswaRealController::class, 'index']);
+Route::get('/mahasiswa-real', [MahasiswaRealController::class, 'index']);
 
 Route::get('/matakuliahmahasiswa', [MatakuliahMahasiswaController::class, 'index']);
 
