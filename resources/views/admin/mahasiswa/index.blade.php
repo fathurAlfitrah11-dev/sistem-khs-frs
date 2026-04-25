@@ -6,9 +6,9 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Mahasiswa</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100" >Data Mahasiswa</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="150">
         
         <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
             <input type="text" placeholder="Telusuri Mahasiswa"
@@ -22,7 +22,7 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Mahasiswa</h2>
 
@@ -82,7 +82,7 @@
 <div id="tambahModal"
 class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Mahasiswa</h2>
 
         <form>
@@ -117,7 +117,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 <div id="editModal"
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Edit Mahasiswa</h2>
 
@@ -153,7 +153,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 <div id="detailModal"
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Detail Mahasiswa</h2>
         <div class="space-y-3">
@@ -178,28 +178,54 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 <script>
+function showModal(id){
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('div');
+
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0','translate-y-10');
+        content.classList.add('opacity-100','translate-y-0');
+    }, 10);
+}
+
+function hideModal(id){
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('div');
+
+    content.classList.remove('opacity-100','translate-y-0');
+    content.classList.add('opacity-0','translate-y-10');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
+}
+
 function openModal(id){
-    document.getElementById(id).classList.remove('hidden')
+    showModal(id);
 }
 
 function closeModal(id){
-    document.getElementById(id).classList.add('hidden')
+    hideModal(id);
 }
 
 function openEdit(id, nim, nama, semester, kelas){
-    document.getElementById('editModal').classList.remove('hidden')
-    document.getElementById('editNim').value = nim
-    document.getElementById('editNama').value = nama
-    document.getElementById('editSemester').value = semester
-    document.getElementById('editKelas').value = kelas
+    showModal('editModal');
+
+    document.getElementById('editNim').value = nim;
+    document.getElementById('editNama').value = nama;
+    document.getElementById('editSemester').value = semester;
+    document.getElementById('editKelas').value = kelas;
 }
 
 function openDetail(nim, nama, semester, kelas){
-    document.getElementById('detailModal').classList.remove('hidden')
-    document.getElementById('detailNim').innerText = nim
-    document.getElementById('detailNama').innerText = nama
-    document.getElementById('detailSemester').innerText = semester
-    document.getElementById('detailKelas').innerText = kelas
+    showModal('detailModal');
+
+    document.getElementById('detailNim').innerText = nim;
+    document.getElementById('detailNama').innerText = nama;
+    document.getElementById('detailSemester').innerText = semester;
+    document.getElementById('detailKelas').innerText = kelas;
 }
 </script>
 

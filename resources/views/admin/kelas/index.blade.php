@@ -6,9 +6,9 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Kelas</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Kelas</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
         
         <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
             <input type="text" placeholder="Telusuri Kelas"
@@ -22,7 +22,7 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Kelas</h2>
 
@@ -92,9 +92,10 @@
 </div>
 
 <div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 "data-aos="fade-up" data-aos-delay="100">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative
+transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Kelas</h2>
 
         <form action="/kelas/store" method="POST">
@@ -151,7 +152,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 </div>
 
 <div id="editModal"
-    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 relative transform opacity-0 translate-y-10 transition-all duration-300">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
         <h2 class="text-lg font-bold mb-4">Ubah Kelas</h2>
@@ -209,7 +210,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 </div>
 
 <div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 relative transform opacity-0 translate-y-10 transition-all duration-300">
 
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
         <h2 class="text-lg font-bold mb-4">Detail Kelas</h2>
@@ -250,15 +251,40 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
 <script>
 function openModal(id){
-    document.getElementById(id).classList.remove('hidden')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('div');
+
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0','translate-y-10');
+        content.classList.add('opacity-100','translate-y-0');
+    }, 10);
 }
 
 function closeModal(id){
-    document.getElementById(id).classList.add('hidden')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('div');
+
+    content.classList.remove('opacity-100','translate-y-0');
+    content.classList.add('opacity-0','translate-y-10');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
 }
 
 function openEdit(id, nama_kelas, semester, prodi, kategori, nidn_wali){
-    document.getElementById('editModal').classList.remove('hidden')
+    const modal = document.getElementById('editModal');
+    const content = modal.querySelector('div');
+
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0','translate-y-10');
+        content.classList.add('opacity-100','translate-y-0');
+    }, 10);
+
     document.getElementById('editNama').value = nama_kelas
     document.getElementById('editSemester').value = semester
     document.getElementById('editProdi').value = prodi
@@ -268,7 +294,16 @@ function openEdit(id, nama_kelas, semester, prodi, kategori, nidn_wali){
 }
 
 function openDetail(nama_kelas, semester, prodi, kategori, dosen_wali){
-    document.getElementById('detailModal').classList.remove('hidden')
+    const modal = document.getElementById('detailModal');
+    const content = modal.querySelector('div');
+
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0','translate-y-10');
+        content.classList.add('opacity-100','translate-y-0');
+    }, 10);
+
     document.getElementById('detailNamaKelas').innerText = nama_kelas
     document.getElementById('detailSemester').innerText = semester
     document.getElementById('detailProdi').innerText = prodi

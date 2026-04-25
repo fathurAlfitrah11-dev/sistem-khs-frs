@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- TABLE --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="100">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
 

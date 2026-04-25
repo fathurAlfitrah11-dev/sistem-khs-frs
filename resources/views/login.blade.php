@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Smart Academy System</title>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -12,25 +14,20 @@
     </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center">
+<body class="min-h-screen flex items-center justify-center 
+bg-[url('img/wallpaper_login.png')] bg-cover bg-center">
 
-    <!-- Background decoration -->
-    <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 top-10 left-10"></div>
-        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 bottom-10 right-10"></div>
-        <div class="absolute w-72 h-20 bg-white/10 rounded-full rotate-45 top-1/2 left-1/3"></div>
-    </div>
 
     <!-- Card -->
-    <div class="relative w-full max-w-md p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
+    <div data-aos="zoom-in" data-aos-duration="800" class="relative w-full max-w-md p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
 
         <!-- Logo -->
         <div class="flex justify-center mb-4">
-            <img src="{{ asset('img/Logo_4-reborn.png') }}" alt="Logo" class="w-20 h-20">
+            <img src="{{ asset('img/Logo_4-reborn.png') }}" alt="Logo" class="w-56 sm:w-50 md:w-54 h-auto">
         </div>
 
         <!-- Title -->
-        <h2 class="text-center text-2xl font-semibold text-white mb-6">
+        <h2 class="text-center text-2xl font-semibold text-white -mt-2 mb-6">
             Smart Academy System
         </h2>
 
@@ -69,6 +66,11 @@
         </form>
 
     </div>
-
+    <script>
+  AOS.init({
+    duration: 800,
+    once: true
+  })
+</script>
 </body>
 </html>

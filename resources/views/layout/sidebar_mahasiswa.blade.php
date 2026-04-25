@@ -6,29 +6,47 @@
     </div>
 
     <!-- MENU -->
-    <div class="flex-1 p-4 space-y-2 text-sm">
+    <div class="flex-1 p-4 space-y-2 text-sm"> 
         @if(Auth::user()->role == 'mahasiswa')
-        <a href="/mahasiswa"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Dashboard
-        </a>
+        <a href="/mahasiswa-real"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+{{ request()->routeIs('mahasiswa-real') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
 
-        <a href="/matakuliahmahasiswa"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Matakuliah
-        </a>
+    <i class="fa-solid fa-house" style="color: rgb(255, 255, 255);"></i>
+    <span>Dashboard</span>
+
+</a>
+<a href="/matakuliahmahasiswa"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+{{ request()->is('matakuliahmahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+
+    <i class="fa-solid fa-book"></i>
+    <span>Matakuliah</span>
+
+</a>
         <a href="/krsmahasiswa"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            KRS Tersimpan
-        </a>
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+{{ request()->is('krsmahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+
+    <i class="fa-solid fa-list-check"></i>
+    <span>KRS</span>
+
+</a>
         <a href="/khsmahasiswa"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            KHS
-        </a>
-        <a href="/login"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Keluar
-        </a>
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+{{ request()->is('khsmahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+
+    <i class="fa-solid fa-chart-bar"></i>
+    <span>KHS</span>
+
+</a>
+        <a href="/logout"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+
+    <i class="fa-solid fa-door-closed" style="color: rgb(255, 255, 255);"></i>
+    <span>Keluar</span>
+
+</a>
     
 </div>
 

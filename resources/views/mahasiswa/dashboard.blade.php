@@ -5,11 +5,22 @@
 @section('content')
 
 <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+<div class="relative w-full h-48 md:h-64 overflow-hidden rounded-2xl mb-6">
+    
+    <div id="slider" class="flex transition-transform duration-700" data-aos="fade-up" data-aos-delay="100">
+        <img src="{{ asset('img/foto_bangunan_1.png') }}" class="w-full flex-shrink-0 object-cover">
+        <img src="{{ asset('img/foto_bangunan_2.png') }}" class="w-full flex-shrink-0 object-cover">
+        <img src="{{ asset('img/foto_bangunan_3.png') }}" class="w-full flex-shrink-0 object-cover">
+    </div>
+
+</div>
 
 <!-- Welcome + Profile -->
-<div class="grid grid-cols-3 gap-6 mb-6">
+ div
 
-    <div class="col-span-full bg-[#3c4167] text-white p-6 rounded-2xl bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+<div class="grid grid-cols-3 gap-6 mb-6 card-animate" >
+
+    <div class="col-span-full bg-[#3c4167] text-white p-6 rounded-2xl bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="100">
         <h2 class="text-xl font-bold mb-2 text-black">
             Selamat Datang Mahasiswa!
         </h2>
@@ -24,7 +35,7 @@
 <!-- Cards -->
 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200 card-animate" data-aos="fade-up" data-aos-delay="200">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -40,11 +51,9 @@
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMahasiswa ?? 1247) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Students</p>
-            <p class="text-xs text-green-600 font-medium">↑ {{ $growthMahasiswa ?? '12%' }} <span
-                    class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200 card-animate" data-aos="fade-up" data-aos-delay="300">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -61,11 +70,9 @@
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalDosen ?? 89) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Lecturers</p>
-            <p class="text-xs text-green-600 font-medium">↑ {{ $growthDosen ?? '5%' }} <span
-                    class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200 card-animate" data-aos="fade-up" data-aos-delay="400">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -81,11 +88,9 @@
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMataKuliah ?? 156) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Courses</p>
-            <p class="text-xs text-green-600 font-medium">↑ {{ $growthMataKuliah ?? '8%' }} <span
-                    class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200 card-animate" data-aos="fade-up" data-aos-delay="500">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -101,15 +106,13 @@
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalEnrollment ?? 4892) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Study Program</p>
-            <p class="text-xs text-green-600 font-medium">↑ {{ $growthEnrollment ?? '15%' }} <span
-                    class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
     </div>
 
     {{-- ===== QUICK ACCESS ===== --}}
-    <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6">
-        <div class="mb-4">
+    <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6 card-animate">
+        <div class="mb-4" data-aos="fade-up" data-aos-delay="500">
             <h2 class="text-lg font-bold text-gray-900">Quick Access</h2>
             <p class="text-xs text-gray-400">Frequently used actions</p>
         </div>
@@ -118,7 +121,7 @@
 
             {{-- Manage Courses --}}
             <a href="#" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="600">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"
@@ -140,7 +143,7 @@
 
             {{-- KHS --}}
             <a href="#" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="650">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"

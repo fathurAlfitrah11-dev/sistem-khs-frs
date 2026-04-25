@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- SEARCH + BUTTON --}}
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex-1 mr-4">
             <div class="flex items-center bg-white rounded px-3 py-2 w-full">
@@ -21,7 +21,7 @@
     </div>
 
     {{-- TABLE --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200"> 
 
         <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
 

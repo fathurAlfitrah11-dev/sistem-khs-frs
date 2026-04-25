@@ -6,9 +6,9 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Dosen</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
         
         <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
             <input type="text" placeholder="Telusuri Dosen"
@@ -22,7 +22,7 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Dosen</h2>
 
@@ -90,7 +90,7 @@
 <div id="tambahModal"
 class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen</h2>
 
         <form action="/dosen/store" method="POST">
@@ -125,7 +125,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 <div id="editModal"
     class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
 
         <form id="formEdit" method="POST">
@@ -156,7 +156,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 <div id="detailModal"
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Dosen</h2>
 
         <div class="space-y-3">
@@ -181,23 +181,53 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 <script>
+// ===== MODAL ANIMATION =====
+function showModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
+
+    modal.classList.remove('hidden')
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0', 'translate-y-10')
+        content.classList.add('opacity-100', 'translate-y-0')
+    }, 10)
+}
+
+function hideModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
+
+    content.classList.remove('opacity-100', 'translate-y-0')
+    content.classList.add('opacity-0', 'translate-y-10')
+
+    setTimeout(() => {
+        modal.classList.add('hidden')
+    }, 300)
+}
+
+// ===== OPEN CLOSE =====
 function openModal(id){
-    document.getElementById(id).classList.remove('hidden')
+    showModal(id)
 }
 
 function closeModal(id){
-    document.getElementById(id).classList.add('hidden')
+    hideModal(id)
 }
 
+// ===== EDIT =====
 function openEdit(id, nidn, nama){
-    document.getElementById('editModal').classList.remove('hidden')
+    showModal('editModal')
+
     document.getElementById('editNidn').value = nidn
     document.getElementById('editNama').value = nama
     document.getElementById('formEdit').action = '/dosen/update/' + id
 }
 
+// ===== DETAIL =====
 function openDetail(nidn, nama){
-    document.getElementById('detailModal').classList.remove('hidden')
+    showModal('detailModal')
+
     document.getElementById('detailNidn').innerText = nidn
     document.getElementById('detailNama').innerText = nama
 }

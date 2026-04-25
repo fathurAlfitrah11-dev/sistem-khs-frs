@@ -1,4 +1,4 @@
-<div class="h-16 bg-[#3b3f63] fixed top-0 left-64 right-0 flex items-center justify-end px-6 border-b border-white/10">
+<div class="h-16 bg-[#3b3f63] fixed top-0 left-64 right-0 z-50 flex items-center justify-end px-6 border-b border-white/10">
 
     {{-- USER --}}
     <div class="flex items-center gap-3">

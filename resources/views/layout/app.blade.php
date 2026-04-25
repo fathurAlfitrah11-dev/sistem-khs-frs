@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/swup@4"></script>
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
     <style>
         body {
@@ -15,14 +16,6 @@
             background: #fff;
             color: #fff;
         }
-        .transition-fade {
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-html.is-animating .transition-fade {
-    opacity: 0;
-}
     </style>
 </head>
 <body>
@@ -46,7 +39,12 @@ html.is-animating .transition-fade {
     </div>
 
 </div>
-
+<script>
+  AOS.init({
+    once: true,
+    duration: 800
+  });
+  </script>
 </body>
 
 <script>

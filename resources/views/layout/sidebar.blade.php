@@ -8,39 +8,39 @@
     <!-- MENU -->
     <div class="flex-1 p-4 space-y-2 text-sm">
         @if(Auth::user()->role == 'admin')
-        <a href="/admin"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Dashboard
+        <a href="/admin" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('admin') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-house" style="color: rgb(255, 255, 255);"></i>
+            <span>Dashboard</span>
         </a>
 
-        <a href="/kelas"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Kelas
+        <a href="/kelas" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('kelas') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-chalkboard"></i>
+            <span>Kelas</span>
         </a>
 
-        <a href="/prodi"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Program Studi
+        <a href="/prodi" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('prodi') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Program Studi</span>
         </a>
         
-        <a href="/mahasiswa"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-        Mahasiswa
-    </a>
-    <a href="/tahun-ajaran"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-        Tahun Ajaran
-    </a>
+        <a href="/mahasiswa" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('mahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-user"></i>
+            <span>Mahasiswa</span>
+        </a>
+        <a href="/tahun-ajaran" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('tahun-ajaran') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Tahun Ajaran</span>
+        </a>
 
-       <a href="/mata-kuliah"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-        Mata Kuliah
-    </a>
+        <a href="/mata-kuliah" class="flex items-center gap-3 px-4 py-2 rounded-lg transition {{ request()->routeIs('mata-kuliah') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Matakuliah</span>
+        </a>
         <!-- DOSEN DROPDOWN -->
 <div>
     <button onclick="toggleDosen()"
-        class="w-full flex items-center justify-between px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-
+        class="w-full flex items-center justify-between px-4 py-2 rounded-lg transition 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+    <i class="fa-solid fa-chalkboard-user"></i>
         <div class="flex items-center gap-3">
             <span>Dosen</span>
         </div>
@@ -70,10 +70,13 @@
             Dosen Wali
         </a>
     </div>
-    <a href="/logout"
-            class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
-            Keluar
-        </a>    
+        <a href="/logout"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#2d3250] transition">
+
+    <i class="fa-solid fa-door-closed" style="color: rgb(255, 255, 255);"></i>
+    <span>Keluar</span>
+
+</a>  
 </div>
 
 @endif

@@ -7,7 +7,7 @@
 <div class="p-6 bg-gray-100 min-h-screen">
 
     <!-- Transkrip Akademik -->
-    <div class="bg-[#3b3f63] rounded-2xl p-6 text-white mb-6">
+    <div class="bg-[#3b3f63] rounded-2xl p-6 text-white mb-6" data-aos="fade-up" data-aos-delay="100">
         <h2 class="text-2xl font-semibold mb-4">Transkrip Akademik</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -36,7 +36,7 @@
 
 
     <!-- Pilih Semester Section -->
-    <div class="grid md:grid-cols-3 gap-6 mb-6">
+    <div class="grid md:grid-cols-3 gap-6 mb-6" data-aos="fade-up" data-aos-delay="300">
 
         <div class="bg-[#3b3f63] rounded-2xl p-6 text-white col-span-2">
 
@@ -57,7 +57,7 @@
             </div>
 
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-4" >
 
                 <!-- IPK Semester -->
                 <div class="bg-white text-gray-800 rounded-xl p-4 shadow">
@@ -78,7 +78,7 @@
 
 
         <!-- Grade Info -->
-        <div class="bg-[#3b3f63] rounded-2xl p-6 text-white">
+        <div class="bg-[#3b3f63] rounded-2xl p-6 text-white" data-aos="fade-up" data-aos-delay="400">
             <div class="grid grid-cols-2 gap-3 text-center">
                 <div class="bg-white text-gray-800 rounded-lg py-2">A = 85-100</div>
                 <div class="bg-white text-gray-800 rounded-lg py-2">B+ = 80-84</div>
@@ -95,7 +95,7 @@
 
 
     <!-- Table Section -->
-    <div class="bg-[#3b3f63] rounded-2xl p-6">
+    <div class="bg-[#3b3f63] rounded-2xl p-6" data-aos="fade-up" data-aos-delay="500">
 
         <div class="overflow-x-auto bg-white rounded-xl">
             <table class="min-w-full text-left">

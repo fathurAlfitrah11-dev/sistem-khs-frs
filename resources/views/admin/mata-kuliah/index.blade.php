@@ -23,10 +23,10 @@ $data = [
 ];
 @endphp
 
-<div class="p-6">
+<div class="p-6" >
 
     {{-- SEARCH + BUTTON --}}
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex-1 mr-4">
             <div class="flex items-center bg-white rounded px-3 py-2 w-full">
@@ -42,14 +42,14 @@ $data = [
     </div>
 
     {{-- TABLE --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
 
         <div class="bg-white overflow-hidden">
 
             <table class="w-full text-sm">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800" >
                     <tr>
                         <th class="text-left px-6 py-3">No</th>
                         <th class="text-left px-6 py-3">Kode</th>

@@ -7,15 +7,15 @@
 <div class="container-fluid px-4">
 
     {{-- Header --}}
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4" data-aos="fade-up" data-aos-delay="100">
         <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
         <p class="text-muted">Selamat Datang, {{ Auth::user()->name }}</p>
     </div>
 
     {{-- ===== STAT CARDS ===== --}}
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6" >
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="100" >
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -35,7 +35,7 @@
                     class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="200">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -56,7 +56,7 @@
                     class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="300">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -76,7 +76,7 @@
                     class="text-gray-400 font-normal">vs last semester</span></p>
         </div>
 
-        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200">
+        <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="400">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
@@ -99,7 +99,7 @@
     </div>
 
     {{-- ===== QUICK ACCESS ===== --}}
-    <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6">
+    <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6" data-aos="fade-up" data-aos-delay="400">
         <div class="mb-4">
             <h2 class="text-lg font-bold text-gray-900">Quick Access</h2>
             <p class="text-xs text-gray-400">Frequently used administrative actions</p>
@@ -109,7 +109,7 @@
 
             {{-- Manage Courses --}}
             <a href="#" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300" data-aos="fade-up" data-aos-delay="500">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"
@@ -132,7 +132,7 @@
 
             {{-- Manage Students --}}
             <a href="#" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300" data-aos="fade-up" data-aos-delay="600">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"
@@ -179,7 +179,7 @@
         </div>
     </div>
     {{-- ===== RECENT ACTIVITY ===== --}}
-    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6" data-aos="fade-up" data-aos-delay="700">
         <div class="flex items-start justify-between mb-5">
             <div>
                 <h2 class="text-base font-semibold text-gray-800">Recent Activity</h2>

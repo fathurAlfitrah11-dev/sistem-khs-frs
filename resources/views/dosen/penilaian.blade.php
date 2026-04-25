@@ -18,7 +18,7 @@ for ($i = 1; $i <= 15; $i++) { $mahasiswa[]=(object)[ 'nim'=> '33125010' . str_p
 
 
         {{-- FILTER --}}
-        <div class="bg-[#4a4f73] p-6 rounded-xl mb-6 text-white">
+        <div class="bg-[#4a4f73] p-6 rounded-xl mb-6 text-white" data-aos="fade-up" data-aos-delay="100">
 
             <h2 class="text-lg font-bold mb-4">
                 Input Nilai Mahasiswa Pemrograman Web
@@ -47,15 +47,15 @@ for ($i = 1; $i <= 15; $i++) { $mahasiswa[]=(object)[ 'nim'=> '33125010' . str_p
                     </select>
                 </div>
 
-                <button class="bg-orange-300 hover:bg-orange-400 text-black px-4 py-2 rounded-full mt-5">
-                    Cari 🔍
-                </button>
-
+                <button onclick="openModal('tambahModal')"
+            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+            Cari
+        </button>
             </div>
         </div>
 
         {{-- TABLE --}}
-        <div class="bg-[#4a4f73] p-6 rounded-xl">
+        <div class="bg-[#4a4f73] p-6 rounded-xl" data-aos="fade-up" data-aos-delay="200">
 
             <div class="bg-white rounded overflow-hidden">
 

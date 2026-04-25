@@ -37,17 +37,23 @@ $matakuliah = [
 <div class="p-6">
 
     {{-- SEARCH CARD --}}
-    <div class="bg-[#3b3f63] p-6 rounded-xl mb-6 text-white">
-        <h2 class="text-lg font-bold mb-3">List Matakuliah</h2>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="flex items-center bg-white rounded px-3 py-2">
-            <input type="text" placeholder="Cari Matakuliah" class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Cari Matakuliah" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
+
+        <button onclick="openModal('tambahModal')"
+            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+            Cari
+        </button>
     </div>
 
     {{-- TABLE --}}
-    <div class="bg-[#4a4f73] p-6 rounded-xl">
+    <div class="bg-[#4a4f73] p-6 rounded-xl" data-aos="fade-up" data-aos-delay="200">
 
         <div class="bg-white rounded overflow-hidden">
 

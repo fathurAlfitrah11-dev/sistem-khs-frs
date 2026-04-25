@@ -5,9 +5,9 @@
 @section('content')
 
 <div class="p-6">
-    <h1 class="text-2xl font-bold text-gray-800 mb-6">Data Tahun Ajaran</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Tahun Ajaran</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
         
       <div class="flex-1 mr-4">
     <div class="flex items-center bg-white rounded px-3 py-2 w-full">
@@ -23,7 +23,7 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6">
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
 
         <h2 class="text-white text-xl font-bold mb-4">Data Tahun Ajaran</h2>
 
@@ -108,7 +108,7 @@
 </div>
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
 
         <label class="block text-sm mb-1">Tahun Awal</label>
@@ -140,7 +140,7 @@
 
 </div>
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="mb-4 font-bold">Edit Tahun Ajaran</h2>
 
@@ -170,7 +170,7 @@
 
 
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="mb-4 font-bold">Detail</h2>
         <div class="space-y-3">
@@ -187,14 +187,41 @@
     </div>
 </div>
 <script>
+// ===== MODAL ANIMATION =====
+function showModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
+
+    modal.classList.remove('hidden')
+
+    setTimeout(() => {
+        content.classList.remove('opacity-0', 'translate-y-10')
+        content.classList.add('opacity-100', 'translate-y-0')
+    }, 10)
+}
+
+function hideModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
+
+    content.classList.remove('opacity-100', 'translate-y-0')
+    content.classList.add('opacity-0', 'translate-y-10')
+
+    setTimeout(() => {
+        modal.classList.add('hidden')
+    }, 300)
+}
+
+// ===== OPEN CLOSE =====
 function openModal(id){
-    document.getElementById(id).classList.remove('hidden')
+    showModal(id)
 }
 
 function closeModal(id){
-    document.getElementById(id).classList.add('hidden')
+    hideModal(id)
 }
 
+// ===== EDIT =====
 function openEdit(el){
     openModal('editModal')
 
@@ -202,29 +229,41 @@ function openEdit(el){
 
     document.getElementById('editTahunAwal').value = tahun[0]
     document.getElementById('editTahunAkhir').value = tahun[1]
-
     document.getElementById('editSemester').value = el.dataset.semester
     document.getElementById('editStatus').value = el.dataset.status
 }
 
+// ===== DETAIL =====
 function openDetail(el){
     openModal('detailModal')
+
     document.getElementById('dTahun').innerText = el.dataset.tahun
     document.getElementById('dSemester').innerText = el.dataset.semester
-    document.getElementById('dStatus').innerText =  el.dataset.status
+    document.getElementById('dStatus').innerText = el.dataset.status
 }
-const awal = document.getElementById('tahunAwal')
-const akhir = document.getElementById('tahunAkhir')
-const hasil = document.getElementById('hasilTahun')
 
-function generateTahun(){
-    if(awal.value && akhir.value){
-        hasil.value = awal.value + '/' + akhir.value
+// ===== GENERATE TAHUN (DINAMIS) =====
+function setupTahun(awalId, akhirId, hasilId){
+    const awal = document.getElementById(awalId)
+    const akhir = document.getElementById(akhirId)
+    const hasil = document.getElementById(hasilId)
+
+    function generate(){
+        if(awal.value && akhir.value){
+            hasil.value = awal.value + '/' + akhir.value
+        }
     }
+
+    awal.addEventListener('input', generate)
+    akhir.addEventListener('input', generate)
 }
 
-awal.addEventListener('input', generateTahun)
-akhir.addEventListener('input', generateTahun)
+// ===== INIT =====
+// untuk tambah
+setupTahun('tahunAwal', 'tahunAkhir', 'hasilTahun')
+
+// untuk edit
+setupTahun('editTahunAwal', 'editTahunAkhir', 'editHasilTahun')
 
 </script>
 @endsection
