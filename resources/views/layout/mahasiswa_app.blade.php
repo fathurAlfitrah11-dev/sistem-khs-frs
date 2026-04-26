@@ -1,60 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>@yield('title')</title>
+    <!DOCTYPE html>
+    <html lang="en">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <title>@yield('title')</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+        <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 
-    <style>
+        <style>
         body {
             font-family: 'Poppins', sans-serif;
             background: #fff;
             color: #fff;
         }
-    </style>
-</head>
-<body>
+        </style>
+    </head>
 
-<div class="flex">
+    <body>
 
-    {{-- SIDEBAR --}}
-    @include('layout.sidebar_mahasiswa')
+        <div class="flex">
 
-    {{-- MAIN CONTENT --}}
-    <div class="flex-1 ml-64 pt-16">
+            {{-- SIDEBAR --}}
+            @include('layout.sidebar_mahasiswa')
 
-        {{-- NAVBAR --}}
-        @include('layout.navbar')
+            {{-- MAIN CONTENT --}}
+            <div class="flex-1 ml-64 pt-16">
 
-        {{-- CONTENT --}}
-        <div class="p-6">
-            @yield('content')
+                {{-- NAVBAR --}}
+                @include('layout.navbar')
+
+                {{-- CONTENT --}}
+                <div class="p-6">
+                    @yield('content')
+                </div>
+
+            </div>
+
         </div>
+        <script>
+        AOS.init({
+            once: true,
+            duration: 800
+        });
+        </script>
+        <script>
+        let index = 0;
+        const slider = document.getElementById('slider');
 
-    </div>
+        if (slider) {
+            const totalSlides = slider.children.length;
 
-</div>
-<script>
-  AOS.init({
-    once: true,
-    duration: 800
-  });
-  </script>
-  <script>
-let index = 0;
-const slider = document.getElementById('slider');
-const totalSlides = slider.children.length;
+            setInterval(() => {
+                index = (index + 1) % totalSlides;
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            }, 3000);
+        }
+        </script>
+    </body>
 
-setInterval(() => {
-    index = (index + 1) % totalSlides;
-    slider.style.transform = `translateX(-${index * 100}%)`;
-}, 3000); // 3 detik
-</script>
-</body>
-</html>
+    </html>

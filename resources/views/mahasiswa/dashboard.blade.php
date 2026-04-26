@@ -16,8 +16,6 @@
 </div>
 
 <!-- Welcome + Profile -->
- div
-
 <div class="grid grid-cols-3 gap-6 mb-6 card-animate" >
 
     <div class="col-span-full bg-[#3c4167] text-white p-6 rounded-2xl bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="100">
@@ -120,7 +118,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             {{-- Manage Courses --}}
-            <a href="#" style="text-decoration: none !important;"
+            <a href="/krsmahasiswa" style="text-decoration: none !important;"
                 class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="600">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
@@ -142,7 +140,7 @@
             </a>
 
             {{-- KHS --}}
-            <a href="#" style="text-decoration: none !important;"
+            <a href="/khsmahasiswa" style="text-decoration: none !important;"
                 class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="650">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
