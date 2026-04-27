@@ -14,10 +14,6 @@
             </div>
         </div>
 
-        <button onclick="openModal('tambahModal')"
-            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-            + Tambah Mata Kuliah
-        </button>
     </div>
 
     {{-- TABLE --}}
@@ -48,10 +44,11 @@
         <td class="px-6 py-3 text-center">
             <div class="flex justify-center gap-2">
 
-                <button onclick="openModal('tambahModal')"
-                    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-                    + Tambah Mata Kuliah
-                </button>
+<button 
+    onclick="openConfirm('IF101','Pemrograman Dasar',3)"
+    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+    + Tambah Mata Kuliah
+</button>
 
             </div>
         </td>
@@ -66,10 +63,11 @@
         <td class="px-6 py-3 text-center">
             <div class="flex justify-center gap-2">
 
-                <button onclick="openModal('tambahModal')"
-                    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-                    + Tambah Mata Kuliah
-                </button>
+<button 
+    onclick="openConfirm('IF101','Pemrograman Dasar',3)"
+    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+    + Tambah Mata Kuliah
+</button>
             </div>
         </td>
     </tr>
@@ -88,6 +86,61 @@
         </div>
 
     </div>
-</div>
+<div id="confirmModal"
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
+    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg">
+
+        <h2 class="text-lg font-bold mb-4 text-center">Konfirmasi Mata Kuliah</h2>
+
+        <div class="bg-[#4a4f73] p-4 rounded mb-4 text-sm">
+            <p><b>Kode:</b> <span id="c_kode"></span></p>
+            <p><b>Nama:</b> <span id="c_nama"></span></p>
+            <p><b>SKS:</b> <span id="c_sks"></span></p>
+        </div>
+
+        <p class="text-gray-300 text-sm text-center mb-5">
+            Pastikan mata kuliah yang dipilih sudah benar.
+        </p>
+
+        <div class="flex justify-center gap-3">
+
+            <button onclick="closeConfirm()"
+                class="bg-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded">
+                Batal
+            </button>
+
+            <button onclick="submitKRS()"
+                class="bg-orange-400 hover:bg-orange-300 text-black px-4 py-2 rounded font-semibold">
+                Ya, Ambil
+            </button>
+
+        </div>
+
+    </div>
+</div>
+</div>
+<script>
+let selectedMK = {}
+
+function openConfirm(kode, nama, sks){
+    selectedMK = {kode, nama, sks}
+
+    document.getElementById('c_kode').innerText = kode
+    document.getElementById('c_nama').innerText = nama
+    document.getElementById('c_sks').innerText = sks
+
+    document.getElementById('confirmModal').classList.remove('hidden')
+}
+
+function closeConfirm(){
+    document.getElementById('confirmModal').classList.add('hidden')
+}
+
+function submitKRS(){
+    alert("Berhasil ambil: " + selectedMK.nama) // dummy
+
+    closeConfirm()
+}
+</script>
 @endsection

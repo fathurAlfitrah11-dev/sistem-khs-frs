@@ -1,18 +1,95 @@
-@extends('layout.app')
-@section('title','ACC KRS Mahasiswa')
+@extends('layout.dosen_app')
+
+@section('title','Perwalian KRS')
+
 @section('content')
-<h3>ACC KRS Mahasiswa</h3>
 
-@foreach($data as $krs)
-    <div class="card mb-3">
-        <div class="card-body">
+<div class="p-6">
 
-            <h5>{{ $krs->mahasiswa->nama }} ({{ $krs->nim }})</h5>
+    <h2 class="text-xl font-bold text-white mb-4">Perwalian Mahasiswa (ACC KRS)</h2>
 
-            <a href="/dosen/wali/krs/{{ $krs->id_krs }}" class="btn btn-primary btn-sm">
-    Lihat KRS
-            </a>
+    {{-- SEARCH --}}
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Cari Mahasiswa / NIM"
+                    class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
+
     </div>
-@endforeach
+
+    {{-- TABLE --}}
+    <div class="bg-[#4a4f73] p-6 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+
+        <div class="bg-white rounded overflow-hidden">
+
+            <table class="w-full text-sm">
+                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+                    <tr>
+                        <th class="px-6 py-3 text-left">NIM</th>
+                        <th class="px-6 py-3 text-left">Nama Mahasiswa</th>
+                        <th class="px-6 py-3 text-left">Kelas</th>
+                        <th class="px-6 py-3 text-left">Status</th>
+                        <th class="px-6 py-3 text-center">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y">
+
+                    {{-- CONTOH DATA --}}
+                    @php
+                    $krs = [
+                        (object)[
+                            'id' => 1,
+                            'nim' => '220001',
+                            'nama' => 'Budi Santoso',
+                            'kelas' => 'IF-2A',
+                            'status' => 'Menunggu'
+                        ],
+                        (object)[
+                            'id' => 2,
+                            'nim' => '220002',
+                            'nama' => 'Siti Aminah',
+                            'kelas' => 'IF-2A',
+                            'status' => 'Disetujui'
+                        ]
+                    ];
+                    @endphp
+
+                    @foreach($krs as $d)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-3 text-black">{{ $d->nim }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->nama }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->kelas }}</td>
+                        <td class="px-6 py-3 text-black">
+                            <span class="
+                                {{ $d->status == 'Menunggu' ? 'text-yellow-600' : '' }}
+                                {{ $d->status == 'Disetujui' ? 'text-green-600' : '' }}
+                                {{ $d->status == 'Ditolak' ? 'text-red-600' : '' }}
+                            ">
+                                {{ $d->status }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-3 text-center">
+                            <a href="/lihatkrs"
+                                class="bg-orange-400 hover:bg-orange-300 text-black text-xs px-4 py-1 rounded-full">
+                                Lihat KRS
+                            </a>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 @endsection

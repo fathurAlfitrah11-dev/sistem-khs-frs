@@ -114,25 +114,108 @@
         </div>
             </a>
 
-            <a href="/matakuliahdosen">
+            <a href="/perwalian">
             <div class="bg-white rounded-xl border border-gray-200 p-5 hover:bg-[#f9b17a] transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
             <div class="flex items-start justify-between mb-4">
                 <div class="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="7" r="4" stroke-linecap="round" stroke-linejoin="round"></circle>
+                        <path d="M5.5 21a6.5 6.5 0 0113 0" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M16 11l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                 </div>
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMataKuliah ?? 156) }}</p>
-            <p class="text-sm text-gray-500 mt-0.5 mb-3">Matakuliah</p>
+            <p class="text-sm text-gray-500 mt-0.5 mb-3">Perwalian</p>
         </div>
             </a>
 
         </div>
     </div>
 
+    @php
+$matakuliah = [
+(object)[
+'kode' => 'IF201',
+'nama' => 'Pemrograman Web',
+'prodi' => 'DIII Teknik Informatika'
+],
+(object)[
+'kode' => 'IF202',
+'nama' => 'Basis Data',
+'prodi' => 'DIII Teknik Informatika'
+],
+(object)[
+'kode' => 'IF203',
+'nama' => 'Struktur Data',
+'prodi' => 'DIII Teknik Informatika'
+],
+(object)[
+'kode' => 'IF204',
+'nama' => 'Jaringan Komputer',
+'prodi' => 'DIII Teknik Informatika'
+],
+(object)[
+'kode' => 'IF205',
+'nama' => 'Sistem Operasi',
+'prodi' => 'DIII Teknik Informatika'
+],
+];
+@endphp
+<div class="mb-6">
+
+<h1 class="text-xl font-semibold text-gray-800 mb-4" data-aos="fade-up" data-aos-delay="400">Matakuliah Anda</h1>
+
+    <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200"
+        data-aos="fade-up" data-aos-delay="300">
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+
+                <thead class="bg-gray-50 text-gray-700 border-b">
+                    <tr>
+                        <th class="text-left px-4 py-3">Kode</th>
+                        <th class="text-left px-4 py-3">Mata Kuliah</th>
+                        <th class="text-left px-4 py-3">Program Studi</th>
+                        <th class="text-center px-4 py-3">Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y">
+
+                    @foreach($matakuliah as $mk)
+                    <tr class="hover:bg-gray-50 transition">
+
+                        <td class="px-4 py-3 text-gray-800 font-medium">
+                            {{ $mk->kode }}
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-700">
+                            {{ $mk->nama }}
+                        </td>
+
+                        <td class="px-4 py-3 text-gray-600">
+                            {{ $mk->prodi }}
+                        </td>
+
+                        <td class="px-4 py-3 text-center">
+                            <a href="/penilaian"
+                                class="bg-orange-400 hover:bg-orange-300 text-black text-xs px-4 py-1.5 rounded-lg transition">
+                                Buka
+                            </a>
+                        </td>
+
+                    </tr>
+                    @endforeach
+
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
 </div>
 
 @endsection

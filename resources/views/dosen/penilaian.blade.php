@@ -24,34 +24,49 @@ for ($i = 1; $i <= 15; $i++) { $mahasiswa[]=(object)[ 'nim'=> '33125010' . str_p
                 Input Nilai Mahasiswa Pemrograman Web
             </h2>
 
-            <div class="grid grid-cols-4 gap-4 items-end">
+           <div class="grid grid-cols-5 gap-4 items-end">
 
-                <div>
-                    <label class="text-sm">Semester</label>
-                    <select class="w-full mt-1 px-3 py-2 rounded text-black">
-                        <option>Semester 6</option>
-                    </select>
-                </div>
+    {{-- MATAKULIAH --}}
+    <div>
+        <label class="text-sm">Mata Kuliah</label>
+        <select class="w-full mt-1 px-3 py-2 rounded text-black">
+            <option>Pemrograman Web</option>
+            <option>Basis Data</option>
+            <option>Struktur Data</option>
+        </select>
+    </div>
 
-                <div>
-                    <label class="text-sm">Kelas</label>
-                    <select class="w-full mt-1 px-3 py-2 rounded text-black">
-                        <option>A</option>
-                    </select>
-                </div>
+    {{-- SEMESTER --}}
+    <div>
+        <label class="text-sm">Semester</label>
+        <select class="w-full mt-1 px-3 py-2 rounded text-black">
+            <option>Semester 6</option>
+        </select>
+    </div>
 
-                <div>
-                    <label class="text-sm">Sesi</label>
-                    <select class="w-full mt-1 px-3 py-2 rounded text-black">
-                        <option>Pagi</option>
-                    </select>
-                </div>
+    {{-- KELAS --}}
+    <div>
+        <label class="text-sm">Kelas</label>
+        <select class="w-full mt-1 px-3 py-2 rounded text-black">
+            <option>A</option>
+        </select>
+    </div>
 
-                <button onclick="openModal('tambahModal')"
-            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-            Cari
-        </button>
-            </div>
+    {{-- SESI --}}
+    <div>
+        <label class="text-sm">Sesi</label>
+        <select class="w-full mt-1 px-3 py-2 rounded text-black">
+            <option>Pagi</option>
+        </select>
+    </div>
+
+    {{-- BUTTON --}}
+    <button
+        class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+        Cari
+    </button>
+
+</div>
         </div>
 
         {{-- TABLE --}}
@@ -102,6 +117,31 @@ for ($i = 1; $i <= 15; $i++) { $mahasiswa[]=(object)[ 'nim'=> '33125010' . str_p
                 </table>
 
             </div>
+            {{-- ACTION BUTTON --}}
+<div class="flex justify-between items-center mt-6">
+
+    <div class="text-sm text-gray-300">
+        Pastikan semua nilai sudah benar sebelum finalisasi.
+    </div>
+
+    <div class="flex gap-3">
+
+        {{-- SIMPAN DRAFT --}}
+        <button type="button"
+            class="bg-orange-400 hover:bg-orange-300 text-black px-4 py-2 rounded">
+            Simpan Draft
+        </button>
+
+        {{-- FINALISASI --}}
+        <button type="button"
+            onclick="finalisasiNilai()"
+            class="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded font-semibold">
+            Finalisasi Nilai
+        </button>
+
+    </div>
+
+</div>
 
         </div>
 
