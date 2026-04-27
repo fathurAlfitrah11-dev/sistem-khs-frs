@@ -18,6 +18,8 @@ use App\Http\Controllers\DosenRealController;
 use App\Http\Controllers\DosenWaliKrsController;
 use App\Http\Controllers\PenilaianDosenController;
 use App\Http\Controllers\DosenWaliLihatKrsController;
+use App\Http\Controllers\DosenPartTimeController;
+
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -60,6 +62,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
     Route::get('/pengajar', [PengajarController::class, 'index']);
     Route::get('/dosen-wali', [DosenWaliController::class, 'index']);
+
+    Route::get('/dosen-part-time', [DosenPartTimeController::class, 'index']);
+    Route::post('/dosen_part_time/store', [DosenPartTimeController::class, 'store']);
+    Route::post('/dosen_part_time/edit/{id}', [DosenPartTimeController::class, 'edit']);
+    Route::post('/dosen_part_time/update/{id}', [DosenPartTimeController::class, 'update']);
+    Route::get('/dosen_part_time/delete/{id}', [DosenPartTimeController::class, 'delete']);
 });
 //MAHASISWA
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {

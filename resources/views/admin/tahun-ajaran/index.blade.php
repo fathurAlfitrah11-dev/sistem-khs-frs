@@ -127,11 +127,6 @@
             <option>Genap</option>
         </select>
 
-        <select class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option>Aktif</option>
-            <option>Nonaktif</option>
-        </select>
-
         <div class="flex justify-end gap-2">
             <button onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">Batal</button>
             <button class="bg-blue-600 px-3 py-1 rounded">Simpan</button>
@@ -142,7 +137,7 @@
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
-        <h2 class="mb-4 font-bold">Edit Tahun Ajaran</h2>
+        <h2 class="mb-4 font-bold">Ubah Tahun Ajaran</h2>
 
         <label class="block text-sm mb-1">Tahun Awal</label>
         <input type="number" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
@@ -154,11 +149,6 @@
         <select id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
             <option>Ganjil</option>
             <option>Genap</option>
-        </select>
-
-        <select id="editStatus" class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option>Aktif</option>
-            <option>Nonaktif</option>
         </select>
 
         <div class="flex justify-end">

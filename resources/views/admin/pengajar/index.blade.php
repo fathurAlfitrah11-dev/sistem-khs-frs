@@ -86,6 +86,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
         <h2 class="text-lg font-bold mb-4">Tambah Pengajar</h2>
 
         <form>
+            <label class="block text-sm mb-1">Dosen</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 <option value="1">Dr. Andi</option>
@@ -93,12 +94,23 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 <option value="3">Dr. Siti</option>
             </select>
 
-            <input type="text" placeholder="Mata Kuliah"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <label class="block text-sm mb-1">Mata Kuliah</label>
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Mata Kuliah</option>
+                <option value="1">Pemrograman Web</option>
+                <option value="2">Basis Data</option>
+                <option value="3">Jaringan Komputer</option>
+            </select>
 
-            <input type="text" placeholder="Kelas"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <label class="block text-sm mb-1">Kelas</label>
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Kelas</option>
+                <option value="1">IF-A</option>
+                <option value="2">IF-B</option>
+                <option value="3">IF-C</option>
+            </select>
 
+            <label class="block text-sm mb-1">Semester</label>
             <input type="number" placeholder="Semester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -123,9 +135,10 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
-        <h2 class="text-lg font-bold mb-4">Edit Pengajar</h2>
+        <h2 class="text-lg font-bold mb-4">Ubah Pengajar</h2>
 
         <form>
+            <label class="block text-sm mb-1">Dosen</label>
             <select id="editDosen"
     class="w-full mb-3 px-3 py-2 border rounded text-black">
     <option value="Dr. Andi">Dr. Andi</option>
@@ -133,12 +146,23 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <option value="Dr. Siti">Dr. Siti</option>
 </select>
 
-            <input type="text" id="editMk"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <label class="block text-sm mb-1">Mata Kuliah</label>
+            <select id="editMk"
+    class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="Pemrograman Web">Pemrograman Web</option>
+    <option value="Basis Data">Basis Data</option>
+    <option value="Jaringan Komputer">Jaringan Komputer</option>
+</select>
 
-            <input type="text" id="editKelas"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <label class="block text-sm mb-1">Kelas</label>
+            <select id="editKelas"
+    class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="IF-A">IF-A</option>
+    <option value="IF-B">IF-B</option>
+    <option value="IF-C">IF-C</option>
+</select>
 
+            <label class="block text-sm mb-1">Semester</label>
             <input type="number" id="editSemester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 

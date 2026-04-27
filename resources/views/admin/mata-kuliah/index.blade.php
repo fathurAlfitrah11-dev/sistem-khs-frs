@@ -74,14 +74,14 @@ $data = [
 
                                 {{-- VIEW --}}
                                 <button
-                                    onclick="openDetail('{{ $d->nama_mk }}','{{ $d->kode_mk }}','{{ $d->semester }}')"
+                                    onclick="openDetail('{{ $d->nama_mk }}','{{ $d->kode_mk }}','{{ $d->prodi->nama_prodi }}','{{ $d->semester }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button
-                                    onclick="openEdit('{{ $d->id }}','{{ $d->nama_mk }}','{{ $d->kode_mk }}','{{ $d->semester }}')"
+                                    onclick="openEdit('{{ $d->id }}','{{ $d->nama_mk }}','{{ $d->kode_mk }}','{{ $d->prodi->nama_prodi }}','{{ $d->semester }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -121,9 +121,19 @@ $data = [
         <h2 class="text-lg font-bold mb-4">Tambah Mata Kuliah</h2>
 
         <form>
+            <label class="block text-sm mb-1">Kode Mata Kuliah</label>
             <input type="text" placeholder="Kode MK" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <label class="block text-sm mb-1">Nama Mata Kuliah</label>
             <input type="text" placeholder="Nama MK" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <label class="block text-sm mb-1">Semester</label>
             <input type="number" placeholder="Semester" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <label class="block text-sm mb-1">Program Studi</label>
+            <select class="w-full mb-3 px-3 py-2 rounded text-black">
+                <option value="">Pilih Program Studi</option>
+                @foreach($prodi as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
+                @endforeach
+            </select>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -145,8 +155,13 @@ $data = [
         <h2 class="text-lg font-bold mb-4">Detail Mata Kuliah</h2>
 
         <div class="space-y-3">
+            <label class="block text-sm mb-1">Nama Mata Kuliah</label>
             <p id="detailNama" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="block text-sm mb-1">Kode Mata Kuliah</label>
             <p id="detailKode" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="block text-sm mb-1">Program Studi</label>
+            <p id="detailProdi" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="block text-sm mb-1">Semester</label>
             <p id="detailSemester" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
 
@@ -158,6 +173,54 @@ $data = [
     </div>
 </div>
 
+```html
+{{-- MODAL EDIT --}}
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white">
+        <h2 class="text-lg font-bold mb-4">Ubah Mata Kuliah</h2>
+
+        <form id="formEdit" method="POST">
+            @csrf
+
+            <label class="text-sm mb-1 block">Kode Mata Kuliah</label>
+            <input type="text" name="kode_mk" id="editKode"
+                class="w-full mb-3 px-3 py-2 rounded text-black">
+
+            <label class="text-sm mb-1 block">Nama Mata Kuliah</label>
+            <input type="text" name="nama_mk" id="editNama"
+                class="w-full mb-3 px-3 py-2 rounded text-black">
+
+            <label class="text-sm mb-1 block">Program Studi</label>
+            <select name="id_prodi" id="editProdi"
+                class="w-full mb-3 px-3 py-2 rounded text-black">
+                <option value="">Pilih Program Studi</option>
+
+                @foreach($prodi as $p)
+                    <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
+                @endforeach
+            </select>
+
+            <label class="text-sm mb-1 block">Semester</label>
+            <input type="number" name="semester" id="editSemester"
+                class="w-full mb-3 px-3 py-2 rounded text-black">
+
+            <div class="flex justify-end gap-2">
+                <button type="button"
+                    onclick="closeModal('editModal')"
+                    class="bg-gray-300 px-3 py-1 rounded text-black">
+                    Batal
+                </button>
+
+                <button type="submit"
+                    class="bg-yellow-500 px-3 py-1 rounded text-white">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+```
 <script>
 function openModal(id) {
     document.getElementById(id).classList.remove('hidden')
@@ -167,12 +230,24 @@ function closeModal(id) {
     document.getElementById(id).classList.add('hidden')
 }
 
-function openDetail(nama, kode, semester) {
-    document.getElementById('detailModal').classList.remove('hidden')
-    document.getElementById('detailNama').innerText = "Nama: " + nama
-    document.getElementById('detailKode').innerText = "Kode: " + kode
-    document.getElementById('detailSemester').innerText = "Semester: " + semester
+function openDetail(nama, kode, prodi, semester){
+    document.getElementById('detailModal').classList.remove('hidden');
+    document.getElementById('detailNama').innerText = nama;
+    document.getElementById('detailKode').innerText = kode;
+    document.getElementById('detailProdi').innerText = prodi;
+    document.getElementById('detailSemester').innerText =  semester;
 }
+
+function openEdit(id, nama, kode, prodi, semester){
+    document.getElementById('editModal').classList.remove('hidden');
+    document.getElementById('editNama').value = nama;
+    document.getElementById('editKode').value = kode;
+    document.getElementById('editProdi').value = prodi;
+    document.getElementById('editSemester').value = semester;
+
+    document.getElementById('formEdit').action = '/matakuliah/update/' + id;
+}
+
 </script>
 
 @endsection

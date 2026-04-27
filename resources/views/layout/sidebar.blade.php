@@ -100,9 +100,15 @@
                 <a href="/dosen-wali"
                     class="px-3 py-2 rounded transition
                     {{ request()->is('dosen-wali') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
-                    Dosen Wali
+                    Data Dosen Wali
                 </a>
 
+                <a href="/dosen-part-time"
+                    class="px-3 py-2 rounded transition
+                    {{ request()->is('dosen-part-time') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+                    Data Dosen Part Time
+                </a>
+                
             </div>
         </div>
 

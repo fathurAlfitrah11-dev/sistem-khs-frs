@@ -99,7 +99,7 @@
  <div id="deleteModal"
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg opacity-0 transform translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4 text-center">Batalkan Mata Kuliah</h2>
 
@@ -138,6 +138,11 @@ function openDelete(kode, nama){
     document.getElementById('d_nama').innerText = nama
 
     document.getElementById('deleteModal').classList.remove('hidden')
+    // Trigger the transition effect
+    setTimeout(() => {
+        document.querySelector('#deleteModal .opacity-0').classList.remove('opacity-0')
+        document.querySelector('#deleteModal .translate-y-10').classList.remove('translate-y-10')
+    }, 10)
 }
 
 function closeDelete(){

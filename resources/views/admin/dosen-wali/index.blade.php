@@ -84,6 +84,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen Wali</h2>
 
         <form>
+            <label class="block text-sm mb-1">Dosen</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 <option value="1">Dr. Andi</option>
@@ -91,6 +92,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 <option value="3">Dr. Siti</option>
             </select>
 
+            <label class="block text-sm mb-1">Kelas</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
                 <option value="1">IF-2A Pagi</option>
@@ -119,9 +121,10 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
-        <h2 class="text-lg font-bold mb-4">Edit Dosen Wali</h2>
+        <h2 class="text-lg font-bold mb-4">Ubah Dosen Wali</h2>
 
         <form>
+            <label class="block text-sm mb-1">Dosen</label>
             <select id="editDosen"
     class="w-full mb-3 px-3 py-2 border rounded text-black">
     <option value="">Pilih Dosen</option>
@@ -130,6 +133,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <option value="Dr. Siti">Dr. Siti</option>
 </select>
 
+            <label class="block text-sm mb-1">Kelas</label>
             <select id="editKelas"
     class="w-full mb-3 px-3 py-2 border rounded text-black">
     <option value="">Pilih Kelas</option>
@@ -137,10 +141,6 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <option value="IF-2B Pagi">IF-2B Pagi</option>
     <option value="IF-2C Pagi">IF-2C Pagi</option>
 </select>
-
-
-            <input type="number" id="editSemester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"

@@ -49,16 +49,25 @@
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
-                                <button onclick="openDetail('{{ $d->nama_kelas }}', '{{ $d->semester }}', '{{ $d->id_prodi }}', 
-                                '{{ $d->kategori }}', '{{ $d->dosen_wali }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                                <button onclick="openDetail(
+                                '{{ $d->nama_kelas }}',
+                                '{{ $d->semester }}',
+                                '{{ $d->prodi->nama_prodi }}',
+                                '{{ $d->kategori }}',
+                                '{{ $d->dosen_wali }}'
+                                )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id }}', '{{ $d->nama_kelas }}', '{{ $d->semester }}',
-                                '{{ $d->id_prodi }}', '{{ $d->kategori }}', '{{ $d->dosen_wali }}')" 
-                                class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                                <button onclick="openEdit(
+                                '{{ $d->id }}',
+                                '{{ $d->nama_kelas }}',
+                                '{{ $d->semester }}',
+                                '{{ $d->id_prodi }}',
+                                '{{ $d->kategori }}',
+                                '{{ $d->nidn_wali }}'
+                                )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
@@ -152,9 +161,9 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 </div>
 
 <div id="editModal"
-    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 relative transform opacity-0 translate-y-10 transition-all duration-300">
-
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative">
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative
+transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Kelas</h2>
 
         <form id="formEdit" method="POST">
@@ -210,9 +219,9 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 </div>
 
 <div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 relative transform opacity-0 translate-y-10 transition-all duration-300">
-
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white">
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white
+transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Kelas</h2>
 
         <div class="space-y-3">

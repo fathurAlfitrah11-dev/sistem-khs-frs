@@ -119,18 +119,22 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
 
-        <h2 class="text-lg font-bold mb-4">Edit Mahasiswa</h2>
+        <h2 class="text-lg font-bold mb-4">Ubah Data Mahasiswa</h2>
 
         <form>
+            <label class="block text-sm mb-1">NIM</label>
             <input type="text" id="editNim" readonly
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="block text-sm mb-1">Nama</label>
             <input type="text" id="editNama"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="block text-sm mb-1">Semester</label>
             <input type="number" id="editSemester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="block text-sm mb-1">Kelas</label>
             <input type="text" id="editKelas"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -142,7 +146,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
                 <button type="button"
                     class="bg-yellow-500 text-white px-3 py-1 rounded">
-                    Update
+                    Ubah
                 </button>
             </div>
         </form>
@@ -161,11 +165,11 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <label class="text-sm">NIM</label>
         <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNim"></span></p>
         <label class="text-sm">Nama</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><b>Nama:</b> <span id="detailNama"></span></p>
+        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNama"></span></p>
         <label class="text-sm">Semester</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><b>Semester:</b> <span id="detailSemester"></span></p>
+        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailSemester"></span></p>
         <label class="text-sm">Kelas</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><b>Kelas:</b> <span id="detailKelas"></span></p>
+        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
 
         </div>
         <div class="flex justify-end mt-4">

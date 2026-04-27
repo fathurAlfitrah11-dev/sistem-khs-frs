@@ -18,8 +18,10 @@
 
     {{-- TABLE --}}
     <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200"> 
-
         <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
+        <a href="https://polibatam.id/jadwalperkuliahansemestergenap2526" class="bg-green-400 hover:bg-green-300 text-white font-semibold px-4 py-2 rounded-lg mb-4 inline-block">
+            Jadwal Perkuliahan
+        </a>
 
         <div class="bg-white overflow-hidden">
 
@@ -89,7 +91,7 @@
 <div id="confirmModal"
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg">
+    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg opacity-0 transform translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4 text-center">Konfirmasi Mata Kuliah</h2>
 
@@ -131,6 +133,11 @@ function openConfirm(kode, nama, sks){
     document.getElementById('c_sks').innerText = sks
 
     document.getElementById('confirmModal').classList.remove('hidden')
+    // Trigger the transition effect
+    setTimeout(() => {
+        document.querySelector('#confirmModal .opacity-0').classList.remove('opacity-0')
+        document.querySelector('#confirmModal .translate-y-10').classList.remove('translate-y-10')
+    }, 10)
 }
 
 function closeConfirm(){
