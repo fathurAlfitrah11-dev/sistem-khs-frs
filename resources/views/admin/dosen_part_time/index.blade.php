@@ -91,7 +91,7 @@
 class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
     <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
-        <h2 class="text-lg font-bold mb-4">Tambah Dosen</h2>
+        <h2 class="text-lg font-bold mb-4">Tambah Dosen Part Time</h2>
 
         <form action="/dosen_part_time/store" method="POST">
             @csrf
@@ -106,6 +106,10 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <label class="text-sm mb-1 block">Password</label>
             <input type="password" name="password" placeholder="Password"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+            
+                <label class="text-sm mb-1 block">Tempat Part Time</label>
+                <input type="text" name="tempat_part_time" placeholder="Tempat Part Time"
+                    class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -134,8 +138,12 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <input type="text" id="editNidk" readonly
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <label class="text-sm mb-1 block">Nama Dosen</label>
+            <label class="text-sm mb-1 block">Nama Dosen Part Time</label>
             <input type="text" name="nama_dosen" id="editNama"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
+
+            <label class="text-sm mb-1 block">Tempat Part Time</label>
+            <input type="text" name="tempat_part_time" id="editTempat"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
@@ -157,7 +165,7 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
-        <h2 class="text-lg font-bold mb-4">Detail Dosen</h2>
+        <h2 class="text-lg font-bold mb-4">Detail Dosen Part Time</h2>
 
         <div class="space-y-3">
             <div>
@@ -166,11 +174,16 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             </div>
 
             <div>
-                <label class="text-sm">Nama Dosen</label>
+                <label class="text-sm">Nama Dosen Part Time</label>
                 <p id="detailNama" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
-        </div>
 
+            <div>
+                <label class="text-sm">Tempat Part Time</label>
+                <p id="detailTempat" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+        </div>
+    
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')"
                 class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -216,20 +229,22 @@ function closeModal(id){
 }
 
 // ===== EDIT =====
-function openEdit(id, nidk, nama){
+function openEdit(id, nidk, nama, tempat){
     showModal('editModal')
 
     document.getElementById('editNidk').value = nidk
     document.getElementById('editNama').value = nama
+    document.getElementById('editTempat').value = tempat
     document.getElementById('formEdit').action = '/dosen_part_time/update/' + id
 }
 
 // ===== DETAIL =====
-function openDetail(nidk, nama){
+function openDetail(nidk, nama, tempat){
     showModal('detailModal')
 
     document.getElementById('detailNidk').innerText = nidk
     document.getElementById('detailNama').innerText = nama
+    document.getElementById('detailTempat').innerText = tempat
 }
 </script>
 

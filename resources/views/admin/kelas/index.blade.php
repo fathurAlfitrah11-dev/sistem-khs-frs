@@ -42,8 +42,8 @@
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi }} - {{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->dosen_wali }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi }}-{{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
+                        <td class="px-6 py-3 text-black text-center">{{ $d->wali->user->name ?? '-' }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
@@ -54,25 +54,25 @@
                                 '{{ $d->semester }}',
                                 '{{ $d->prodi->nama_prodi }}',
                                 '{{ $d->kategori }}',
-                                '{{ $d->dosen_wali }}'
+                                '{{ $d->wali->user->name ?? '-' }}'
                                 )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button onclick="openEdit(
-                                '{{ $d->id }}',
+                                '{{ $d->id_kelas }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
                                 '{{ $d->id_prodi }}',
                                 '{{ $d->kategori }}',
-                                '{{ $d->nidn_wali }}'
+                                '{{ $d->wali->user->name ?? '-' }}'
                                 )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/kelas/delete/{{ $d->id }}"
+                                <a href="/kelas/delete/{{ $d->id_kelas }}"
                                     onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
