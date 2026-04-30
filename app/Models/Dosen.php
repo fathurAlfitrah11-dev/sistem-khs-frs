@@ -10,11 +10,11 @@ class Dosen extends Model
 {
     protected $table = 'dosen';
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_dosen';
     public $incrementing = true;
     protected $keyType = 'int';
 
-    protected $fillable = ['nidn','nama_dosen','user_id'];
+    protected $fillable = ['nuptk','nama_dosen','user_id'];
 
     public function user()
     {
@@ -23,11 +23,11 @@ class Dosen extends Model
 
     public function pengajar()
     {
-        return $this->hasMany(Pengajar::class, 'nidn', 'nidn');
+        return $this->hasMany(Pengajar::class, 'nuptk', 'nuptk');
     }
 
     public function kelasWali()
     {
-        return $this->hasOne(Kelas::class, 'nidn_wali', 'nidn');
+        return $this->hasOne(Kelas::class, 'nuptk_wali', 'nuptk');
     }
 }

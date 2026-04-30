@@ -19,36 +19,35 @@ class DosenPartTimeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nidk' => 'required|unique:dosen_part_time_,nidk',
+            'nuptk' => 'required|unique:dosen_part_time,nuptk',
             'nama_dosen' => 'required',
         ], [
-            'nidk.unique' => 'NIDK sudah terdaftar!',
+            'nuptk.unique' => 'NUPTK sudah terdaftar!',
         ]);
         $user = User::create([
-            'username' => $request->nidk,
+            'username' => $request->nuptk,
             'name' => $request->nama_dosen,
             'password' => bcrypt($request->password),
             'role' => 'dosen_part_time'
         ]);
         DosenPartTime::create([
-            'nidk' => $request->nidk,
+            'nuptk' => $request->nuptk,
             'nama_dosen' => $request->nama_dosen,
-            'password' => bcrypt($request->password),
             'tempat_part_time' => $request->tempat_part_time,
             'user_id' => $user->id
         ]);
 
-        return redirect('/dosen-admin')
+        return redirect('/dosen-part-time')
             ->with('success','Data dosen berhasil ditambahkan');
     }
-    public function edit($id)
+    public function edit($id_dosen_part_time)
     {
-        $dosen = DosenPartTime::findOrFail($id);
+        $dosen = DosenPartTime::findOrFail($id_dosen_part_time);
         return view('admin.dosen_part_time.edit', compact('dosen'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_dosen_part_time)
 {
-    $dosen = DosenPartTime::findOrFail($id);
+    $dosen = DosenPartTime::findOrFail($id_dosen_part_time);
 
     $request->validate([
         'nama_dosen' => 'required',
@@ -63,16 +62,16 @@ class DosenPartTimeController extends Controller
         'name' => $request->nama_dosen,
     ]);
 
-    return redirect('/dosen-admin')
+    return redirect('/dosen-part-time')
         ->with('success','Data dosen berhasil diubah');
 }
-    public function delete($id)
+    public function delete($id_dosen_part_time)
     {
-        $dosen = DosenPartTime::findOrFail($id);
+        $dosen = DosenPartTime::findOrFail($id_dosen_part_time);
         User::where('id', $dosen->user_id)->delete();
         
         $dosen->delete();
-        return redirect('/dosen-admin')
+        return redirect('/dosen-part-time')
             ->with('success','Data dosen berhasil dihapus');
     }
 }

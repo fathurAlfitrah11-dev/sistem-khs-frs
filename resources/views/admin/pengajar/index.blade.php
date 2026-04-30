@@ -34,6 +34,7 @@
                         <th class="px-6 py-3 text-left">Dosen</th>
                         <th class="px-6 py-3 text-left">Mata Kuliah</th>
                         <th class="px-6 py-3 text-left">Kelas</th>
+                        <th class="px-6 py-3 text-left">Tahun Ajaran</th>
                         <th class="px-6 py-3 text-left">Semester</th>
                         <th class="px-6 py-3 text-center">Aksi</th>
                     </tr>
@@ -46,17 +47,18 @@
                         <td class="px-6 py-3 text-black">Dr. Andi</td>
                         <td class="px-6 py-3 text-black">Pemrograman Web</td>
                         <td class="px-6 py-3 text-black">IF-A</td>
+                        <td class="px-6 py-3 text-black">2023/2024 - Ganjil</td>
                         <td class="px-6 py-3 text-black">3</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                <button onclick="openDetail('Dr. Andi','Pemrograman Web','IF-A','3')"
+                                <button onclick="openDetail('Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
-                                <button onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-A','3')"
+                                <button onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -110,9 +112,18 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 <option value="3">IF-C</option>
             </select>
 
+            <label class="block text-sm mb-1">Tahun Ajaran</label>
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Tahun Ajaran</option>
+                <option value="1">2023/2024</option>
+                <option value="2">2024/2025</option>
+                <option value="3">2025/2026</option>
+            </select>
+
             <label class="block text-sm mb-1">Semester</label>
             <input type="number" placeholder="Semester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+            
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -161,6 +172,14 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <option value="IF-B">IF-B</option>
     <option value="IF-C">IF-C</option>
 </select>
+<label class="block text-sm mb-1">Tahun Ajaran</label>
+            <select id="editTahun"
+    class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Tahun Ajaran</option>
+                <option value="2023/2024 - Ganjil">2023/2024 - Ganjil</option>
+                <option value="2024/2025 - Genap">2024/2025 - Genap</option>
+                <option value="2025/2026 - Ganjil">2025/2026 - Ganjil</option>
+            </select>
 
             <label class="block text-sm mb-1">Semester</label>
             <input type="number" id="editSemester"
@@ -197,6 +216,9 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
         <label class="text-sm mb-1 block">Kelas</label>
         <p id="detailKelas" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+
+        <label class="text-sm mb-1 block">Tahun Ajaran</label>
+        <p id="detailTahun" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <label class="text-sm mb-1 block">Semester</label>
         <p id="detailSemester" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
@@ -246,22 +268,24 @@ function closeModal(id){
 }
 
 // ===== EDIT =====
-function openEdit(id, dosen, mk, kelas, semester){
+function openEdit(id, dosen, mk, kelas, tahun, semester){
     showModal('editModal')
 
     document.getElementById('editDosen').value = dosen
     document.getElementById('editMk').value = mk
     document.getElementById('editKelas').value = kelas
+    document.getElementById('editTahun').value = tahun
     document.getElementById('editSemester').value = semester
 }
 
 // ===== DETAIL =====
-function openDetail(dosen, mk, kelas, semester){
+function openDetail(dosen, mk, kelas, tahun, semester){
     showModal('detailModal')
 
     document.getElementById('detailDosen').innerText = dosen
     document.getElementById('detailMk').innerText = mk
     document.getElementById('detailKelas').innerText = kelas
+    document.getElementById('detailTahun').innerText = tahun
     document.getElementById('detailSemester').innerText = semester
 }
 </script>

@@ -31,6 +31,7 @@
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
                         <th class="text-left px-6 py-3">No</th>
+                        <th class="text-left px-6 py-3">Jenjang</th>
                         <th class="text-left px-6 py-3">Program Studi</th>
                         <th class="text-center px-6 py-3">Aksi</th>
                     </tr>
@@ -40,25 +41,26 @@
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->jenjang }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->nama_prodi }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
-                                <button onclick="openDetail('{{ $d->nama_prodi }}')"
+                               <button onclick="openDetail('{{ $d->jenjang }}','{{ $d->nama_prodi }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id }}', '{{ $d->nama_prodi }}')"
+                                <button onclick="openEdit('{{ $d->id_prodi }}', '{{ $d->jenjang }}', '{{ $d->nama_prodi }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/kelas/delete/{{ $d->id }}" onclick="return confirm('Yakin hapus?')"
+                                <a href="/kelas/delete/{{ $d->id_prodi }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
@@ -92,6 +94,14 @@
 
         <form action="/prodi/store" method="POST">
             @csrf
+            <label class="text-sm mb-1 block">Jenjang</label>
+            <select name="jenjang" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Jenjang</option>
+                <option value="D3">D3</option>
+                <option value="D4">D4</option>
+                <option value="S2">S2</option>
+            </select>
+
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
@@ -123,6 +133,14 @@
 
         <form id="formEdit" method="POST">
             @csrf
+
+            <label class="text-sm mb-1 block">Jenjang</label>
+            <select name="jenjang" id="editJenjang" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="D3">D3</option>
+                <option value="D4">D4</option>
+                <option value="S2">S2</option>
+            </select>
+
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="IF">Teknik Informatika</option>
@@ -153,7 +171,11 @@
 
         <div class="space-y-3">
             <div>
-                <label class="text-sm">Nama Program Studi</label>
+                <label class="text-sm">Jenjang</label>
+                <p id="detailJenjang" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+            <div>
+                <label class="text-sm">Program Studi</label>
                 <p id="detailNamaProdi" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
 
@@ -200,16 +222,17 @@ function closeModal(id) {
     hideAnimatedModal(id);
 }
 
-function openEdit(id, nama_prodi) {
+function openEdit(id, jenjang,nama_prodi) {
     showAnimatedModal('editModal');
-
+    document.getElementById('editJenjang').value = jenjang;
     document.getElementById('editProdi').value = nama_prodi;
     document.getElementById('formEdit').action = '/prodi/update/' + id;
 }
 
-function openDetail(nama_prodi) {
+function openDetail(jenjang, nama_prodi) {
     showAnimatedModal('detailModal');
 
+    document.getElementById('detailJenjang').innerText = jenjang;
     document.getElementById('detailNamaProdi').innerText = nama_prodi;
 }
 </script>

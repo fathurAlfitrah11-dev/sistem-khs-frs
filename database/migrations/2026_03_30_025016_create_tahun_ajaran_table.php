@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tahun_ajaran', function (Blueprint $table) {
-            $table->id();
-            $table->string('tahun_awal');
-            $table->string('tahun_akhir');
-            $table->enum('semester', ['ganjil','genap']);
+            $table->id('id_tahun_ajaran');
+            $table->string('tahun_awal', 9);
+            $table->string('tahun_akhir', 9);
+            $table->enum('semester', ['ganjil', 'genap']);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

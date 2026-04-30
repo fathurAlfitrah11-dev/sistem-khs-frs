@@ -30,13 +30,13 @@ class KelasController extends Controller
             'kategori' => 'required',
             'semester' => 'required',
             'id_prodi' => 'required',
-            'nidn_wali' => 'nullable|unique:kelas,nidn_wali'
+            'nuptk_wali' => 'nullable|unique:kelas,nuptk_wali'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
             'semester.required' => 'Semester wajib diisi',
             'id_prodi.required' => 'Program studi wajib diisi',
-            'nidn_wali.unique' => 'Dosen sudah menjadi wali kelas'
+            'nuptk_wali.unique' => 'Dosen sudah menjadi wali kelas'
         ]);
 
         Kelas::create([
@@ -44,7 +44,7 @@ class KelasController extends Controller
     'kategori' => $request->kategori,
     'semester' => $request->semester,
     'id_prodi' => $request->id_prodi,
-    'nidn_wali' => $request->nidn_wali ?:null
+    'nuptk_wali' => $request->nuptk_wali ?:null
 ]);
         return redirect('/kelas')
             ->with('success','Kelas berhasil ditambahkan');
@@ -66,13 +66,13 @@ class KelasController extends Controller
             'kategori' => 'required',
             'semester' => 'required',
             'id_prodi' => 'required',
-            'nidn_wali' => 'nullable|unique:kelas,nidn_wali,'.$id_kelas.',id_kelas'
+            'nuptk_wali' => 'nullable|unique:kelas,nuptk_wali,'.$id_kelas.',id_kelas'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
             'semester.required' => 'Semester wajib diisi',
             'id_prodi.required' => 'Program studi wajib diisi',
-            'nidn_wali.unique' => 'Dosen sudah menjadi wali kelas'
+            'nuptk_wali.unique' => 'Dosen sudah menjadi wali kelas'
         ]);
         
         $kelas = Kelas::findOrFail($id_kelas);
@@ -82,7 +82,7 @@ class KelasController extends Controller
     'kategori' => $request->kategori,
     'semester' => $request->semester,
     'id_prodi' => $request->id_prodi,
-    'nidn_wali' => $request->nidn_wali
+    'nuptk_wali' => $request->nuptk_wali
 ]);
 
         return redirect('/kelas')

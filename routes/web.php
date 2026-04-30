@@ -39,9 +39,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dosen-admin', [DosenController::class, 'index']);
     Route::get('/dosen/create', [DosenController::class, 'create']);
     Route::post('/dosen/store', [DosenController::class, 'store']);
-    Route::post('/dosen/edit/{id}', [DosenController::class, 'edit']);
-    Route::post('/dosen/update/{id}', [DosenController::class, 'update']);
-    Route::get('/dosen/delete/{id}', [DosenController::class, 'delete']);
+    Route::post('/dosen/edit/{id_dosen}', [DosenController::class, 'edit']);
+    Route::post('/dosen/update/{id_dosen}', [DosenController::class, 'update']);
+    Route::get('/dosen/delete/{id_dosen}', [DosenController::class, 'delete']);
 
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
     Route::get('/kelas/create', [KelasController::class, 'create']);
@@ -53,9 +53,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/prodi', [ProdiController::class, 'index'])->name('prodi');
     Route::get('/prodi/create', [ProdiController::class, 'create']);
     Route::post('/prodi/store', [ProdiController::class, 'store']);
-    Route::get('/prodi/edit/{id}', [ProdiController::class, 'edit']);
-    Route::post('/prodi/update/{id}', [ProdiController::class, 'update']);
-    Route::get('/prodi/delete/{id}', [ProdiController::class, 'delete']);
+    Route::get('/prodi/edit/{id_prodi}', [ProdiController::class, 'edit']);
+    Route::post('/prodi/update/{id_prodi}', [ProdiController::class, 'update']);
+    Route::get('/prodi/delete/{id_prodi}', [ProdiController::class, 'delete']);
 
     Route::get('/tahun-ajaran', [TahunAjaranController::class, 'index'])->name('tahun-ajaran');
     Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])->name('mata-kuliah');
@@ -65,9 +65,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/dosen-part-time', [DosenPartTimeController::class, 'index']);
     Route::post('/dosen_part_time/store', [DosenPartTimeController::class, 'store']);
-    Route::post('/dosen_part_time/edit/{id}', [DosenPartTimeController::class, 'edit']);
-    Route::post('/dosen_part_time/update/{id}', [DosenPartTimeController::class, 'update']);
-    Route::get('/dosen_part_time/delete/{id}', [DosenPartTimeController::class, 'delete']);
+    Route::post('/dosen_part_time/edit/{id_dosen_part_time}', [DosenPartTimeController::class, 'edit']);
+    Route::post('/dosen_part_time/update/{id_dosen_part_time}', [DosenPartTimeController::class, 'update']);
+    Route::get('/dosen_part_time/delete/{id_dosen_part_time}', [DosenPartTimeController::class, 'delete']);
 });
 //MAHASISWA
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {

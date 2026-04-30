@@ -19,35 +19,34 @@ class DosenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nidn' => 'required|unique:dosen,nidn',
+            'nuptk' => 'required|unique:dosen,nuptk',
             'nama_dosen' => 'required',
         ], [
-            'nidn.unique' => 'NIDN sudah terdaftar!',
+            'nuptk.unique' => 'NUPTK sudah terdaftar!',
         ]);
         $user = User::create([
-            'username' => $request->nidn,
+            'username' => $request->nuptk,
             'name' => $request->nama_dosen,
             'password' => bcrypt($request->password),
             'role' => 'dosen'
         ]);
         Dosen::create([
-            'nidn' => $request->nidn,
+            'nuptk' => $request->nuptk,
             'nama_dosen' => $request->nama_dosen,
-            'password' => bcrypt($request->password),
             'user_id' => $user->id
         ]);
 
         return redirect('/dosen-admin')
             ->with('success','Data dosen berhasil ditambahkan');
     }
-    public function edit($id)
+    public function edit($id_dosen)
     {
-        $dosen = Dosen::findOrFail($id);
+        $dosen = Dosen::findOrFail($id_dosen);
         return view('admin.dosen.edit', compact('dosen'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_dosen)
 {
-    $dosen = Dosen::findOrFail($id);
+    $dosen = Dosen::findOrFail($id_dosen);
 
     $request->validate([
         'nama_dosen' => 'required',
@@ -64,9 +63,9 @@ class DosenController extends Controller
     return redirect('/dosen-admin')
         ->with('success','Data dosen berhasil diubah');
 }
-    public function delete($id)
+    public function delete($id_dosen)
     {
-        $dosen = Dosen::findOrFail($id);
+        $dosen = Dosen::findOrFail($id_dosen);
         User::where('id', $dosen->user_id)->delete();
         
         $dosen->delete();

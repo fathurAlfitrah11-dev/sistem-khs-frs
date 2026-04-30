@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class DosenPartTime extends Model
 {
     protected $table = 'dosen_part_time';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_dosen_part_time';
     protected $fillable = [
-        'nidk',
+        'nuptk',
         'nama_dosen',
-        'password',
         'tempat_part_time',
         'user_id'
     ];

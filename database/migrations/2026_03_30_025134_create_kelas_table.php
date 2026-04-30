@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id('id_kelas');
-            $table->string('semester');
-            $table->foreignId('id_prodi')->constrained('prodi')->onDelete('cascade');
+            $table->integer('semester');
+            $table->unsignedBigInteger('id_prodi');
+            $table->foreign('id_prodi')
+                ->references('id_prodi')
+                ->on('prodi')
+                ->onDelete('cascade');
             $table->enum('nama_kelas', ['A', 'B', 'C', 'D', 'E']);
             $table->enum('kategori', ['Pagi', 'Malam']);
-            $table->string('nidn_wali')->nullable()->unique();
-            $table->foreign('nidn_wali')->references('nidn')->on('dosen')->onDelete('set null');
+            $table->string('nuptk_wali', 20)->nullable()->unique();
+            $table->foreign('nuptk_wali')->references('nuptk')->on('dosen')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -13,12 +13,20 @@ return new class extends Migration
     {
         Schema::create('krs', function (Blueprint $table) {
     $table->id('id_krs');
-    $table->string('nim');
-    $table->foreignId('id_tahun_ajaran')->constrained('tahun_ajaran');
+    $table->string('nim', 20);
+    $table->foreign('nim')
+          ->references('nim')
+          ->on('mahasiswa')
+          ->onDelete('cascade');
+    $table->unsignedBigInteger('id_tahun_ajaran');
+    $table->foreign('id_tahun_ajaran')
+          ->references('id_tahun_ajaran')
+          ->on('tahun_ajaran')
+          ->onDelete('cascade');
     $table->enum('status', ['draft','diajukan','disetujui','ditolak'])->default('draft');
     $table->enum('status_wali', ['pending','disetujui','ditolak'])
               ->default('pending');
-    $table->string('nidn_wali')->nullable();
+    $table->string('nuptk_wali', 20)->nullable();
     $table->timestamps();
     });
     }

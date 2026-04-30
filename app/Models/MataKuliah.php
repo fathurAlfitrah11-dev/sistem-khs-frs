@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     protected $table = 'mata_kuliah';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_mata_kuliah';
     protected $fillable = [
         'kode_mk',
         'nama_mk',
@@ -18,6 +18,6 @@ class MataKuliah extends Model
 
     public function prodi()
     {
-        return $this->belongsTo(Prodi::class, 'id_prodi');
+        return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
     }
 }

@@ -165,8 +165,8 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
         <h2 class="text-lg font-bold mb-4">Detail Dosen Wali</h2>
 
-        <label class="text-sm mb-1 block">NIDN</label>
-        <p id="detailNidn" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+        <label class="text-sm mb-1 block">NUPTK</label>
+        <p id="detailNuptk" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <label class="text-sm mb-1 block">Nama Dosen</label>
         <p id="detailNama" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
@@ -223,10 +223,10 @@ function openEdit(id, dosen, kelas){
     document.getElementById('editKelas').value = kelas
 }
 
-function openDetail(nidn, nama, kelas){
+function openDetail(nuptk, nama, kelas){
     showModal('detailModal')
 
-    document.getElementById('detailNidn').innerText = nidn
+    document.getElementById('detailNuptk').innerText = nuptk
     document.getElementById('detailNama').innerText = nama
     document.getElementById('detailKelas').innerText = kelas
 }

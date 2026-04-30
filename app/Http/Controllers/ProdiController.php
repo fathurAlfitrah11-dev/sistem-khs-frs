@@ -25,22 +25,22 @@ class ProdiController extends Controller
         return redirect('/prodi')
             ->with('success','Prodi berhasil ditambahkan');
     }
-    public function edit($id)
+    public function edit($id_prodi)
     {
-        $prodi = Prodi::findOrFail($id);
+        $prodi = Prodi::findOrFail($id_prodi);
         return view('admin.prodi.edit', compact('prodi'));
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_prodi)
     {
-        $prodi = Prodi::findOrFail($id);
+        $prodi = Prodi::findOrFail($id_prodi);
         $prodi->update($request->all());
 
         return redirect('/prodi')
             ->with('success','Prodi berhasil diupdate');
     }
-    public function delete($id)
+    public function delete($id_prodi)
     {
-        Prodi::findOrFail($id)->delete();
+        Prodi::findOrFail($id_prodi)->delete();
 
         return redirect('/prodi')
             ->with('success','Prodi berhasil dihapus');

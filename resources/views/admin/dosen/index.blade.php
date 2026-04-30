@@ -31,7 +31,7 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="text-left px-6 py-3">NIDN</th>
+                        <th class="text-left px-6 py-3">NUPTK</th>
                         <th class="text-left px-6 py-3">Nama Dosen</th>
                         <th class="text-center px-6 py-3">Aksi</th>
                     </tr>
@@ -40,20 +40,20 @@
                 <tbody class="divide-y">
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $d->nidn }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->nuptk }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
-                                <button onclick="openDetail('{{ $d->nidn }}','{{ $d->user->name }}')"
+                                <button onclick="openDetail('{{ $d->nuptk }}','{{ $d->user->name }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id }}','{{ $d->nidn }}','{{ $d->user->name }}')"
+                                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nuptk }}','{{ $d->user->name }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -95,8 +95,8 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
         <form action="/dosen/store" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">NIDN</label>
-            <input type="text" name="nidn" placeholder="NIDN"
+            <label class="text-sm mb-1 block">NUPTK</label>
+            <input type="text" name="nuptk" placeholder="NUPTK"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
@@ -130,8 +130,8 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">NIDN</label>
-            <input type="text" id="editNidn" readonly
+            <label class="text-sm mb-1 block">NUPTK</label>
+            <input type="text" id="editNuptk" readonly
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
@@ -161,8 +161,8 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
         <div class="space-y-3">
             <div>
-                <label class="text-sm">NIDN</label>
-                <p id="detailNidn" class="bg-white text-black px-3 py-2 rounded"></p>
+                <label class="text-sm">NUPTK</label>
+                <p id="detailNuptk" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
 
             <div>
@@ -216,19 +216,19 @@ function closeModal(id){
 }
 
 // ===== EDIT =====
-function openEdit(id, nidn, nama){
+function openEdit(id, nuptk, nama){
     showModal('editModal')
 
-    document.getElementById('editNidn').value = nidn
+    document.getElementById('editNuptk').value = nuptk
     document.getElementById('editNama').value = nama
     document.getElementById('formEdit').action = '/dosen/update/' + id
 }
 
 // ===== DETAIL =====
-function openDetail(nidn, nama){
+function openDetail(nuptk, nama){
     showModal('detailModal')
 
-    document.getElementById('detailNidn').innerText = nidn
+    document.getElementById('detailNuptk').innerText = nuptk
     document.getElementById('detailNama').innerText = nama
 }
 </script>

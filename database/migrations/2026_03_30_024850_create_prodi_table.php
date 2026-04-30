@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('prodi', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_prodi');
+            $table->enum('jenjang', ['D3','D4','S2']);
             $table->enum('nama_prodi', ['IF','TRPL','GM','TP','TRM','RKS']);
             $table->timestamps();
         });

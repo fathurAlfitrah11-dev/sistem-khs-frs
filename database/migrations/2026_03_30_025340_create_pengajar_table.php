@@ -12,16 +12,25 @@ return new class extends Migration
     public function up(): void
     {
          Schema::create('pengajar', function (Blueprint $table) {
-            $table->id();
-            $table->string('nidn');
-            $table->foreign('nidn')->references('nidn')->on('dosen')->onDelete('cascade');
-            $table->foreignId('mata_kuliah_id')->constrained('mata_kuliah')->onDelete('cascade');
+            $table->id('id_pengajar');
+            $table->string('nuptk', 20);
+            $table->foreign('nuptk')->references('nuptk')->on('dosen')->onDelete('cascade');
+            $table->unsignedBigInteger('id_mata_kuliah');
+            $table->foreign('id_mata_kuliah')
+            ->references('id_mata_kuliah')
+            ->on('mata_kuliah')
+            ->onDelete('cascade');
             $table->unsignedBigInteger('kelas_id');
             $table->foreign('kelas_id')
             ->references('id_kelas')
             ->on('kelas')
             ->onDelete('cascade');
-            $table->foreignId('tahun_id')->constrained('tahun_ajaran')->onDelete('cascade');
+            $table->unsignedBigInteger('id_tahun_ajaran');
+            $table->foreign('id_tahun_ajaran')
+            ->references('id_tahun_ajaran')
+            ->on('tahun_ajaran')
+            ->onDelete('cascade');
+            
             $table->integer('semester');
             $table->timestamps();
         });

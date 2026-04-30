@@ -50,11 +50,11 @@
 
                                 {{-- VIEW --}}
                                 <button onclick="openDetail(
+                                '{{ $d->wali->user->name ?? '-' }}',
+                                '{{ $d->prodi->nama_prodi }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
-                                '{{ $d->prodi->nama_prodi }}',
-                                '{{ $d->kategori }}',
-                                '{{ $d->wali->user->name ?? '-' }}'
+                                '{{ $d->kategori }}'
                                 )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
@@ -62,11 +62,11 @@
                                 {{-- EDIT --}}
                                 <button onclick="openEdit(
                                 '{{ $d->id_kelas }}',
+                                '{{ $d->nuptk_wali }}',
+                                '{{ $d->id_prodi }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
-                                '{{ $d->id_prodi }}',
-                                '{{ $d->kategori }}',
-                                '{{ $d->wali->user->name ?? '-' }}'
+                                '{{ $d->kategori }}'
                                 )" class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -109,6 +109,23 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 
         <form action="/kelas/store" method="POST">
             @csrf
+
+            <label class="text-sm mb-1 block">Dosen Wali</label>
+            <select name="nuptk_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Dosen Wali</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
+            </select>
+
+            <label class="text-sm mb-1 block">Program Studi</label>
+            <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Program Studi</option>
+                @foreach($prodi as $p)
+                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                @endforeach
+            </select>
+
             <label class="text-sm mb-1 block">Nama Kelas</label>
             <select name="nama_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
@@ -122,27 +139,11 @@ transform opacity-0 translate-y-10 transition-all duration-300">
             <input type="number" name="semester" placeholder="Semester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Program Studi</option>
-                @foreach($prodi as $p)
-                <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
-                @endforeach
-            </select>
-
             <label class="text-sm mb-1 block">Kategori</label>
            <select name="kategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kategori</option>
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
-            </select>
-
-            <label class="text-sm mb-1 block">Dosen Wali</label>
-            <select name="nidn_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Dosen Wali</option>
-                @foreach($dosen as $d)
-                <option value="{{ $d->nidn }}">{{ $d->user->name }}</option>
-                @endforeach
             </select>
 
             <div class="flex justify-end gap-2">
@@ -168,6 +169,22 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 
         <form id="formEdit" method="POST">
             @csrf
+             <label class="text-sm mb-1 block">Dosen Wali</label>
+            <select name="nuptk_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Dosen Wali</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
+            </select>
+
+            <label class="text-sm mb-1 block">Program Studi</label>
+            <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Program Studi</option>
+                @foreach($prodi as $p)
+                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                @endforeach
+            </select>
+            
             <label class="text-sm mb-1 block">Nama Kelas</label>
             <select name="nama_kelas" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
                  <option value="A">Kelas A</option>
@@ -181,26 +198,10 @@ transform opacity-0 translate-y-10 transition-all duration-300">
             <input type="number" name="semester" id="editSemester"
                 class="w-full mb-3 px-3 py-2 border rounded text-black" min="1" max="8">
 
-                <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Program Studi</option>
-                @foreach($prodi as $p)
-                <option value="{{ $p->id }}">{{ $p->nama_prodi }}</option>
-                @endforeach
-            </select>
-
             <label class="text-sm mb-1 block">Kategori</label>
            <select name="kategori" id="editKategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
-            </select>
-
-            <label class="text-sm mb-1 block">Dosen Wali</label>
-            <select name="nidn_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Dosen Wali</option>
-                @foreach($dosen as $d)
-                <option value="{{ $d->nidn }}">{{ $d->user->name }}</option>
-                @endforeach
             </select>
 
             <div class="flex justify-end gap-2">
@@ -226,6 +227,16 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 
         <div class="space-y-3">
             <div>
+                <label class="text-sm">Dosen Wali</label>
+                <p id="detailDosenWali" class="bg-white text-black px-3 py-2 rounded"></p>
+        </div>
+
+        <div>
+                <label class="text-sm">Program Studi</label>
+                <p id="detailProdi" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+
+            <div>
                 <label class="text-sm">Nama Kelas</label>
                 <p id="detailNamaKelas" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
@@ -234,17 +245,10 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 <label class="text-sm">Semester</label>
                 <p id="detailSemester" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
-            <div>
-                <label class="text-sm">Program Studi</label>
-                <p id="detailProdi" class="bg-white text-black px-3 py-2 rounded"></p>
-            </div>
+    
             <div>
                 <label class="text-sm">Kategori</label>
                 <p id="detailKategori" class="bg-white text-black px-3 py-2 rounded"></p>
-        </div>
-            <div>
-                <label class="text-sm">Dosen Wali</label>
-                <p id="detailDosenWali" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
 
         </div>
@@ -283,7 +287,7 @@ function closeModal(id){
     }, 300);
 }
 
-function openEdit(id, nama_kelas, semester, prodi, kategori, nidn_wali){
+function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori){
     const modal = document.getElementById('editModal');
     const content = modal.querySelector('div');
 
@@ -294,15 +298,15 @@ function openEdit(id, nama_kelas, semester, prodi, kategori, nidn_wali){
         content.classList.add('opacity-100','translate-y-0');
     }, 10);
 
+    document.getElementById('editDosen').value = nuptk_wali
+    document.getElementById('editProdi').value = prodi
     document.getElementById('editNama').value = nama_kelas
     document.getElementById('editSemester').value = semester
-    document.getElementById('editProdi').value = prodi
     document.getElementById('editKategori').value = kategori
-    document.getElementById('editDosen').value = nidn_wali
     document.getElementById('formEdit').action = '/kelas/update/' + id
 }
 
-function openDetail(nama_kelas, semester, prodi, kategori, dosen_wali){
+function openDetail(dosen_wali, prodi, nama_kelas, semester, kategori){
     const modal = document.getElementById('detailModal');
     const content = modal.querySelector('div');
 
@@ -312,12 +316,11 @@ function openDetail(nama_kelas, semester, prodi, kategori, dosen_wali){
         content.classList.remove('opacity-0','translate-y-10');
         content.classList.add('opacity-100','translate-y-0');
     }, 10);
-
+    document.getElementById('detailDosenWali').innerText = dosen_wali
+    document.getElementById('detailProdi').innerText = prodi
     document.getElementById('detailNamaKelas').innerText = nama_kelas
     document.getElementById('detailSemester').innerText = semester
-    document.getElementById('detailProdi').innerText = prodi
     document.getElementById('detailKategori').innerText = kategori
-    document.getElementById('detailDosenWali').innerText = dosen_wali
 }
 </script>
 

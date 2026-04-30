@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('krs_detail', function (Blueprint $table) {
-    $table->id();
+    $table->id('id_krs_detail');
 
     $table->unsignedBigInteger('id_krs');
     $table->foreign('id_krs')
@@ -22,7 +22,7 @@ return new class extends Migration
 
     $table->unsignedBigInteger('pengajar_id');
     $table->foreign('pengajar_id')
-        ->references('id')
+        ->references('id_pengajar')
         ->on('pengajar')
         ->onDelete('cascade');
     $table->enum('status_wali', ['pending','disetujui','ditolak'])
