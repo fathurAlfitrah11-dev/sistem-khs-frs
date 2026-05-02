@@ -29,12 +29,12 @@
 
         <div class="bg-white overflow-hidden">
 
-            <table class="w-full text-sm">
+            <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="text-left px-6 py-3">NUPTK</th>
-                        <th class="text-left px-6 py-3">Nama Dosen</th>
-                        <th class="text-center px-6 py-3">Aksi</th>
+                        <th class="text-black px-6 py-3">NUPTK</th>
+                        <th class="text-black px-6 py-3">Nama Dosen</th>
+                        <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
 

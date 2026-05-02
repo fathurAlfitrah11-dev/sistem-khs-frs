@@ -28,13 +28,13 @@
 
         <div class="bg-white overflow-hidden">
 
-            <table class="w-full text-sm">
+            <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="px-6 py-3 text-left">NIDN</th>
-                        <th class="px-6 py-3 text-left">Nama Dosen</th>
-                        <th class="px-6 py-3 text-left">Kelas</th>
-                        <th class="px-6 py-3 text-center">Aksi</th>
+                        <th class="px-6 py-3 text-black">NIDN</th>
+                        <th class="px-6 py-3 text-black">Nama Dosen</th>
+                        <th class="px-6 py-3 text-black">Kelas</th>
+                        <th class="px-6 py-3 text-black">Aksi</th>
                     </tr>
                 </thead>
 

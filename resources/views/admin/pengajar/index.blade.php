@@ -30,15 +30,15 @@
 
         <div class="bg-white overflow-hidden">
 
-            <table class="w-full text-sm">
+           <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="px-6 py-3 text-left">Dosen</th>
-                        <th class="px-6 py-3 text-left">Mata Kuliah</th>
-                        <th class="px-6 py-3 text-left">Kelas</th>
-                        <th class="px-6 py-3 text-left">Tahun Ajaran</th>
-                        <th class="px-6 py-3 text-left">Semester</th>
-                        <th class="px-6 py-3 text-center">Aksi</th>
+                        <th class="px-6 py-3 text-black">Dosen</th>
+                        <th class="px-6 py-3 text-black">Mata Kuliah</th>
+                        <th class="px-6 py-3 text-black">Kelas</th>
+                        <th class="px-6 py-3 text-black">Tahun Ajaran</th>
+                        <th class="px-6 py-3 text-black">Semester</th>
+                        <th class="px-6 py-3 text-black">Aksi</th>
                     </tr>
                 </thead>
 
