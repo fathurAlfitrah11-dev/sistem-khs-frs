@@ -6,6 +6,11 @@
 
 <div class="p-6">
 
+    <h1 class="text-2xl font-bold text-gray-800 mb-6"
+        data-aos="fade-up" data-aos-delay="100">
+        Data Program Studi
+    </h1>
+
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex-1 mr-4">

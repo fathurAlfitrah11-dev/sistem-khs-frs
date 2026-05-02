@@ -8,15 +8,15 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen Wali</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Dosen Wali"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="200">
+        <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Dosen Wali" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
-
-        <button onclick="openModal('tambahModal')"
+            <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
             + Tambah Dosen Wali
         </button>
@@ -77,10 +77,10 @@
 </div>
 
 {{-- MODAL TAMBAH --}}
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen Wali</h2>
 
         <form>
@@ -101,13 +101,11 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -116,40 +114,36 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL EDIT --}}
-<div id="editModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Ubah Dosen Wali</h2>
 
         <form>
             <label class="block text-sm mb-1">Dosen</label>
-            <select id="editDosen"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Pilih Dosen</option>
-    <option value="Dr. Andi">Dr. Andi</option>
-    <option value="Dr. Budi">Dr. Budi</option>
-    <option value="Dr. Siti">Dr. Siti</option>
-</select>
+            <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Dosen</option>
+                <option value="Dr. Andi">Dr. Andi</option>
+                <option value="Dr. Budi">Dr. Budi</option>
+                <option value="Dr. Siti">Dr. Siti</option>
+            </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select id="editKelas"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Pilih Kelas</option>
-    <option value="IF-2A Pagi">IF-2A Pagi</option>
-    <option value="IF-2B Pagi">IF-2B Pagi</option>
-    <option value="IF-2C Pagi">IF-2C Pagi</option>
-</select>
+            <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Kelas</option>
+                <option value="IF-2A Pagi">IF-2A Pagi</option>
+                <option value="IF-2B Pagi">IF-2B Pagi</option>
+                <option value="IF-2C Pagi">IF-2C Pagi</option>
+            </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -158,10 +152,10 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL DETAIL --}}
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Detail Dosen Wali</h2>
 
@@ -175,8 +169,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <p id="detailKelas" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -184,46 +177,46 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 <script>
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
     modal.classList.remove('hidden')
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10')
-        content.classList.add('opacity-100','translate-y-0')
+        content.classList.remove('opacity-0', 'translate-y-10')
+        content.classList.add('opacity-100', 'translate-y-0')
     }, 10)
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
-    content.classList.remove('opacity-100','translate-y-0')
-    content.classList.add('opacity-0','translate-y-10')
+    content.classList.remove('opacity-100', 'translate-y-0')
+    content.classList.add('opacity-0', 'translate-y-10')
 
     setTimeout(() => {
         modal.classList.add('hidden')
     }, 300)
 }
 
-function openModal(id){
+function openModal(id) {
     showModal(id)
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id)
 }
 
-function openEdit(id, dosen, kelas){
+function openEdit(id, dosen, kelas) {
     showModal('editModal')
 
     document.getElementById('editDosen').value = dosen
     document.getElementById('editKelas').value = kelas
 }
 
-function openDetail(nuptk, nama, kelas){
+function openDetail(nuptk, nama, kelas) {
     showModal('detailModal')
 
     document.getElementById('detailNuptk').innerText = nuptk

@@ -8,12 +8,14 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Kelas</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Kelas"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="100">
+
+       <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Kelas" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -42,7 +44,8 @@
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi }}-{{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
+                        <td class="px-6 py-3 text-black">
+                            {{ $d->prodi->nama_prodi }}-{{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
                         <td class="px-6 py-3 text-black text-center">{{ $d->wali->user->name ?? '-' }}</td>
 
                         <td class="px-6 py-3 text-center">
@@ -72,8 +75,7 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/kelas/delete/{{ $d->id_kelas }}"
-                                    onclick="return confirm('Yakin hapus?')"
+                                <a href="/kelas/delete/{{ $d->id_kelas }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
@@ -100,8 +102,8 @@
     </div>
 </div>
 
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 "data-aos="fade-up" data-aos-delay="100">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 " data-aos="fade-up"
+    data-aos-delay="100">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative
 transform opacity-0 translate-y-10 transition-all duration-300">
@@ -140,20 +142,18 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Kategori</label>
-           <select name="kategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="kategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kategori</option>
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -161,15 +161,14 @@ transform opacity-0 translate-y-10 transition-all duration-300">
     </div>
 </div>
 
-<div id="editModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative
 transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Kelas</h2>
 
         <form id="formEdit" method="POST">
             @csrf
-             <label class="text-sm mb-1 block">Dosen Wali</label>
+            <label class="text-sm mb-1 block">Dosen Wali</label>
             <select name="nuptk_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen Wali</option>
                 @foreach($dosen as $d)
@@ -184,10 +183,10 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
-            
+
             <label class="text-sm mb-1 block">Nama Kelas</label>
             <select name="nama_kelas" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                 <option value="A">Kelas A</option>
+                <option value="A">Kelas A</option>
                 <option value="B">Kelas B</option>
                 <option value="C">Kelas C</option>
                 <option value="D">Kelas D</option>
@@ -199,19 +198,17 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 class="w-full mb-3 px-3 py-2 border rounded text-black" min="1" max="8">
 
             <label class="text-sm mb-1 block">Kategori</label>
-           <select name="kategori" id="editKategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="kategori" id="editKategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -219,8 +216,7 @@ transform opacity-0 translate-y-10 transition-all duration-300">
     </div>
 </div>
 
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white
 transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Kelas</h2>
@@ -229,9 +225,9 @@ transform opacity-0 translate-y-10 transition-all duration-300">
             <div>
                 <label class="text-sm">Dosen Wali</label>
                 <p id="detailDosenWali" class="bg-white text-black px-3 py-2 rounded"></p>
-        </div>
+            </div>
 
-        <div>
+            <div>
                 <label class="text-sm">Program Studi</label>
                 <p id="detailProdi" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
@@ -245,17 +241,16 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 <label class="text-sm">Semester</label>
                 <p id="detailSemester" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
-    
+
             <div>
                 <label class="text-sm">Kategori</label>
                 <p id="detailKategori" class="bg-white text-black px-3 py-2 rounded"></p>
-        </div>
+            </div>
 
         </div>
 
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -263,39 +258,39 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 </div>
 
 <script>
-function openModal(id){
+function openModal(id) {
     const modal = document.getElementById(id);
     const content = modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10');
-        content.classList.add('opacity-100','translate-y-0');
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
 }
 
-function closeModal(id){
+function closeModal(id) {
     const modal = document.getElementById(id);
     const content = modal.querySelector('div');
 
-    content.classList.remove('opacity-100','translate-y-0');
-    content.classList.add('opacity-0','translate-y-10');
+    content.classList.remove('opacity-100', 'translate-y-0');
+    content.classList.add('opacity-0', 'translate-y-10');
 
     setTimeout(() => {
         modal.classList.add('hidden');
     }, 300);
 }
 
-function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori){
+function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori) {
     const modal = document.getElementById('editModal');
     const content = modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10');
-        content.classList.add('opacity-100','translate-y-0');
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
 
     document.getElementById('editDosen').value = nuptk_wali
@@ -306,15 +301,15 @@ function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori){
     document.getElementById('formEdit').action = '/kelas/update/' + id
 }
 
-function openDetail(dosen_wali, prodi, nama_kelas, semester, kategori){
+function openDetail(dosen_wali, prodi, nama_kelas, semester, kategori) {
     const modal = document.getElementById('detailModal');
     const content = modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10');
-        content.classList.add('opacity-100','translate-y-0');
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
     document.getElementById('detailDosenWali').innerText = dosen_wali
     document.getElementById('detailProdi').innerText = prodi

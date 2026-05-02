@@ -30,11 +30,15 @@ $data = [
 ]
 ];
 @endphp
+<div class="p-6">
 
-<div class="p-6" >
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">
+        Data Mata Kuliah
+    </h1>
 
     {{-- SEARCH + BUTTON --}}
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="100">
 
         <div class="flex-1 mr-4">
             <div class="flex items-center bg-white rounded px-3 py-2 w-full">
@@ -57,7 +61,7 @@ $data = [
         <div class="bg-white overflow-hidden">
 
             <table class="w-full text-sm">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800" >
+                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
                         <th class="text-left px-6 py-3">No</th>
                         <th class="text-left px-6 py-3">Kode</th>
@@ -127,7 +131,8 @@ $data = [
 {{-- MODAL TAMBAH --}}
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Mata Kuliah</h2>
 
         <form>
@@ -135,7 +140,7 @@ $data = [
             <select class="w-full mb-3 px-3 py-2 rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
-                    <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 
@@ -167,13 +172,14 @@ $data = [
 {{-- MODAL DETAIL --}}
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Mata Kuliah</h2>
 
         <div class="space-y-3">
-             <label class="block text-sm mb-1">Program Studi</label>
+            <label class="block text-sm mb-1">Program Studi</label>
             <p id="detailProdi" class="bg-white text-black px-3 py-2 rounded"></p>
-            
+
             <label class="block text-sm mb-1">Nama Mata Kuliah</label>
             <p id="detailNama" class="bg-white text-black px-3 py-2 rounded"></p>
 
@@ -186,7 +192,7 @@ $data = [
             <label class="block text-sm mb-1">SKS</label>
             <p id="detailSks" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
-        
+
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
@@ -198,46 +204,40 @@ $data = [
 {{-- MODAL EDIT --}}
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Mata Kuliah</h2>
 
         <form id="formEdit" method="POST">
             @csrf
             <label class="text-sm mb-1 block">Program Studi</label>
-            <select name="id_prodi" id="editProdi"
-                class="w-full mb-3 px-3 py-2 rounded text-black">
+            <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 rounded text-black">
                 <option value="">Pilih Program Studi</option>
 
                 @foreach($prodi as $p)
-                    <option value="{{ $p->id_prodi }}">{{$p->jenjang}}  {{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 
             <label class="text-sm mb-1 block">Kode Mata Kuliah</label>
-            <input type="text" name="kode_mk" id="editKode"
-                class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="text" name="kode_mk" id="editKode" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Mata Kuliah</label>
-            <input type="text" name="nama_mk" id="editNama"
-                class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="text" name="nama_mk" id="editNama" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" id="editSemester"
-                class="w-full mb-3 px-3 py-2 rounded text-black">
-            
+            <input type="number" name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 rounded text-black">
+
             <label class="text-sm mb-1 block">SKS</label>
-            <input type="number" name="sks" id="editSks"
-                class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button"
-                    onclick="closeModal('editModal')"
+                <button type="button" onclick="closeModal('editModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-yellow-500 px-3 py-1 rounded text-white">
+                <button type="submit" class="bg-yellow-500 px-3 py-1 rounded text-white">
                     Update
                 </button>
             </div>
@@ -246,31 +246,31 @@ $data = [
 </div>
 
 <script>
-function openModal(id){
+function openModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
     modal.classList.remove('hidden')
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10')
-        content.classList.add('opacity-100','translate-y-0')
-    },10)
+        content.classList.remove('opacity-0', 'translate-y-10')
+        content.classList.add('opacity-100', 'translate-y-0')
+    }, 10)
 }
 
-function closeModal(id){
+function closeModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
-    content.classList.remove('opacity-100','translate-y-0')
-    content.classList.add('opacity-0','translate-y-10')
+    content.classList.remove('opacity-100', 'translate-y-0')
+    content.classList.add('opacity-0', 'translate-y-10')
 
     setTimeout(() => {
         modal.classList.add('hidden')
-    },300)
+    }, 300)
 }
 
-function openDetail(prodi,kode,nama,semester,sks){
+function openDetail(prodi, kode, nama, semester, sks) {
     openModal('detailModal')
 
     document.getElementById('detailProdi').innerText = prodi
@@ -280,7 +280,7 @@ function openDetail(prodi,kode,nama,semester,sks){
     document.getElementById('detailSks').innerText = sks
 }
 
-function openEdit(id,prodi,kode,nama,semester,sks){
+function openEdit(id, prodi, kode, nama, semester, sks) {
     openModal('editModal')
 
     document.getElementById('editProdi').value = prodi

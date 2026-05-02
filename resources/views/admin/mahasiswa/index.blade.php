@@ -6,14 +6,16 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100" >Data Mahasiswa</h1>
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Mahasiswa</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="150">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Mahasiswa"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="150">
+
+        <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Mahasiswa" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -79,33 +81,27 @@
 </div>
 
 {{-- MODAL TAMBAH --}}
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Mahasiswa</h2>
 
         <form>
-            <input type="text" placeholder="NIM"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" placeholder="NIM" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <input type="text" placeholder="Nama"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" placeholder="Nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <input type="number" placeholder="Semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" placeholder="Semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <input type="text" placeholder="Kelas"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" placeholder="Kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -114,38 +110,32 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL EDIT --}}
-<div id="editModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Ubah Data Mahasiswa</h2>
 
         <form>
             <label class="block text-sm mb-1">NIM</label>
-            <input type="text" id="editNim" readonly
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" id="editNim" readonly class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="block text-sm mb-1">Nama</label>
-            <input type="text" id="editNama"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" id="editSemester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" id="editSemester" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="block text-sm mb-1">Kelas</label>
-            <input type="text" id="editKelas"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Ubah
                 </button>
             </div>
@@ -154,27 +144,26 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL DETAIL --}}
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Detail Mahasiswa</h2>
         <div class="space-y-3">
-            
-        <label class="text-sm">NIM</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNim"></span></p>
-        <label class="text-sm">Nama</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNama"></span></p>
-        <label class="text-sm">Semester</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailSemester"></span></p>
-        <label class="text-sm">Kelas</label>
-        <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
+
+            <label class="text-sm">NIM</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNim"></span></p>
+            <label class="text-sm">Nama</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNama"></span></p>
+            <label class="text-sm">Semester</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailSemester"></span></p>
+            <label class="text-sm">Kelas</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
 
         </div>
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -182,39 +171,39 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 <script>
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id);
     const content = modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0','translate-y-10');
-        content.classList.add('opacity-100','translate-y-0');
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id);
     const content = modal.querySelector('div');
 
-    content.classList.remove('opacity-100','translate-y-0');
-    content.classList.add('opacity-0','translate-y-10');
+    content.classList.remove('opacity-100', 'translate-y-0');
+    content.classList.add('opacity-0', 'translate-y-10');
 
     setTimeout(() => {
         modal.classList.add('hidden');
     }, 300);
 }
 
-function openModal(id){
+function openModal(id) {
     showModal(id);
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id);
 }
 
-function openEdit(id, nim, nama, semester, kelas){
+function openEdit(id, nim, nama, semester, kelas) {
     showModal('editModal');
 
     document.getElementById('editNim').value = nim;
@@ -223,7 +212,7 @@ function openEdit(id, nim, nama, semester, kelas){
     document.getElementById('editKelas').value = kelas;
 }
 
-function openDetail(nim, nama, semester, kelas){
+function openDetail(nim, nama, semester, kelas) {
     showModal('detailModal');
 
     document.getElementById('detailNim').innerText = nim;

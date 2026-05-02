@@ -8,12 +8,14 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Pengajar</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Pengajar"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="200">
+
+     <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Pengajar" class="w-full outline-none text-sm text-gray-700">
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -53,12 +55,14 @@
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                <button onclick="openDetail('Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
+                                <button
+                                    onclick="openDetail('Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
-                                <button onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
+                                <button
+                                    onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -81,10 +85,10 @@
 </div>
 
 {{-- MODAL TAMBAH --}}
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Pengajar</h2>
 
         <form>
@@ -121,18 +125,15 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" placeholder="Semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
-            
+            <input type="number" placeholder="Semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
+
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -141,40 +142,36 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL EDIT --}}
-<div id="editModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Ubah Pengajar</h2>
 
         <form>
             <label class="block text-sm mb-1">Dosen</label>
-            <select id="editDosen"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="Dr. Andi">Dr. Andi</option>
-    <option value="Dr. Budi">Dr. Budi</option>
-    <option value="Dr. Siti">Dr. Siti</option>
-</select>
+            <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="Dr. Andi">Dr. Andi</option>
+                <option value="Dr. Budi">Dr. Budi</option>
+                <option value="Dr. Siti">Dr. Siti</option>
+            </select>
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select id="editMk"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="Pemrograman Web">Pemrograman Web</option>
-    <option value="Basis Data">Basis Data</option>
-    <option value="Jaringan Komputer">Jaringan Komputer</option>
-</select>
+            <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="Pemrograman Web">Pemrograman Web</option>
+                <option value="Basis Data">Basis Data</option>
+                <option value="Jaringan Komputer">Jaringan Komputer</option>
+            </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select id="editKelas"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="IF-A">IF-A</option>
-    <option value="IF-B">IF-B</option>
-    <option value="IF-C">IF-C</option>
-</select>
-<label class="block text-sm mb-1">Tahun Ajaran</label>
-            <select id="editTahun"
-    class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="IF-A">IF-A</option>
+                <option value="IF-B">IF-B</option>
+                <option value="IF-C">IF-C</option>
+            </select>
+            <label class="block text-sm mb-1">Tahun Ajaran</label>
+            <select id="editTahun" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Tahun Ajaran</option>
                 <option value="2023/2024 - Ganjil">2023/2024 - Ganjil</option>
                 <option value="2024/2025 - Genap">2024/2025 - Genap</option>
@@ -182,17 +179,14 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" id="editSemester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" id="editSemester" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="button" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -201,10 +195,10 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 </div>
 
 {{-- MODAL DETAIL --}}
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Detail Pengajar</h2>
 
@@ -224,8 +218,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <p id="detailSemester" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -234,7 +227,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
 <script>
 // ===== MODAL ANIMATION =====
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -246,7 +239,7 @@ function showModal(id){
     }, 10)
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -259,16 +252,16 @@ function hideModal(id){
 }
 
 // ===== OPEN CLOSE =====
-function openModal(id){
+function openModal(id) {
     showModal(id)
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id)
 }
 
 // ===== EDIT =====
-function openEdit(id, dosen, mk, kelas, tahun, semester){
+function openEdit(id, dosen, mk, kelas, tahun, semester) {
     showModal('editModal')
 
     document.getElementById('editDosen').value = dosen
@@ -279,7 +272,7 @@ function openEdit(id, dosen, mk, kelas, tahun, semester){
 }
 
 // ===== DETAIL =====
-function openDetail(dosen, mk, kelas, tahun, semester){
+function openDetail(dosen, mk, kelas, tahun, semester) {
     showModal('detailModal')
 
     document.getElementById('detailDosen').innerText = dosen
