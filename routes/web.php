@@ -19,6 +19,7 @@ use App\Http\Controllers\DosenWaliKrsController;
 use App\Http\Controllers\PenilaianDosenController;
 use App\Http\Controllers\DosenWaliLihatKrsController;
 use App\Http\Controllers\DosenPartTimeController;
+use App\Http\Controllers\PengaturanAkunMahasiswaController;
 
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -83,6 +84,8 @@ Route::get('/matakuliahmahasiswa', [MatakuliahMahasiswaController::class, 'index
 Route::get('/krsmahasiswa', [KrsMahasiswaController::class, 'index']);
 
 Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
+
+Route::get('/PengaturanAkunMahasiswa', [PengaturanAkunMahasiswaController::class, 'index']);
 });
 
 // DOSEN

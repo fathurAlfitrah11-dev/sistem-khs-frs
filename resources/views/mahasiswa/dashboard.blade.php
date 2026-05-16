@@ -110,7 +110,7 @@
 
     {{-- ===== QUICK ACCESS ===== --}}
     <div class="bg-white rounded-xl border border-gray-100 p-6 mb-6 card-animate">
-        <div class="mb-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="mb-4" data-aos="fade-up" data-aos-delay="200">
             <h2 class="text-lg font-bold text-gray-900">Quick Access</h2>
             <p class="text-xs text-gray-400">Frequently used actions</p>
         </div>
@@ -119,7 +119,7 @@
 
             {{-- Manage Courses --}}
             <a href="/krsmahasiswa" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="600">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="250">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"
@@ -141,7 +141,7 @@
 
             {{-- KHS --}}
             <a href="/khsmahasiswa" style="text-decoration: none !important;"
-                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="650">
+                class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-white hover:border-[#f9b17a] transition-all duration-300 card-animate" data-aos="fade-up" data-aos-delay="250">
                 <div
                     class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">
                     <svg class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300" fill="none"

@@ -16,21 +16,6 @@
             <span>Dashboard</span>
         </a>
         
-        {{-- MATA KULIAH --}}
-        <a href="/mata-kuliah" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
-            {{ request()->is('mata-kuliah') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
-            <i class="fa-solid fa-book-open"></i>
-            <span>Mata Kuliah</span>
-        </a>
-
-
-        {{-- TAHUN AJARAN --}}
-        <a href="/tahun-ajaran" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
-            {{ request()->is('tahun-ajaran') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span>Tahun Ajaran</span>
-        </a>
-
         {{-- ===== DROPDOWN DOSEN ===== --}}
         @php
         $isDosenMenu = request()->is('dosen-admin') || request()->is('pengajar') || request()->is('dosen-wali');
@@ -54,7 +39,8 @@
 
             {{-- SUB MENU --}}
             <div id="dropdownDosen"
-                class="{{ $isDosenMenu ? '' : 'hidden' }} flex flex-col ml-8 mt-2 space-y-1 text-sm">
+                class="overflow-hidden flex flex-col ml-8 mt-2 space-y-1 text-sm transition-all duration-300 
+                {{ $isDosenMenu ? 'max-h-64' : 'max-h-0' }}">
 
                 <a href="/dosen-admin"
                     class="px-3 py-2 rounded transition
@@ -81,6 +67,21 @@
 
             </div>
         </div>
+
+        {{-- MATA KULIAH --}}
+        <a href="/mata-kuliah" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+            {{ request()->is('mata-kuliah') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Mata Kuliah</span>
+        </a>
+
+
+        {{-- TAHUN AJARAN --}}
+        <a href="/tahun-ajaran" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+            {{ request()->is('tahun-ajaran') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Tahun Ajaran</span>
+        </a>
 
         {{-- PRODI --}}
         <a href="/prodi" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
@@ -118,6 +119,17 @@ function toggleDosen() {
     const arrow = document.getElementById('arrowDosen');
 
     menu.classList.toggle('hidden');
+    arrow.classList.toggle('rotate-180');
+}
+</script>
+<script>
+function toggleDosen() {
+    const dropdown = document.getElementById('dropdownDosen');
+    const arrow = document.getElementById('arrowDosen');
+
+    dropdown.classList.toggle('max-h-0');
+    dropdown.classList.toggle('max-h-64');
+
     arrow.classList.toggle('rotate-180');
 }
 </script>

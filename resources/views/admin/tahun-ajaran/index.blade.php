@@ -111,6 +111,12 @@
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
 
+            <label class="block text-sm mb-1">Semester</label>
+        <select class="w-full mb-3 px-3 py-2 text-black rounded">
+            <option>Ganjil</option>
+            <option>Genap</option>
+        </select>
+
         <label class="block text-sm mb-1">Tahun Awal</label>
 <input type="number" id="tahunAwal"
     class="w-full mb-3 px-3 py-2 text-black rounded"
@@ -120,12 +126,6 @@
 <input type="number" id="tahunAkhir"
     class="w-full mb-3 px-3 py-2 text-black rounded"
     placeholder="2027">
-
-    <label class="block text-sm mb-1">Semester</label>
-        <select class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option>Ganjil</option>
-            <option>Genap</option>
-        </select>
 
         <div class="flex justify-end gap-2">
             <button onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">Batal</button>

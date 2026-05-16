@@ -39,6 +39,15 @@
     <span>KHS</span>
 
 </a>
+
+        <a href="/PengaturanAkunMahasiswa"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+{{ request()->is('PengaturanAkunMahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+
+    <i class="fa-solid fa-user"></i>
+    <span>Akun</span>
+
+</a>
         <a href="/logout"
             class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-500 transition">
             <i class="fa-solid fa-door-open"></i>

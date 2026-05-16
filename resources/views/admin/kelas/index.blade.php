@@ -137,9 +137,6 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 <option value="D">Kelas D</option>
                 <option value="E">Kelas E</option>
             </select>
-            <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" placeholder="Semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Kategori</label>
             <select name="kategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -147,6 +144,12 @@ transform opacity-0 translate-y-10 transition-all duration-300">
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
             </select>
+            
+            <label class="text-sm mb-1 block">Semester</label>
+            <input type="number" name="semester" placeholder="Semester"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
+
+            
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
