@@ -20,6 +20,8 @@
 </head>
 <body>
 
+<x-alert />
+
 <div class="flex">
 
     {{-- SIDEBAR --}}

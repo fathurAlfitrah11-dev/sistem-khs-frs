@@ -34,9 +34,9 @@ class AuthController extends Controller
         return redirect('/dosen-wali')->with('success','Login berhasil sebagai Dosen Wali');
     }
 }
-    public function logout()
+  public function logout()
 {
     Auth::logout();
-    return redirect('/login')->with('success','Logout berhasil');
+    return redirect('/login')->with('logout','Logout berhasil');
 }
 }

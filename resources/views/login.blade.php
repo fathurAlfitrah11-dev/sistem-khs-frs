@@ -17,6 +17,7 @@
 <body class="min-h-screen flex items-center justify-center 
 bg-[url('img/wallpaper_login.png')] bg-cover bg-center">
 
+<x-alert />
 
     <!-- Card -->
     <div data-aos="zoom-in" data-aos-duration="800" class="relative w-full max-w-md p-8 rounded-xl border border-white/10 bg-white/5 backdrop-blur-md shadow-lg">
