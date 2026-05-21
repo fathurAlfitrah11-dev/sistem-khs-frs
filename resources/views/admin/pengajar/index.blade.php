@@ -44,28 +44,35 @@
 
                 <tbody class="divide-y">
 
-                    {{-- DATA STATIS --}}
+                   @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">Dr. Andi</td>
-                        <td class="px-6 py-3 text-black">Pemrograman Web</td>
-                        <td class="px-6 py-3 text-black">IF-A</td>
-                        <td class="px-6 py-3 text-black">2023/2024 - Ganjil</td>
-                        <td class="px-6 py-3 text-black">3</td>
+                        <td class="px-6 py-3 text-black">{{ $d->dosen->user->name }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->mataKuliah->nama_mk }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->kelas->nama_kelas }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->semester }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 <button
-                                    onclick="openDetail('Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
+                                    onclick="openDetail('{{ $d->dosen->user->name }}','{{ $d->mataKuliah->nama_mk }}','{{$d->kelas->prodi->nama_prodi}} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }} {{ $d->kelas->kategori }}','{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}','{{ $d->semester }}')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 <button
-                                    onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-A','2023/2024 - Ganjil','3')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
-                                </button>
+                                        onclick="openEdit(
+                                        '{{ $d->id_pengajar }}',
+                                        '{{ $d->nuptk }}',
+                                        '{{ $d->id_mata_kuliah }}',
+                                        '{{ $d->kelas_id }}',
+                                        '{{ $d->id_tahun_ajaran }}',
+                                        '{{ $d->semester }}'
+                                        )"
+                                        class="w-8 h-8 bg-orange-400 p-2 rounded-full">
+                                            <i class="fa-solid fa-pen text-black"></i>
+                                        </button>
 
                                 <button class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-trash text-black"></i>
@@ -74,7 +81,7 @@
                             </div>
                         </td>
                     </tr>
-
+                    @endforeach
                 </tbody>
 
             </table>
@@ -91,41 +98,42 @@
         class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Pengajar</h2>
 
-        <form>
+        <form action="/pengajar/store" method="POST">
+            @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="nuptk">
                 <option value="">Pilih Dosen</option>
-                <option value="1">Dr. Andi</option>
-                <option value="2">Dr. Budi</option>
-                <option value="3">Dr. Siti</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
                 <option value="">Pilih Mata Kuliah</option>
-                <option value="1">Pemrograman Web</option>
-                <option value="2">Basis Data</option>
-                <option value="3">Jaringan Komputer</option>
+                @foreach($mataKuliah as $mk)
+                <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->kode_mk }} - {{ $mk->nama_mk }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
-                <option value="1">IF-A</option>
-                <option value="2">IF-B</option>
-                <option value="3">IF-C</option>
+                @foreach($kelas as $k)
+                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }} {{$k->kategori}}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Tahun Ajaran</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran">
                 <option value="">Pilih Tahun Ajaran</option>
-                <option value="1">2023/2024</option>
-                <option value="2">2024/2025</option>
-                <option value="3">2025/2026</option>
+                @foreach($tahunAjaran as $ta)
+                <option value="{{ $ta->id_tahun_ajaran }}">{{ $ta->tahun_awal }} / {{ $ta->tahun_akhir }} - {{ $ta->semester }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" placeholder="Semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" name="semester" placeholder="Semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
 
             <div class="flex justify-end gap-2">
@@ -133,7 +141,7 @@
                     Batal
                 </button>
 
-                <button type="button" class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -149,44 +157,48 @@
 
         <h2 class="text-lg font-bold mb-4">Ubah Pengajar</h2>
 
-        <form>
+        <form id="formEdit" method="POST">
+            @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="Dr. Andi">Dr. Andi</option>
-                <option value="Dr. Budi">Dr. Budi</option>
-                <option value="Dr. Siti">Dr. Siti</option>
+            <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black" name="nuptk">
+                <option value="">Pilih Dosen</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="Pemrograman Web">Pemrograman Web</option>
-                <option value="Basis Data">Basis Data</option>
-                <option value="Jaringan Komputer">Jaringan Komputer</option>
+            <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
+                <option value="">Pilih Mata Kuliah</option>
+                @foreach($mataKuliah as $mk)
+                <option value="{{ $mk->id_mata_kuliah }}">{{ $mk->kode_mk }} - {{ $mk->nama_mk }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="IF-A">IF-A</option>
-                <option value="IF-B">IF-B</option>
-                <option value="IF-C">IF-C</option>
+            <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
+                <option value="">Pilih Kelas</option>
+                @foreach($kelas as $k)
+                <option value="{{ $k->id_kelas }}">{{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }} {{ $k->kategori }}</option>
+                @endforeach
             </select>
             <label class="block text-sm mb-1">Tahun Ajaran</label>
-            <select id="editTahun" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select id="editTahun" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran">
                 <option value="">Pilih Tahun Ajaran</option>
-                <option value="2023/2024 - Ganjil">2023/2024 - Ganjil</option>
-                <option value="2024/2025 - Genap">2024/2025 - Genap</option>
-                <option value="2025/2026 - Ganjil">2025/2026 - Ganjil</option>
+                @foreach($tahunAjaran as $ta)
+                <option value="{{ $ta->id_tahun_ajaran }}">{{ $ta->tahun_awal }} / {{ $ta->tahun_akhir }} - {{ $ta->semester }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" id="editSemester" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" id="editSemester" name="semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button" class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -261,14 +273,16 @@ function closeModal(id) {
 }
 
 // ===== EDIT =====
-function openEdit(id, dosen, mk, kelas, tahun, semester) {
+function openEdit(id, nuptk, mk, kelas, tahun, semester) {
     showModal('editModal')
 
-    document.getElementById('editDosen').value = dosen
+    document.getElementById('editDosen').value = nuptk
     document.getElementById('editMk').value = mk
     document.getElementById('editKelas').value = kelas
     document.getElementById('editTahun').value = tahun
     document.getElementById('editSemester').value = semester
+
+    document.getElementById('formEdit').action = '/pengajar/update/' + id
 }
 
 // ===== DETAIL =====

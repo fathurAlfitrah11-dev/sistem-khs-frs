@@ -30,21 +30,18 @@ class KelasController extends Controller
             'kategori' => 'required',
             'semester' => 'required',
             'id_prodi' => 'required',
-            'nuptk_wali' => 'nullable|unique:kelas,nuptk_wali'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
             'semester.required' => 'Semester wajib diisi',
-            'id_prodi.required' => 'Program studi wajib diisi',
-            'nuptk_wali.unique' => 'Dosen sudah menjadi wali kelas'
+            'id_prodi.required' => 'Program studi wajib diisi'
         ]);
 
         Kelas::create([
     'nama_kelas' => $request->nama_kelas,
     'kategori' => $request->kategori,
     'semester' => $request->semester,
-    'id_prodi' => $request->id_prodi,
-    'nuptk_wali' => $request->nuptk_wali ?:null
+    'id_prodi' => $request->id_prodi
 ]);
         return redirect('/kelas')
             ->with('success','Kelas berhasil ditambahkan');
@@ -66,13 +63,11 @@ class KelasController extends Controller
             'kategori' => 'required',
             'semester' => 'required',
             'id_prodi' => 'required',
-            'nuptk_wali' => 'nullable|unique:kelas,nuptk_wali,'.$id_kelas.',id_kelas'
         ], [
             'nama_kelas.required' => 'Nama kelas wajib diisi',
             'kategori.required' => 'Kategori wajib diisi',
             'semester.required' => 'Semester wajib diisi',
             'id_prodi.required' => 'Program studi wajib diisi',
-            'nuptk_wali.unique' => 'Dosen sudah menjadi wali kelas'
         ]);
         
         $kelas = Kelas::findOrFail($id_kelas);
@@ -82,7 +77,6 @@ class KelasController extends Controller
     'kategori' => $request->kategori,
     'semester' => $request->semester,
     'id_prodi' => $request->id_prodi,
-    'nuptk_wali' => $request->nuptk_wali
 ]);
 
         return redirect('/kelas')

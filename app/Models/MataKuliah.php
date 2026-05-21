@@ -16,8 +16,12 @@ class MataKuliah extends Model
         'id_prodi'
     ];
 
+   public function pengajar()
+    {
+        return $this->hasMany(Pengajar::class, 'mata_kuliah_id');
+    }
     public function prodi()
     {
-        return $this->belongsTo(Prodi::class, 'id_prodi', 'id_prodi');
+        return $this->belongsTo(Prodi::class, 'id_prodi');
     }
 }

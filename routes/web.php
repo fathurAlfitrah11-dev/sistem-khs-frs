@@ -52,17 +52,35 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/kelas/delete/{id_kelas}', [KelasController::class, 'delete']);
 
     Route::get('/prodi', [ProdiController::class, 'index'])->name('prodi');
-    Route::get('/prodi/create', [ProdiController::class, 'create']);
     Route::post('/prodi/store', [ProdiController::class, 'store']);
-    Route::get('/prodi/edit/{id_prodi}', [ProdiController::class, 'edit']);
     Route::post('/prodi/update/{id_prodi}', [ProdiController::class, 'update']);
     Route::get('/prodi/delete/{id_prodi}', [ProdiController::class, 'delete']);
 
     Route::get('/tahun-ajaran', [TahunAjaranController::class, 'index'])->name('tahun-ajaran');
+    Route::post('/tahun-ajaran/store', [TahunAjaranController::class, 'store']);
+    Route::post('/tahun-ajaran/update/{id_tahun_ajaran}', [TahunAjaranController::class, 'update']);
+    Route::get('/tahun-ajaran/delete/{id_tahun_ajaran}', [TahunAjaranController::class, 'delete']);
+
+
     Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])->name('mata-kuliah');
+    Route::post('/mata-kuliah/store', [MataKuliahController::class, 'store']);
+    Route::post('/mata-kuliah/update/{id_mata_kuliah}', [MataKuliahController::class, 'update']);
+    Route::get('/mata-kuliah/delete/{id_mata_kuliah}', [MataKuliahController::class, 'delete']);
+
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+    Route::post('/mahasiswa/store', [MahasiswaController::class, 'store']);
+    Route::post('/mahasiswa/update/{id_mahasiswa}', [MahasiswaController::class, 'update']);
+    Route::get('/mahasiswa/delete/{id_mahasiswa}', [MahasiswaController::class, 'delete']);
+
     Route::get('/pengajar', [PengajarController::class, 'index']);
+    Route::post('/pengajar/store', [PengajarController::class, 'store']);
+    Route::post('/pengajar/update/{id_pengajar}', [PengajarController::class, 'update']);
+    Route::get('/pengajar/delete/{id_pengajar}', [PengajarController::class, 'delete']);
+
     Route::get('/dosen-wali', [DosenWaliController::class, 'index']);
+    Route::post('/dosen-wali/store', [DosenWaliController::class, 'store']);
+    Route::post('/dosen-wali/update/{id_kelas}', [DosenWaliController::class, 'update']);
+    Route::get('/dosen-wali/delete/{id_kelas}', [DosenWaliController::class, 'delete']);
 
     Route::get('/dosen-part-time', [DosenPartTimeController::class, 'index']);
     Route::post('/dosen_part_time/store', [DosenPartTimeController::class, 'store']);

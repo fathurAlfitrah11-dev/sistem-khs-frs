@@ -42,51 +42,45 @@
 
                 <tbody class="divide-y">
                     
-                    {{-- DATA STATIS --}}
-                    @php
-                        $tahun = [
-                            ["id"=>1,"tahun"=>"2023/2024","semester"=>"Ganjil","status"=>"Aktif"],
-                            ["id"=>2,"tahun"=>"2023/2024","semester"=>"Genap","status"=>"Nonaktif"],
-                            ["id"=>3,"tahun"=>"2024/2025","semester"=>"Ganjil","status"=>"Nonaktif"],
-                        ];
-                    @endphp
-
-                    @foreach($tahun as $t)
+                    @foreach($data as $d)
                     <tr class="hover:bg-gray-50 text-black">
                         <td class="px-6 py-3">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3">{{ $t['tahun'] }}</td>
-                        <td class="px-6 py-3 text-center">{{ $t['semester'] }}</td>
+                        <td class="px-6 py-3">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}</td>
+                        <td class="px-6 py-3 text-center">{{ $d->semester }}</td>
                         <td class="px-6 py-3 text-center">
-                            <span class="{{ $t['status']=='Aktif' ? 'text-green-600 font-bold' : 'text-gray-500' }}">
-                                {{ $t['status'] }}
+                            <span class="{{ $d->status == 1 ? 'text-green-600 font-bold' : 'text-gray-500' }}">
+                                {{ $d->status == 1 ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                <button 
-    data-tahun="{{ $t['tahun'] }}"
-    data-semester="{{ $t['semester'] }}"
-    data-status="{{ $t['status'] }}"
+        <button 
+    data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
+    data-semester="{{ $d->semester }}"
+    data-status="{{ $d->status }}"
     onclick="openDetail(this)"
     class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
     <i class="fa-solid fa-eye"></i>
 </button>
 
-<button 
-    data-id="{{ $t['id'] }}"
-    data-tahun="{{ $t['tahun'] }}"
-    data-semester="{{ $t['semester'] }}"
-    data-status="{{ $t['status'] }}"
-    onclick="openEdit(this)"
-    class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
-    <i class="fa-solid fa-pen"></i>
-</button>
+        <button 
+            data-id="{{ $d->id_tahun_ajaran }}"
+            data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
+            data-semester="{{ $d->semester }}"
+            data-status="{{ $d->status }}"
+            onclick="openEdit(this)"
+            class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
+            <i class="fa-solid fa-pen"></i>
+        </button>
 
-                                <button class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+        <a href="/tahun-ajaran/delete/{{ $d->id_tahun_ajaran }}"
+   onclick="return confirm('Yakin ingin menghapus data ini?')"
+   class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
+    
+    <i class="fa-solid fa-trash"></i>
+</a>
 
                             </div>
                         </td>
@@ -110,51 +104,51 @@
 
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
+        <form action="/tahun-ajaran/store" method="POST">
+        @csrf
+        <label class="block text-sm mb-1">Tahun Awal</label>
+        <input type="year" name="tahun_awal" class="w-full mb-3 px-3 py-2 text-black rounded" placeholder="Tahun Awal" required>
+
+        <label class="block text-sm mb-1">Tahun Akhir</label>
+        <input type="year" name="tahun_akhir" class="w-full mb-3 px-3 py-2 text-black rounded" placeholder="Tahun Akhir" required>
 
             <label class="block text-sm mb-1">Semester</label>
-        <select class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option>Ganjil</option>
-            <option>Genap</option>
+        <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
+            <option value="ganjil">Ganjil</option>
+            <option value="genap">Genap</option>
         </select>
-
-        <label class="block text-sm mb-1">Tahun Awal</label>
-<input type="number" id="tahunAwal"
-    class="w-full mb-3 px-3 py-2 text-black rounded"
-    placeholder="2026">
-
-<label class="block text-sm mb-1">Tahun Akhir</label>
-<input type="number" id="tahunAkhir"
-    class="w-full mb-3 px-3 py-2 text-black rounded"
-    placeholder="2027">
 
         <div class="flex justify-end gap-2">
             <button onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">Batal</button>
-            <button class="bg-blue-600 px-3 py-1 rounded">Simpan</button>
+            <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
         </div>
+        </form>
     </div>
 
 </div>
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 modal-content transform opacity-0 translate-y-10 transition-all duration-300">
-
         <h2 class="mb-4 font-bold">Ubah Tahun Ajaran</h2>
 
+        <form id="formEdit" method="POST">
+        @csrf
         <label class="block text-sm mb-1">Tahun Awal</label>
-        <input type="number" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
+        <input type="year" name="tahun_awal" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
 
         <label class="block text-sm mb-1">Tahun Akhir</label>
-        <input type="number" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
+        <input type="year" name="tahun_akhir" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
 
         <label class="block text-sm mb-1">Semester</label>
-        <select id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option>Ganjil</option>
-            <option>Genap</option>
+        <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
+            <option value="ganjil">Ganjil</option>
+            <option value="genap">Genap</option>
         </select>
 
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
             <button onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">Tutup</button>
+            <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
         </div>
-
+        </form>
     </div>
 </div>
 
@@ -162,10 +156,12 @@
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
     <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
-        <h2 class="mb-4 font-bold">Detail</h2>
+        <h2 class="mb-4 font-bold">Detail Tahun Ajaran</h2>
         <div class="space-y-3">
-        <label class="text-sm">Tahun Ajaran</label>
-        <p id="dTahun" class="bg-white text-black px-3 py-2 rounded"></p>
+        <label class="text-sm">Tahun Awal</label>
+        <p id="dTahunAwal" class="bg-white text-black px-3 py-2 rounded"></p>
+        <label class="text-sm">Tahun Akhir</label>
+        <p id="dTahunAkhir" class="bg-white text-black px-3 py-2 rounded"></p>
         <label class="text-sm">Semester</label>
         <p id="dSemester" class="bg-white text-black px-3 py-2 rounded"></p>
         <label class="text-sm">Status</label>
@@ -220,14 +216,15 @@ function openEdit(el){
     document.getElementById('editTahunAwal').value = tahun[0]
     document.getElementById('editTahunAkhir').value = tahun[1]
     document.getElementById('editSemester').value = el.dataset.semester
-    document.getElementById('editStatus').value = el.dataset.status
+    document.getElementById('formEdit').action = '/tahun-ajaran/update/' + el.dataset.id
 }
 
 // ===== DETAIL =====
 function openDetail(el){
     openModal('detailModal')
 
-    document.getElementById('dTahun').innerText = el.dataset.tahun
+    document.getElementById('dTahunAwal').innerText = el.dataset.tahun.split('/')[0]
+    document.getElementById('dTahunAkhir').innerText = el.dataset.tahun.split('/')[1]
     document.getElementById('dSemester').innerText = el.dataset.semester
     document.getElementById('dStatus').innerText = el.dataset.status
 }

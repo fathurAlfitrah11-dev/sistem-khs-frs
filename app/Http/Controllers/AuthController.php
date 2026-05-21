@@ -18,20 +18,20 @@ class AuthController extends Controller
     $user = User::where('username', $request->username)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
-        return back()->with('error','Login gagal');
+        return back()->with('login_error','Login gagal');
     }
 
     Auth::login($user);
 
     // redirect + notifikasi
     if ($user->role == 'admin') {
-        return redirect('/admin')->with('success','Login berhasil sebagai Admin');
+        return redirect('/admin')->with('login_success','Login berhasil sebagai Admin');
     } elseif ($user->role == 'mahasiswa') {
-        return redirect('/mahasiswa-real')->with('success','Login berhasil sebagai Mahasiswa');
+        return redirect('/mahasiswa-real')->with('login_success','Login berhasil sebagai Mahasiswa');
     } elseif ($user->role == 'dosen') {
-        return redirect('/dosen')->with('success','Login berhasil sebagai Dosen');
+        return redirect('/dosen')->with('login_success','Login berhasil sebagai Dosen');
     } else {
-        return redirect('/dosen-wali')->with('success','Login berhasil sebagai Dosen Wali');
+        return redirect('/dosen-wali')->with('login_success','Login berhasil sebagai Dosen Wali');
     }
 }
   public function logout()

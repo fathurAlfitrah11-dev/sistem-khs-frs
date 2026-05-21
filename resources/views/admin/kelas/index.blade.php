@@ -35,7 +35,7 @@
                     <tr>
                         <th class="text-black px-6 py-3">No</th>
                         <th class="text-black px-6 py-3">Nama Kelas</th>
-                        <th class="text-black px-6 py-3">Dosen Wali</th>
+                        <th class="text-black px-6 py-3">Program Studi</th>
                         <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
@@ -46,14 +46,13 @@
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
                         <td class="px-6 py-3 text-black">
                             {{ $d->prodi->nama_prodi }}-{{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
-                        <td class="px-6 py-3 text-black text-center">{{ $d->wali->user->name ?? '-' }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
                                 <button onclick="openDetail(
-                                '{{ $d->wali->user->name ?? '-' }}',
                                 '{{ $d->prodi->nama_prodi }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
@@ -65,7 +64,6 @@
                                 {{-- EDIT --}}
                                 <button onclick="openEdit(
                                 '{{ $d->id_kelas }}',
-                                '{{ $d->nuptk_wali }}',
                                 '{{ $d->id_prodi }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
@@ -111,14 +109,6 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 
         <form action="/kelas/store" method="POST">
             @csrf
-
-            <label class="text-sm mb-1 block">Dosen Wali</label>
-            <select name="nuptk_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Dosen Wali</option>
-                @foreach($dosen as $d)
-                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
-                @endforeach
-            </select>
 
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -171,13 +161,6 @@ transform opacity-0 translate-y-10 transition-all duration-300">
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">Dosen Wali</label>
-            <select name="nuptk_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Dosen Wali</option>
-                @foreach($dosen as $d)
-                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
-                @endforeach
-            </select>
 
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -225,10 +208,6 @@ transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Kelas</h2>
 
         <div class="space-y-3">
-            <div>
-                <label class="text-sm">Dosen Wali</label>
-                <p id="detailDosenWali" class="bg-white text-black px-3 py-2 rounded"></p>
-            </div>
 
             <div>
                 <label class="text-sm">Program Studi</label>
@@ -285,7 +264,7 @@ function closeModal(id) {
     }, 300);
 }
 
-function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori) {
+function openEdit(id, prodi, nama_kelas, semester, kategori) {
     const modal = document.getElementById('editModal');
     const content = modal.querySelector('div');
 
@@ -296,7 +275,6 @@ function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori) {
         content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
 
-    document.getElementById('editDosen').value = nuptk_wali
     document.getElementById('editProdi').value = prodi
     document.getElementById('editNama').value = nama_kelas
     document.getElementById('editSemester').value = semester
@@ -304,7 +282,7 @@ function openEdit(id, nuptk_wali, prodi, nama_kelas, semester, kategori) {
     document.getElementById('formEdit').action = '/kelas/update/' + id
 }
 
-function openDetail(dosen_wali, prodi, nama_kelas, semester, kategori) {
+function openDetail(prodi, nama_kelas, semester, kategori) {
     const modal = document.getElementById('detailModal');
     const content = modal.querySelector('div');
 
@@ -314,7 +292,6 @@ function openDetail(dosen_wali, prodi, nama_kelas, semester, kategori) {
         content.classList.remove('opacity-0', 'translate-y-10');
         content.classList.add('opacity-100', 'translate-y-0');
     }, 10);
-    document.getElementById('detailDosenWali').innerText = dosen_wali
     document.getElementById('detailProdi').innerText = prodi
     document.getElementById('detailNamaKelas').innerText = nama_kelas
     document.getElementById('detailSemester').innerText = semester

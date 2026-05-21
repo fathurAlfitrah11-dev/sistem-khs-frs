@@ -4,32 +4,6 @@
 
 @section('content')
 
-@php
-$data = [
-(object)[
-'id' => 1,
-'kode_mk' => 'IF101',
-'nama_mk' => 'Pemrograman Web',
-'semester' => 1,
-'sks' => 3,
-'prodi' => (object)[
-'jenjang' => 'D3',
-'nama_prodi' => 'Informatika'
-]
-],
-(object)[
-'id' => 2,
-'kode_mk' => 'IF102',
-'nama_mk' => 'Basis Data',
-'semester' => 2,
-'sks' => 3,
-'prodi' => (object)[
-'jenjang' => 'D3',
-'nama_prodi' => 'Informatika'
-]
-]
-];
-@endphp
 <div class="p-6">
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">
@@ -95,13 +69,13 @@ $data = [
 
                                 {{-- EDIT --}}
                                 <button
-                                    onclick="openEdit('{{ $d->id }}','{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
+                                    onclick="openEdit('{{ $d->id_mata_kuliah }}','{{ $d->id_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="#" onclick="return confirm('Yakin hapus?')"
+                                <a href="/mata-kuliah/delete/{{ $d->id_mata_kuliah }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
@@ -135,9 +109,10 @@ $data = [
         class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Mata Kuliah</h2>
 
-        <form>
+        <form action="/mata-kuliah/store" method="POST">
+            @csrf
             <label class="block text-sm mb-1">Program Studi</label>
-            <select class="w-full mb-3 px-3 py-2 rounded text-black">
+            <select class="w-full mb-3 px-3 py-2 rounded text-black" name="id_prodi">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
@@ -145,16 +120,16 @@ $data = [
             </select>
 
             <label class="block text-sm mb-1">Kode Mata Kuliah</label>
-            <input type="text" placeholder="Kode MK" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="text" placeholder="Kode MK" name="kode_mk" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="block text-sm mb-1">Nama Mata Kuliah</label>
-            <input type="text" placeholder="Nama MK" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="text" placeholder="Nama MK" name="nama_mk" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" placeholder="Semester" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="number" placeholder="Semester" name="semester" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="block text-sm mb-1">SKS</label>
-            <input type="number" placeholder="SKS" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -229,7 +204,7 @@ $data = [
             <input type="number" name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="text-sm mb-1 block">SKS</label>
-            <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -289,7 +264,7 @@ function openEdit(id, prodi, kode, nama, semester, sks) {
     document.getElementById('editSemester').value = semester
     document.getElementById('editSks').value = sks
 
-    document.getElementById('formEdit').action = '/matakuliah/update/' + id
+    document.getElementById('formEdit').action = '/mata-kuliah/update/' + id
 }
 </script>
 

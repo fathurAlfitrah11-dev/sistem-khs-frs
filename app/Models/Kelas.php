@@ -13,10 +13,10 @@ class Kelas extends Model
 
     protected $fillable = ['nama_kelas','kategori','semester','id_prodi','nuptk_wali'];
 
-    //public function mahasiswa()
-    //{
-       // return $this->hasMany(Mahasiswa::class, 'id_kelas', 'id_kelas');
-    //}
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'id_kelas', 'id_kelas');
+    }
 
     public function wali()
     {

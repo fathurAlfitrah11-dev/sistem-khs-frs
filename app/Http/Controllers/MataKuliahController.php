@@ -2,13 +2,56 @@
 
 namespace App\Http\Controllers;
 use App\Models\Prodi;
+use App\Models\MataKuliah;
 use Illuminate\Http\Request;
 
 class MataKuliahController extends Controller
 {
       public function index()
     {
+        $data= MataKuliah::with('prodi')->get();
         $prodi = Prodi::all();
-        return view('admin.mata-kuliah.index', compact('prodi'));
+        return view('admin.mata-kuliah.index', compact('data', 'prodi'));
     }
+     public function store(Request $request)
+    {
+        $request->validate([
+            'kode_mk' => 'required|unique:mata_kuliah,kode_mk',
+            'nama_mk' => 'required',
+            'sks' => 'required|integer|max:4|min:2',
+            'semester' => 'required|integer',
+            'id_prodi' => 'required|exists:prodi,id_prodi'
+        ], [
+            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+        ]);
+
+        MataKuliah::create($request->all());
+
+        return redirect('/mata-kuliah')
+            ->with('success','Data mata kuliah berhasil ditambahkan');
+    }
+   
+    public function update(Request $request, $id_mata_kuliah)
+    {
+        $mata_kuliah = MataKuliah::findOrFail($id_mata_kuliah);
+        $request->validate([
+            'kode_mk' => 'required|unique:mata_kuliah,kode_mk,'.$mata_kuliah->id_mata_kuliah.',id_mata_kuliah',
+            'nama_mk' => 'required',
+            'sks' => 'required|integer|max:4|min:2',
+            'semester' => 'required|integer',
+            'id_prodi' => 'required|exists:prodi,id_prodi'
+        ], [
+            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+        ]);
+        $mata_kuliah->update($request->all());
+        return redirect('/mata-kuliah')
+            ->with('success','Data mata kuliah berhasil diupdate');
+}
+    public function delete($id_mata_kuliah)
+    {
+        $mata_kuliah = MataKuliah::findOrFail($id_mata_kuliah);
+        $mata_kuliah->delete();
+        return redirect('/mata-kuliah')
+            ->with('success','Data mata kuliah berhasil dihapus');
+}
 }

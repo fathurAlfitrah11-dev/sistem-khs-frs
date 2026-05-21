@@ -31,7 +31,7 @@
             <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="px-6 py-3 text-black">NIDN</th>
+                        <th class="px-6 py-3 text-black">NUPTK</th>
                         <th class="px-6 py-3 text-black">Nama Dosen</th>
                         <th class="px-6 py-3 text-black">Kelas</th>
                         <th class="px-6 py-3 text-black">Aksi</th>
@@ -40,33 +40,34 @@
 
                 <tbody class="divide-y">
 
-                    {{-- DATA STATIS --}}
+                    @foreach($kelasWali as $k)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">33125010</td>
-                        <td class="px-6 py-3 text-black">Dr. Andi</td>
-                        <td class="px-6 py-3 text-black">IF-2A Pagi</td>
+                        <td class="px-6 py-3 text-black">{{ $k->nuptk_wali }}</td>
+                        <td class="px-6 py-3 text-black">{{ $k->wali->user->name ?? '-' }}</td>
+                        <td class="px-6 py-3 text-black">{{ $k->nama_kelas }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                <button onclick="openDetail('33125010','Dr. Andi','IF-2A Pagi')"
+                                <button onclick="openDetail('{{$k->nuptk_wali}}','{{$k->wali->user->name}}','{{$k->prodi->nama_prodi}} {{$k->semester}}{{$k->nama_kelas}} {{$k->kategori}}','{{$k->prodi->nama_prodi}}')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
-                                <button onclick="openEdit('1','Dr. Andi','Pemrograman Web','IF-2A Pagi')"
+                                <button onclick="openEdit('{{$k->id_kelas}}','{{$k->nuptk_wali}}','{{$k->id_kelas}}')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
-                                <button class="w-8 h-8 bg-orange-400 p-2 rounded-full">
+                                <a href="/dosen-wali/delete/{{ $k->id_kelas }}" onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                    class="w-8 h-8 bg-red-500 p-2 rounded-full">
                                     <i class="fa-solid fa-trash text-black"></i>
-                                </button>
+                                </a>
 
                             </div>
                         </td>
                     </tr>
-
+                    @endforeach
                 </tbody>
 
             </table>
@@ -83,21 +84,22 @@
         class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen Wali</h2>
 
-        <form>
+        <form action="/dosen-wali/store" method="POST">
+            @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="nuptk_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
-                <option value="1">Dr. Andi</option>
-                <option value="2">Dr. Budi</option>
-                <option value="3">Dr. Siti</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
-                <option value="1">IF-2A Pagi</option>
-                <option value="2">IF-2B Pagi</option>
-                <option value="3">IF-2C Pagi</option>
+                @foreach($allKelas as $kelasItem)
+                <option value="{{ $kelasItem->id_kelas }}">{{ $kelasItem->prodi->nama_prodi ?? '-' }} {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }} {{ $kelasItem->kategori }}</option>
+                @endforeach
             </select>
 
             <div class="flex justify-end gap-2">
@@ -105,11 +107,12 @@
                     Batal
                 </button>
 
-                <button type="button" class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
-            </div>
+            </select>
         </form>
+            </div>
     </div>
 </div>
 
@@ -121,29 +124,32 @@
 
         <h2 class="text-lg font-bold mb-4">Ubah Dosen Wali</h2>
 
-        <form>
+        <form id="formEdit" method="POST">
+            @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="nuptk_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
-                <option value="Dr. Andi">Dr. Andi</option>
-                <option value="Dr. Budi">Dr. Budi</option>
-                <option value="Dr. Siti">Dr. Siti</option>
+                @foreach($dosen as $d)
+                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Kelas</option>
-                <option value="IF-2A Pagi">IF-2A Pagi</option>
-                <option value="IF-2B Pagi">IF-2B Pagi</option>
-                <option value="IF-2C Pagi">IF-2C Pagi</option>
-            </select>
+           <select name="id_kelas" id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="">Pilih Kelas</option>
+@foreach($allKelas as $kelasItem)
+<option value="{{ $kelasItem->id_kelas }}">
+    {{ $kelasItem->prodi->nama_prodi ?? '-' }} {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }} {{ $kelasItem->kategori }}
+</option>
+@endforeach
+</select>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="button" class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -167,6 +173,9 @@
 
         <label class="text-sm mb-1 block">Kelas</label>
         <p id="detailKelas" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+
+        <label class="text-sm mb-1 block">Prodi</label>
+        <p id="detailProdi" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -214,14 +223,16 @@ function openEdit(id, dosen, kelas) {
 
     document.getElementById('editDosen').value = dosen
     document.getElementById('editKelas').value = kelas
+    document.getElementById('formEdit').action = '/dosen-wali/update/' + id
 }
 
-function openDetail(nuptk, nama, kelas) {
+function openDetail(nuptk, nama, kelas, prodi) {
     showModal('detailModal')
 
     document.getElementById('detailNuptk').innerText = nuptk
     document.getElementById('detailNama').innerText = nama
     document.getElementById('detailKelas').innerText = kelas
+    document.getElementById('detailProdi').innerText = prodi
 }
 </script>
 @endsection

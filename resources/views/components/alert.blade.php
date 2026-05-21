@@ -1,5 +1,5 @@
 {{-- LOGIN SUCCESS --}}
-@if(session('success'))
+@if(session('login_success'))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Swal.fire({
         icon: 'success',
         title: 'Login Berhasil!',
-        text: '{{ session('success') }}',
+        text: '{{ session('login_success') }}',
         confirmButtonColor: '#fb923c',
         background: '#3b3f63',
         color: '#fff',
@@ -20,8 +20,27 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 @endif
 
+@if(session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- LOGIN ERROR --}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil!',
+        text: '{{ session('success') }}',
+        confirmButtonColor: '#22c55e',
+        background: '#3b3f63',
+        color: '#fff',
+        timer: 2500,
+        showConfirmButton: false
+    })
+
+})
+</script>
+@endif
+
 @if(session('error'))
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -30,8 +49,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     Swal.fire({
         icon: 'error',
-        title: 'Login Gagal!',
+        title: 'Gagal!',
         text: '{{ session('error') }}',
+        confirmButtonColor: '#ef4444',
+        background: '#3b3f63',
+        color: '#fff',
+    })
+
+})
+</script>
+@endif
+
+{{-- LOGIN ERROR --}}
+@if(session('login_error'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal!',
+        text: '{{ session('login_error') }}',
         confirmButtonColor: '#ef4444',
         background: '#3b3f63',
         color: '#fff',
