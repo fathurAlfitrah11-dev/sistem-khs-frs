@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>@yield('title')</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #fff;
-            color: #fff;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #fff;
+        color: #fff;
+    }
     </style>
 </head>
+
 <body>
 
 <x-alert />
+
 <div class="flex">
 
     {{-- SIDEBAR --}}
@@ -34,18 +38,24 @@
 
         {{-- CONTENT --}}
         <div id="swup" class="p-6 transition-fade">
-            @yield('content')
+
+            <x-dashboard-layout>
+                @yield('content')
+            </x-dashboard-layout>
+
         </div>
 
     </div>
 
 </div>
+
 <script>
-  AOS.init({
+AOS.init({
     once: true,
     duration: 800
-  });
-  </script>
+});
+</script>
+
 </body>
 
 <script>

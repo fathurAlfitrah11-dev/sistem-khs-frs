@@ -6,8 +6,6 @@
 
 <div class="px-6 pb-6">
 
-    <h2 class="text-xl font-bold text-white mb-4">Perwalian Mahasiswa (ACC KRS)</h2>
-
     {{-- SEARCH --}}
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-4" data-aos="fade" data-aos-delay="100"
         data-aos-offset="0" data-aos-duration="500">

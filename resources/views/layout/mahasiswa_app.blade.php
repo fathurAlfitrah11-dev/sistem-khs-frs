@@ -37,8 +37,10 @@
                 @include('layout.navbar')
 
                 {{-- CONTENT --}}
-                <div class="p-6">
-                    @yield('content')
+                <div id="swup" class="p-6 transition-fade">
+                    <x-dashboard-layout>
+                        @yield('content')
+                    </x-dashboard-layout>
                 </div>
 
             </div>
