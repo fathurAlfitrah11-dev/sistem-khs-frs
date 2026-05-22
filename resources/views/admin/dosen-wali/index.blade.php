@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title','')
+@section('title','Data Dosen Wali')
 
 @section('content')
 
@@ -110,9 +110,8 @@
                 <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
-            </select>
-        </form>
             </div>
+        </form>
     </div>
 </div>
 

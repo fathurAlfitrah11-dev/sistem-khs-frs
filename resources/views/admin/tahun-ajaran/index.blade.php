@@ -145,7 +145,7 @@
         </select>
 
         <div class="flex justify-end gap-2">
-            <button onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">Tutup</button>
+            <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">Tutup</button>
             <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
         </div>
         </form>
