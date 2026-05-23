@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nim', 20)->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nama', 100);
-            $table->integer('semester');
+            $table->year('angkatan');
             $table->unsignedBigInteger('id_prodi');
             $table->unsignedBigInteger('id_kelas');
             $table->timestamps();

@@ -35,8 +35,9 @@
                     <tr>
                         <th class="text-black px-6 py-3">NIM</th>
                         <th class="text-black px-6 py-3">Nama</th>
-                        <th class="text-black px-6 py-3">Semester</th>
                         <th class="text-black px-6 py-3">Kelas</th>
+                        <th class="text-black px-6 py-3">Program Studi</th>
+                        <th class="text-black px-6 py-3">Angkatan</th>
                         <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
@@ -49,11 +50,13 @@
 
     <td class="px-6 py-3 text-black">{{ $d->nama }}</td>
 
-    <td class="px-6 py-3 text-black">{{ $d->semester }}</td>
-
     <td class="px-6 py-3 text-black">
-        {{$d->kelas->prodi->nama_prodi}} {{$d->semester}}{{ $d->kelas->nama_kelas ?? '-' }} {{$d->kelas->kategori ?? '-' }}
+        {{$d->kelas->prodi->nama_prodi}} {{$d->kelas->semester}}{{ $d->kelas->nama_kelas ?? '-' }} {{$d->kelas->kategori ?? '-' }}
     </td>
+
+    <td class="px-6 py-3 text-black">{{ $d->prodi->nama_prodi ?? '-' }}</td>
+
+    <td class="px-6 py-3 text-black">{{ $d->angkatan }}</td>
 
     <td class="px-6 py-3 text-center">
         <div class="flex justify-center gap-2">
@@ -63,9 +66,9 @@
                 onclick="openDetail(
                     '{{ $d->nim }}',
                     '{{ $d->nama }}',
-                    '{{ $d->semester }}',
                     '{{ $d->prodi->nama_prodi ?? '-' }}',
-                    '{{$d->kelas->prodi->nama_prodi ?? '-' }} {{$d->semester}}{{ $d->kelas->nama_kelas ?? '-' }} {{$d->kelas->kategori ?? '-' }}'
+                    '{{ $d->angkatan }}',
+                    '{{$d->kelas->prodi->nama_prodi ?? '-' }} {{$d->kelas->semester}}{{ $d->kelas->nama_kelas ?? '-' }} {{$d->kelas->kategori ?? '-' }}'
                 )"
                 class="w-8 h-8 bg-orange-400 p-2 rounded-full">
 
@@ -80,7 +83,7 @@
                     '{{ $d->id_kelas }}',
                     '{{ $d->nim }}',
                     '{{ $d->nama }}',
-                    '{{ $d->semester }}',
+                    '{{ $d->angkatan }}'
                 )"
                 class="w-8 h-8 bg-orange-400 p-2 rounded-full">
 
@@ -140,9 +143,9 @@
             <label class="block text-sm mb-1">Nama</label>
             <input type="text" name="nama" placeholder="Nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
             
-            <label class="block text-sm mb-1">Semester</label>
-            <input type="number" name="semester" placeholder="Semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
-
+            <label class="block text-sm mb-1">Angkatan</label>
+            <input type="number" name="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            
             <label class="block text-sm mb-1">Password</label>
             <input type="password" name="password" placeholder="Password" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -190,8 +193,8 @@
             <label class="block text-sm mb-1">Nama</label>
             <input type="text" id="editNama" name="nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-            <label class="block text-sm mb-1">Semester</label>
-            <input type="number" id="editSemester" name="semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <label class="block text-sm mb-1">Angkatan</label>
+            <input type="number" id="editAngkatan" name="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -219,13 +222,12 @@
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNim"></span></p>
             <label class="text-sm">Nama</label>
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNama"></span></p>
-            <label class="text-sm">Semester</label>
-            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailSemester"></span></p>
             <label class="text-sm">Program Studi</label>
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailProdi"></span></p>
             <label class="text-sm">Kelas</label>
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
-
+            <label class="text-sm">Angkatan</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailAngkatan"></span></p>
         </div>
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -268,24 +270,24 @@ function closeModal(id) {
     hideModal(id);
 }
 
-function openEdit(id, prodi, kelas, nim, nama, semester) {
+function openEdit(id, prodi, kelas, nim, nama, angkatan) {
     showModal('editModal');
     document.getElementById('editProdi').value = prodi;
     document.getElementById('editKelas').value = kelas;
     document.getElementById('editNim').value = nim;
     document.getElementById('editNama').value = nama;
-    document.getElementById('editSemester').value = semester;
+    document.getElementById('editAngkatan').value = angkatan;
     document.getElementById('formEdit').action = '/mahasiswa/update/' + id;
 }
 
-function openDetail(nim, nama, semester, prodi, kelas) {
+function openDetail(nim, nama, prodi, kelas, angkatan) {
     showModal('detailModal');
 
     document.getElementById('detailNim').innerText = nim;
     document.getElementById('detailNama').innerText = nama;
-    document.getElementById('detailSemester').innerText = semester;
     document.getElementById('detailProdi').innerText = prodi;
     document.getElementById('detailKelas').innerText = kelas;
+    document.getElementById('detailAngkatan').innerText = angkatan;
 }
 </script>
 

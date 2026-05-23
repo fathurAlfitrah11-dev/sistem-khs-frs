@@ -29,13 +29,13 @@ class TahunAjaranController extends Controller
             ->with('error', 'Tahun ajaran sudah ada');
     }
 
-    TahunAjaran::query()->update(['status' => 0]);
+    TahunAjaran::query()->update(['status' => 'non-aktif']);
 
     TahunAjaran::create([
         'tahun_awal' => $request->tahun_awal,
         'tahun_akhir' => $request->tahun_akhir,
         'semester' => $request->semester,
-        'status' => 1
+        'status' => 'aktif'
     ]);
 
         return redirect('/tahun-ajaran')
@@ -64,10 +64,10 @@ class TahunAjaranController extends Controller
 
 public function setActive($id_tahun_ajaran)
 {
-    TahunAjaran::query()->update(['status' => 0]);
+    TahunAjaran::query()->update(['status' => 'non-aktif']);
 
     $tahun = TahunAjaran::findOrFail($id_tahun_ajaran);
-    $tahun->status = 1;
+    $tahun->status = 'aktif';
     $tahun->save();
 
     return redirect('/tahun-ajaran')
@@ -81,4 +81,31 @@ public function setActive($id_tahun_ajaran)
         return redirect('/tahun-ajaran')
             ->with('success','Data tahun ajaran berhasil dihapus');
 }
+public function toggleStatus($id)
+{
+    $tahun = TahunAjaran::findOrFail($id);
+
+    // kalau mau hanya 1 tahun ajaran aktif
+    if ($tahun->status == 'non-aktif') {
+
+        // nonaktifkan semua dulu
+        TahunAjaran::query()->update([
+            'status' => 'non-aktif'
+        ]);
+
+        // aktifkan yang dipilih
+        $tahun->status = 'aktif';
+
+    } else {
+
+        // kalau sudah aktif → jadi nonaktif
+        $tahun->status = 'non-aktif';
+    }
+
+    $tahun->save();
+
+    return redirect()->back()
+        ->with('success', 'Status berhasil diubah');
+}
+
 }

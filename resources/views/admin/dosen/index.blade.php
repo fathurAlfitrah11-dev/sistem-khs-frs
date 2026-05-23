@@ -32,8 +32,9 @@
             <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="text-black px-6 py-3">NUPTK</th>
+                        <th class="text-black px-6 py-3">NIK</th>
                         <th class="text-black px-6 py-3">Nama Dosen</th>
+                        <th class="text-black px-6 py-3">Kode Dosen</th>
                         <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
@@ -41,26 +42,26 @@
                 <tbody class="divide-y">
                     @foreach($data as $d)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $d->nuptk }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->nik }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
-
+                        <td class="px-6 py-3 text-black">{{ $d->kode_dosen }}</td>
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
-                                <button onclick="openDetail('{{ $d->nuptk }}','{{ $d->user->name }}')"
+                               <button onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nuptk }}','{{ $d->user->name }}')"
+                                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/dosen/delete/{{ $d->id }}"
+                                <a href="/dosen/delete/{{ $d->id_dosen }}"
                                     onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
@@ -96,12 +97,16 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
         <form action="/dosen/store" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">NUPTK</label>
-            <input type="text" name="nuptk" placeholder="NUPTK"
+            <label class="text-sm mb-1 block">NIK</label>
+            <input type="text" name="nik" placeholder="NIK"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" placeholder="Nama Dosen"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
+
+                <label class="text-sm mb-1 block">Kode Dosen</label>
+            <input type="text" name="kode_dosen" placeholder="Kode Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Password</label>
@@ -131,12 +136,16 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="text-sm mb-1 block">NUPTK</label>
-            <input type="text" id="editNuptk" readonly
+            <label class="text-sm mb-1 block">NIK</label>
+            <input type="text" id="editNik" readonly
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" id="editNama"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
+
+            <label class="text-sm mb-1 block">Kode Dosen</label>
+            <input type="text" name="kode_dosen" id="editKode"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
@@ -162,8 +171,8 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
         <div class="space-y-3">
             <div>
-                <label class="text-sm">NUPTK</label>
-                <p id="detailNuptk" class="bg-white text-black px-3 py-2 rounded"></p>
+                <label class="text-sm">NIK</label>
+                <p id="detailNik" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
 
             <div>
@@ -172,6 +181,9 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             </div>
         </div>
 
+        <label class="text-sm mb-1 block mt-3">Kode Dosen</label>
+        <p id="detailKode" class="bg-white text-black px-3 py-2 rounded"></p>
+        
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')"
                 class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -217,20 +229,22 @@ function closeModal(id){
 }
 
 // ===== EDIT =====
-function openEdit(id, nuptk, nama){
+function openEdit(id, nik, nama, kode){
     showModal('editModal')
 
-    document.getElementById('editNuptk').value = nuptk
+    document.getElementById('editNik').value = nik
     document.getElementById('editNama').value = nama
+    document.getElementById('editKode').value = kode
     document.getElementById('formEdit').action = '/dosen/update/' + id
 }
 
 // ===== DETAIL =====
-function openDetail(nuptk, nama){
+function openDetail(nik, nama, kode){
     showModal('detailModal')
 
-    document.getElementById('detailNuptk').innerText = nuptk
+    document.getElementById('detailNik').innerText = nik
     document.getElementById('detailNama').innerText = nama
+    document.getElementById('detailKode').innerText = kode
 }
 </script>
 

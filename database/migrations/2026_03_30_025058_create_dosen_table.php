@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('dosen', function (Blueprint $table) {
             $table->id('id_dosen');
-            $table->string('nuptk', 20)->unique();
+            $table->string('nik', 20)->unique();
             $table->string('nama_dosen', 100);
+            $table->string('kode_dosen', 10)->unique();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
 

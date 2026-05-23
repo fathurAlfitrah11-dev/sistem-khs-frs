@@ -9,7 +9,7 @@ class DosenPartTime extends Model
     protected $table = 'dosen_part_time';
     protected $primaryKey = 'id_dosen_part_time';
     protected $fillable = [
-        'nuptk',
+        'nik',
         'nama_dosen',
         'tempat_part_time',
         'user_id'

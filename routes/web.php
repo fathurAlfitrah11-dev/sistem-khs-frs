@@ -59,6 +59,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/tahun-ajaran', [TahunAjaranController::class, 'index'])->name('tahun-ajaran');
     Route::post('/tahun-ajaran/store', [TahunAjaranController::class, 'store']);
     Route::post('/tahun-ajaran/update/{id_tahun_ajaran}', [TahunAjaranController::class, 'update']);
+    Route::get('/tahun-ajaran/status/{id}', [TahunAjaranController::class, 'toggleStatus']);
     Route::get('/tahun-ajaran/delete/{id_tahun_ajaran}', [TahunAjaranController::class, 'delete']);
 
 

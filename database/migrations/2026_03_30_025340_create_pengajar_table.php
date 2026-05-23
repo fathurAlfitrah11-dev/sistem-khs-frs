@@ -13,8 +13,8 @@ return new class extends Migration
     {
          Schema::create('pengajar', function (Blueprint $table) {
             $table->id('id_pengajar');
-            $table->string('nuptk', 20);
-            $table->foreign('nuptk')->references('nuptk')->on('dosen')->onDelete('cascade');
+            $table->string('nik', 20);
+            $table->foreign('nik')->references('nik')->on('dosen')->onDelete('cascade');
             $table->unsignedBigInteger('id_mata_kuliah');
             $table->foreign('id_mata_kuliah')
             ->references('id_mata_kuliah')

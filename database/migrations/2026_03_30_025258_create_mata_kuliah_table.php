@@ -19,6 +19,7 @@ return new class extends Migration
         $table->unsignedBigInteger('id_prodi');
         $table->foreign('id_prodi')->references('id_prodi')->on('prodi')->onDelete('cascade');
         $table->integer('semester');
+        $table->string('jenis');
         $table->timestamps();
         });
     }

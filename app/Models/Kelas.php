@@ -11,7 +11,7 @@ class Kelas extends Model
 
     protected $primaryKey = 'id_kelas';
 
-    protected $fillable = ['nama_kelas','kategori','semester','id_prodi','nuptk_wali'];
+    protected $fillable = ['nama_kelas','kategori','semester','id_prodi','nik_wali'];
 
     public function mahasiswa()
     {
@@ -20,7 +20,7 @@ class Kelas extends Model
 
     public function wali()
     {
-        return $this->belongsTo(Dosen::class, 'nuptk_wali', 'nuptk');
+        return $this->belongsTo(Dosen::class, 'nik_wali', 'nik');
     }
     public function prodi()
     {

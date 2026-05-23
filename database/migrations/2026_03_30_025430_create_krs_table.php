@@ -26,7 +26,7 @@ return new class extends Migration
     $table->enum('status', ['draft','diajukan','disetujui','ditolak'])->default('draft');
     $table->enum('status_wali', ['pending','disetujui','ditolak'])
               ->default('pending');
-    $table->string('nuptk_wali', 20)->nullable();
+    $table->string('nik_wali', 20)->nullable();
     $table->timestamps();
     });
     }

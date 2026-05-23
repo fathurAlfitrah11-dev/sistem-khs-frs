@@ -19,20 +19,22 @@ class DosenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nuptk' => 'required|unique:dosen,nuptk',
+            'nik' => 'required|unique:dosen,nik',
             'nama_dosen' => 'required',
+            'kode_dosen' => 'required',
         ], [
-            'nuptk.unique' => 'NUPTK sudah terdaftar!',
+            'nik.unique' => 'NIK sudah terdaftar!',
         ]);
         $user = User::create([
-            'username' => $request->nuptk,
+            'username' => $request->nik,
             'name' => $request->nama_dosen,
             'password' => bcrypt($request->password),
             'role' => 'dosen'
         ]);
         Dosen::create([
-            'nuptk' => $request->nuptk,
+            'nik' => $request->nik,
             'nama_dosen' => $request->nama_dosen,
+            'kode_dosen' => $request->kode_dosen,
             'user_id' => $user->id
         ]);
 
@@ -50,10 +52,12 @@ class DosenController extends Controller
 
     $request->validate([
         'nama_dosen' => 'required',
+        'kode_dosen' => 'required',
     ]);
 
     $dosen->update([
         'nama_dosen' => $request->nama_dosen,
+        'kode_dosen' => $request->kode_dosen,
     ]);
 
     $dosen->user->update([

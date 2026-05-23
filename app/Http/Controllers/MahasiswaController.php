@@ -23,7 +23,8 @@ class MahasiswaController extends Controller
         'nim' => 'required|unique:mahasiswa,nim',
         'nama' => 'required',
         'id_kelas' => 'required',
-        'id_prodi' => 'required'
+        'id_prodi' => 'required',
+        'angkatan' => 'required'
     ], [
         'nim.unique' => 'NIM sudah terdaftar!'
     ]);
@@ -39,7 +40,7 @@ class MahasiswaController extends Controller
             'user_id' => $user->id,
             'nim' => $request->nim,
             'nama' => $request->nama,
-            'semester' => $request->semester,
+            'angkatan' => $request->angkatan,
             'password' => bcrypt($request->password),
             'id_kelas' => $request->id_kelas,
             'id_prodi' => $request->id_prodi
@@ -57,7 +58,7 @@ class MahasiswaController extends Controller
             'nama' => $request->nama,
             'id_kelas' => $request->id_kelas,
             'id_prodi' => $request->id_prodi,
-            'semester' => $request->semester,
+            'angkatan' => $request->angkatan,
         ]);
 
         return redirect('/mahasiswa')

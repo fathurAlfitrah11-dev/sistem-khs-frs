@@ -43,12 +43,14 @@
                         <th class="text-black px-6 py-3">Prodi</th>
                         <th class="text-black px-6 py-3">Semester</th>
                         <th class="text-black px-6 py-3">SKS</th>
+                        <th class="text-black px-6 py-3">Jenis</th>
                         <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
 
                 <tbody class="divide-y">
                     @foreach($data as $d)
+
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->kode_mk }}</td>
@@ -56,20 +58,21 @@
                         <td class="px-6 py-3 text-black">{{$d->prodi->jenjang}} {{ $d->prodi->nama_prodi }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->semester }}</td>
                         <td class="px-6 py-3 text-black">{{ $d->sks }}</td>
+                        <td class="px-6 py-3 text-black"> {{ ucwords(str_replace(',', ' dan ', $d->jenis)) }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
                                 {{-- VIEW --}}
                                 <button
-                                    onclick="openDetail('{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
+                                    onclick="openDetail('{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button
-                                    onclick="openEdit('{{ $d->id_mata_kuliah }}','{{ $d->id_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
+                                    onclick="openEdit('{{ $d->id_mata_kuliah }}','{{ $d->id_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -131,6 +134,22 @@
             <label class="block text-sm mb-1">SKS</label>
             <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
 
+           <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
+
+                <div class="flex gap-4 mb-3">
+
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="jenis[]" value="teori">
+                        Teori
+                    </label>
+
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="jenis[]" value="praktikum">
+                        Praktikum
+                    </label>
+
+                </div>
+
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -166,6 +185,9 @@
 
             <label class="block text-sm mb-1">SKS</label>
             <p id="detailSks" class="bg-white text-black px-3 py-2 rounded"></p>
+
+            <label class="block text-sm mb-1">Jenis Mata Kuliah</label>
+            <p id="detailJenis" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
 
         <div class="flex justify-end mt-4">
@@ -206,6 +228,20 @@
             <label class="text-sm mb-1 block">SKS</label>
             <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
 
+            <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
+
+                <div class="flex gap-4 mb-3">
+
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="jenis[]" value="teori" id="editTeori">
+                        Teori
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="jenis[]" value="praktikum" id="editPraktikum">
+                        Praktikum
+                    </label>
+                </div>
+
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -245,7 +281,7 @@ function closeModal(id) {
     }, 300)
 }
 
-function openDetail(prodi, kode, nama, semester, sks) {
+function openDetail(prodi, kode, nama, semester, sks, jenis) {
     openModal('detailModal')
 
     document.getElementById('detailProdi').innerText = prodi
@@ -253,9 +289,10 @@ function openDetail(prodi, kode, nama, semester, sks) {
     document.getElementById('detailNama').innerText = nama
     document.getElementById('detailSemester').innerText = semester
     document.getElementById('detailSks').innerText = sks
+    document.getElementById('detailJenis').innerText = jenis
 }
 
-function openEdit(id, prodi, kode, nama, semester, sks) {
+function openEdit(id, prodi, kode, nama, semester, sks, jenis) {
     openModal('editModal')
 
     document.getElementById('editProdi').value = prodi
@@ -263,6 +300,16 @@ function openEdit(id, prodi, kode, nama, semester, sks) {
     document.getElementById('editNama').value = nama
     document.getElementById('editSemester').value = semester
     document.getElementById('editSks').value = sks
+    document.getElementById('editTeori').checked = false
+    document.getElementById('editPraktikum').checked = false
+
+    if (jenis.includes('teori')) {
+        document.getElementById('editTeori').checked = true
+    }
+
+    if (jenis.includes('praktikum')) {
+        document.getElementById('editPraktikum').checked = true
+    }
 
     document.getElementById('formEdit').action = '/mata-kuliah/update/' + id
 }

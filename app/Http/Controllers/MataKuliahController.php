@@ -20,12 +20,18 @@ class MataKuliahController extends Controller
             'nama_mk' => 'required',
             'sks' => 'required|integer|max:4|min:2',
             'semester' => 'required|integer',
-            'id_prodi' => 'required|exists:prodi,id_prodi'
+            'id_prodi' => 'required|exists:prodi,id_prodi',
+            'jenis' => 'required|array'
         ], [
-            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
+            'jenis.required' => 'Jenis mata kuliah wajib dipilih!'
         ]);
 
-        MataKuliah::create($request->all());
+        $data = $request->all();
+
+$data['jenis'] = implode(',', $request->jenis);
+
+MataKuliah::create($data);
 
         return redirect('/mata-kuliah')
             ->with('success','Data mata kuliah berhasil ditambahkan');
@@ -39,11 +45,18 @@ class MataKuliahController extends Controller
             'nama_mk' => 'required',
             'sks' => 'required|integer|max:4|min:2',
             'semester' => 'required|integer',
-            'id_prodi' => 'required|exists:prodi,id_prodi'
+            'id_prodi' => 'required|exists:prodi,id_prodi',
+            'jenis' => 'required|array'
         ], [
-            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
+            'jenis.required' => 'Jenis mata kuliah wajib dipilih!'
         ]);
-        $mata_kuliah->update($request->all());
+        $data = $request->all();
+
+$data['jenis'] = implode(',', $request->jenis);
+
+$mata_kuliah->update($data);
+
         return redirect('/mata-kuliah')
             ->with('success','Data mata kuliah berhasil diupdate');
 }

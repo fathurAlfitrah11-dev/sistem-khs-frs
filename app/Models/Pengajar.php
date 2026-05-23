@@ -13,7 +13,7 @@ class Pengajar extends Model
     protected $table = 'pengajar';
     protected $primaryKey = 'id_pengajar';
     protected $fillable = [
-        'nuptk',
+        'nik',
         'id_mata_kuliah',
         'id_tahun_ajaran',
         'semester',
@@ -22,7 +22,7 @@ class Pengajar extends Model
 
     public function dosen()
     {
-        return $this->belongsTo(Dosen::class, 'nuptk', 'nuptk');
+        return $this->belongsTo(Dosen::class, 'nik', 'nik');
     }
 
     public function mataKuliah()

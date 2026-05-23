@@ -14,7 +14,7 @@ class Dosen extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-    protected $fillable = ['nuptk','nama_dosen','user_id'];
+    protected $fillable = ['nik','nama_dosen','kode_dosen','user_id'];
 
     public function user()
     {
@@ -23,11 +23,11 @@ class Dosen extends Model
 
     public function pengajar()
     {
-        return $this->hasMany(Pengajar::class, 'nuptk', 'nuptk');
+        return $this->hasMany(Pengajar::class, 'nik', 'nik');
     }
 
     public function kelasWali()
     {
-        return $this->hasOne(Kelas::class, 'nuptk_wali', 'nuptk');
+        return $this->hasOne(Kelas::class, 'nik_wali', 'nik');
     }
 }

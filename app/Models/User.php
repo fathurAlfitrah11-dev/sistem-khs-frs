@@ -10,13 +10,13 @@ class User extends Authenticatable
 {
     protected $fillable = ['username','name','password','role'];
 
-    /**public function mahasiswa()
+    public function mahasiswa()
     {
         return $this->hasOne(Mahasiswa::class, 'nim', 'username');
     }
-*/
+
     public function dosen()
     {
-        return $this->hasOne(Dosen::class, 'nidn', 'username');
+        return $this->hasOne(Dosen::class, 'nik', 'username');
     }
 }

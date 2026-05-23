@@ -31,7 +31,7 @@
             <table class="w-full text-sm text-center">
                 <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-                        <th class="px-6 py-3 text-black">NUPTK</th>
+                        <th class="px-6 py-3 text-black">NIK</th>
                         <th class="px-6 py-3 text-black">Nama Dosen</th>
                         <th class="px-6 py-3 text-black">Kelas</th>
                         <th class="px-6 py-3 text-black">Aksi</th>
@@ -42,25 +42,25 @@
 
                     @foreach($kelasWali as $k)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $k->nuptk_wali }}</td>
+                        <td class="px-6 py-3 text-black">{{ $k->nik_wali }}</td>
                         <td class="px-6 py-3 text-black">{{ $k->wali->user->name ?? '-' }}</td>
                         <td class="px-6 py-3 text-black">{{ $k->nama_kelas }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                <button onclick="openDetail('{{$k->nuptk_wali}}','{{$k->wali->user->name}}','{{$k->prodi->nama_prodi}} {{$k->semester}}{{$k->nama_kelas}} {{$k->kategori}}','{{$k->prodi->nama_prodi}}')"
+                                <button onclick="openDetail('{{$k->nik_wali}}','{{$k->wali->user->name}}','{{$k->prodi->nama_prodi}} {{$k->semester}}{{$k->nama_kelas}} {{$k->kategori}}','{{$k->prodi->nama_prodi}}')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
                                 </button>
 
-                                <button onclick="openEdit('{{$k->id_kelas}}','{{$k->nuptk_wali}}','{{$k->id_kelas}}')"
+                                <button onclick="openEdit('{{$k->id_kelas}}','{{$k->nik_wali}}','{{$k->id_kelas}}')"
                                     class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
 
                                 <a href="/dosen-wali/delete/{{ $k->id_kelas }}" onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                    class="w-8 h-8 bg-red-500 p-2 rounded-full">
+                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
 
@@ -87,10 +87,10 @@
         <form action="/dosen-wali/store" method="POST">
             @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select name="nuptk_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="nik_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
-                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
 
@@ -126,10 +126,10 @@
         <form id="formEdit" method="POST">
             @csrf
             <label class="block text-sm mb-1">Dosen</label>
-            <select name="nuptk_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="nik_wali" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
-                <option value="{{ $d->nuptk }}">{{ $d->user->name }}</option>
+                <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
 
@@ -164,8 +164,8 @@
 
         <h2 class="text-lg font-bold mb-4">Detail Dosen Wali</h2>
 
-        <label class="text-sm mb-1 block">NUPTK</label>
-        <p id="detailNuptk" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+        <label class="text-sm mb-1 block">NIK</label>
+        <p id="detailNik" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
 
         <label class="text-sm mb-1 block">Nama Dosen</label>
         <p id="detailNama" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
@@ -225,10 +225,10 @@ function openEdit(id, dosen, kelas) {
     document.getElementById('formEdit').action = '/dosen-wali/update/' + id
 }
 
-function openDetail(nuptk, nama, kelas, prodi) {
+function openDetail(nik, nama, kelas, prodi) {
     showModal('detailModal')
 
-    document.getElementById('detailNuptk').innerText = nuptk
+    document.getElementById('detailNik').innerText = nik
     document.getElementById('detailNama').innerText = nama
     document.getElementById('detailKelas').innerText = kelas
     document.getElementById('detailProdi').innerText = prodi

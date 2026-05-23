@@ -15,7 +15,7 @@ class Mahasiswa extends Model
     public $incrementing = true;
     protected $keyType = 'int';
 
-    protected $fillable = ['nim','user_id','nama','semester','id_prodi','id_kelas'];
+    protected $fillable = ['nim','user_id','nama','angkatan','id_prodi','id_kelas'];
 
     public function user()
     {
@@ -42,9 +42,9 @@ class Mahasiswa extends Model
         Dosen::class,
         Kelas::class,
         'id_kelas',
-        'nidn',
+        'nik',
         'id_kelas',
-        'nidn_wali'
+        'nik_wali'
     );
 }
 }

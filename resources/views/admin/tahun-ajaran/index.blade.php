@@ -48,9 +48,15 @@
                         <td class="px-6 py-3">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}</td>
                         <td class="px-6 py-3 text-center">{{ $d->semester }}</td>
                         <td class="px-6 py-3 text-center">
-                            <span class="{{ $d->status == 1 ? 'text-green-600 font-bold' : 'text-gray-500' }}">
-                                {{ $d->status == 1 ? 'Aktif' : 'Nonaktif' }}
-                            </span>
+
+                        <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
+                        class="px-3 py-1 rounded text-white font-semibold
+                        {{ $d->status == 'aktif' ? 'bg-green-500' : 'bg-gray-500' }}">
+
+                        {{ $d->status == 'aktif' ? 'Aktif' : 'Nonaktif' }}
+
+                        </a>
+                        </td>
                         </td>
 
                         <td class="px-6 py-3 text-center">
