@@ -11,11 +11,37 @@
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
         data-aos-delay="150">
 
-        <div class="flex-1 mr-4">
+        <div class="flex gap-3 flex-1 mr-4">
+
+            {{-- Filter Prodi --}}
+            <form method="GET" action="/mahasiswa">
+                <select name="prodi" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded text-black">
+
+                    <option value="">Semua Prodi</option>
+
+                    @foreach($prodi as $p)
+                        <option 
+                            value="{{ $p->id_prodi }}"
+                            {{ request('prodi') == $p->id_prodi ? 'selected' : '' }}>
+
+                            {{ $p->nama_prodi }}
+
+                        </option>
+                    @endforeach
+
+                </select>
+            </form>
+
+            {{-- Search --}}
             <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri Mahasiswa" class="w-full outline-none text-sm text-gray-700">
+                <input type="text"
+                    placeholder="Telusuri Mahasiswa"
+                    class="w-full outline-none text-sm text-gray-700">
+
                 <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
             </div>
+
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -196,6 +222,9 @@
             <label class="block text-sm mb-1">Angkatan</label>
             <input type="number" id="editAngkatan" name="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="block text-sm mb-1">Password Baru</label>
+            <input type="password" id="editPassword" name="password" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full mb-3 px-3 py-2 border rounded text-black">
+
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
@@ -272,12 +301,17 @@ function closeModal(id) {
 
 function openEdit(id, prodi, kelas, nim, nama, angkatan) {
     showModal('editModal');
+
     document.getElementById('editProdi').value = prodi;
     document.getElementById('editKelas').value = kelas;
     document.getElementById('editNim').value = nim;
     document.getElementById('editNama').value = nama;
     document.getElementById('editAngkatan').value = angkatan;
-    document.getElementById('formEdit').action = '/mahasiswa/update/' + id;
+
+    document.getElementById('editPassword').value='';
+
+    document.getElementById('formEdit').action =
+        '/mahasiswa/update/' + id;
 }
 
 function openDetail(nim, nama, prodi, kelas, angkatan) {

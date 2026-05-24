@@ -46,7 +46,7 @@ class DosenController extends Controller
         $dosen = Dosen::findOrFail($id_dosen);
         return view('admin.dosen.edit', compact('dosen'));
     }
-    public function update(Request $request, $id_dosen)
+public function update(Request $request, $id_dosen)
 {
     $dosen = Dosen::findOrFail($id_dosen);
 

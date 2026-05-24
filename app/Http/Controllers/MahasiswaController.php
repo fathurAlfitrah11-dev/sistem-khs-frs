@@ -8,14 +8,29 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Prodi;
 class MahasiswaController extends Controller
+{   
+    public function index(Request $request)
 {
-    public function index()
-    {
-        $data = Mahasiswa::with('kelas', 'prodi')->get();
-        $kelas = Kelas::all();
-        $prodi = Prodi::all();
-        return view('admin.mahasiswa.index', compact('data', 'kelas', 'prodi'));
+    $query = Mahasiswa::with('kelas.prodi', 'prodi');
+
+    if ($request->prodi) {
+        $query->where('id_prodi', $request->prodi);
     }
+
+    $data = $query->get();
+
+    $kelas = Kelas::all();
+    $prodi = Prodi::all();
+
+    return view(
+        'admin.mahasiswa.index',
+        compact(
+            'data',
+            'kelas',
+            'prodi'
+        )
+    );
+}
    
     public function store(Request $request)
     {
@@ -53,6 +68,7 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id_mahasiswa)
     {
         $mhs = Mahasiswa::findOrFail($id_mahasiswa);
+
         $mhs->update([
             'nim' => $request->nim,
             'nama' => $request->nama,
@@ -61,8 +77,22 @@ class MahasiswaController extends Controller
             'angkatan' => $request->angkatan,
         ]);
 
+        // kalau password diisi
+        if($request->password){
+
+            User::where(
+                'id',
+                $mhs->user_id
+            )->update([
+                'password'=>bcrypt($request->password)
+            ]);
+        }
+
         return redirect('/mahasiswa')
-            ->with('success','Data mahasiswa berhasil diupdate');
+            ->with(
+                'success',
+                'Data mahasiswa berhasil diupdate'
+            );
     }
 
     public function delete($id_mahasiswa)

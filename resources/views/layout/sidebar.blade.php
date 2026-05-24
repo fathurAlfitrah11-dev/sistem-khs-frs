@@ -65,6 +65,11 @@
                     Data Dosen Part Time
                 </a>
 
+                <a href="/laboran"
+                    class="px-3 py-2 rounded transition
+                    {{ request()->is('laboran') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+                    Data Laboran
+                </a>
             </div>
         </div>
 
@@ -100,6 +105,12 @@
             {{ request()->is('mahasiswa') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
             <i class="fa-solid fa-user"></i>
             <span>Mahasiswa</span>
+        </a>
+        {{-- PENGUNCIAN NILAI --}}
+        <a href="/kps" class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+            {{ request()->is('kps') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Penguncian Nilai</span>
         </a>
 
         {{-- LOGOUT --}}

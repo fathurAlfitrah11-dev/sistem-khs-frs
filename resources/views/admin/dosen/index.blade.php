@@ -148,6 +148,9 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <input type="text" name="kode_dosen" id="editKode"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
+            <label class="text-sm mb-1 block">Password Baru</label>
+            <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full mb-3 px-3 py-2 border rounded text-black">
+
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
                     class="bg-gray-300 px-3 py-1 rounded">
@@ -235,7 +238,11 @@ function openEdit(id, nik, nama, kode){
     document.getElementById('editNik').value = nik
     document.getElementById('editNama').value = nama
     document.getElementById('editKode').value = kode
-    document.getElementById('formEdit').action = '/dosen/update/' + id
+
+    // reset password
+    document.getElementById('editPassword').value=''
+
+    document.getElementById('formEdit').action='/dosen/update/'+id
 }
 
 // ===== DETAIL =====

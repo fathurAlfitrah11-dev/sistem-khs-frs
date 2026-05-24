@@ -20,6 +20,8 @@ use App\Http\Controllers\PenilaianDosenController;
 use App\Http\Controllers\DosenWaliLihatKrsController;
 use App\Http\Controllers\DosenPartTimeController;
 use App\Http\Controllers\PengaturanAkunMahasiswaController;
+use App\Http\Controllers\LaboranController;
+use App\Http\Controllers\KpsController;
 
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -88,6 +90,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/dosen_part_time/edit/{id_dosen_part_time}', [DosenPartTimeController::class, 'edit']);
     Route::post('/dosen_part_time/update/{id_dosen_part_time}', [DosenPartTimeController::class, 'update']);
     Route::get('/dosen_part_time/delete/{id_dosen_part_time}', [DosenPartTimeController::class, 'delete']);
+
+    Route::get('/laboran', [LaboranController::class, 'index']);
+
+    Route::get('/kps', [KpsController::class, 'index']);
 });
 //MAHASISWA
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
