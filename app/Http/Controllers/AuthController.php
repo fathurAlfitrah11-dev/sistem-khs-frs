@@ -28,9 +28,16 @@ class AuthController extends Controller
         return redirect('/admin')->with('login_success','Login berhasil sebagai Admin');
     } elseif ($user->role == 'mahasiswa') {
         return redirect('/mahasiswa-real')->with('login_success','Login berhasil sebagai Mahasiswa');
-    } elseif ($user->role == 'dosen') {
-        return redirect('/dosen')->with('login_success','Login berhasil sebagai Dosen');
-    } else {
+    }  elseif (
+    $user->role == 'dosen' ||
+    $user->role == 'dosen part time' ||
+    $user->role == 'laboran'
+) {
+
+    return redirect('/dosen')
+        ->with('login_success','Login berhasil');
+
+}  else {
         return redirect('/dosen-wali')->with('login_success','Login berhasil sebagai Dosen Wali');
     }
 }

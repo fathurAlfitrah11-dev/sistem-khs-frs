@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use App\Models\Dosen;
+use App\Models\Laboran;
+use App\Models\DosenPartTime;
 use App\Models\MataKuliah;
 use App\Models\TahunAjaran;
 use App\Models\Krs;

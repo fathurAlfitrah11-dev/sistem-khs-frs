@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('id_prodi');
             $table->enum('jenjang', ['D3','D4','S2']);
             $table->enum('nama_prodi', ['IF','TRPL','GM','TP','TRM','RKS']);
+            $table->string('nik_kps', 20)->nullable()->unique();
+            $table->foreign('nik_kps')->references('nik')->on('dosen')->onDelete('set null');
             $table->timestamps();
         });
     }

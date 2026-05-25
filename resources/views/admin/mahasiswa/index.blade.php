@@ -151,7 +151,7 @@
             <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
-                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 
@@ -202,7 +202,7 @@
             <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
-                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 
@@ -253,10 +253,10 @@
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailNama"></span></p>
             <label class="text-sm">Program Studi</label>
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailProdi"></span></p>
-            <label class="text-sm">Kelas</label>
-            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
             <label class="text-sm">Angkatan</label>
             <p class="bg-white text-black px-3 py-2 rounded"><span id="detailAngkatan"></span></p>
+            <label class="text-sm">Kelas</label>
+            <p class="bg-white text-black px-3 py-2 rounded"><span id="detailKelas"></span></p>
         </div>
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -314,14 +314,14 @@ function openEdit(id, prodi, kelas, nim, nama, angkatan) {
         '/mahasiswa/update/' + id;
 }
 
-function openDetail(nim, nama, prodi, kelas, angkatan) {
+function openDetail(nim, nama, prodi, angkatan, kelas) {
     showModal('detailModal');
 
     document.getElementById('detailNim').innerText = nim;
     document.getElementById('detailNama').innerText = nama;
     document.getElementById('detailProdi').innerText = prodi;
-    document.getElementById('detailKelas').innerText = kelas;
     document.getElementById('detailAngkatan').innerText = angkatan;
+    document.getElementById('detailKelas').innerText = kelas;
 }
 </script>
 

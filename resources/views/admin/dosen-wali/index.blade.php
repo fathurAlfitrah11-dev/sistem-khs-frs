@@ -44,7 +44,7 @@
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $k->nik_wali }}</td>
                         <td class="px-6 py-3 text-black">{{ $k->wali->user->name ?? '-' }}</td>
-                        <td class="px-6 py-3 text-black">{{ $k->nama_kelas }}</td>
+                        <td class="px-6 py-3 text-black">{{$k->prodi->nama_prodi}} {{ $k->semester }}{{ $k->nama_kelas }} {{ $k->kategori }}</td>
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">

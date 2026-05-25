@@ -6,400 +6,253 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6"
-        data-aos="fade-up"
-        data-aos-delay="100">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Laboran</h1>
 
-        Data Laboran
-
-    </h1>
-
-    {{-- Search + Button --}}
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6"
-        data-aos="fade-up"
-        data-aos-delay="200">
-
-        <div class="flex-1 mr-4">
-
-            <div class="flex items-center bg-white rounded px-3 py-2">
-
-                <input
-                    type="text"
-                    placeholder="Telusuri Laboran"
-                    class="w-full outline-none text-sm text-gray-700">
-
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
+        
+         <div class="flex-1 mr-4">
+            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" placeholder="Telusuri Laboran" class="w-full outline-none text-sm text-gray-700">
                 <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-
             </div>
-
         </div>
 
-        <button
-            onclick="openModal('tambahModal')"
+        <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-
             + Tambah Laboran
-
         </button>
-
     </div>
 
+    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
 
-    {{-- TABEL --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6"
-        data-aos="fade-up"
-        data-aos-delay="300">
+            <h2 class="text-white text-xl font-bold mb-4">Data Laboran</h2>
 
-        <h2 class="text-white text-xl font-bold mb-4">
-
-            Data Laboran
-
-        </h2>
-
-        <div class="bg-white overflow-hidden rounded-lg">
+        <div class="bg-white overflow-hidden">
 
             <table class="w-full text-sm text-center">
-
-                <thead class="bg-gray-100 border-b-4 border-gray-800">
-
+                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
                     <tr>
-
-                        <th class="text-black px-6 py-3">
-                            NIK
-                        </th>
-
-                        <th class="text-black px-6 py-3">
-                            Nama Laboran
-                        </th>
-
-                        <th class="text-black px-6 py-3">
-                            Kode Laboran
-                        </th>
-
-                        <th class="text-black px-6 py-3">
-                            Aksi
-                        </th>
-
+                        <th class="text-black px-6 py-3">NIK</th>
+                        <th class="text-black px-6 py-3">Nama Laboran</th>
+                        <th class="text-black px-6 py-3">Kode Laboran</th>
+                        <th class="text-black px-6 py-3">Aksi</th>
                     </tr>
-
                 </thead>
 
                 <tbody class="divide-y">
-
-                    @for($i=1;$i<=5;$i++)
-
-                    <tr class="hover:bg-gray-50"
-                        data-aos="fade-up"
-                        data-aos-delay="{{ 350 + ($i*100) }}">
-
-                        <td class="px-6 py-3 text-black">
-
-                            2210{{ $i }}
-
-                        </td>
-
-                        <td class="px-6 py-3 text-black">
-
-                            Laboran {{ $i }}
-
-                        </td>
-
-                        <td class="px-6 py-3 text-black">
-
-                            LAB00{{ $i }}
-
-                        </td>
-
-                        <td class="px-6 py-3">
-
+                    @foreach($data as $d)
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-3 text-black">{{ $d->nik }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
+                        <td class="px-6 py-3 text-black">{{ $d->kode_laboran }}</td>
+                        <td class="px-6 py-3 text-center">
                             <div class="flex justify-center gap-2">
 
-                                {{-- DETAIL --}}
-                                <button
-                                    onclick="openDetail(
-                                    '2210{{ $i }}',
-                                    'Laboran {{ $i }}',
-                                    'LAB00{{ $i }}'
-                                    )"
-
-                                    class="w-8 h-8 bg-orange-400 rounded-full">
-
+                                {{-- VIEW --}}
+                               <button onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_laboran }}')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-eye text-black"></i>
-
                                 </button>
-
 
                                 {{-- EDIT --}}
-                                <button
-                                    onclick="openEdit(
-                                    '{{ $i }}',
-                                    '2210{{ $i }}',
-                                    'Laboran {{ $i }}',
-                                    'LAB00{{ $i }}'
-                                    )"
-
-                                    class="w-8 h-8 bg-orange-400 rounded-full">
-
+                                <button onclick="openEdit('{{ $d->id_laboran }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_laboran }}')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
-
                                 </button>
-
 
                                 {{-- DELETE --}}
-                                <button
-                                    class="w-8 h-8 bg-orange-400 rounded-full">
-
+                                <a href="/laboran/delete/{{ $d->id_laboran }}"
+                                    onclick="return confirm('Yakin hapus?')"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
-
-                                </button>
+                                </a>
 
                             </div>
-
                         </td>
-
                     </tr>
-
-                    @endfor
-
+                    @endforeach
                 </tbody>
 
             </table>
 
         </div>
 
+        {{-- PAGINATION --}}
+        <div class="flex justify-end mt-4 space-x-2">
+            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
+            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
+            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
+            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
+            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
+        </div>
+
     </div>
-
 </div>
 
-
-{{-- MODAL TAMBAH --}}
 <div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-<div class="modal-content bg-[#5a5f86] p-8 rounded-xl max-w-3xl w-full text-white opacity-0 translate-y-10 transition-all">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+        <h2 class="text-lg font-bold mb-4">Tambah Laboran</h2>
 
-<h2 class="font-bold text-lg mb-4">
+        <form action="/laboran/store" method="POST">
+            @csrf
+            <label class="text-sm mb-1 block">NIK</label>
+            <input type="text" name="nik" placeholder="NIK"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-Tambah Laboran
+            <label class="text-sm mb-1 block">Nama Laboran</label>
+            <input type="text" name="nama_laboran" placeholder="Nama Laboran"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-</h2>
+                <label class="text-sm mb-1 block">Kode Laboran</label>
+            <input type="text" name="kode_laboran" placeholder="Kode Laboran"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-<form>
+            <label class="text-sm mb-1 block">Password</label>
+            <input type="password" name="password" placeholder="Password"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-<label>NIK</label>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('tambahModal')"
+                    class="bg-gray-300 px-3 py-1 rounded">
+                    Batal
+                </button>
 
-<input type="text"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Nama Laboran</label>
-
-<input type="text"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Kode Laboran</label>
-
-<input type="text"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Password</label>
-
-<input type="password"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<div class="flex justify-end gap-2">
-
-<button
-type="button"
-onclick="closeModal('tambahModal')"
-class="bg-gray-300 text-black px-3 py-1 rounded">
-
-Batal
-
-</button>
-
-<button
-class="bg-blue-600 px-3 py-1 rounded">
-
-Simpan
-
-</button>
-
+                <button type="submit"
+                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                    Simpan
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
-</form>
-
-</div>
-
-</div>
-
-
-{{-- MODAL EDIT --}}
 <div id="editModal"
-class="hidden fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-<div class="modal-content bg-[#5a5f86] p-8 rounded-xl max-w-3xl w-full text-white opacity-0 translate-y-10 transition-all">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+        <h2 class="text-lg font-bold mb-4">Ubah Laboran</h2>
 
-<h2 class="font-bold text-lg mb-4">
+        <form id="formEdit" method="POST">
+            @csrf
+            <label class="text-sm mb-1 block">NIK</label>
+            <input type="text" id="editNik" readonly
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-Ubah Laboran
+            <label class="text-sm mb-1 block">Nama Laboran</label>
+            <input type="text" name="nama_laboran" id="editNama"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-</h2>
+            <label class="text-sm mb-1 block">Kode Laboran</label>
+            <input type="text" name="kode_laboran" id="editKode"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-<form>
+            <label class="text-sm mb-1 block">Password Baru</label>
+            <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-<label>NIK</label>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('editModal')"
+                    class="bg-gray-300 px-3 py-1 rounded">
+                    Batal
+                </button>
 
-<input id="editNik"
-readonly
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Nama Laboran</label>
-
-<input id="editNama"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Kode Laboran</label>
-
-<input id="editKode"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<label>Password Baru</label>
-
-<input
-type="password"
-placeholder="Kosongkan jika tidak diubah"
-class="w-full mb-3 px-3 py-2 rounded text-black">
-
-<div class="flex justify-end gap-2">
-
-<button
-type="button"
-onclick="closeModal('editModal')"
-class="bg-gray-300 text-black px-3 py-1 rounded">
-
-Batal
-
-</button>
-
-<button
-class="bg-yellow-500 px-3 py-1 rounded">
-
-Update
-
-</button>
-
+                <button type="submit"
+                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
-</form>
-
-</div>
-
-</div>
-
-
-{{-- MODAL DETAIL --}}
 <div id="detailModal"
-class="hidden fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-<div class="modal-content bg-[#5a5f86] p-8 rounded-xl max-w-2xl w-full text-white opacity-0 translate-y-10 transition-all">
+    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+        <h2 class="text-lg font-bold mb-4">Detail Laboran</h2>
 
-<h2 class="font-bold text-lg mb-4">
+        <div class="space-y-3">
+            <div>
+                <label class="text-sm">NIK</label>
+                <p id="detailNik" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
 
-Detail Laboran
+            <div>
+                <label class="text-sm">Nama Laboran</label>
+                <p id="detailNama" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+        </div>
 
-</h2>
-
-<label>NIK</label>
-<p id="detailNik"
-class="bg-white text-black px-3 py-2 rounded mb-3"></p>
-
-<label>Nama Laboran</label>
-<p id="detailNama"
-class="bg-white text-black px-3 py-2 rounded mb-3"></p>
-
-<label>Kode Laboran</label>
-<p id="detailKode"
-class="bg-white text-black px-3 py-2 rounded"></p>
-
-<div class="flex justify-end mt-4">
-
-<button
-onclick="closeModal('detailModal')"
-class="bg-gray-300 text-black px-3 py-1 rounded">
-
-Tutup
-
-</button>
-
+        <label class="text-sm mb-1 block mt-3">Kode Laboran</label>
+        <p id="detailKode" class="bg-white text-black px-3 py-2 rounded"></p>
+        
+        <div class="flex justify-end mt-4">
+            <button onclick="closeModal('detailModal')"
+                class="bg-gray-300 px-3 py-1 rounded text-black">
+                Tutup
+            </button>
+        </div>
+    </div>
 </div>
-
-</div>
-
-</div>
-
 
 <script>
-
+// ===== MODAL ANIMATION =====
 function showModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
 
-let modal=document.getElementById(id)
-let content=modal.querySelector('.modal-content')
+    modal.classList.remove('hidden')
 
-modal.classList.remove('hidden')
-
-setTimeout(()=>{
-
-content.classList.remove('opacity-0','translate-y-10')
-content.classList.add('opacity-100','translate-y-0')
-
-},10)
-
+    setTimeout(() => {
+        content.classList.remove('opacity-0', 'translate-y-10')
+        content.classList.add('opacity-100', 'translate-y-0')
+    }, 10)
 }
 
 function hideModal(id){
+    const modal = document.getElementById(id)
+    const content = modal.querySelector('.modal-content')
 
-let modal=document.getElementById(id)
-let content=modal.querySelector('.modal-content')
+    content.classList.remove('opacity-100', 'translate-y-0')
+    content.classList.add('opacity-0', 'translate-y-10')
 
-content.classList.remove('opacity-100','translate-y-0')
-content.classList.add('opacity-0','translate-y-10')
-
-setTimeout(()=>{
-
-modal.classList.add('hidden')
-
-},300)
-
+    setTimeout(() => {
+        modal.classList.add('hidden')
+    }, 300)
 }
 
+// ===== OPEN CLOSE =====
 function openModal(id){
-showModal(id)
+    showModal(id)
 }
 
 function closeModal(id){
-hideModal(id)
+    hideModal(id)
 }
 
-function openEdit(id,nik,nama,kode){
+// ===== EDIT =====
+function openEdit(id, nik, nama, kode){
+    showModal('editModal')
 
-showModal('editModal')
+    document.getElementById('editNik').value = nik
+    document.getElementById('editNama').value = nama
+    document.getElementById('editKode').value = kode
 
-document.getElementById('editNik').value=nik
-document.getElementById('editNama').value=nama
-document.getElementById('editKode').value=kode
+    // reset password
+    document.getElementById('editPassword').value=''
 
+    document.getElementById('formEdit').action='/laboran/update/'+id
 }
 
-function openDetail(nik,nama,kode){
+// ===== DETAIL =====
+function openDetail(nik, nama, kode){
+    showModal('detailModal')
 
-showModal('detailModal')
-
-document.getElementById('detailNik').innerText=nik
-document.getElementById('detailNama').innerText=nama
-document.getElementById('detailKode').innerText=kode
-
+    document.getElementById('detailNik').innerText = nik
+    document.getElementById('detailNama').innerText = nama
+    document.getElementById('detailKode').innerText = kode
 }
-
 </script>
 
 @endsection

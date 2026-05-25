@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DosenController;
@@ -92,8 +91,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dosen_part_time/delete/{id_dosen_part_time}', [DosenPartTimeController::class, 'delete']);
 
     Route::get('/laboran', [LaboranController::class, 'index']);
+    Route::post('/laboran/store', [LaboranController::class, 'store']);
+    Route::post('laboran/update/{id_laboran}', [LaboranController::class, 'update']);
+    Route::get('/laboran/delete/{id_laboran}', [LaboranController::class, 'delete']);
 
     Route::get('/kps', [KpsController::class, 'index']);
+    Route::post('/kps/store', [KpsController::class, 'store']);
+    Route::post('/kps/update/{id_prodi}', [KpsController::class, 'update']);
+    Route::get('/kps/delete/{id_prodi}', [KpsController::class, 'delete']);
 });
 //MAHASISWA
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {

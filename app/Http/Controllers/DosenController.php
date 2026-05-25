@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\User;
+use App\Models\Kelas;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DosenController extends Controller
@@ -10,12 +12,10 @@ class DosenController extends Controller
     public function index()
     {
         $data = Dosen::with('user')->get();
+
         return view('admin.dosen.index', compact('data'));
     }
-    public function create()
-    {
-        return view('admin.dosen.create');
-    }
+   
     public function store(Request $request)
     {
         $request->validate([
@@ -41,11 +41,7 @@ class DosenController extends Controller
         return redirect('/dosen-admin')
             ->with('success','Data dosen berhasil ditambahkan');
     }
-    public function edit($id_dosen)
-    {
-        $dosen = Dosen::findOrFail($id_dosen);
-        return view('admin.dosen.edit', compact('dosen'));
-    }
+   
 public function update(Request $request, $id_dosen)
 {
     $dosen = Dosen::findOrFail($id_dosen);
@@ -60,9 +56,18 @@ public function update(Request $request, $id_dosen)
         'kode_dosen' => $request->kode_dosen,
     ]);
 
-    $dosen->user->update([
+    // data update user
+    $userData = [
         'name' => $request->nama_dosen,
-    ]);
+    ];
+
+    // kalau password diisi
+    if ($request->filled('password')) {
+        $userData['password'] = bcrypt($request->password);
+    }
+
+    // update user
+    $dosen->user->update($userData);
 
     return redirect('/dosen-admin')
         ->with('success','Data dosen berhasil diubah');

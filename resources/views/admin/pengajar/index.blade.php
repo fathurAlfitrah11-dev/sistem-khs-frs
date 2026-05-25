@@ -60,10 +60,11 @@
 
         @if(count($tahunAjaran) > 0)
                 @foreach($tahunAjaran as $ta)
-                    <option value="{{ $ta->id_tahun_ajaran }}">
-                        {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
-                        - {{ ucfirst($ta->semester) }}
-                    </option>
+                    <option value="{{ $ta->id_tahun_ajaran }}"
+    {{ $idTahun == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+    {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+    - {{ ucfirst($ta->semester) }}
+</option>
                 @endforeach
             @else
                 <option disabled>Belum ada tahun ajaran</option>

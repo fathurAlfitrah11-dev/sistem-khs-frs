@@ -12,11 +12,12 @@ class DosenPartTime extends Model
         'nik',
         'nama_dosen',
         'tempat_part_time',
+        'kode_dosen',
         'user_id'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

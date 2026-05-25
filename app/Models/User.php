@@ -19,4 +19,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Dosen::class, 'nik', 'username');
     }
+    public function dosenPartTime()
+    {
+        return $this->hasOne(DosenPartTime::class, 'nik', 'username');
+    }
+    public function laboran()
+    {
+        return $this->hasOne(Laboran::class, 'nik', 'username');
+    }
 }

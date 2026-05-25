@@ -17,18 +17,21 @@ class PengajarController extends Controller
     $idTahun = $request->id_tahun_ajaran 
         ?? optional($tahunAktif)->id_tahun_ajaran;
 
+    $tahunTerpilih = TahunAjaran::find($idTahun);
+
     $kelas = Kelas::with('prodi')
-    ->when($tahunAktif, function ($query) use ($tahunAktif) {
+        ->when($tahunTerpilih, function ($query) use ($tahunTerpilih) {
 
-        if ($tahunAktif->semester == 'ganjil') {
-            $query->whereRaw('semester % 2 = 1');
-        } else {
-            $query->whereRaw('semester % 2 = 0');
-        }
+            if ($tahunTerpilih->semester == 'ganjil') {
+                $query->whereRaw('semester % 2 = 1');
+            } else {
+                $query->whereRaw('semester % 2 = 0');
+            }
+
         })
-    ->get();
+        ->get();
 
-    $data = Pengajar::with(['dosen', 'mataKuliah', 'tahun', 'kelas'])
+    $data = Pengajar::with(['dosen', 'mataKuliah', 'tahun', 'kelas.prodi'])
         ->when($idTahun, function ($query) use ($idTahun) {
             $query->where('id_tahun_ajaran', $idTahun);
         })
@@ -66,8 +69,8 @@ class PengajarController extends Controller
         'semester' => $request->semester,
         ]);
 
-        return redirect('/pengajar')
-            ->with('success','Data pengajar berhasil ditambahkan');
+       return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
+    ->with('success','Data pengajar berhasil ditambahkan');
     }
     
     public function update(Request $request, $id_pengajar)
@@ -80,9 +83,15 @@ class PengajarController extends Controller
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
         ]);
-        $pengajar->update($request->all());
-        return redirect('/pengajar')
-            ->with('success','Data pengajar berhasil diupdate');
+         $pengajar->update([
+    'nik' => $request->nik,
+    'id_mata_kuliah' => $request->id_mata_kuliah,
+    'kelas_id' => $request->kelas_id,
+    'id_tahun_ajaran' => $request->id_tahun_ajaran,
+    'semester' => $request->semester,
+]);
+        return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
+    ->with('success','Data pengajar berhasil diupdate');
     }
     public function delete($id_pengajar)
     {        $pengajar = Pengajar::findOrFail($id_pengajar);

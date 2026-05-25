@@ -114,7 +114,7 @@ transform opacity-0 translate-y-10 transition-all duration-300">
             <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
-                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 
@@ -166,7 +166,7 @@ transform opacity-0 translate-y-10 transition-all duration-300">
             <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
-                <option value="{{ $p->id_prodi }}">{{ $p->nama_prodi }}</option>
+                <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
 

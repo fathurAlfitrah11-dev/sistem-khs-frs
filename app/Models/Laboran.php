@@ -1,20 +1,19 @@
 <?php
 
 namespace App\Models;
-use App\Models\User;
-use App\Models\Pengajar;
-use App\Models\Kelas;
+
 use Illuminate\Database\Eloquent\Model;
 
-class Dosen extends Model
+class Laboran extends Model
 {
-    protected $table = 'dosen';
-
-    protected $primaryKey = 'id_dosen';
-    public $incrementing = true;
-    protected $keyType = 'int';
-
-    protected $fillable = ['nik','nama_dosen','kode_dosen','user_id'];
+    protected $table = 'laboran';
+    protected $primaryKey = 'id_laboran';
+    protected $fillable = [
+        'nik',
+        'nama_laboran',
+        'kode_laboran',
+        'user_id'
+    ];
 
     public function user()
     {
