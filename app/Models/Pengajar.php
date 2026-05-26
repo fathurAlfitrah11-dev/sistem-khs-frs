@@ -29,7 +29,13 @@ class Pengajar extends Model
 
     public function mataKuliah()
     {
-        return $this->belongsTo(MataKuliah::class, 'id_mata_kuliah');
+        {
+        return $this->belongsTo(
+            MataKuliah::class,
+            'id_mata_kuliah',
+            'id_mata_kuliah'
+        );
+        }
     }
 
     public function tahun()

@@ -112,6 +112,8 @@ Route::get('/mahasiswa-real', [MahasiswaRealController::class, 'index']);
 Route::get('/matakuliahmahasiswa', [MatakuliahMahasiswaController::class, 'index']);
 
 Route::get('/krsmahasiswa', [KrsMahasiswaController::class, 'index']);
+Route::post('/mahasiswa/tambah-krs/{id}',[MatakuliahMahasiswaController::class,'tambahKrs']);
+Route::delete('/mahasiswa/krs/hapus/{id}', [KrsMahasiswaController::class, 'hapusmatkul']);
 
 Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
 

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+<h1 class="text-3xl font-bold mb-6 text-black">Dashboard</h1>
 <div class="relative w-full h-48 md:h-64 overflow-hidden rounded-2xl mb-6">
     
     <div id="slider" class="flex transition-transform duration-700" data-aos="fade-up" data-aos-delay="100">
@@ -20,7 +20,7 @@
 
     <div class="col-span-full bg-[#3c4167] text-white p-6 rounded-2xl bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow duration-200" data-aos="fade-up" data-aos-delay="100">
         <h2 class="text-xl font-bold mb-2 text-black">
-            Selamat Datang Mahasiswa!
+            Selamat Datang, {{Auth ::user()->name}}!
         </h2>
         <p class="text-sm opacity-80 text-black">
             Ini adalah dashboard mahasiswa.
@@ -47,7 +47,7 @@
                     Active
                 </span>
             </div>
-            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMahasiswa ?? 1247) }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMahasiswa) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Students</p>
         </div>
 
@@ -66,7 +66,7 @@
                     Active
                 </span>
             </div>
-            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalDosen ?? 89) }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalDosen) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Lecturers</p>
         </div>
 
@@ -84,7 +84,7 @@
                     Available
                 </span>
             </div>
-            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMataKuliah ?? 156) }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalMataKuliah) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Total Courses</p>
         </div>
 
@@ -102,7 +102,7 @@
                     Current
                 </span>
             </div>
-            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalEnrollment ?? 4892) }}</p>
+            <p class="text-3xl font-bold text-gray-900">{{ number_format($totalProdi) }}</p>
             <p class="text-sm text-gray-500 mt-0.5 mb-3">Study Program</p>
         </div>
 

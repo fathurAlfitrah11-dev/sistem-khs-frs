@@ -4,6 +4,18 @@
 
 @section('content')
 
+@php
+$totalSks = 0;
+
+foreach($krs as $k){
+    foreach($k->detail as $item){
+        $totalSks += $item->pengajar->mataKuliah->sks ?? 0;
+    }
+}
+
+$maxSks = 20;
+@endphp
+
     {{-- TABLE --}}
     <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="100">
 
@@ -24,46 +36,69 @@
                 </thead>
 
                 <tbody class="divide-y">
-    <tr class="hover:bg-gray-50">
-        <td class="px-6 py-3 text-black">IF101</td>
-        <td class="px-6 py-3 text-black">Pemrograman Dasar</td>
-        <td class="px-6 py-3 text-black">1</td>
-        <td class="px-6 py-3 text-yellow-400">Menunggu</td>
-        <td class="px-6 py-3 text-black">3</td>
 
-        <td class="px-6 py-3 text-center">
-            <div class="flex justify-center gap-2">
+@foreach($krs as $k)
 
-                {{-- DELETE --}}
-                <a href="#"
-                    onclick="openDelete('IF101','Pemrograman Dasar')"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                    <i class="fa-solid fa-trash text-black"></i>
-                </a>
-
-            </div>
-        </td>
-    </tr>
+    @foreach($k->detail as $item)
 
     <tr class="hover:bg-gray-50">
-        <td class="px-6 py-3 text-black">IF102</td>
-        <td class="px-6 py-3 text-black">Struktur Data</td>
-        <td class="px-6 py-3 text-black">2</td>
-        <td class="px-6 py-3 text-yellow-400">Menunggu</td>
-        <td class="px-6 py-3 text-black">4</td>
+
+        <td class="px-6 py-3 text-black">
+            {{ $item->pengajar->mataKuliah->kode_mk }}
+        </td>
+
+        <td class="px-6 py-3 text-black">
+            {{ $item->pengajar->mataKuliah->nama_mk }}
+        </td>
+
+        <td class="px-6 py-3 text-black">
+            {{ $item->pengajar->mataKuliah->semester }}
+        </td>
+
+        <td class="px-6 py-3 text-black">
+            {{ $item->status_wali }}
+        </td>
+
+        <td class="px-6 py-3 text-black">
+            {{ $item->pengajar->mataKuliah->sks }}
+        </td>
 
         <td class="px-6 py-3 text-center">
-            <div class="flex justify-center gap-2">
 
-                {{-- DELETE --}}
-                <a href="#"
-                    onclick="openDelete('IF102','Struktur Data')"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
+            @if($item->status_wali == 'pending')
+
+                <form action="/mahasiswa/krs/hapus/{{ $item->id_krs_detail }}"
+                    method="POST"
+                    class="inline">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button
+                    type="button"
+                    onclick="openDelete(
+                    '{{ $item->pengajar->mataKuliah->kode_mk }}',
+                    '{{ $item->pengajar->mataKuliah->nama_mk }}',
+                    '{{ $item->id_krs_detail }}'
+                    )"
+                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+
                     <i class="fa-solid fa-trash text-black"></i>
-                </a>
-            </div>
+
+                    </button>
+
+                </form>
+
+            @endif
+
         </td>
+
     </tr>
+
+    @endforeach
+
+@endforeach
+
 </tbody>
             </table>
 
@@ -72,27 +107,23 @@
             <div class="mt-4 flex justify-between items-center text-white text-sm">
 
                 <div>
-                    Total SKS: <b id="totalSks">7</b>
+                    Total SKS: <b id="totalSks">{{ $totalSks }}</b>
                 </div>
 
                 <div class="text-gray-300">
-                    Maksimal SKS: <b>24</b>
+                    Maksimal SKS: <b>{{$maxSks}}</b>
                 </div>
 
             </div>
 
             {{-- WARNING --}}
-            <div id="sksWarning" class="mt-2 text-red-400 text-sm hidden">
-                Total SKS melebihi batas maksimal!
-            </div>
-        {{-- PAGINATION --}}
-        <div class="flex justify-end mt-4 space-x-2">
-            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
-        </div>
+            @if($totalSks >= $maxSks)
+
+                <div class="mt-2 text-yellow-400 text-sm">
+                    Batas maksimum SKS sudah tercapai ({{ $maxSks }} SKS)
+                </div>
+
+            @endif
 
     </div>
 </div>
@@ -101,77 +132,146 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
     <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg opacity-0 transform translate-y-10 transition-all duration-300">
 
-        <h2 class="text-lg font-bold mb-4 text-center">Batalkan Mata Kuliah</h2>
+    <h2 class="text-lg font-bold mb-4 text-center">
+    Batalkan Mata Kuliah
+    </h2>
 
         <div class="bg-[#4a4f73] p-4 rounded mb-4 text-sm">
-            <p><b>Kode:</b> <span id="d_kode"></span></p>
-            <p><b>Nama:</b> <span id="d_nama"></span></p>
+
+        <p>
+        <b>Kode:</b>
+        <span id="d_kode"></span>
+        </p>
+
+        <p>
+        <b>Nama:</b>
+        <span id="d_nama"></span>
+        </p>
+
         </div>
 
         <p class="text-gray-300 text-sm text-center mb-5">
-            Mata kuliah ini akan dihapus dari KRS kamu.
+        Mata kuliah ini akan dihapus dari KRS kamu.
         </p>
 
-        <div class="flex justify-center gap-3">
+            <div class="flex justify-center gap-3">
 
-            <button onclick="closeDelete()"
-                class="bg-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded">
-                Batal
+            <button
+            onclick="closeDelete()"
+            class="bg-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded">
+
+            Batal
+
             </button>
 
-            <button onclick="confirmDelete()"
-                class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded font-semibold">
-                Ya, Hapus
+            <button
+            onclick="confirmDelete()"
+            class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded font-semibold">
+
+            Ya, Hapus
+
             </button>
+
+            </div>
 
         </div>
 
     </div>
 </div>
 <script>
-let deleteData = {}
 
-function openDelete(kode, nama){
-    deleteData = {kode, nama}
+let deleteData={}
 
-    document.getElementById('d_kode').innerText = kode
-    document.getElementById('d_nama').innerText = nama
+function openDelete(kode,nama,id){
 
-    document.getElementById('deleteModal').classList.remove('hidden')
-    // Trigger the transition effect
-    setTimeout(() => {
-        document.querySelector('#deleteModal .opacity-0').classList.remove('opacity-0')
-        document.querySelector('#deleteModal .translate-y-10').classList.remove('translate-y-10')
-    }, 10)
+    deleteData={
+        kode,
+        nama,
+        id
+    }
+
+    document.getElementById(
+        'd_kode'
+    ).innerText=kode
+
+    document.getElementById(
+        'd_nama'
+    ).innerText=nama
+
+    document
+    .getElementById(
+        'deleteModal'
+    )
+    .classList.remove(
+        'hidden'
+    )
+
+    setTimeout(()=>{
+
+        let modal=document.querySelector(
+            '#deleteModal .opacity-0'
+        )
+
+        modal.classList.remove(
+            'opacity-0'
+        )
+
+        modal.classList.remove(
+            'translate-y-10'
+        )
+
+    },10)
 }
 
 function closeDelete(){
-    document.getElementById('deleteModal').classList.add('hidden')
+
+    document
+    .getElementById(
+        'deleteModal'
+    )
+    .classList.add(
+        'hidden'
+    )
 }
 
 function confirmDelete(){
-    alert("Matakuliah " + deleteData.nama + " dihapus (dummy)")
 
-    closeDelete()
+    let form=document.createElement(
+        'form'
+    )
+
+    form.method='POST'
+
+    form.action=
+    '/mahasiswa/krs/hapus/'
+    +deleteData.id
+
+    let csrf=document.createElement(
+        'input'
+    )
+
+    csrf.type='hidden'
+    csrf.name='_token'
+    csrf.value=
+    '{{ csrf_token() }}'
+
+    form.appendChild(csrf)
+
+    let method=document.createElement(
+        'input'
+    )
+
+    method.type='hidden'
+    method.name='_method'
+    method.value='DELETE'
+
+    form.appendChild(method)
+
+    document.body.appendChild(
+        form
+    )
+
+    form.submit()
 }
-
-function updateSKS(){
-    // dummy ambil dari table (hardcode dulu karena lu masih statis)
-    let sks = [3,4] // ambil dari data lu
-    let total = sks.reduce((a,b)=>a+b,0)
-
-    document.getElementById('totalSks').innerText = total
-
-    let max = 24
-
-    if(total > max){
-        document.getElementById('sksWarning').classList.remove('hidden')
-    }else{
-        document.getElementById('sksWarning').classList.add('hidden')
-    }
-}
-
-// jalanin saat load
-updateSKS()
 </script>
 @endsection
