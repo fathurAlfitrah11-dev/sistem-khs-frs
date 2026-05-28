@@ -97,9 +97,14 @@
             <label class="block text-sm mb-1">Dosen</label>
             <select name="nik_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
-                @foreach($dosen as $d)
-                <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
-                @endforeach
+               @foreach($dosen as $d)
+
+                @if(!in_array($d->nik, $dosenWali))
+                <option value="{{ $d->nik }}">
+                    {{ $d->user->name }}
+                </option>
+                @endif
+            @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>

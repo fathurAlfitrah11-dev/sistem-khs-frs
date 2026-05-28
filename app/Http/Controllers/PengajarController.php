@@ -38,7 +38,19 @@ class PengajarController extends Controller
         ->get();
 
     $dosen = Dosen::with('user')->get();
-    $mataKuliah = MataKuliah::all();
+    $mataKuliah = MataKuliah::query();
+
+if ($tahunTerpilih) {
+
+    if ($tahunTerpilih->semester == 'ganjil') {
+        $mataKuliah->whereRaw('semester % 2 = 1');
+    } else {
+        $mataKuliah->whereRaw('semester % 2 = 0');
+    }
+
+}
+
+    $mataKuliah = $mataKuliah->get();
     $tahunAjaran = TahunAjaran::all();
 
     return view('admin.pengajar.index', compact(

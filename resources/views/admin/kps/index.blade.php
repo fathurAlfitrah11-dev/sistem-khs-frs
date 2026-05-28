@@ -63,7 +63,7 @@
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $p->id_prodi }}', '{{ $p->kps->nik ?? '-' }}', '{{ $p->kps->nama_dosen ?? '-' }}','{{ $p->kps->kode_dosen ?? '-' }}','{{ $p->jenjang }} {{ $p->nama_prodi }}')"
+                                <button onclick="openEdit('{{ $p->id_prodi }}', '{{ $p->kps->nik }}', '{{ $p->id_prodi }}')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
                                     <i class="fa-solid fa-pen text-black"></i>
                                 </button>
@@ -107,7 +107,15 @@
             <select name="nik_kps" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
-                <option value="{{ $d->nik }}">{{ $d->nama_dosen }}</option>
+
+                @if(!in_array($d->nik, $DosenKps))
+
+                <option value="{{ $d->nik }}">
+                    {{ $d->user->name }}
+                </option>
+
+                @endif
+
                 @endforeach
             </select>
 
@@ -135,7 +143,7 @@
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
-        <h2 class="text-lg font-bold mb-4">Ubah Program Studi</h2>
+        <h2 class="text-lg font-bold mb-4">Ubah KPS</h2>
 
         <form id="formEdit" method="POST">
             @csrf
@@ -144,7 +152,7 @@
             <select name="nik_kps" id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
-                <option value="{{ $d->nik }}">{{ $d->nama_dosen }}</option>
+                <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
 

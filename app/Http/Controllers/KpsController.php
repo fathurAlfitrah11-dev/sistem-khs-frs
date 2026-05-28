@@ -17,11 +17,13 @@ class KpsController extends Controller
         $allProdi = Prodi::all();
 
         $dosen = Dosen::with('user')->get();
-
+        $DosenKps = Prodi::whereNotNull('nik_kps')
+        ->pluck('nik_kps')
+        ->toArray();
         return view('admin.kps.index', compact(
             'prodiKps',
             'allProdi',
-            'dosen'
+            'dosen','DosenKps'
         ));
     }
 
@@ -34,6 +36,12 @@ class KpsController extends Controller
         ]);
 
         $prodi = Prodi::findOrFail($request->id_prodi);
+        
+        if ($prodi->nik_kps != null) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Program studi ini sudah memiliki KPS.');
+    }
 
         $prodi->update([
             'nik_kps' => $request->nik_kps

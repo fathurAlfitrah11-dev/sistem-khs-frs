@@ -15,8 +15,11 @@ class DosenWaliController extends Controller
         ->get();
         $allKelas = Kelas::with('prodi')->get();
         $dosen = Dosen::with('user')->get();
+        $dosenWali = Kelas::whereNotNull('nik_wali')
+    ->pluck('nik_wali')
+    ->toArray();
 
-return view('admin.dosen-wali.index', compact('kelasWali', 'allKelas', 'dosen'));
+return view('admin.dosen-wali.index', compact('kelasWali', 'allKelas', 'dosen', 'dosenWali'));
     }
 
     public function store(Request $request)
@@ -29,6 +32,11 @@ return view('admin.dosen-wali.index', compact('kelasWali', 'allKelas', 'dosen'))
         ]);
 
         $kelas = Kelas::findOrFail($request->id_kelas);
+        if($kelas->nik_wali !=null){
+            return redirect()->back()
+            ->withInput()
+            ->with('error', 'Kelas ini sudah memiliki dosen wali.');
+        }
 
         $kelas->update([
             'nik_wali' => $request->nik_wali
