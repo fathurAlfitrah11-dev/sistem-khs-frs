@@ -11,10 +11,18 @@
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
         data-aos-delay="200">
         <div class="flex-1 mr-4">
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri Dosen Wali" class="w-full outline-none text-sm text-gray-700">
+
+            <div class="flex items-center bg-white rounded px-3 py-2">
+
+                <input
+                    type="text"
+                    placeholder="Telusuri Dosen Wali"
+                    class="w-full outline-none text-sm text-gray-700">
+
                 <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+
             </div>
+
         </div>
             <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">

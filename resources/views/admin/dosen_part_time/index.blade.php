@@ -8,12 +8,22 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen Part Time</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
-        
-        <div class="flex items-center bg-white rounded px-3 py-2 w-1/2">
-            <input type="text" placeholder="Telusuri Dosen"
-                class="w-full outline-none text-sm text-gray-700">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="200">
+
+        <div class="flex-1 mr-4">
+
+            <div class="flex items-center bg-white rounded px-3 py-2">
+
+                <input
+                    type="text"
+                    placeholder="Telusuri Dosen Part Time"
+                    class="w-full outline-none text-sm text-gray-700">
+
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+
+            </div>
+
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -61,7 +71,8 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/dosen_part_time/delete/{{ $d->id_dosen_part_time }}" onclick="return confirm('Yakin hapus?')"
+                                <a href="/dosen_part_time/delete/{{ $d->id_dosen_part_time }}"
+                                    onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
                                     <i class="fa-solid fa-trash text-black"></i>
                                 </a>
@@ -88,10 +99,10 @@
     </div>
 </div>
 
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen Part Time</h2>
 
         <form action="/dosen_part_time/store" method="POST">
@@ -111,19 +122,17 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <label class="text-sm mb-1 block">Password</label>
             <input type="password" name="password" placeholder="Password"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
-            
-                <label class="text-sm mb-1 block">Tempat Part Time</label>
-                <input type="text" name="tempat_part_time" placeholder="Tempat Part Time"
-                    class="w-full mb-3 px-3 py-2 border rounded text-black">
+
+            <label class="text-sm mb-1 block">Tempat Part Time</label>
+            <input type="text" name="tempat_part_time" placeholder="Tempat Part Time"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -131,10 +140,10 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="editModal"
-    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
 
         <form id="formEdit" method="POST">
@@ -148,21 +157,18 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen Part Time</label>
-            <input type="text" name="nama_dosen" id="editNama"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" name="nama_dosen" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Tempat Part Time</label>
             <input type="text" name="tempat_part_time" id="editTempat"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -170,10 +176,10 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Dosen Part Time</h2>
 
         <div class="space-y-3">
@@ -197,10 +203,9 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                 <p id="detailTempat" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
         </div>
-    
+
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -209,7 +214,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
 <script>
 // ===== MODAL ANIMATION =====
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -221,7 +226,7 @@ function showModal(id){
     }, 10)
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -234,11 +239,11 @@ function hideModal(id){
 }
 
 // ===== OPEN CLOSE =====
-function openModal(id){
+function openModal(id) {
     showModal(id)
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id)
 }
 

@@ -12,23 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('khs', function (Blueprint $table) {
-    $table->id('id_khs');
+            $table->id('id_khs');
 
-    $table->unsignedBigInteger('krs_detail_id');
-    $table->unsignedBigInteger('dosen_id');
+            $table->unsignedBigInteger('krs_detail_id');
+            $table->unsignedBigInteger('dosen_id');
 
-    $table->float('partisipatif')->nullable();
-    $table->float('tugas')->nullable();
-    $table->float('quiz')->nullable();
-    $table->float('proyek')->nullable();
-    $table->float('uts')->nullable();
-    $table->float('uas')->nullable();
+            $table->float('partisipatif')->nullable();
+            $table->float('tugas')->nullable();
+            $table->float('quiz')->nullable();
+            $table->float('proyek')->nullable();
+            $table->float('uts')->nullable();
+            $table->float('uas')->nullable();
 
-    $table->float('na')->nullable();
-    $table->string('nh', 2)->nullable();
+            $table->float('na')->nullable();
+            $table->string('nh', 2)->nullable();
+            
+            // Kolom status untuk membedakan Draft dan Final
+            $table->enum('status', ['Draft', 'Final'])->default('Draft');
 
-    $table->timestamps();
-});
+            $table->timestamps();
+        });
     }
 
     /**

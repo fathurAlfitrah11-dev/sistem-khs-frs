@@ -21,4 +21,8 @@ class KrsDetail extends Model
     {
         return $this->belongsTo(Pengajar::class,'pengajar_id');
     }
+    public function khs()
+{
+    return $this->hasOne(Khs::class, 'krs_detail_id');
+}
 }

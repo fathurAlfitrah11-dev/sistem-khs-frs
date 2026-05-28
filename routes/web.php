@@ -21,6 +21,7 @@ use App\Http\Controllers\DosenPartTimeController;
 use App\Http\Controllers\PengaturanAkunMahasiswaController;
 use App\Http\Controllers\LaboranController;
 use App\Http\Controllers\KpsController;
+use App\Http\Controllers\PenilaianController;
 
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -124,6 +125,7 @@ Route::get('/PengaturanAkunMahasiswa', [PengaturanAkunMahasiswaController::class
 Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::get('/dosen', [DosenRealController::class, 'index']);
     Route::get('/perwalian', [DosenWaliKrsController::class, 'index']);
-    Route::get('/penilaian', [PenilaianDosenController::class, 'index']);
+    Route::get('/penilaian', [PenilaianController::class, 'index']);
+    Route::post('/penilaian/simpan', [PenilaianController::class, 'simpan']);
     Route::get('/lihatkrs', [DosenWaliLihatKrsController::class, 'index']);
 });
