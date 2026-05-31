@@ -56,17 +56,15 @@ public function update(Request $request, $id_dosen)
         'kode_dosen' => $request->kode_dosen,
     ]);
 
-    // data update user
     $userData = [
         'name' => $request->nama_dosen,
     ];
 
-    // kalau password diisi
     if ($request->filled('password')) {
         $userData['password'] = bcrypt($request->password);
     }
 
-    // update user
+
     $dosen->user->update($userData);
 
     return redirect('/dosen-admin')

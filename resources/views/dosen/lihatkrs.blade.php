@@ -1,317 +1,201 @@
 @extends('layout.dosen_app')
 
-@section('title','Detail KRS Mahasiswa')
+@section('title', 'Detail KRS Mahasiswa')
 
 @section('content')
 
-<div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto p-2">
 
-    {{-- HEADER --}}
-    <div class="relative overflow-hidden rounded-3xl p-8 mb-8
-        bg-gradient-to-br from-[#3b3f63] via-[#4a4f73] to-[#2f3250]
-        shadow-[0_10px_40px_rgba(59,63,99,0.35)]" data-aos="fade-up">
-
-        {{-- Blur Decoration --}}
-        <div class="absolute -top-16 -right-10 w-56 h-56 bg-orange-400/20 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl"></div>
-
-        <div class="relative z-10">
-
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-8">
-
-                <div>
-                    <p class="text-sm text-gray-300 mb-2">
-                        Perwalian Akademik
-                    </p>
-
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-                        Detail KRS Mahasiswa
-                    </h1>
-                </div>
-
-                {{-- STATUS --}}
-                <div
-                    class="inline-flex items-center gap-2 bg-yellow-400 text-black px-5 py-2 rounded-2xl text-sm font-bold shadow-lg">
-                     Menunggu Persetujuan
-                </div>
-
+    {{-- HEADER (Clean Slate Style - Menyesuaikan Dasbor Utama) --}}
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 mb-6 shadow-sm" data-aos="fade-up">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div>
+                <p class="text-xs font-semibold text-[#f9b17a] uppercase tracking-wider mb-1">
+                    Perwalian Akademik
+                </p>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+                    Detail KRS Mahasiswa
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">Periksa lembar rencana studi mahasiswa bimbingan Anda</p>
             </div>
 
-            {{-- INFO CARD --}}
-            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            {{-- STATUS BADGE (Amber Soft Modern) --}}
+            <div>
+                <span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 border border-amber-200 px-4 py-2 rounded-xl text-xs font-bold shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                    Menunggu Persetujuan
+                </span>
+            </div>
+        </div>
 
-                <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
-                    <p class="text-xs text-gray-300 mb-1">Nama Mahasiswa</p>
-                    <h3 class="text-lg font-bold text-white">Budi Santoso</h3>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
-                    <p class="text-xs text-gray-300 mb-1">NIM</p>
-                    <h3 class="text-lg font-bold text-white">220001</h3>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
-                    <p class="text-xs text-gray-300 mb-1">Kelas</p>
-                    <h3 class="text-lg font-bold text-white">IF-2A</h3>
-                </div>
-
-                <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl p-4">
-                    <p class="text-xs text-gray-300 mb-1">Semester</p>
-                    <h3 class="text-lg font-bold text-white">3</h3>
-                </div>
-
+        {{-- INFO GRID (Minimalis & Rapi) --}}
+      {{-- INFO GRID (Sudah Dirapatkan dan Sejajar) --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 pt-4 border-t border-slate-100">
+            <div class="bg-slate-50/60 rounded-xl px-4 py-2 border border-slate-100">
+                <p class="text-[11px] font-medium text-slate-400 mb-0.5">Nama Mahasiswa</p>
+                <h3 class="text-sm font-bold text-slate-700">Budi Santoso</h3>
             </div>
 
+            <div class="bg-slate-50/60 rounded-xl px-4 py-2 border border-slate-100">
+                <p class="text-[11px] font-medium text-slate-400 mb-0.5">NIM</p>
+                <h3 class="text-sm font-bold text-slate-700">220001</h3>
+            </div>
+
+            <div class="bg-slate-50/60 rounded-xl px-4 py-2 border border-slate-100">
+                <p class="text-[11px] font-medium text-slate-400 mb-0.5">Kelas</p>
+                <h3 class="text-sm font-bold text-slate-700">IF-2A</h3>
+            </div>
+
+            <div class="bg-slate-50/60 rounded-xl px-4 py-2 border border-slate-100">
+                <p class="text-[11px] font-medium text-slate-400 mb-0.5">Semester</p>
+                <h3 class="text-sm font-bold text-slate-700">3</h3>
+            </div>
         </div>
     </div>
 
-    {{-- FORM --}}
+    {{-- FORM UTAMA --}}
     <form>
-
-        {{-- TABLE CARD --}}
-        <div class="bg-[#3b3f63] rounded-3xl
-    p-6 mb-6 shadow-[0_10px_30px_rgba(59,63,99,0.25)]" data-aos="fade-up" data-aos-delay="100">
-
-            {{-- TOP --}}
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-
+        {{-- TABLE CARD CONTAINER --}}
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 mb-6 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+            
+            {{-- TOP CONTROL TABLE --}}
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">
-                        Mata Kuliah Diambil
-                    </h2>
-
-                    <p class="text-sm text-gray-300 mt-1">
-                        Daftar mata kuliah yang diajukan mahasiswa
-                    </p>
+                    <h2 class="text-lg font-bold text-slate-800">Mata Kuliah Diambil</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Daftar mata kuliah yang diajukan oleh mahasiswa bersangkutan</p>
                 </div>
 
-                <div class="flex gap-3">
-
-                    <button type="button" onclick="setAll('disetujui')" class="bg-green-500 hover:bg-green-400
-                text-white px-4 py-2 rounded-xl
-                text-sm font-medium transition shadow">
-
+                {{-- BULK ACTION BUTTONS --}}
+                <div class="flex gap-2.5">
+                    <button type="button" onclick="setAll('disetujui')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
                         ✔ Setujui Semua
-
                     </button>
 
-                    <button type="button" onclick="setAll('ditolak')" class="bg-red-500 hover:bg-red-400
-                text-white px-4 py-2 rounded-xl
-                text-sm font-medium transition shadow">
-
+                    <button type="button" onclick="setAll('ditolak')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
                         ✖ Tolak Semua
-
                     </button>
-
                 </div>
-
             </div>
 
-            {{-- TABLE --}}
-            <div class="overflow-x-auto rounded-2xl border border-white/10">
-
-                <table class="w-full">
-
-                    {{-- HEADER --}}
-                    <thead class="bg-[#2f3250] border-b border-white/10">
-
+            {{-- MODERN LIGHT TABLE --}}
+            <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm shadow-slate-100/40">
+                <table class="w-full text-sm border-collapse">
+                    <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-100">
                         <tr>
-
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">
-                                Kode
-                            </th>
-
-                            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-gray-300">
-                                Mata Kuliah
-                            </th>
-
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">
-                                SKS
-                            </th>
-
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">
-                                Kelas
-                            </th>
-
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-gray-300">
-                                Keputusan
-                            </th>
-
+                            <th class="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Kode</th>
+                            <th class="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Mata Kuliah</th>
+                            <th class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">SKS</th>
+                            <th class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Kelas</th>
+                            <th class="px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Keputusan</th>
                         </tr>
-
                     </thead>
 
-                    {{-- BODY --}}
-                    <tbody class="divide-y divide-white/5 bg-[#4a4f73]">
-
+                    <tbody class="divide-y divide-slate-100 bg-white">
                         @php
                         $mk = [
-                        (object)['id'=>1,'kode'=>'IF101','nama'=>'Pemrograman Dasar','sks'=>3,'kelas'=>'IF-A'],
-                        (object)['id'=>2,'kode'=>'IF102','nama'=>'Struktur Data','sks'=>4,'kelas'=>'IF-A'],
-                        (object)['id'=>3,'kode'=>'IF103','nama'=>'Basis Data','sks'=>3,'kelas'=>'IF-A'],
-                        (object)['id'=>4,'kode'=>'IF104','nama'=>'Jaringan Komputer','sks'=>3,'kelas'=>'IF-A'],
+                            (object)['id'=>1,'kode'=>'IF101','nama'=>'Pemrograman Dasar','sks'=>3,'kelas'=>'IF-A'],
+                            (object)['id'=>2,'kode'=>'IF102','nama'=>'Struktur Data','sks'=>4,'kelas'=>'IF-A'],
+                            (object)['id'=>3,'kode'=>'IF103','nama'=>'Basis Data','sks'=>3,'kelas'=>'IF-A'],
+                            (object)['id'=>4,'kode'=>'IF104','nama'=>'Jaringan Komputer','sks'=>3,'kelas'=>'IF-A'],
                         ];
                         @endphp
 
                         @foreach($mk as $d)
-
-                        <tr class="hover:bg-white/5 transition-all duration-200">
-
+                        <tr class="hover:bg-slate-50/50 transition-colors duration-150">
                             {{-- KODE --}}
-                            <td class="px-6 py-5 text-white font-semibold">
+                            <td class="px-6 py-4 text-slate-800 font-bold tracking-wide">
                                 {{ $d->kode }}
                             </td>
 
                             {{-- MATA KULIAH --}}
-                            <td class="px-6 py-5">
-
-                                <p class="font-semibold text-white text-[15px]">
+                            <td class="px-6 py-4">
+                                <p class="font-semibold text-slate-700">
                                     {{ $d->nama }}
                                 </p>
-
                             </td>
 
                             {{-- SKS --}}
-                            <td class="px-6 py-5 text-center text-white font-semibold">
+                            <td class="px-6 py-4 text-center text-slate-700 font-bold">
                                 {{ $d->sks }}
                             </td>
 
                             {{-- KELAS --}}
-                            <td class="px-6 py-5 text-center text-gray-200 font-medium">
-                                {{ $d->kelas }}
+                            <td class="px-6 py-4 text-center text-slate-500 font-medium">
+                                <span class="bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-md text-xs font-semibold">
+                                    {{ $d->kelas }}
+                                </span>
                             </td>
 
-                            </td>
-
-                            {{-- KEPUTUSAN --}}
-                            <td class="px-6 py-5">
-
-                                <div class="flex justify-center gap-3">
-
+                            {{-- KEPUTUSAN RADIO BUTTONS (Super Clean & Minimalis) --}}
+                            <td class="px-6 py-4">
+                                <div class="flex justify-center gap-2.5">
                                     {{-- SETUJUI --}}
-                                    <label class="cursor-pointer flex items-center gap-2
-                                px-4 py-2 rounded-xl
-                                border border-green-400/20
-                                bg-green-500/10
-                                hover:bg-green-500/20
-                                transition">
-
-                                        <input type="radio" name="status[{{ $d->id }}]" value="disetujui"
-                                            class="accent-green-400">
-
-                                        <span class="text-sm font-medium text-green-300">
+                                    <label class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:border-emerald-300 hover:bg-emerald-50/30 transition-all duration-150 group">
+                                        <input type="radio" name="status[{{ $d->id }}]" value="disetujui" class="accent-emerald-600 w-3.5 h-3.5">
+                                        <span class="text-xs font-semibold text-slate-600 group-hover:text-emerald-700">
                                             Setujui
                                         </span>
-
                                     </label>
 
                                     {{-- TOLAK --}}
-                                    <label class="cursor-pointer flex items-center gap-2
-                                px-4 py-2 rounded-xl
-                                border border-red-400/20
-                                bg-red-500/10
-                                hover:bg-red-500/20
-                                transition">
-
-                                        <input type="radio" name="status[{{ $d->id }}]" value="ditolak"
-                                            class="accent-red-400">
-
-                                        <span class="text-sm font-medium text-red-300">
+                                    <label class="cursor-pointer flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:border-rose-300 hover:bg-rose-50/30 transition-all duration-150 group">
+                                        <input type="radio" name="status[{{ $d->id }}]" value="ditolak" class="accent-rose-600 w-3.5 h-3.5">
+                                        <span class="text-xs font-semibold text-slate-600 group-hover:text-rose-700">
                                             Tolak
                                         </span>
-
                                     </label>
-
                                 </div>
-
                             </td>
-
                         </tr>
-
                         @endforeach
-
                     </tbody>
-
                 </table>
-
             </div>
 
-            {{-- FOOTER --}}
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-6">
-
+            {{-- TABLE FOOTER CONTROL --}}
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-5 pt-4 border-t border-slate-100">
                 {{-- TOTAL SKS --}}
-                <div class="inline-flex items-center gap-2
-            bg-white/10 backdrop-blur-xl
-            border border-white/10
-            text-white px-5 py-3 rounded-2xl shadow">
-
-                     Total SKS :
-                    <span class="font-bold text-lg">13</span>
-
+                <div class="inline-flex items-center gap-2 bg-slate-50 text-slate-700 border border-slate-100 px-4 py-2 rounded-xl shadow-sm text-xs font-medium">
+                    Total SKS Diambil:
+                    <span class="font-extrabold text-sm text-slate-800">{{ 13 }}</span>
                 </div>
 
                 {{-- INFO --}}
-                <div class="text-sm text-gray-300">
-                    Pastikan keputusan KRS sudah sesuai sebelum disimpan.
+                <div class="text-xs text-slate-400 font-medium flex items-center gap-1">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Pastikan keputusan KRS sudah sesuai sebelum disimpan ke pangkalan data.
                 </div>
-
             </div>
-
         </div>
 
-        {{-- NOTES --}}
-        <div class="bg-white/80 backdrop-blur-xl rounded-3xl border border-white/40
-            p-6 mb-6 shadow-sm" data-aos="fade-up" data-aos-delay="200">
-
-            <div class="mb-4">
-
-                <h2 class="text-xl font-bold text-gray-800">
-                    Catatan Dosen
-                </h2>
-
-                <p class="text-sm text-gray-500 mt-1">
-                    Tambahkan catatan atau revisi untuk mahasiswa
-                </p>
-
+        {{-- CATATAN DOSEN CARD --}}
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 mb-6 shadow-sm" data-aos="fade-up" data-aos-delay="150">
+            <div class="mb-3">
+                <h2 class="text-lg font-bold text-slate-800">Catatan Tambahan Dosen</h2>
+                <p class="text-xs text-slate-400">Berikan pesan atau instruksi khusus revisi jika ada berkas yang ditolak</p>
             </div>
 
-            <textarea class="w-full h-36 rounded-2xl border border-gray-200
-                px-5 py-4 text-gray-700 focus:ring-2 focus:ring-[#3b3f63]
-                outline-none resize-none" placeholder="Tambahkan catatan jika diperlukan..."></textarea>
-
+            <textarea class="w-full h-28 rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:border-[#f9b17a] focus:ring-1 focus:ring-[#f9b17a] outline-none resize-none transition-all placeholder:text-slate-300" placeholder="Ketikkan catatan bimbingan akademik di sini..."></textarea>
         </div>
 
-        {{-- ACTION --}}
-        <div class="flex flex-col sm:flex-row justify-between gap-4" data-aos="fade-up" data-aos-delay="300">
-
-            <a href="/perwalian" class="inline-flex items-center justify-center gap-2
-                bg-gray-200 hover:bg-gray-300
-                text-gray-700 font-medium
-                px-5 py-3 rounded-2xl transition">
-
-                ← Kembali
-
+        {{-- ACTIONS BUTTON BOTTOM --}}
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4" data-aos="fade-up" data-aos-delay="200">
+            <a href="/perwalian" class="inline-flex items-center justify-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-xs px-5 py-3 rounded-xl transition-colors duration-200 shadow-sm">
+                ← Kembali ke List
             </a>
 
-            <button type="submit" class="inline-flex items-center justify-center gap-2
-                bg-green-500 hover:bg-green-400
-                text-white font-semibold
-                px-6 py-3 rounded-2xl shadow-lg transition">
-
-                ✔ Simpan Keputusan
-
+            <button type="submit" class="inline-flex items-center justify-center gap-1.5 bg-[#f9b17a] hover:bg-[#e29d68] text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md transition-all duration-200 tracking-wide">
+                ✔ Simpan Semua Keputusan
             </button>
-
         </div>
-
     </form>
-
 </div>
 
 <script>
 function setAll(status) {
     const radios = document.querySelectorAll('input[type=radio]')
-
     radios.forEach(radio => {
         if (radio.value === status) {
             radio.checked = true

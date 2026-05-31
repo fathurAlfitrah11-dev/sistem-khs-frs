@@ -7,9 +7,24 @@ use Illuminate\Http\Request;
 
 class DosenRealController extends Controller
 {
-     public function index()
-    {
-        $isWali = Kelas::where('nik_wali', Auth::user()->username)->exists();
-        return view('dosen.dashboard', compact('isWali'));
-    }
+   public function index()
+{
+
+    $dosen = auth()->user();
+
+    $isWali = $dosen->is_wali; 
+
+    $totalMahasiswa = \App\Models\Mahasiswa::count(); 
+    $totalDosen = \App\Models\Dosen::count();         
+    $totalMataKuliah = \App\Models\MataKuliah::count();
+    $totalProdi = \App\Models\Prodi::count();
+
+    return view('dosen.dashboard', compact(
+        'isWali',
+        'totalMahasiswa',
+        'totalDosen',
+        'totalMataKuliah',
+        'totalProdi'
+    ));
+}
 }
