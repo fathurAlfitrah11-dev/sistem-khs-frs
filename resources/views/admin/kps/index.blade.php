@@ -14,10 +14,20 @@
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex-1 mr-4">
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri KPS" class="w-full outline-none text-sm text-gray-700">
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </div>
+            <form method="GET" action="/kps" class="flex-1">
+<div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Cari Prodi / KPS..."
+            class="w-full outline-none text-sm text-gray-700">
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </div>
+</form>        
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -45,7 +55,7 @@
                 </thead>
 
                 <tbody class="divide-y">
-                    @foreach($prodiKps as $p)
+                    @forelse($prodiKps as $p)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
                         <td class="px-6 py-3 text-black">{{ $p->kps->nik ?? '-'}}</td>
@@ -77,22 +87,21 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                     <tr>
+                        <td colspan="6" class="py-10 text-center text-gray-500 font-medium">
+                            Data KPS tidak ditemukan
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
 
             </table>
-
+            
         </div>
-
-        {{-- PAGINATION --}}
-        <div class="flex justify-end mt-4 space-x-2">
-            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
-        </div>
-
+        <div class="mt-4 flex justify-end">
+    {{ $prodiKps->links() }}
+</div>
     </div>
 </div>
 

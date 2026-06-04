@@ -15,10 +15,19 @@
         data-aos-delay="100">
 
         <div class="flex-1 mr-4">
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri Mata Kuliah" class="w-full outline-none text-sm text-gray-700">
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </div>
+           <form action="{{ url('/mata-kuliah') }}" method="GET">
+    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input type="text"
+               name="search"
+               value="{{ request('search') }}"
+               placeholder="Telusuri Mata Kuliah"
+               class="w-full outline-none text-sm text-gray-700">
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </div>
+</form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -49,7 +58,7 @@
                 </thead>
 
                 <tbody class="divide-y">
-                    @foreach($data as $d)
+                    @forelse($data as $d)
 
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
@@ -86,22 +95,18 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="7" class="px-6 py-3 text-center text-black">Data Mata Kuliah tidak ditemukan</td>
+                    </tr>
+                    @endforelse
                 </tbody>
 
             </table>
-
         </div>
-
-        {{-- PAGINATION --}}
-        <div class="flex justify-end mt-4 space-x-2">
-            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
-        </div>
-
+        <div class="flex justify-end mt-4">
+    {{ $data->appends(request()->query())->links() }}
+</div>
     </div>
 </div>
 

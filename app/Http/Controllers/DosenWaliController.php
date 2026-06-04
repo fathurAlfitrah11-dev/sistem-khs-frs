@@ -8,19 +8,41 @@ use Illuminate\Http\Request;
 
 class DosenWaliController extends Controller
 {
-    public function index()
-    {
-       $kelasWali = Kelas::with(['wali.user', 'prodi'])
-        ->whereNotNull('nik_wali')
-        ->get();
-        $allKelas = Kelas::with('prodi')->get();
-        $dosen = Dosen::with('user')->get();
-        $dosenWali = Kelas::whereNotNull('nik_wali')
-    ->pluck('nik_wali')
-    ->toArray();
+   public function index(Request $request)
+{
+    $search = $request->search;
 
-return view('admin.dosen-wali.index', compact('kelasWali', 'allKelas', 'dosen', 'dosenWali'));
-    }
+    $kelasWali = Kelas::with(['wali.user', 'prodi'])
+        ->whereNotNull('nik_wali')
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($q) use ($search) {
+
+                $q->where('nik_wali', 'like', "%$search%")
+                  ->orWhereHas('wali.user', function ($q2) use ($search) {
+                      $q2->where('name', 'like', "%$search%");
+                  })
+                  ->orWhereHas('prodi', function ($q3) use ($search) {
+                      $q3->where('nama_prodi', 'like', "%$search%");
+                  });
+            });
+        })
+        ->paginate(10)
+        ->withQueryString();
+
+    $allKelas = Kelas::with('prodi')->get();
+    $dosen = Dosen::with('user')->get();
+
+    $dosenWali = Kelas::whereNotNull('nik_wali')
+        ->pluck('nik_wali')
+        ->toArray();
+
+    return view('admin.dosen-wali.index', compact(
+        'kelasWali',
+        'allKelas',
+        'dosen',
+        'dosenWali'
+    ));
+}
 
     public function store(Request $request)
     {
@@ -46,21 +68,33 @@ return view('admin.dosen-wali.index', compact('kelasWali', 'allKelas', 'dosen', 
             ->with('success','Dosen wali berhasil ditambahkan');
     }
 
-    public function update(Request $request, $id_kelas)
-    {
-        $request->validate([
-            'nik_wali' => 'required|unique:kelas,nik_wali,'.$id_kelas.',id_kelas'
+   public function update(Request $request, $id_kelas)
+{
+    $request->validate([
+        'nik_wali' => 'required|exists:dosen,nik'
+    ]);
+
+    $kelasBaru = Kelas::findOrFail($id_kelas);
+
+    $nikBaru = $request->nik_wali;
+
+    $kelasLama = Kelas::where('nik_wali', $nikBaru)
+        ->where('id_kelas', '!=', $id_kelas)
+        ->first();
+
+    if ($kelasLama) {
+        $kelasLama->update([
+            'nik_wali' => null
         ]);
-
-        $kelas = Kelas::findOrFail($id_kelas);
-
-        $kelas->update([
-            'nik_wali' => $request->nik_wali
-        ]);
-
-        return redirect('/dosen-wali')
-            ->with('success','Dosen wali berhasil diupdate');
     }
+
+    $kelasBaru->update([
+        'nik_wali' => $nikBaru
+    ]);
+
+    return redirect('/dosen-wali')
+        ->with('success', 'Dosen wali berhasil dipindahkan');
+}
 
     public function delete($id_kelas)
     {

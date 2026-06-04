@@ -8,26 +8,39 @@ use Illuminate\Http\Request;
 
 class KpsController extends Controller
 {
-    public function index()
-    {
-        $prodiKps = Prodi::with(['kps.user'])
-            ->whereNotNull('nik_kps')
-            ->get();
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        $allProdi = Prodi::all();
+    $prodiKps = Prodi::with(['kps.user'])
+        ->whereNotNull('nik_kps')
+        ->when($search, function ($query) use ($search) {
+            $query->where('nama_prodi', 'like', "%$search%")
+                  ->orWhere('nik_kps', 'like', "%$search%")
+                  ->orWhereHas('kps.user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%");
+                });
+        })
+        ->paginate(10)
+        ->appends($request->query());
 
-        $dosen = Dosen::with('user')->get();
-        $DosenKps = Prodi::whereNotNull('nik_kps')
+    $allProdi = Prodi::all();
+
+    $dosen = Dosen::with('user')->get();
+
+    $DosenKps = Prodi::whereNotNull('nik_kps')
         ->pluck('nik_kps')
         ->toArray();
-        return view('admin.kps.index', compact(
-            'prodiKps',
-            'allProdi',
-            'dosen','DosenKps'
-        ));
-    }
 
-    // TAMBAH KPS
+    return view('admin.kps.index', compact(
+        'prodiKps',
+        'allProdi',
+        'dosen',
+        'DosenKps',
+        'search'
+    ));
+}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -51,27 +64,25 @@ class KpsController extends Controller
             ->with('success', 'KPS berhasil ditambahkan');
     }
 
-    // UPDATE KPS
-    public function update(Request $request, $id_prodi)
-    {
-        $request->validate([
-            'nik_kps' =>
-                'required|unique:prodi,nik_kps,' .
-                $id_prodi .
-                ',id_prodi'
-        ]);
+   public function update(Request $request, $id_prodi)
+{
+    $request->validate([
+        'nik_kps' => 'required'
+    ]);
 
-        $prodi = Prodi::findOrFail($id_prodi);
+    Prodi::where('nik_kps', $request->nik_kps)
+        ->update(['nik_kps' => null]);
 
-        $prodi->update([
-            'nik_kps' => $request->nik_kps
-        ]);
+    $prodi = Prodi::findOrFail($id_prodi);
 
-        return redirect('/kps')
-            ->with('success', 'KPS berhasil diupdate');
-    }
+    $prodi->update([
+        'nik_kps' => $request->nik_kps
+    ]);
 
-    // HAPUS KPS
+    return redirect('/kps')
+        ->with('success', 'KPS berhasil diupdate');
+}
+
     public function delete($id_prodi)
     {
         $prodi = Prodi::findOrFail($id_prodi);

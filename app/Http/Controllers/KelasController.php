@@ -9,19 +9,39 @@ use App\Models\Prodi;
 
 class KelasController extends Controller
 {
-    public function index()
-    {
-        $data = Kelas::all();
-        $dosen = Dosen::all();
-        $prodi = Prodi::all();
-        return view('admin.kelas.index', compact('data', 'dosen', 'prodi'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-    public function create()
-    {
-        $dosen = Dosen::doesntHave('kelasWali')->get();
-        return view('admin.kelas.create', compact('dosen'));
-    }
+    $data = Kelas::with('prodi')
+    ->when($search, function ($query) use ($search) {
+
+        $query->where(function ($q) use ($search) {
+
+            if (is_numeric($search)) {
+                $q->where('semester', $search);
+            } else {
+
+                $q->where('nama_kelas', 'like', "%{$search}%")
+                  ->orWhere('kategori', 'like', "%{$search}%")
+                  ->orWhereRaw("CONCAT(semester, nama_kelas) LIKE ?", ["%{$search}%"])
+                  ->orWhereHas('prodi', function ($p) use ($search) {
+                      $p->where('nama_prodi', 'like', "%{$search}%")
+                        ->orWhere('jenjang', 'like', "%{$search}%");
+                  });
+            }
+        });
+
+    })
+    ->orderBy('id_kelas', 'desc')
+    ->paginate(10)
+    ->appends($request->query());
+
+    $dosen = Dosen::all();
+    $prodi = Prodi::all();
+
+    return view('admin.kelas.index', compact('data', 'dosen', 'prodi', 'search'));
+}
 
     public function store(Request $request)
     {
@@ -46,16 +66,7 @@ class KelasController extends Controller
         return redirect('/kelas')
             ->with('success','Kelas berhasil ditambahkan');
     }
-    public function edit($id_kelas)
-    {
-        $kelas = Kelas::findOrFail($id_kelas);
-        $dosen = Dosen::doesntHave('kelasWali')
-            ->orWhereHas('kelasWali', function ($query) use ($id_kelas) {
-                $query->where('id_kelas', $id_kelas);
-            })
-            ->get();
-        return view('admin.kelas.edit', compact('kelas', 'dosen'));
-    }
+   
     public function update(Request $request, $id_kelas)
     {
         $request->validate([

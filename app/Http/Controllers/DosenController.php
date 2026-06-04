@@ -9,12 +9,22 @@ use Illuminate\Http\Request;
 
 class DosenController extends Controller
 {
-    public function index()
-    {
-        $data = Dosen::with('user')->get();
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        return view('admin.dosen.index', compact('data'));
-    }
+    $data = Dosen::with('user')
+        ->when($search, function ($query) use ($search) {
+            $query->where('nik', 'like', "%{$search}%")
+                  ->orWhere('kode_dosen', 'like', "%{$search}%")
+                  ->orWhereHas('user', function ($q) use ($search) {
+                      $q->where('name', 'like', "%{$search}%");
+                  });
+        })
+        ->paginate(10);
+
+    return view('admin.dosen.index', compact('data'));
+}
    
     public function store(Request $request)
     {

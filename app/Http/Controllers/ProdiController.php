@@ -6,11 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\Prodi;
 class ProdiController extends Controller
 {
-    public function index()
-    {
-        $data = Prodi::all();
-        return view('admin.prodi.index', compact('data'));
-    }
+   public function index(Request $request)
+{
+    $search = $request->search;
+
+    $data = Prodi::when($search, function ($query) use ($search) {
+            $query->where('nama_prodi', 'like', "%$search%")
+                  ->orWhere('jenjang', 'like', "%$search%");
+        })
+        ->orderBy('id_prodi', 'desc')
+        ->paginate(10)
+        ->appends($request->query());
+
+    return view('admin.prodi.index', compact('data', 'search'));
+}
 
     public function store(Request $request)
     {

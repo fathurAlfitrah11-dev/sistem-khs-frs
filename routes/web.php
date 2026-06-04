@@ -22,7 +22,7 @@ use App\Http\Controllers\PengaturanAkunMahasiswaController;
 use App\Http\Controllers\LaboranController;
 use App\Http\Controllers\KpsController;
 use App\Http\Controllers\PenilaianController;
-
+use App\Http\Controllers\AdminController;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -33,9 +33,7 @@ Route::get('/logout', [AuthController::class, 'logout']);
 
 // ADMIN
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 Route::middleware(['auth', 'role:admin'])->group(function () {
 

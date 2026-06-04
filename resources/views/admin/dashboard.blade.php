@@ -40,10 +40,8 @@
                     </span>
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">
-                    {{ number_format($totalMahasiswa ?? 1247) }}</p>
+                    {{ number_format($totalMahasiswa) }}</p>
                 <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Students</p>
-                <p class="text-xs text-green-600 font-medium">↑ {{ $growthMahasiswa ?? '12%' }} <span
-                        class="text-gray-400 font-normal">vs last semester</span></p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -62,11 +60,9 @@
                         Active
                     </span>
                 </div>
-                <p class="text-4xl font-extrabold text-gray-800 tracking-tight">{{ number_format($totalDosen ?? 89) }}
+                <p class="text-4xl font-extrabold text-gray-800 tracking-tight">{{ number_format($totalDosen) }}
                 </p>
                 <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Lecturers</p>
-                <p class="text-xs text-green-600 font-medium">↑ {{ $growthDosen ?? '5%' }} <span
-                        class="text-gray-400 font-normal">vs last semester</span></p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -85,10 +81,8 @@
                     </span>
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">
-                    {{ number_format($totalMataKuliah ?? 156) }}</p>
+                    {{ number_format($totalMataKuliah) }}</p>
                 <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Courses</p>
-                <p class="text-xs text-green-600 font-medium">↑ {{ $growthMataKuliah ?? '8%' }} <span
-                        class="text-gray-400 font-normal">vs last semester</span></p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -126,7 +120,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
                 {{-- Manage Courses --}}
-                <a href="#" style="text-decoration: none !important;"
+                <a href="/mata-kuliah" style="text-decoration: none !important;"
                     class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-gradient-to-br from-white to-gray-50 hover:border-[#f9b17a] transition-all duration-300"
                     data-aos="fade-up" data-aos-delay="500">
                     <div
@@ -151,7 +145,7 @@
                 </a>
 
                 {{-- Manage Students --}}
-                <a href="#" style="text-decoration: none !important;"
+                <a href="/mahasiswa" style="text-decoration: none !important;"
                     class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-gradient-to-br from-white to-gray-50 hover:border-[#f9b17a] transition-all duration-300"
                     data-aos="fade-up" data-aos-delay="600">
                     <div
@@ -175,7 +169,7 @@
                 </a>
 
                 {{-- Manage Lecturers --}}
-                <a href="#" style="text-decoration: none !important;"
+                <a href="/dosen-admin" style="text-decoration: none !important;"
                     class="group flex items-center gap-3 p-4 rounded-xl border border-gray-100 bg-gradient-to-br from-white to-gray-50 hover:border-[#f9b17a] transition-all duration-300">
                     <div
                         class="w-10 h-10 flex-shrink-0 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a] transition-all duration-300">

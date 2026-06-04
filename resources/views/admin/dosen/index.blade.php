@@ -11,10 +11,20 @@
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
         
          <div class="flex-1 mr-4">
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri Dosen" class="w-full outline-none text-sm text-gray-700">
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </div>
+            <form action="{{ url('/dosen-admin') }}" method="GET" class="w-full">
+    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Telusuri Dosen"
+            class="w-full outline-none text-sm text-gray-700">
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </div>
+</form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -40,51 +50,53 @@
                 </thead>
 
                 <tbody class="divide-y">
-                    @foreach($data as $d)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $d->nik }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->kode_dosen }}</td>
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+    @forelse($data as $d)
+    <tr class="hover:bg-gray-50">
+        <td class="px-6 py-3 text-black">{{ $d->nik }}</td>
+        <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
+        <td class="px-6 py-3 text-black">{{ $d->kode_dosen }}</td>
+        <td class="px-6 py-3 text-center">
+            <div class="flex justify-center gap-2">
 
-                                {{-- VIEW --}}
-                               <button onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
-                                </button>
+                <button onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
+                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                    <i class="fa-solid fa-eye text-black"></i>
+                </button>
 
-                                {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
-                                </button>
+                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
+                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
+                    <i class="fa-solid fa-pen text-black"></i>
+                </button>
 
-                                {{-- DELETE --}}
-                                <a href="/dosen/delete/{{ $d->id_dosen }}"
-                                    onclick="return confirm('Yakin hapus?')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                                    <i class="fa-solid fa-trash text-black"></i>
-                                </a>
+                <a href="/dosen/delete/{{ $d->id_dosen }}"
+                    onclick="return confirm('Yakin hapus?')"
+                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
+                    <i class="fa-solid fa-trash text-black"></i>
+                </a>
 
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
+            </div>
+        </td>
+    </tr>
 
+    @empty
+    <tr>
+        <td colspan="4" class="py-8 text-center text-gray-500 font-medium">
+            Data dosen tidak ditemukan
+            @if(request('search'))
+                untuk pencarian "<strong>{{ request('search') }}</strong>"
+            @endif
+        </td>
+    </tr>
+    @endforelse
+</tbody>
             </table>
 
         </div>
 
         {{-- PAGINATION --}}
         <div class="flex justify-end mt-4 space-x-2">
-            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
-        </div>
+    {{ $data->appends(request()->query())->links() }}
+</div>
 
     </div>
 </div>

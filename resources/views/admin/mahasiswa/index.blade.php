@@ -34,13 +34,19 @@
             </form>
 
             {{-- Search --}}
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text"
-                    placeholder="Telusuri Mahasiswa"
-                    class="w-full outline-none text-sm text-gray-700">
+            <form method="GET" action="/mahasiswa" class="flex-1 mr-4">
+    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Telusuri Mahasiswa"
+            class="w-full outline-none text-sm text-gray-700">
 
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </div>
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </div>
+</form>
 
         </div>
 
@@ -69,7 +75,7 @@
                 </thead>
 
                <tbody class="divide-y">
-@foreach($data as $d)
+@forelse($data as $d)
 <tr class="hover:bg-gray-50">
 
     <td class="px-6 py-3 text-black">{{ $d->nim }}</td>
@@ -128,13 +134,22 @@
     </td>
 
 </tr>
-@endforeach
+@empty
+<tr>
+    <td colspan="7" class="px-6 py-3 text-center text-gray-500">Data mahasiswa tidak ditemukan
+        @if(request('search'))
+            untuk pencarian "<strong>{{ request('search') }}</strong>"
+        @endif
+    </td>
+</tr>
+@endforelse
 </tbody>
 
             </table>
 
         </div>
-
+        <div class="flex justify-end mt-4 space-x-2">
+    {{ $data->appends(request()->query())->links() }}
     </div>
 </div>
 

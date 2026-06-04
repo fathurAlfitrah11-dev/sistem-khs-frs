@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Prodi;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -9,18 +10,21 @@ class DosenRealController extends Controller
 {
    public function index()
 {
+    $user = Auth::user();
 
-    $dosen = auth()->user();
+    $dosen = \App\Models\Dosen::where('user_id', $user->id)->first();
 
-    $isWali = $dosen->is_wali; 
+    $isWali = $dosen->is_wali ?? false;
+    $isKps = Prodi::where('nik_kps', $dosen->nik)->exists();
 
-    $totalMahasiswa = \App\Models\Mahasiswa::count(); 
-    $totalDosen = \App\Models\Dosen::count();         
+    $totalMahasiswa = \App\Models\Mahasiswa::count();
+    $totalDosen = \App\Models\Dosen::count();
     $totalMataKuliah = \App\Models\MataKuliah::count();
     $totalProdi = \App\Models\Prodi::count();
 
     return view('dosen.dashboard', compact(
         'isWali',
+        'isKps',
         'totalMahasiswa',
         'totalDosen',
         'totalMataKuliah',

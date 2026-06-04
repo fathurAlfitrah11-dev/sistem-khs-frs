@@ -10,11 +10,19 @@
     <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
         
       <div class="flex-1 mr-4">
+    <form action="{{ url('/tahun-ajaran') }}" method="GET">
     <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input type="text" placeholder="Telusuri Tahun Ajaran"
-            class="w-full outline-none text-sm text-gray-700">
-        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <input type="text"
+               name="search"
+               value="{{ request('search') }}"
+               placeholder="Telusuri Tahun Ajaran"
+               class="w-full outline-none text-sm text-gray-700">
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
     </div>
+</form>
 </div>
 
         <button onclick="openModal('tambahModal')"
@@ -42,7 +50,7 @@
 
                 <tbody class="divide-y">
                     
-                    @foreach($data as $d)
+                    @forelse($data as $d)
                     <tr class="hover:bg-gray-50 text-black">
                         <td class="px-6 py-3">{{ $loop->iteration }}</td>
                         <td class="px-6 py-3">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}</td>
@@ -91,19 +99,19 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-3 text-center text-black">Data Tahun Ajaran tidak ditemukan</td>
+                    </tr>
+                    @endforelse
 
                 </tbody>
             </table>
 
         </div>
-        <div class="flex justify-end mt-4 space-x-2">
-            <button class="bg-orange-300 px-3 py-1 rounded">‹</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">1</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">2</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">3</button>
-            <button class="bg-orange-300 px-3 py-1 rounded">›</button>
-        </div>
+       <div class="flex justify-end mt-4">
+    {{ $data->appends(request()->query())->links() }}
+</div>
     </div>
 </div>
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">

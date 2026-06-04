@@ -10,24 +10,24 @@ use Illuminate\Http\Request;
 
 class PengajarController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
 {
     $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
 
-    $idTahun = $request->id_tahun_ajaran 
+    $idTahun = $request->id_tahun_ajaran
         ?? optional($tahunAktif)->id_tahun_ajaran;
+
+    $search = $request->search;
 
     $tahunTerpilih = TahunAjaran::find($idTahun);
 
     $kelas = Kelas::with('prodi')
         ->when($tahunTerpilih, function ($query) use ($tahunTerpilih) {
-
             if ($tahunTerpilih->semester == 'ganjil') {
                 $query->whereRaw('semester % 2 = 1');
             } else {
                 $query->whereRaw('semester % 2 = 0');
             }
-
         })
         ->get();
 
@@ -35,20 +35,33 @@ class PengajarController extends Controller
         ->when($idTahun, function ($query) use ($idTahun) {
             $query->where('id_tahun_ajaran', $idTahun);
         })
-        ->get();
+
+        ->when($search, function ($query) use ($search) {
+            $query->whereHas('dosen.user', function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%");
+            })
+            ->orWhereHas('mataKuliah', function ($q) use ($search) {
+                $q->where('nama_mk', 'like', "%$search%");
+            })
+            ->orWhereHas('kelas', function ($q) use ($search) {
+                $q->where('nama_kelas', 'like', "%$search%");
+            });
+        })
+
+        ->paginate(10)
+        ->withQueryString();
 
     $dosen = Dosen::with('user')->get();
+
     $mataKuliah = MataKuliah::query();
 
-if ($tahunTerpilih) {
-
-    if ($tahunTerpilih->semester == 'ganjil') {
-        $mataKuliah->whereRaw('semester % 2 = 1');
-    } else {
-        $mataKuliah->whereRaw('semester % 2 = 0');
+    if ($tahunTerpilih) {
+        if ($tahunTerpilih->semester == 'ganjil') {
+            $mataKuliah->whereRaw('semester % 2 = 1');
+        } else {
+            $mataKuliah->whereRaw('semester % 2 = 0');
+        }
     }
-
-}
 
     $mataKuliah = $mataKuliah->get();
     $tahunAjaran = TahunAjaran::all();
@@ -60,7 +73,8 @@ if ($tahunTerpilih) {
         'tahunAjaran',
         'kelas',
         'tahunAktif',
-        'idTahun'
+        'idTahun',
+        'search'
     ));
 }
     public function store(Request $request)

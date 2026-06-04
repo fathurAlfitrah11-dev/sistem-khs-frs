@@ -7,12 +7,25 @@ use Illuminate\Http\Request;
 
 class MataKuliahController extends Controller
 {
-      public function index()
-    {
-        $data= MataKuliah::with('prodi')->get();
-        $prodi = Prodi::all();
-        return view('admin.mata-kuliah.index', compact('data', 'prodi'));
-    }
+     public function index(Request $request)
+{
+    $search = $request->search;
+
+    $data = MataKuliah::with('prodi')
+        ->when($search, function ($query) use ($search) {
+            $query->where('nama_mk', 'like', "%$search%")
+                  ->orWhere('kode_mk', 'like', "%$search%")
+                  ->orWhereHas('prodi', function ($q) use ($search) {
+                      $q->where('nama_prodi', 'like', "%$search%");
+                  });
+        })
+        ->paginate(10)
+        ->appends($request->query());
+
+    $prodi = Prodi::all();
+
+    return view('admin.mata-kuliah.index', compact('data', 'prodi', 'search'));
+}
      public function store(Request $request)
     {
         $request->validate([

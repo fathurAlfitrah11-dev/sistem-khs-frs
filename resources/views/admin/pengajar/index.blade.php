@@ -36,10 +36,22 @@
         data-aos-delay="200">
 
      <div class="flex-1 mr-4">
-            <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                <input type="text" placeholder="Telusuri Pengajar" class="w-full outline-none text-sm text-gray-700">
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-            </div>
+                <form method="GET" action="/pengajar" class="w-full">
+    <input type="hidden" name="id_tahun_ajaran" value="{{ $idTahun }}">
+
+     <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Cari pengajar..."
+            class="w-full outline-none text-sm text-gray-700">
+
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </div>
+</form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -90,7 +102,7 @@
 
                 <tbody class="divide-y">
 
-                   @foreach($data as $d)
+                   @forelse($data as $d)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $d->dosen->user->name }}</td>
                         <td class="px-6 py-3 text-black"> {{ $d->mataKuliah->nama_mk }} - {{ ucfirst($d->mataKuliah->jenis) }}</td>
@@ -128,12 +140,22 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                     <tr>
+        <td colspan="6" class="py-10 text-center text-gray-500 font-medium">
+            Data pengajar tidak ditemukan
+        </td>
+    </tr>
+@endforelse
                 </tbody>
 
             </table>
-
+            
         </div>
+        
+<div class="mt-4 flex justify-end space-x-2">
+    {{ $data->appends(request()->query())->links() }}
+</div>
 
     </div>
 </div>
@@ -168,7 +190,7 @@
 
                             <option value="{{ $mk->id_mata_kuliah }}">
                                 {{ $mk->kode_mk }}
-                                - {{ $mk->nama_mk }}
+                                - {{ $mk->nama_mk }} Semester {{ $mk->semester }}
                                 ({{ ucfirst(trim($jenis)) }})
                             </option>
 

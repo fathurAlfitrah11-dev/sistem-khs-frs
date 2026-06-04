@@ -6,11 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\TahunAjaran;
 class TahunAjaranController extends Controller
 {
-    public function index()
-    {
-        $data = TahunAjaran::all();
-        return view('admin.tahun-ajaran.index', compact('data'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->search;
+
+    $data = TahunAjaran::when($search, function ($query) use ($search) {
+            $query->where('tahun_awal', 'like', "%$search%")
+                  ->orWhere('tahun_akhir', 'like', "%$search%")
+                  ->orWhere('semester', 'like', "%$search%")
+                  ->orWhereRaw("CONCAT(tahun_awal,'/',tahun_akhir) LIKE ?", ["%$search%"]);
+        })
+        ->orderBy('id_tahun_ajaran', 'desc')
+        ->paginate(10)
+        ->appends($request->query());
+
+    return view('admin.tahun-ajaran.index', compact('data', 'search'));
+}
      public function store(Request $request)
     {
     $request->validate([

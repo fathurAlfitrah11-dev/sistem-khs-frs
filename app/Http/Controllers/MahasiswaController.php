@@ -17,19 +17,37 @@ class MahasiswaController extends Controller
         $query->where('id_prodi', $request->prodi);
     }
 
-    $data = $query->get();
+    if ($request->search) {
+        $search = $request->search;
 
-    $kelas = Kelas::all();
+        $query->where(function ($q) use ($search) {
+
+            $q->where('nim', 'like', "%{$search}%")
+              ->orWhere('nama', 'like', "%{$search}%")
+              ->orWhere('angkatan', 'like', "%{$search}%")
+
+              ->orWhereHas('kelas', function ($k) use ($search) {
+                  $k->where('nama_kelas', 'like', "%{$search}%")
+                    ->orWhere('kategori', 'like', "%{$search}%")
+                    ->orWhereRaw("CONCAT(semester, nama_kelas) LIKE ?", ["%{$search}%"]);
+              })
+
+              // prodi
+              ->orWhereHas('prodi', function ($p) use ($search) {
+                  $p->where('nama_prodi', 'like', "%{$search}%");
+              });
+
+        });
+    }
+
+    $data = $query->orderBy('id_mahasiswa', 'desc')
+                  ->paginate(10)
+                  ->appends($request->query());
+
+    $kelas = Kelas::with('prodi')->get();
     $prodi = Prodi::all();
 
-    return view(
-        'admin.mahasiswa.index',
-        compact(
-            'data',
-            'kelas',
-            'prodi'
-        )
-    );
+    return view('admin.mahasiswa.index', compact('data', 'kelas', 'prodi'));
 }
    
     public function store(Request $request)

@@ -32,6 +32,16 @@
 
         </a>
         @endif
+        @if(isset($isKps) && $isKps)
+<a href="/kps"
+    class="flex items-center gap-3 px-4 py-2 rounded-lg transition
+    {{ request()->is('kps') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
+
+    <i class="fa-solid fa-user-tie"></i>
+    <span>KPS</span>
+
+</a>
+@endif
         <a href="/logout" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-500 transition">
             <i class="fa-solid fa-door-open"></i>
             <span>Keluar</span>

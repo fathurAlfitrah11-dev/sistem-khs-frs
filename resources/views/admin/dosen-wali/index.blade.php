@@ -12,16 +12,22 @@
         data-aos-delay="200">
         <div class="flex-1 mr-4">
 
-            <div class="flex items-center bg-white rounded px-3 py-2">
+           <form action="/dosen-wali" method="GET" class="w-full">
+    <div class="flex items-center bg-white rounded px-3 py-2">
 
-                <input
-                    type="text"
-                    placeholder="Telusuri Dosen Wali"
-                    class="w-full outline-none text-sm text-gray-700">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Telusuri Dosen Wali"
+            class="w-full outline-none text-sm text-gray-700">
 
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
 
-            </div>
+    </div>
+</form>
 
         </div>
             <button onclick="openModal('tambahModal')"
@@ -48,7 +54,7 @@
 
                 <tbody class="divide-y">
 
-                    @foreach($kelasWali as $k)
+                    @forelse($kelasWali as $k)
                     <tr class="hover:bg-gray-50">
                         <td class="px-6 py-3 text-black">{{ $k->nik_wali }}</td>
                         <td class="px-6 py-3 text-black">{{ $k->wali->user->name ?? '-' }}</td>
@@ -75,13 +81,21 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                     <tr>
+                        <td colspan="4" class="py-10 text-center text-gray-500 font-medium">
+                            Data dosen wali tidak ditemukan
+                        </td>
+                    </tr>
+                @endforelse
                 </tbody>
 
             </table>
-
+            
         </div>
-
+        <div class="mt-4 flex justify-end">
+    {{ $kelasWali->appends(request()->query())->links() }}
+</div>
     </div>
 </div>
 
