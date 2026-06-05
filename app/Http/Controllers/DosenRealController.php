@@ -14,7 +14,8 @@ class DosenRealController extends Controller
 
     $dosen = \App\Models\Dosen::where('user_id', $user->id)->first();
 
-    $isWali = $dosen->is_wali ?? false;
+    $isWali = Kelas::where('nik_wali', $dosen->nik)->exists();
+
     $isKps = Prodi::where('nik_kps', $dosen->nik)->exists();
 
     $totalMahasiswa = \App\Models\Mahasiswa::count();

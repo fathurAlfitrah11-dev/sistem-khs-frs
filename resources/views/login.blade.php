@@ -45,9 +45,9 @@ bg-[url('img/wallpaper_login.png')] bg-cover bg-center">
 
             <!-- Username -->
             <div>
-                <label class="text-sm text-gray-300">NIM / NIDN</label>
+                <label class="text-sm text-gray-300">Username</label>
                 <input type="text" name="username"
-                    placeholder="Ketik NIM / NIDN Anda"
+                    placeholder="Ketik Username Anda"
                     class="w-full mt-2 px-4 py-2 rounded-md bg-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400">
             </div>
 

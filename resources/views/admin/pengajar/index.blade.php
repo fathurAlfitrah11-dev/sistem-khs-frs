@@ -177,26 +177,32 @@
                 @endforeach
             </select>
 
+            <label class="block text-sm mb-1">Filter Jenis</label>
+<select id="filterJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="">Semua</option>
+    <option value="teori">Teori</option>
+    <option value="praktikum">Praktikum</option>
+</select>
+
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
                 <option value="">Pilih Mata Kuliah</option>
-               @foreach($mataKuliah as $mk)
+              @foreach($mataKuliah as $mk)
 
-                        @php
-                            $jenisList = explode(',', $mk->jenis);
-                        @endphp
+    @php
+        $jenisList = explode(',', $mk->jenis);
+    @endphp
 
-                        @foreach($jenisList as $jenis)
+    <option value="{{ $mk->id_mata_kuliah }}"
+        data-jenis="{{ $mk->jenis }}">
 
-                            <option value="{{ $mk->id_mata_kuliah }}">
-                                {{ $mk->kode_mk }}
-                                - {{ $mk->nama_mk }} Semester {{ $mk->semester }}
-                                ({{ ucfirst(trim($jenis)) }})
-                            </option>
+        {{ $mk->kode_mk }}
+        - {{ $mk->nama_mk }}
+        Semester {{ $mk->semester }}
+        ({{ str_replace(',', ' / ', $mk->jenis) }})
+    </option>
 
-                        @endforeach
-
-                    @endforeach
+@endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
@@ -385,7 +391,30 @@ function showModal(id) {
         content.classList.add('opacity-100', 'translate-y-0')
     }, 10)
 }
+const filterJenis = document.getElementById('filterJenis')
+const mkSelect = document.querySelector('select[name="id_mata_kuliah"]')
 
+filterJenis.addEventListener('change', function () {
+
+    const value = this.value.toLowerCase()
+
+    Array.from(mkSelect.options).forEach(option => {
+
+        const jenis = (option.getAttribute('data-jenis') || '').toLowerCase()
+
+        if (!value) {
+            option.style.display = 'block'
+        }
+        else if (jenis.includes(value)) {
+            option.style.display = 'block'
+        }
+        else {
+            option.style.display = 'none'
+        }
+    })
+
+    mkSelect.value = ''
+})
 function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')

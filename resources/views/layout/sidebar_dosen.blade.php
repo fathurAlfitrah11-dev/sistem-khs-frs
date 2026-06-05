@@ -1,3 +1,15 @@
+@php
+    $dosen = \App\Models\Dosen::where('user_id', Auth::id())->first();
+
+    $isWali = $dosen
+        ? \App\Models\Kelas::where('nik_wali', $dosen->nik)->exists()
+        : false;
+
+    $isKps = $dosen
+        ? \App\Models\Prodi::where('nik_kps', $dosen->nik)->exists()
+        : false;
+@endphp
+
 <div class="w-64 h-screen bg-[#3b3f63] fixed left-0 top-0 flex flex-col">
 
     <!-- LOGO -->

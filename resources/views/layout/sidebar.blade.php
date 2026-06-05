@@ -59,17 +59,17 @@
                     Data Dosen Wali
                 </a>
 
-                <a href="/dosen-part-time"
+                <!-- <a href="/dosen-part-time"
                     class="px-3 py-2 rounded transition
                     {{ request()->is('dosen-part-time') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
                     Data Dosen Part Time
-                </a>
+                </a> -->
 
-                <a href="/laboran"
+                <!-- <a href="/laboran"
                     class="px-3 py-2 rounded transition
                     {{ request()->is('laboran') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
                     Data Laboran
-                </a>
+                </a> -->
                 <a href="/kps"
                     class="px-3 py-2 rounded transition
                     {{ request()->is('kps') ? 'bg-[#2d3250] text-white font-semibold' : 'hover:bg-[#2d3250]' }}">
