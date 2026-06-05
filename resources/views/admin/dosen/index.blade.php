@@ -8,23 +8,20 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
-        
-         <div class="flex-1 mr-4">
-            <form action="{{ url('/dosen-admin') }}" method="GET" class="w-full">
-    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Telusuri Dosen"
-            class="w-full outline-none text-sm text-gray-700">
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="200">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </div>
-</form>
+        <div class="flex-1 mr-4">
+            <form action="{{ url('/dosen-admin') }}" method="GET" class="w-full">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Dosen"
+                        class="w-full outline-none text-sm text-gray-700">
+
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -33,91 +30,140 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
 
-            <h2 class="text-white text-xl font-bold mb-4">Data Dosen</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">
+            Data Dosen
+        </h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-            <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="text-black px-6 py-3">NIK</th>
-                        <th class="text-black px-6 py-3">Nama Dosen</th>
-                        <th class="text-black px-6 py-3">Kode Dosen</th>
-                        <th class="text-black px-6 py-3">Aksi</th>
+                        <th class="px-12 py-5 text-left text-[#243b63] font-bold">
+                            NIK
+                        </th>
+
+                        <th class="px-10 py-5 text-left text-[#243b63] font-bold">
+                            Nama Dosen
+                        </th>
+
+                        <th class="px-2.5 py-5 text-left text-[#243b63] font-bold">
+                            Kode Dosen
+                        </th>
+
+                        <th class="px-10 py-5 text-center text-[#243b63] font-bold">
+                            Aksi
+                        </th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
-    @forelse($data as $d)
-    <tr class="hover:bg-gray-50">
-        <td class="px-6 py-3 text-black">{{ $d->nik }}</td>
-        <td class="px-6 py-3 text-black">{{ $d->user->name }}</td>
-        <td class="px-6 py-3 text-black">{{ $d->kode_dosen }}</td>
-        <td class="px-6 py-3 text-center">
-            <div class="flex justify-center gap-2">
+                <tbody>
 
-                <button onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                    <i class="fa-solid fa-eye text-black"></i>
-                </button>
+                    @forelse($data as $d)
 
-                <button onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                    <i class="fa-solid fa-pen text-black"></i>
-                </button>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
 
-                <a href="/dosen/delete/{{ $d->id_dosen }}"
-                    onclick="return confirm('Yakin hapus?')"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                    <i class="fa-solid fa-trash text-black"></i>
-                </a>
+                        <td class="px-10 py-5 text-gray-800">
+                            {{ $d->nik }}
+                        </td>
 
-            </div>
-        </td>
-    </tr>
+                        <td class="px-10 py-5 text-gray-800">
+                            {{ $d->user->name }}
+                        </td>
 
-    @empty
-    <tr>
-        <td colspan="4" class="py-8 text-center text-gray-500 font-medium">
-            Data dosen tidak ditemukan
-            @if(request('search'))
-                untuk pencarian "<strong>{{ request('search') }}</strong>"
-            @endif
-        </td>
-    </tr>
-    @endforelse
-</tbody>
+                        <td class="px-10 py-5 text-gray-800">
+                            {{ $d->kode_dosen }}
+                        </td>
+
+                        <td class="px-10 py-5">
+
+                            <div class="flex justify-center gap-3">
+
+                                {{-- DETAIL --}}
+                                <button
+                                    onclick="openDetail('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
+                                    class="w-9 h-9 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+
+                                    <i class="fa-solid fa-eye text-blue-600 text-sm"></i>
+
+                                </button>
+
+                                {{-- EDIT --}}
+                                <button
+                                    onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
+                                    class="w-9 h-9 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+
+                                    <i class="fa-solid fa-pen text-yellow-600 text-sm"></i>
+
+                                </button>
+
+                                {{-- DELETE --}}
+                                <a href="/dosen/delete/{{ $d->id_dosen }}" onclick="return confirm('Yakin hapus?')"
+                                    class="w-9 h-9 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition">
+
+                                    <i class="fa-solid fa-trash text-red-600 text-sm"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    @empty
+
+                    <tr>
+
+                        <td colspan="4" class="py-10 text-center text-gray-500">
+
+                            Data dosen tidak ditemukan
+
+                            @if(request('search'))
+                            untuk pencarian
+                            "<strong>{{ request('search') }}</strong>"
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
+                </tbody>
+
             </table>
 
         </div>
 
         {{-- PAGINATION --}}
-        <div class="flex justify-end mt-4 space-x-2">
-    {{ $data->appends(request()->query())->links() }}
-</div>
+        <div class="flex justify-end mt-5">
+            {{ $data->appends(request()->query())->links() }}
+        </div>
 
     </div>
+
+</div>
 </div>
 
-<div id="tambahModal"
-class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen</h2>
 
         <form action="/dosen/store" method="POST">
             @csrf
             <label class="text-sm mb-1 block">NIK</label>
-            <input type="text" name="nik" placeholder="NIK"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" name="nik" placeholder="NIK" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" placeholder="Nama Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
-                <label class="text-sm mb-1 block">Kode Dosen</label>
+            <label class="text-sm mb-1 block">Kode Dosen</label>
             <input type="text" name="kode_dosen" placeholder="Kode Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -126,13 +172,11 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-blue-600 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
                     Simpan
                 </button>
             </div>
@@ -140,37 +184,33 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="editModal"
-    class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
 
         <form id="formEdit" method="POST">
             @csrf
             <label class="text-sm mb-1 block">NIK</label>
-            <input type="text" id="editNik" readonly
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" id="editNik" readonly class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
-            <input type="text" name="nama_dosen" id="editNama"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" name="nama_dosen" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Kode Dosen</label>
-            <input type="text" name="kode_dosen" id="editKode"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="text" name="kode_dosen" id="editKode" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <label class="text-sm mb-1 block">Password Baru</label>
-            <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah"
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')"
-                    class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
 
-                <button type="submit"
-                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
             </div>
@@ -178,10 +218,10 @@ class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
     </div>
 </div>
 
-<div id="detailModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Dosen</h2>
 
         <div class="space-y-3">
@@ -198,10 +238,9 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
         <label class="text-sm mb-1 block mt-3">Kode Dosen</label>
         <p id="detailKode" class="bg-white text-black px-3 py-2 rounded"></p>
-        
+
         <div class="flex justify-end mt-4">
-            <button onclick="closeModal('detailModal')"
-                class="bg-gray-300 px-3 py-1 rounded text-black">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                 Tutup
             </button>
         </div>
@@ -210,7 +249,7 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
 <script>
 // ===== MODAL ANIMATION =====
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -222,7 +261,7 @@ function showModal(id){
     }, 10)
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -235,16 +274,16 @@ function hideModal(id){
 }
 
 // ===== OPEN CLOSE =====
-function openModal(id){
+function openModal(id) {
     showModal(id)
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id)
 }
 
 // ===== EDIT =====
-function openEdit(id, nik, nama, kode){
+function openEdit(id, nik, nama, kode) {
     showModal('editModal')
 
     document.getElementById('editNik').value = nik
@@ -252,13 +291,13 @@ function openEdit(id, nik, nama, kode){
     document.getElementById('editKode').value = kode
 
     // reset password
-    document.getElementById('editPassword').value=''
+    document.getElementById('editPassword').value = ''
 
-    document.getElementById('formEdit').action='/dosen/update/'+id
+    document.getElementById('formEdit').action = '/dosen/update/' + id
 }
 
 // ===== DETAIL =====
-function openDetail(nik, nama, kode){
+function openDetail(nik, nama, kode) {
     showModal('detailModal')
 
     document.getElementById('detailNik').innerText = nik

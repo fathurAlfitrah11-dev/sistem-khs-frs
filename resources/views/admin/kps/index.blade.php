@@ -6,28 +6,24 @@
 
 <div class="p-6">
 
-    <h1 class="text-2xl font-bold text-gray-800 mb-6"
-        data-aos="fade-up" data-aos-delay="100">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">
         Data KPS
     </h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="100">
 
         <div class="flex-1 mr-4">
             <form method="GET" action="/kps" class="flex-1">
-<div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Cari Prodi / KPS..."
-            class="w-full outline-none text-sm text-gray-700">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Prodi / KPS..."
+                        class="w-full outline-none text-sm text-gray-700">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </div>
-</form>        
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -36,78 +32,97 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data KPS</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data KPS</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-            <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="text-black px-6 py-3">No</th>
-                        <th class="text-black px-6 py-3">NIK</th>
-                        <th class="text-black px-6 py-3">Nama Dosen</th>
-                        <th class="text-black px-6 py-3">Kode Dosen</th>
-                        <th class="text-black px-6 py-3">Program Studi</th>
-                        <th class="text-black px-6 py-3">Aksi</th>
+                        <th class="px-4 py-4 text-left text-[#243b63] font-bold text-xs md:text-sm">No</th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">NIK</th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">Nama Dosen</th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">Kode Dosen</th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">Program Studi</th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
                     @forelse($prodiKps as $p)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $p->kps->nik ?? '-'}}</td>
-                        <td class="px-6 py-3 text-black">{{ $p->kps->nama_dosen ?? '-'}}</td>
-                        <td class="px-6 py-3 text-black">{{ $p->kps->kode_dosen ?? '-'}}</td>
-                        <td class="px-6 py-3 text-black">{{ $p->jenjang }} - {{ $p->nama_prodi }}</td>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                        <td class="px-5 py-4 text-gray-800 text-xs md:text-sm whitespace-nowrap text-left">
+                            {{ $loop->iteration }}
+                        </td>
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $p->kps->nik ?? '-'}}
+                        </td>
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{ $p->kps->nama_dosen ?? '-'}}
+                        </td>
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $p->kps->kode_dosen ?? '-'}}
+                        </td>
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{ $p->jenjang }} - {{ $p->nama_prodi }}
+                        </td>
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                        <td class="px-4 py-4">
+                            <div class="flex justify-center gap-3">
 
                                 {{-- VIEW --}}
-                               <button onclick="openDetail('{{ $p->kps->nik ?? '-' }}','{{ $p->kps->nama_dosen ?? '-' }}','{{ $p->kps->kode_dosen ?? '-' }}','{{ $p->jenjang }} {{ $p->nama_prodi }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
+                                <button
+                                    onclick="openDetail('{{ $p->kps->nik ?? '-' }}','{{ $p->kps->nama_dosen ?? '-' }}','{{ $p->kps->kode_dosen ?? '-' }}','{{ $p->jenjang }} {{ $p->nama_prodi }}')"
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
                                 {{-- EDIT --}}
-                                <button onclick="openEdit('{{ $p->id_prodi }}', '{{ $p->kps->nik }}', '{{ $p->id_prodi }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
+                                <button
+                                    onclick="openEdit('{{ $p->id_prodi }}', '{{ $p->kps->nik }}', '{{ $p->id_prodi }}')"
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
                                 {{-- DELETE --}}
                                 <a href="/kps/delete/{{ $p->id_prodi }}" onclick="return confirm('Yakin hapus?')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                                    <i class="fa-solid fa-trash text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>
 
                             </div>
                         </td>
                     </tr>
                     @empty
-                     <tr>
-                        <td colspan="6" class="py-10 text-center text-gray-500 font-medium">
+                    <tr>
+                        <td colspan="6" class="py-10 text-center text-gray-500 text-sm">
                             Data KPS tidak ditemukan
                         </td>
                     </tr>
-                @endforelse
+                    @endforelse
                 </tbody>
 
             </table>
-            
+
         </div>
-        <div class="mt-4 flex justify-end">
-    {{ $prodiKps->links() }}
-</div>
+
+        {{-- PAGINATION --}}
+        < <div class="mt-4 flex justify-end">
+
+            {{ $data->appends(request()->query())->links() }}
+
     </div>
+
+</div>
 </div>
 
+{{-- MODAL TAMBAH --}}
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 ">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah KPS</h2>
 
         <form action="/kps/store" method="POST">
@@ -149,9 +164,11 @@
     </div>
 </div>
 
+{{-- MODAL EDIT --}}
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah KPS</h2>
 
         <form id="formEdit" method="POST">
@@ -186,9 +203,11 @@
     </div>
 </div>
 
+{{-- MODAL DETAIL --}}
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="modal-content bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail KPS</h2>
 
         <div class="space-y-3">
@@ -222,7 +241,7 @@
 <script>
 function showAnimatedModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('div');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
@@ -234,7 +253,7 @@ function showAnimatedModal(id) {
 
 function hideAnimatedModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('div');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
     content.classList.remove('opacity-100', 'translate-y-0');
     content.classList.add('opacity-0', 'translate-y-10');

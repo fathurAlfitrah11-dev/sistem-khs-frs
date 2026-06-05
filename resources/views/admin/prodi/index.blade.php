@@ -11,22 +11,21 @@
         Data Program Studi
     </h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="100">
 
         <div class="flex-1 mr-4">
-<form method="GET" action="/prodi">
-    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-    <input 
-        type="text" 
-        name="search"
-        value="{{ request('search') }}"
-        placeholder="Telusuri Program Studi"
-        class="w-full outline-none text-sm text-gray-700">
+            <form method="GET" action="/prodi">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                <input 
+                    type="text" 
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="Telusuri Program Studi"
+                    class="w-full outline-none text-sm text-gray-700">
 
-    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-    </div>
-</form>
-            
+                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </div>
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -35,48 +34,48 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data Program Studi</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data Program Studi</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-            <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="text-black px-6 py-3">No</th>
-                        <th class="text-black px-6 py-3">Jenjang</th>
-                        <th class="text-black px-6 py-3">Program Studi</th>
-                        <th class="text-black px-6 py-3">Aksi</th>
+                        <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Jenjang</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Program Studi</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
                     @forelse($data as $d)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->jenjang }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->nama_prodi }}</td>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                        <td class="px-7 py-3 text-left whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->jenjang }}</td>
+                        <td class="px-6 py-3 text-center break-words">{{ $d->nama_prodi }}</td>
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                        <td class="px-6 py-3">
+                            <div class="flex justify-center gap-3">
 
                                 {{-- VIEW --}}
                                <button onclick="openDetail('{{ $d->jenjang }}','{{ $d->nama_prodi }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button onclick="openEdit('{{ $d->id_prodi }}', '{{ $d->jenjang }}', '{{ $d->nama_prodi }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
                                 {{-- DELETE --}}
                                 <a href="/kelas/delete/{{ $d->id_prodi }}" onclick="return confirm('Yakin hapus?')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                                    <i class="fa-solid fa-trash text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>
 
                             </div>
@@ -84,7 +83,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-3 text-center text-black">Data Program Studi tidak ditemukan</td>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500 text-sm">Data Program Studi tidak ditemukan</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -93,17 +92,31 @@
 
         </div>
 
-        
-        <div class="flex justify-end mt-4 space-x-2">
-    {{ $data->appends(request()->query())->links() }}
+        {{-- PAGINATION --}}
+        <div class="flex justify-end mt-5 list-none">
+            <div class="bg-white p-1 rounded-xl shadow-xs list-none">
+                @if(method_exists($data, 'links'))
+                    <div class="laravel-pagination-container">
+                        {{ $data->appends(request()->query())->links() }}
+                    </div>
+                @else
+                    <div class="flex space-x-1 text-xs font-semibold p-1">
+                        <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">‹</button>
+                        <button class="bg-blue-600 text-white px-3 py-1.5 rounded-lg">1</button>
+                        <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">2</button>
+                        <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">›</button>
+                    </div>
+                @endif
+            </div>
         </div>
 
     </div>
 </div>
 
-<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50 ">
+{{-- MODAL TAMBAH --}}
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Program Studi</h2>
 
         <form action="/prodi/store" method="POST">
@@ -128,7 +141,7 @@
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
                 </button>
 
@@ -140,9 +153,10 @@
     </div>
 </div>
 
-<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
+{{-- MODAL EDIT --}}
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
+    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Program Studi</h2>
 
         <form id="formEdit" method="POST">
@@ -166,7 +180,7 @@
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
+                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
                 </button>
 
@@ -178,9 +192,10 @@
     </div>
 </div>
 
-<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50 ">
+{{-- MODAL DETAIL --}}
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white transform opacity-0 translate-y-10 transition-all duration-300">
+    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Program Studi</h2>
 
         <div class="space-y-3">
@@ -203,10 +218,19 @@
     </div>
 </div>
 
+<style>
+    /* Mengamankan agar bullet points bawaan pagination tidak muncul menjadi titik putih */
+    .laravel-pagination-container ul, 
+    .laravel-pagination-container li {
+        list-style-type: none !important;
+        list-style: none !important;
+    }
+</style>
+
 <script>
 function showAnimatedModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('div');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
     modal.classList.remove('hidden');
 
@@ -218,7 +242,7 @@ function showAnimatedModal(id) {
 
 function hideAnimatedModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('div');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
     content.classList.remove('opacity-100', 'translate-y-0');
     content.classList.add('opacity-0', 'translate-y-10');
@@ -236,7 +260,7 @@ function closeModal(id) {
     hideAnimatedModal(id);
 }
 
-function openEdit(id, jenjang,nama_prodi) {
+function openEdit(id, jenjang, nama_prodi) {
     showAnimatedModal('editModal');
     document.getElementById('editJenjang').value = jenjang;
     document.getElementById('editProdi').value = nama_prodi;

@@ -6,52 +6,44 @@
 
 <div class="p-6">
 
-    <div class="flex items-center gap-3 mb-6"
-    data-aos="fade-up"
-    data-aos-delay="100">
+    <div class="flex items-center gap-3 mb-6" data-aos="fade-up" data-aos-delay="100">
 
-    <h1 class="text-2xl font-bold text-gray-800">
-        Data Pengajar
-    </h1>
+        <h1 class="text-2xl font-bold text-gray-800">Data Pengajar</h1>
 
-    @php
+        @php
         $aktif = collect($tahunAjaran)->where('status', 'aktif')->first();
-    @endphp
+        @endphp
 
-   @if($aktif)
-    <span class="bg-green-100 text-green-700 text-sm px-3 py-1 rounded-full font-semibold">
-        Tahun Ajaran Aktif :
-        {{ $aktif->tahun_awal }}/{{ $aktif->tahun_akhir }}
-        - {{ ucfirst($aktif->semester) }}
-    </span>
-@else
-    <span class="bg-red-100 text-red-700 text-sm px-3 py-1 rounded-full font-semibold">
-        Belum ada tahun ajaran
-    </span>
-@endif
+        @if($aktif)
+        <span class="bg-green-100 text-green-700 text-sm px-3 py-1 rounded-full font-semibold">
+            Tahun Ajaran Aktif :
+            {{ $aktif->tahun_awal }}/{{ $aktif->tahun_akhir }}
+            - {{ ucfirst($aktif->semester) }}
+        </span>
+        @else
+        <span class="bg-red-100 text-red-700 text-sm px-3 py-1 rounded-full font-semibold">
+            Belum ada tahun ajaran
+        </span>
+        @endif
 
-</div>
-     
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+    </div>
+
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
         data-aos-delay="200">
 
-     <div class="flex-1 mr-4">
-                <form method="GET" action="/pengajar" class="w-full">
-    <input type="hidden" name="id_tahun_ajaran" value="{{ $idTahun }}">
+        <div class="flex-1 mr-4">
+            <form method="GET" action="/pengajar" class="w-full">
+                <input type="hidden" name="id_tahun_ajaran" value="{{ $idTahun }}">
 
-     <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Cari pengajar..."
-            class="w-full outline-none text-sm text-gray-700">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Pengajar"
+                        class="w-full outline-none text-sm text-gray-700">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </div>
-</form>
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -60,104 +52,164 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
-        <div class="flex justify-between items-center mb-4 gap-4">
-        <h2 class="text-white text-xl font-bold mb-4">Data Pengajar</h2>
-        <form method="GET" action="/pengajar" class="mb-4">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
 
-    <select
-        name="id_tahun_ajaran"
-        onchange="this.form.submit()"
-        class="px-3 py-2 rounded text-black">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-white text-3xl font-bold">
+                Data Pengajar
+            </h2>
 
-        @if(count($tahunAjaran) > 0)
-                @foreach($tahunAjaran as $ta)
-                    <option value="{{ $ta->id_tahun_ajaran }}"
-    {{ $idTahun == $ta->id_tahun_ajaran ? 'selected' : '' }}>
-    {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
-    - {{ ucfirst($ta->semester) }}
-</option>
-                @endforeach
-            @else
-                <option disabled>Belum ada tahun ajaran</option>
-            @endif
+            <form method="GET" action="/pengajar">
+                <select name="id_tahun_ajaran" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded text-black text-sm">
 
-    </select>
+                    @if(count($tahunAjaran) > 0)
+                    @foreach($tahunAjaran as $ta)
+                    <option value="{{ $ta->id_tahun_ajaran }}" {{ $idTahun == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+                        {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+                        - {{ ucfirst($ta->semester) }}
+                    </option>
+                    @endforeach
+                    @else
+                    <option disabled>Belum ada tahun ajaran</option>
+                    @endif
 
-</form>
+                </select>
+            </form>
         </div>
-        <div class="bg-white overflow-hidden">
 
-           <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+        <div class="bg-white rounded-2xl overflow-hidden">
+
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="px-6 py-3 text-black">Dosen</th>
-                        <th class="px-6 py-3 text-black">Mata Kuliah</th>
-                        <th class="px-6 py-3 text-black">Kelas</th>
-                        <th class="px-6 py-3 text-black">Tahun Ajaran</th>
-                        <th class="px-6 py-3 text-black">Semester</th>
-                        <th class="px-6 py-3 text-black">Aksi</th>
+                        <th class="px-6 py-4 text-left text-[#243b63] font-bold text-sm">
+                            NIK
+                        </th>
+
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Mata Kuliah
+                        </th>
+
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Kelas
+                        </th>
+
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Tahun Ajaran
+                        </th>
+
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Semester
+                        </th>
+
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Aksi
+                        </th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
 
-                   @forelse($data as $d)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $d->dosen->user->name }}</td>
-                        <td class="px-6 py-3 text-black"> {{ $d->mataKuliah->nama_mk }} - {{ ucfirst($d->mataKuliah->jenis) }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->kelas->prodi->nama_prodi }} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }} {{ $d->kelas->kategori }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->semester }}</td>
+                    @forelse($data as $d)
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
 
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm whitespace-nowrap">
+                            {{ $d->dosen->user->name }}
+                        </td>
+
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{ $d->mataKuliah->nama_mk }} - {{ ucfirst($d->mataKuliah->jenis) }}
+                        </td>
+
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $d->kelas->prodi->nama_prodi }} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }}
+                            {{ $d->kelas->kategori }}
+                        </td>
+
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - <span
+                                class="capitalize">{{ $d->tahun->semester }}</span>
+                        </td>
+
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center font-medium">
+                            {{ $d->semester }}
+                        </td>
+
+                        <td class="px-4 py-4">
+
+                            <div class="flex justify-center gap-3">
+
+                                {{-- DETAIL --}}
                                 <button
                                     onclick="openDetail('{{ $d->dosen->user->name }}','{{ $d->mataKuliah->nama_mk }}','{{$d->kelas->prodi->nama_prodi}} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }} {{ $d->kelas->kategori }}','{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}','{{ $d->semester }}')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
+
                                 </button>
 
-                                <button
-                                        onclick="openEdit(
-                                        '{{ $d->id_pengajar }}',
-                                        '{{ $d->nik }}',
-                                        '{{ $d->id_mata_kuliah }}',
-                                        '{{ $d->kelas_id }}',
-                                        '{{ $d->id_tahun_ajaran }}',
-                                        '{{ $d->semester }}'
-                                        )"
-                                        class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                            <i class="fa-solid fa-pen text-black"></i>
-                                        </button>
+                                {{-- EDIT --}}
+                                <button onclick="openEdit(
+                            '{{ $d->id_pengajar }}',
+                            '{{ $d->nik }}',
+                            '{{ $d->id_mata_kuliah }}',
+                            '{{ $d->kelas_id }}',
+                            '{{ $d->id_tahun_ajaran }}',
+                            '{{ $d->semester }}'
+                        )" class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
 
-                                <a href="/pengajar/delete/{{ $d->id_pengajar }}" onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-trash text-black"></i>
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
+
+                                </button>
+
+                                {{-- DELETE --}}
+                                <a href="/pengajar/delete/{{ $d->id_pengajar }}"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+
                                 </a>
 
                             </div>
+
                         </td>
+
                     </tr>
+
                     @empty
-                     <tr>
-        <td colspan="6" class="py-10 text-center text-gray-500 font-medium">
-            Data pengajar tidak ditemukan
-        </td>
-    </tr>
-@endforelse
+
+                    <tr>
+
+                        <td colspan="6" class="py-10 text-center text-gray-500 text-sm">
+
+                            Data pengajar tidak ditemukan
+
+                            @if(request('search'))
+                            untuk pencarian
+                            "<strong>{{ request('search') }}</strong>"
+                            @endif
+
+                        </td>
+
+                    </tr>
+
+                    @endforelse
+
                 </tbody>
 
             </table>
-            
         </div>
-        
-<div class="mt-4 flex justify-end space-x-2">
-    {{ $data->appends(request()->query())->links() }}
-</div>
+
+        {{-- PAGINATION --}}
+        <div class="flex justify-end mt-5">
+            {{ $data->appends(request()->query())->links() }}
+        </div>
 
     </div>
+
 </div>
 
 {{-- MODAL TAMBAH --}}
@@ -169,6 +221,7 @@
 
         <form action="/pengajar/store" method="POST">
             @csrf
+
             <label class="block text-sm mb-1">Dosen</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="nik">
                 <option value="">Pilih Dosen</option>
@@ -178,84 +231,67 @@
             </select>
 
             <label class="block text-sm mb-1">Filter Jenis</label>
-<select id="filterJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Semua</option>
-    <option value="teori">Teori</option>
-    <option value="praktikum">Praktikum</option>
-</select>
+            <select id="filterJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Semua</option>
+                <option value="teori">Teori</option>
+                <option value="praktikum">Praktikum</option>
+            </select>
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
                 <option value="">Pilih Mata Kuliah</option>
-              @foreach($mataKuliah as $mk)
+                @foreach($mataKuliah as $mk)
+                @php
+                $jenisList = explode(',', $mk->jenis);
+                @endphp
 
-    @php
-        $jenisList = explode(',', $mk->jenis);
-    @endphp
-
-    <option value="{{ $mk->id_mata_kuliah }}"
-        data-jenis="{{ $mk->jenis }}">
-
-        {{ $mk->kode_mk }}
-        - {{ $mk->nama_mk }}
-        Semester {{ $mk->semester }}
-        ({{ str_replace(',', ' / ', $mk->jenis) }})
-    </option>
-
-@endforeach
+                <option value="{{ $mk->id_mata_kuliah }}" data-jenis="{{ $mk->jenis }}">
+                    {{ $mk->kode_mk }}
+                    - {{ $mk->nama_mk }}
+                    Semester {{ $mk->semester }}
+                    ({{ str_replace(',', ' / ', $mk->jenis) }})
+                </option>
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }} {{$k->kategori}}</option>
+                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }}
+                    {{$k->kategori}}</option>
                 @endforeach
             </select>
 
-           <label class="block text-sm mb-1">Tahun Ajaran</label>
-                <select
-                    class="w-full mb-3 px-3 py-2 border rounded text-black"
-                    name="id_tahun_ajaran"
-                    id="tahunAjaranSelect">
+            <label class="block text-sm mb-1">Tahun Ajaran</label>
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran"
+                id="tahunAjaranSelect">
 
-                    <option value="">Pilih Tahun Ajaran</option>
+                <option value="">Pilih Tahun Ajaran</option>
 
-                    @foreach($tahunAjaran as $ta)
+                @foreach($tahunAjaran as $ta)
+                <option value="{{ $ta->id_tahun_ajaran }}" data-semester="{{ $ta->semester }}">
+                    {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+                    - {{ ucfirst($ta->semester) }}
+                    {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
+                </option>
+                @endforeach
 
-                    <option
-                        value="{{ $ta->id_tahun_ajaran }}"
-                        data-semester="{{ $ta->semester }}">
+            </select>
 
-                        {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
-                        - {{ ucfirst($ta->semester) }}
+            <label class="block text-sm mb-1">Semester</label>
+            <select name="semester" id="semesterSelect" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Semester</option>
+            </select>
 
-                        {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
-
-                    </option>
-
-                    @endforeach
-
-                </select>
-
-                <label class="block text-sm mb-1">Semester</label>
-
-                <select
-                    name="semester"
-                    id="semesterSelect"
-                    class="w-full mb-3 px-3 py-2 border rounded text-black">
-
-                    <option value="">Pilih Semester</option>
-
-                </select>
-                <div class="flex justify-end gap-2">
-                    <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
-                        Batal
-                    </button>
-                    <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
-                        Simpan
-                    </button>
-                </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
+                    Batal
+                </button>
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">
+                    Simpan
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -270,7 +306,8 @@
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="block text-sm mb-1">Dosen</label>
+
+            <label class="block text-sm mb-1">NIK</label>
             <select id="editDosen" class="w-full mb-3 px-3 py-2 border rounded text-black" name="nik">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
@@ -282,21 +319,17 @@
             <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $mk)
+                @php
+                $jenisList = explode(',', $mk->jenis);
+                @endphp
 
-                    @php
-                        $jenisList = explode(',', $mk->jenis);
-                    @endphp
-
-                    @foreach($jenisList as $jenis)
-
-                    <option value="{{ $mk->id_mata_kuliah }}">
-                        {{ $mk->kode_mk }}
-                        - {{ $mk->nama_mk }}
-                        ({{ ucfirst(trim($jenis)) }})
-                    </option>
-
-                    @endforeach
-
+                @foreach($jenisList as $jenis)
+                <option value="{{ $mk->id_mata_kuliah }}">
+                    {{ $mk->kode_mk }}
+                    - {{ $mk->nama_mk }}
+                    ({{ ucfirst(trim($jenis)) }})
+                </option>
+                @endforeach
                 @endforeach
             </select>
 
@@ -304,41 +337,32 @@
             <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }} {{ $k->kategori }}</option>
+                <option value="{{ $k->id_kelas }}">{{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }}
+                    {{ $k->kategori }}</option>
                 @endforeach
             </select>
+
             <label class="block text-sm mb-1">Tahun Ajaran</label>
             <select id="editTahun" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran">
                 <option value="">Pilih Tahun Ajaran</option>
-                 @foreach($tahunAjaran as $ta)
-
-                <option
-                    value="{{ $ta->id_tahun_ajaran }}"
-                    data-semester="{{ $ta->semester }}">
-
+                @foreach($tahunAjaran as $ta)
+                <option value="{{ $ta->id_tahun_ajaran }}" data-semester="{{ $ta->semester }}">
                     {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
                     - {{ ucfirst($ta->semester) }}
                     {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
                 </option>
-
                 @endforeach
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-             <select
-                id="editSemester"
-                name="semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
-
+            <select id="editSemester" name="semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Semester</option>
-
             </select>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
-
                 <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
                     Update
                 </button>
@@ -355,20 +379,30 @@
 
         <h2 class="text-lg font-bold mb-4">Detail Pengajar</h2>
 
-        <label class="text-sm mb-1 block">Dosen</label>
-        <p id="detailDosen" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+        <div class="space-y-3">
+            <div>
+                <label class="text-sm">NIK</label>
+                <p id="detailDosen" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
 
-        <label class="text-sm mb-1 block">Mata Kuliah</label>
-        <p id="detailMk" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+            <div>
+                <label class="text-sm">Mata Kuliah</label>
+                <p id="detailMk" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
 
-        <label class="text-sm mb-1 block">Kelas</label>
-        <p id="detailKelas" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+            <div>
+                <label class="text-sm">Kelas</label>
+                <p id="detailKelas" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
 
-        <label class="text-sm mb-1 block">Tahun Ajaran</label>
-        <p id="detailTahun" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+            <div>
+                <label class="text-sm">Tahun Ajaran</label>
+                <p id="detailTahun" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
+        </div>
 
-        <label class="text-sm mb-1 block">Semester</label>
-        <p id="detailSemester" class="mb-3 px-3 py-2 border rounded text-black bg-white"></p>
+        <label class="text-sm mb-1 block mt-3">Semester</label>
+        <p id="detailSemester" class="bg-white text-black px-3 py-2 rounded"></p>
 
         <div class="flex justify-end mt-4">
             <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -391,30 +425,7 @@ function showModal(id) {
         content.classList.add('opacity-100', 'translate-y-0')
     }, 10)
 }
-const filterJenis = document.getElementById('filterJenis')
-const mkSelect = document.querySelector('select[name="id_mata_kuliah"]')
 
-filterJenis.addEventListener('change', function () {
-
-    const value = this.value.toLowerCase()
-
-    Array.from(mkSelect.options).forEach(option => {
-
-        const jenis = (option.getAttribute('data-jenis') || '').toLowerCase()
-
-        if (!value) {
-            option.style.display = 'block'
-        }
-        else if (jenis.includes(value)) {
-            option.style.display = 'block'
-        }
-        else {
-            option.style.display = 'none'
-        }
-    })
-
-    mkSelect.value = ''
-})
 function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
@@ -436,9 +447,30 @@ function closeModal(id) {
     hideModal(id)
 }
 
+// ===== FILTER JENIS =====
+const filterJenis = document.getElementById('filterJenis')
+const mkSelect = document.querySelector('select[name="id_mata_kuliah"]')
+
+filterJenis.addEventListener('change', function() {
+    const value = this.value.toLowerCase()
+
+    Array.from(mkSelect.options).forEach(option => {
+        const jenis = (option.getAttribute('data-jenis') || '').toLowerCase()
+
+        if (!value) {
+            option.style.display = 'block'
+        } else if (jenis.includes(value)) {
+            option.style.display = 'block'
+        } else {
+            option.style.display = 'none'
+        }
+    })
+
+    mkSelect.value = ''
+})
+
 // ===== EDIT =====
 function openEdit(id, nik, mk, kelas, tahun, semester) {
-
     showModal('editModal')
 
     document.getElementById('editDosen').value = nik
@@ -453,56 +485,42 @@ function openEdit(id, nik, mk, kelas, tahun, semester) {
         editTahun.options[editTahun.selectedIndex]
         .getAttribute('data-semester')
 
-    editSemester.innerHTML =
-        '<option value="">Pilih Semester</option>'
+    editSemester.innerHTML = '<option value="">Pilih Semester</option>'
 
     for (let i = 1; i <= 14; i++) {
-
         if (semesterType === 'ganjil' && i % 2 !== 0) {
-
-            editSemester.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            editSemester.innerHTML += `<option value="${i}">${i}</option>`
         }
-
         if (semesterType === 'genap' && i % 2 === 0) {
-
-            editSemester.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            editSemester.innerHTML += `<option value="${i}">${i}</option>`
         }
     }
 
     editSemester.value = semester
 
-    document.getElementById('formEdit').action =
-        '/pengajar/update/' + id
+    document.getElementById('formEdit').action = '/pengajar/update/' + id
 }
+
 const editTahun = document.getElementById('editTahun')
 const editSemester = document.getElementById('editSemester')
 
-editTahun.addEventListener('change', function () {
-
+editTahun.addEventListener('change', function() {
     const semesterType =
         this.options[this.selectedIndex]
         .getAttribute('data-semester')
 
-    editSemester.innerHTML =
-        '<option value="">Pilih Semester</option>'
+    editSemester.innerHTML = '<option value="">Pilih Semester</option>'
 
     for (let i = 1; i <= 14; i++) {
-
         if (semesterType === 'ganjil' && i % 2 !== 0) {
-
-            editSemester.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            editSemester.innerHTML += `<option value="${i}">${i}</option>`
         }
-
         if (semesterType === 'genap' && i % 2 === 0) {
-
-            editSemester.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            editSemester.innerHTML += `<option value="${i}">${i}</option>`
         }
     }
 })
+
 // ===== DETAIL =====
 function openDetail(dosen, mk, kelas, tahun, semester) {
     showModal('detailModal')
@@ -513,33 +531,28 @@ function openDetail(dosen, mk, kelas, tahun, semester) {
     document.getElementById('detailTahun').innerText = tahun
     document.getElementById('detailSemester').innerText = semester
 }
+
+// ===== TAHUN AJARAN SELECT =====
 const tahunSelect = document.getElementById('tahunAjaranSelect')
 const semesterSelect = document.getElementById('semesterSelect')
 
-tahunSelect.addEventListener('change', function () {
-
+tahunSelect.addEventListener('change', function() {
     const semesterType =
         this.options[this.selectedIndex]
         .getAttribute('data-semester')
 
-    semesterSelect.innerHTML =
-        '<option value="">Pilih Semester</option>'
+    semesterSelect.innerHTML = '<option value="">Pilih Semester</option>'
 
     for (let i = 1; i <= 14; i++) {
-
         if (semesterType === 'ganjil' && i % 2 !== 0) {
-
-            semesterSelect.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            semesterSelect.innerHTML += `<option value="${i}">${i}</option>`
         }
-
         if (semesterType === 'genap' && i % 2 === 0) {
-
-            semesterSelect.innerHTML +=
-                `<option value="${i}">${i}</option>`
+            semesterSelect.innerHTML += `<option value="${i}">${i}</option>`
         }
     }
 })
+
 tahunSelect.dispatchEvent(new Event('change'))
 </script>
 

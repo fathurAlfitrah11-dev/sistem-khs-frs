@@ -7,23 +7,21 @@
 <div class="p-6">
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Tahun Ajaran</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up" data-aos-delay="200">
-        
-      <div class="flex-1 mr-4">
-    <form action="{{ url('/tahun-ajaran') }}" method="GET">
-    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input type="text"
-               name="search"
-               value="{{ request('search') }}"
-               placeholder="Telusuri Tahun Ajaran"
-               class="w-full outline-none text-sm text-gray-700">
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+        data-aos-delay="200">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </div>
-</form>
-</div>
+        <div class="flex-1 mr-4">
+            <form action="{{ url('/tahun-ajaran') }}" method="GET">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Tahun Ajaran"
+                        class="w-full outline-none text-sm text-gray-700">
+
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
@@ -31,77 +29,74 @@
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data Tahun Ajaran</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data Tahun Ajaran</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-           <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="px-6 py-3">No</th>
-                        <th class="px-6 py-3">Tahun Ajaran</th>
-                        <th class="px-6 py-3 text-center">Semester</th>
-                        <th class="px-6 py-3 text-center">Status</th>
-                        <th class="px-6 py-3 text-center">Aksi</th>
+                        <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Tahun Ajaran</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Status</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
-                    
+                <tbody>
+
                     @forelse($data as $d)
-                    <tr class="hover:bg-gray-50 text-black">
-                        <td class="px-6 py-3">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}</td>
-                        <td class="px-6 py-3 text-center">{{ $d->semester }}</td>
-                        <td class="px-6 py-3 text-center">
-
-                        <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
-                        class="px-3 py-1 rounded text-white font-semibold
-                        {{ $d->status == 'aktif' ? 'bg-green-500' : 'bg-gray-500' }}">
-
-                        {{ $d->status == 'aktif' ? 'Aktif' : 'Nonaktif' }}
-
-                        </a>
+                    <tr
+                        class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                        <td class="px-8 py-3 text-left whitespace-nowrap">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}
                         </td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->semester }}</td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">
+                            <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
+                                class="px-3 py-1 rounded text-white font-semibold transition text-xs
+                            {{ $d->status == 'aktif' ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 hover:bg-gray-600' }}">
+                                {{ $d->status == 'aktif' ? 'Aktif' : 'Nonaktif' }}
+                            </a>
                         </td>
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                        <td class="px-6 py-3">
+                            <div class="flex justify-center gap-3">
 
-        <button 
-    data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-    data-semester="{{ $d->semester }}"
-    data-status="{{ $d->status }}"
-    onclick="openDetail(this)"
-    class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
-    <i class="fa-solid fa-eye"></i>
-</button>
+                                {{-- VIEW --}}
+                                <button data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    onclick="openDetail(this)"
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
+                                </button>
 
-        <button 
-            data-id="{{ $d->id_tahun_ajaran }}"
-            data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-            data-semester="{{ $d->semester }}"
-            data-status="{{ $d->status }}"
-            onclick="openEdit(this)"
-            class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
-            <i class="fa-solid fa-pen"></i>
-        </button>
+                                {{-- EDIT --}}
+                                <button data-id="{{ $d->id_tahun_ajaran }}"
+                                    data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    onclick="openEdit(this)"
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
+                                </button>
 
-        <a href="/tahun-ajaran/delete/{{ $d->id_tahun_ajaran }}"
-   onclick="return confirm('Yakin ingin menghapus data ini?')"
-   class="w-8 h-8 flex items-center justify-center bg-orange-400 rounded-full">
-    
-    <i class="fa-solid fa-trash"></i>
-</a>
+                                {{-- DELETE --}}
+                                <a href="/tahun-ajaran/delete/{{ $d->id_tahun_ajaran }}"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
+                                </a>
 
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-3 text-center text-black">Data Tahun Ajaran tidak ditemukan</td>
+                        <td colspan="5" class="px-6 py-10 text-center text-gray-500 text-sm">Data Tahun Ajaran tidak
+                            ditemukan</td>
                     </tr>
                     @endforelse
 
@@ -109,86 +104,125 @@
             </table>
 
         </div>
-       <div class="flex justify-end mt-4">
-    {{ $data->appends(request()->query())->links() }}
-</div>
+
+        {{-- PAGINATION --}}
+        <div class="flex justify-end mt-5 list-none">
+            <div class="bg-white p-1 rounded-xl shadow-xs list-none">
+                @if(method_exists($data, 'links'))
+                <div class="laravel-pagination-container">
+                    {{ $data->appends(request()->query())->links() }}
+                </div>
+                @else
+                <div class="flex space-x-1 text-xs font-semibold p-1">
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">‹</button>
+                    <button class="bg-blue-600 text-white px-3 py-1.5 rounded-lg">1</button>
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">2</button>
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">›</button>
+                </div>
+                @endif
+            </div>
+        </div>
+
     </div>
 </div>
-<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
 
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+{{-- MODAL TAMBAH --}}
+<div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
         <form action="/tahun-ajaran/store" method="POST">
-        @csrf
-        <label class="block text-sm mb-1">Tahun Awal</label>
-        <input type="year" name="tahun_awal" class="w-full mb-3 px-3 py-2 text-black rounded" placeholder="Tahun Awal" required>
+            @csrf
+            <label class="block text-sm mb-1">Tahun Awal</label>
+            <input type="year" name="tahun_awal" class="w-full mb-3 px-3 py-2 text-black rounded"
+                placeholder="Tahun Awal" required>
 
-        <label class="block text-sm mb-1">Tahun Akhir</label>
-        <input type="year" name="tahun_akhir" class="w-full mb-3 px-3 py-2 text-black rounded" placeholder="Tahun Akhir" required>
+            <label class="block text-sm mb-1">Tahun Akhir</label>
+            <input type="year" name="tahun_akhir" class="w-full mb-3 px-3 py-2 text-black rounded"
+                placeholder="Tahun Akhir" required>
 
             <label class="block text-sm mb-1">Semester</label>
-        <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option value="ganjil">Ganjil</option>
-            <option value="genap">Genap</option>
-        </select>
+            <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
+                <option value="ganjil">Ganjil</option>
+                <option value="genap">Genap</option>
+            </select>
 
-        <div class="flex justify-end gap-2">
-            <button onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">Batal</button>
-            <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
-        </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('tambahModal')"
+                    class="bg-gray-300 px-3 py-1 rounded text-black">Batal</button>
+                <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
+            </div>
         </form>
     </div>
 
 </div>
-<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+
+{{-- MODAL EDIT --}}
+<div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="mb-4 font-bold">Ubah Tahun Ajaran</h2>
 
         <form id="formEdit" method="POST">
-        @csrf
-        <label class="block text-sm mb-1">Tahun Awal</label>
-        <input type="year" name="tahun_awal" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
+            @csrf
+            <label class="block text-sm mb-1">Tahun Awal</label>
+            <input type="year" name="tahun_awal" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
 
-        <label class="block text-sm mb-1">Tahun Akhir</label>
-        <input type="year" name="tahun_akhir" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
+            <label class="block text-sm mb-1">Tahun Akhir</label>
+            <input type="year" name="tahun_akhir" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
 
-        <label class="block text-sm mb-1">Semester</label>
-        <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
-            <option value="ganjil">Ganjil</option>
-            <option value="genap">Genap</option>
-        </select>
+            <label class="block text-sm mb-1">Semester</label>
+            <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
+                <option value="ganjil">Ganjil</option>
+                <option value="genap">Genap</option>
+            </select>
 
-        <div class="flex justify-end gap-2">
-            <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">Tutup</button>
-            <button class="bg-blue-600 px-3 py-1 rounded" type="submit">Simpan</button>
-        </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeModal('editModal')"
+                    class="bg-gray-300 px-3 py-1 rounded text-black">Tutup</button>
+                <button class="bg-yellow-500 text-white px-3 py-1 rounded" type="submit">Update</button>
+            </div>
         </form>
     </div>
 </div>
 
-
-<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+{{-- MODAL DETAIL --}}
+<div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="mb-4 font-bold">Detail Tahun Ajaran</h2>
         <div class="space-y-3">
-        <label class="text-sm">Tahun Awal</label>
-        <p id="dTahunAwal" class="bg-white text-black px-3 py-2 rounded"></p>
-        <label class="text-sm">Tahun Akhir</label>
-        <p id="dTahunAkhir" class="bg-white text-black px-3 py-2 rounded"></p>
-        <label class="text-sm">Semester</label>
-        <p id="dSemester" class="bg-white text-black px-3 py-2 rounded"></p>
-        <label class="text-sm">Status</label>
-        <p id="dStatus" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="text-sm">Tahun Awal</label>
+            <p id="dTahunAwal" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="text-sm">Tahun Akhir</label>
+            <p id="dTahunAkhir" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="text-sm">Semester</label>
+            <p id="dSemester" class="bg-white text-black px-3 py-2 rounded"></p>
+            <label class="text-sm">Status</label>
+            <p id="dStatus" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
 
-        <button onclick="closeModal('detailModal')" class="mt-4 bg-gray-300 px-3 py-1 rounded">Tutup</button>
+        <div class="flex justify-end mt-4">
+            <button onclick="closeModal('detailModal')" class="bg-gray-300 px-3 py-1 rounded text-black">Tutup</button>
+        </div>
 
     </div>
 </div>
+
+<style>
+/* Mengamankan agar bullet points bawaan pagination tidak muncul menjadi titik putih */
+.laravel-pagination-container ul,
+.laravel-pagination-container li {
+    list-style-type: none !important;
+    list-style: none !important;
+}
+</style>
+
 <script>
 // ===== MODAL ANIMATION =====
-function showModal(id){
+function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -200,7 +234,7 @@ function showModal(id){
     }, 10)
 }
 
-function hideModal(id){
+function hideModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
 
@@ -213,16 +247,16 @@ function hideModal(id){
 }
 
 // ===== OPEN CLOSE =====
-function openModal(id){
+function openModal(id) {
     showModal(id)
 }
 
-function closeModal(id){
+function closeModal(id) {
     hideModal(id)
 }
 
 // ===== EDIT =====
-function openEdit(el){
+function openEdit(el) {
     openModal('editModal')
 
     let tahun = el.dataset.tahun.split('/')
@@ -234,7 +268,7 @@ function openEdit(el){
 }
 
 // ===== DETAIL =====
-function openDetail(el){
+function openDetail(el) {
     openModal('detailModal')
 
     document.getElementById('dTahunAwal').innerText = el.dataset.tahun.split('/')[0]
@@ -244,27 +278,24 @@ function openDetail(el){
 }
 
 // ===== GENERATE TAHUN (DINAMIS) =====
-function setupTahun(awalId, akhirId, hasilId){
+function setupTahun(awalId, akhirId, hasilId) {
     const awal = document.getElementById(awalId)
     const akhir = document.getElementById(akhirId)
     const hasil = document.getElementById(hasilId)
 
-    function generate(){
-        if(awal.value && akhir.value){
-            hasil.value = awal.value + '/' + akhir.value
+    if (awal && akhir && hasil) {
+        function generate() {
+            if (awal.value && akhir.value) {
+                hasil.value = awal.value + '/' + akhir.value
+            }
         }
+        awal.addEventListener('input', generate)
+        akhir.addEventListener('input', generate)
     }
-
-    awal.addEventListener('input', generate)
-    akhir.addEventListener('input', generate)
 }
 
-// ===== INIT =====
-// untuk tambah
 setupTahun('tahunAwal', 'tahunAkhir', 'hasilTahun')
 
-// untuk edit
 setupTahun('editTahunAwal', 'editTahunAkhir', 'editHasilTahun')
-
 </script>
 @endsection

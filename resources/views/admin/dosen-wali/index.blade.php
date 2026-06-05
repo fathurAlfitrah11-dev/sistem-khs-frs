@@ -4,98 +4,108 @@
 
 @section('content')
 
+
 <div class="p-6">
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen Wali</h1>
 
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
         data-aos-delay="200">
         <div class="flex-1 mr-4">
 
-           <form action="/dosen-wali" method="GET" class="w-full">
-    <div class="flex items-center bg-white rounded px-3 py-2">
+            <form action="/dosen-wali" method="GET" class="w-full">
+                <div class="flex items-center bg-white rounded px-3 py-2">
 
-        <input
-            type="text"
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Telusuri Dosen Wali"
-            class="w-full outline-none text-sm text-gray-700">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Dosen Wali"
+                        class="w-full outline-none text-sm text-gray-700">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
 
-    </div>
-</form>
+                </div>
+            </form>
 
         </div>
-            <button onclick="openModal('tambahModal')"
+        <button onclick="openModal('tambahModal')"
             class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
             + Tambah Dosen Wali
         </button>
     </div>
 
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="300">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data Dosen Wali</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data Dosen Wali</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-            <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="px-6 py-3 text-black">NIK</th>
-                        <th class="px-6 py-3 text-black">Nama Dosen</th>
-                        <th class="px-6 py-3 text-black">Kelas</th>
-                        <th class="px-6 py-3 text-black">Aksi</th>
+                        <th class="px-8 py-3 text-left text-[#243b63] font-bold text-sm">NIK</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Nama Dosen</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Kelas</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
 
                     @forelse($kelasWali as $k)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $k->nik_wali }}</td>
-                        <td class="px-6 py-3 text-black">{{ $k->wali->user->name ?? '-' }}</td>
-                        <td class="px-6 py-3 text-black">{{$k->prodi->nama_prodi}} {{ $k->semester }}{{ $k->nama_kelas }} {{ $k->kategori }}</td>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                        <td class="px-7 py-3 text-gray-800 text-xs md:text-sm whitespace-nowrap text-left">
+                            {{ $k->nik_wali }}
+                        </td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{ $k->wali->user->name ?? '-' }}
+                        </td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{$k->prodi->nama_prodi}} {{ $k->semester }}{{ $k->nama_kelas }} {{ $k->kategori }}
+                        </td>
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                        <td class="px-6 py-3">
+                            <div class="flex justify-center gap-3">
 
-                                <button onclick="openDetail('{{$k->nik_wali}}','{{$k->wali->user->name}}','{{$k->prodi->nama_prodi}} {{$k->semester}}{{$k->nama_kelas}} {{$k->kategori}}','{{$k->prodi->nama_prodi}}')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
+                                {{-- DETAIL --}}
+                                <button
+                                    onclick="openDetail('{{$k->nik_wali}}','{{$k->wali->user->name}}','{{$k->prodi->nama_prodi}} {{$k->semester}}{{$k->nama_kelas}} {{$k->kategori}}','{{$k->prodi->nama_prodi}}')"
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
+                                {{-- EDIT --}}
                                 <button onclick="openEdit('{{$k->id_kelas}}','{{$k->nik_wali}}','{{$k->id_kelas}}')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
-                                <a href="/dosen-wali/delete/{{ $k->id_kelas }}" onclick="return confirm('Yakin ingin menghapus data ini?')"
-                                    class="w-8 h-8 bg-orange-400 p-2 rounded-full">
-                                    <i class="fa-solid fa-trash text-black"></i>
+                                {{-- DELETE --}}
+                                <a href="/dosen-wali/delete/{{ $k->id_kelas }}"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?')"
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>
 
                             </div>
                         </td>
                     </tr>
                     @empty
-                     <tr>
-                        <td colspan="4" class="py-10 text-center text-gray-500 font-medium">
+                    <tr>
+                        <td colspan="4" class="py-10 text-center text-gray-500 text-sm">
                             Data dosen wali tidak ditemukan
                         </td>
                     </tr>
-                @endforelse
+                    @endforelse
                 </tbody>
 
             </table>
-            
+
         </div>
+
+        {{-- PAGINATION --}}
         <div class="mt-4 flex justify-end">
-    {{ $kelasWali->appends(request()->query())->links() }}
-</div>
+            {{ $kelasWali->appends(request()->query())->links() }}
+        </div>
     </div>
 </div>
 
@@ -111,21 +121,22 @@
             <label class="block text-sm mb-1">Dosen</label>
             <select name="nik_wali" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Dosen</option>
-               @foreach($dosen as $d)
+                @foreach($dosen as $d)
 
                 @if(!in_array($d->nik, $dosenWali))
                 <option value="{{ $d->nik }}">
                     {{ $d->user->name }}
                 </option>
                 @endif
-            @endforeach
+                @endforeach
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
             <select name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
                 @foreach($allKelas as $kelasItem)
-                <option value="{{ $kelasItem->id_kelas }}">{{ $kelasItem->prodi->nama_prodi ?? '-' }} {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }} {{ $kelasItem->kategori }}</option>
+                <option value="{{ $kelasItem->id_kelas }}">{{ $kelasItem->prodi->nama_prodi ?? '-' }}
+                    {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }} {{ $kelasItem->kategori }}</option>
                 @endforeach
             </select>
 
@@ -161,14 +172,15 @@
             </select>
 
             <label class="block text-sm mb-1">Kelas</label>
-           <select name="id_kelas" id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Pilih Kelas</option>
-@foreach($allKelas as $kelasItem)
-<option value="{{ $kelasItem->id_kelas }}">
-    {{ $kelasItem->prodi->nama_prodi ?? '-' }} {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }} {{ $kelasItem->kategori }}
-</option>
-@endforeach
-</select>
+            <select name="id_kelas" id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+                <option value="">Pilih Kelas</option>
+                @foreach($allKelas as $kelasItem)
+                <option value="{{ $kelasItem->id_kelas }}">
+                    {{ $kelasItem->prodi->nama_prodi ?? '-' }} {{ $kelasItem->semester }}{{ $kelasItem->nama_kelas }}
+                    {{ $kelasItem->kategori }}
+                </option>
+                @endforeach
+            </select>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -210,6 +222,15 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Menghilangkan style list/bullet bawaan pagination laravel agar tidak memunculkan titik putih */
+.laravel-pagination-container ul,
+.laravel-pagination-container li {
+    list-style-type: none !important;
+    list-style: none !important;
+}
+</style>
 
 <script>
 function showModal(id) {

@@ -11,23 +11,20 @@
     </h1>
 
     {{-- SEARCH + BUTTON --}}
-    <div class="bg-[#3b3f63] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
+    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
         data-aos-delay="100">
 
         <div class="flex-1 mr-4">
-           <form action="{{ url('/mata-kuliah') }}" method="GET">
-    <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-        <input type="text"
-               name="search"
-               value="{{ request('search') }}"
-               placeholder="Telusuri Mata Kuliah"
-               class="w-full outline-none text-sm text-gray-700">
+            <form action="{{ url('/mata-kuliah') }}" method="GET">
+                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Mata Kuliah"
+                        class="w-full outline-none text-sm text-gray-700">
 
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </div>
-</form>
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
@@ -37,59 +34,67 @@
     </div>
 
     {{-- TABLE --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="200">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data Mata Kuliah</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden">
 
-           <table class="w-full text-sm text-center">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
-                        <th class="text-black px-6 py-3">No</th>
-                        <th class="text-black px-6 py-3">Kode</th>
-                        <th class="text-black px-6 py-3">Nama Mata Kuliah</th>
-                        <th class="text-black px-6 py-3">Prodi</th>
-                        <th class="text-black px-6 py-3">Semester</th>
-                        <th class="text-black px-6 py-3">SKS</th>
-                        <th class="text-black px-6 py-3">Jenis</th>
-                        <th class="text-black px-6 py-3">Aksi</th>
+                        <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Kode</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Nama Mata Kuliah</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Prodi</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">SKS</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Jenis</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
                     @forelse($data as $d)
 
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 text-black">{{ $loop->iteration }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->kode_mk }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->nama_mk }}</td>
-                        <td class="px-6 py-3 text-black">{{$d->prodi->jenjang}} {{ $d->prodi->nama_prodi }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->semester }}</td>
-                        <td class="px-6 py-3 text-black">{{ $d->sks }}</td>
-                        <td class="px-6 py-3 text-black"> {{ ucwords(str_replace(',', ' dan ', $d->jenis)) }}</td>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+                        <td class="px-7 py-3 text-gray-800 text-xs md:text-sm whitespace-nowrap text-left">
+                            {{ $loop->iteration }}</td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $d->kode_mk }}</td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">{{ $d->nama_mk }}
+                        </td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{$d->prodi->jenjang}} {{ $d->prodi->nama_prodi }}</td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $d->semester }}</td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
+                            {{ $d->sks }}</td>
+                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">
+                            {{ ucwords(str_replace(',', ' dan ', $d->jenis)) }}</td>
 
-                        <td class="px-6 py-3 text-center">
-                            <div class="flex justify-center gap-2">
+                        <td class="px-6 py-3">
+                            <div class="flex justify-center gap-3">
 
                                 {{-- VIEW --}}
                                 <button
                                     onclick="openDetail('{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-eye text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button
                                     onclick="openEdit('{{ $d->id_mata_kuliah }}','{{ $d->id_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-                                    <i class="fa-solid fa-pen text-black"></i>
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/mata-kuliah/delete/{{ $d->id_mata_kuliah }}" onclick="return confirm('Yakin hapus?')"
-                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full inline-block">
-                                    <i class="fa-solid fa-trash text-black"></i>
+                                <a href="/mata-kuliah/delete/{{ $d->id_mata_kuliah }}"
+                                    onclick="return confirm('Yakin hapus?')"
+                                    class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
+                                    <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>
 
                             </div>
@@ -97,16 +102,32 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-3 text-center text-black">Data Mata Kuliah tidak ditemukan</td>
+                        <td colspan="8" class="px-6 py-10 text-center text-gray-500 text-sm">Data Mata Kuliah tidak
+                            ditemukan</td>
                     </tr>
                     @endforelse
                 </tbody>
 
             </table>
         </div>
-        <div class="flex justify-end mt-4">
-    {{ $data->appends(request()->query())->links() }}
-</div>
+
+        {{-- PAGINATION --}}
+        <div class="flex justify-end mt-5 list-none">
+            <div class="bg-white p-1 rounded-xl shadow-xs list-none">
+                @if(method_exists($data, 'links'))
+                <div class="laravel-pagination-container">
+                    {{ $data->appends(request()->query())->links() }}
+                </div>
+                @else
+                <div class="flex space-x-1 text-xs font-semibold p-1">
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">‹</button>
+                    <button class="bg-blue-600 text-white px-3 py-1.5 rounded-lg">1</button>
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">2</button>
+                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">›</button>
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 
@@ -134,26 +155,28 @@
             <input type="text" placeholder="Nama MK" name="nama_mk" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="block text-sm mb-1">Semester</label>
-            <input type="number" placeholder="Semester" name="semester" class="w-full mb-3 px-3 py-2 rounded text-black">
+            <input type="number" placeholder="Semester" name="semester"
+                class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="block text-sm mb-1">SKS</label>
-            <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
+            <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
+                min="1">
 
-           <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
+            <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
 
-                <div class="flex gap-4 mb-3">
+            <div class="flex gap-4 mb-3">
 
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" name="jenis[]" value="teori">
-                        Teori
-                    </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="jenis[]" value="teori">
+                    Teori
+                </label>
 
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" name="jenis[]" value="praktikum">
-                        Praktikum
-                    </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="jenis[]" value="praktikum">
+                    Praktikum
+                </label>
 
-                </div>
+            </div>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -231,21 +254,22 @@
             <input type="number" name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 rounded text-black">
 
             <label class="text-sm mb-1 block">SKS</label>
-            <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4" min="1">
+            <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
+                min="1">
 
             <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
 
-                <div class="flex gap-4 mb-3">
+            <div class="flex gap-4 mb-3">
 
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" name="jenis[]" value="teori" id="editTeori">
-                        Teori
-                    </label>
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" name="jenis[]" value="praktikum" id="editPraktikum">
-                        Praktikum
-                    </label>
-                </div>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="jenis[]" value="teori" id="editTeori">
+                    Teori
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="jenis[]" value="praktikum" id="editPracticum">
+                    Praktikum
+                </label>
+            </div>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -260,6 +284,15 @@
         </form>
     </div>
 </div>
+
+<style>
+/* Mengamankan agar bullet points bawaan pagination tidak muncul menjadi titik putih */
+.laravel-pagination-container ul,
+.laravel-pagination-container li {
+    list-style-type: none !important;
+    list-style: none !important;
+}
+</style>
 
 <script>
 function openModal(id) {
@@ -306,14 +339,14 @@ function openEdit(id, prodi, kode, nama, semester, sks, jenis) {
     document.getElementById('editSemester').value = semester
     document.getElementById('editSks').value = sks
     document.getElementById('editTeori').checked = false
-    document.getElementById('editPraktikum').checked = false
+    document.getElementById('editPracticum').checked = false
 
     if (jenis.includes('teori')) {
         document.getElementById('editTeori').checked = true
     }
 
     if (jenis.includes('praktikum')) {
-        document.getElementById('editPraktikum').checked = true
+        document.getElementById('editPracticum').checked = true
     }
 
     document.getElementById('formEdit').action = '/mata-kuliah/update/' + id
