@@ -23,38 +23,42 @@
 
 <body>
 
-<x-alert />
+    <x-alert />
 
-<div class="flex">
+    <div class="flex">
 
-    {{-- SIDEBAR --}}
-    @include('layout.sidebar')
+        {{-- SIDEBAR --}}
+        @if(Auth::user()->role == 'dosen')
+        @include('layout.sidebar_dosen')
+        @else
+        @include('layout.sidebar') {{-- Ini buat admin atau role lain jika ada --}}
+        @endif
 
-    {{-- MAIN CONTENT --}}
-    <div class="flex-1 ml-64 pt-16">
+        {{-- MAIN CONTENT --}}
+        <div class="flex-1 ml-64 pt-16">
 
-        {{-- NAVBAR --}}
-        @include('layout.navbar')
+            {{-- NAVBAR --}}
+            @include('layout.navbar')
 
-        {{-- CONTENT --}}
-        <div id="swup" class="p-6 transition-fade">
+            {{-- CONTENT --}}
+            <div id="swup" class="p-6 transition-fade">
 
-            <x-dashboard-layout>
-                @yield('content')
-            </x-dashboard-layout>
+                <x-dashboard-layout>
+                    @yield('content')
+                </x-dashboard-layout>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
-<script>
-AOS.init({
-    once: true,
-    duration: 800
-});
-</script>
+    <script>
+    AOS.init({
+        once: true,
+        duration: 800
+    });
+    </script>
 
 </body>
 

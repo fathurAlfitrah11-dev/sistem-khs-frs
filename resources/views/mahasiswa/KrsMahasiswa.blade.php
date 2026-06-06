@@ -8,98 +8,97 @@
 $totalSks = 0;
 
 foreach($krs as $k){
-    foreach($k->detail as $item){
-        $totalSks += $item->pengajar->mataKuliah->sks ?? 0;
-    }
+foreach($k->detail as $item){
+$totalSks += $item->pengajar->mataKuliah->sks ?? 0;
+}
 }
 
 $maxSks = 20;
 @endphp
 
+<div class="p-6">
+
     {{-- TABLE --}}
-    <div class="bg-[#3b3f63] rounded-xl p-6" data-aos="fade-up" data-aos-delay="100">
+    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="100">
 
-        <h2 class="text-white text-xl font-bold mb-4">Data Mata Kuliah</h2>
+        <h2 class="text-white text-3xl font-bold mb-6">Data Mata Kuliah</h2>
 
-        <div class="bg-white overflow-hidden">
+        <div class="bg-white overflow-hidden rounded-2xl">
 
-            <table class="w-full text-sm">
-                <thead class="bg-gray-100 text-gray-700 border-b-4 border-gray-800">
-                    <tr>    
-                        <th class="text-left px-6 py-3">Kode</th>
-                        <th class="text-left px-6 py-3">Nama Mata Kuliah</th>
-                        <th class="text-left px-6 py-3">Semester</th>
-                        <th class="text-left px-6 py-3">Status</th>
-                        <th class="text-left px-6 py-3">SKS</th>
-                        <th class="text-center px-6 py-3">Aksi</th>
+            <table class="w-full border-collapse">
+                <thead class="bg-[#f5f6fa] border-b border-gray-300">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Kode</th>
+                        <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Nama Mata Kuliah</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Status</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">SKS</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody>
+                    @foreach($krs as $k)
+                    @foreach($k->detail as $item)
+                    <tr
+                        class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
 
-@foreach($krs as $k)
+                        <td class="px-6 py-3 text-left whitespace-nowrap font-medium">
+                            {{ $item->pengajar->mataKuliah->kode_mk }}
+                        </td>
 
-    @foreach($k->detail as $item)
+                        <td class="px-6 py-3 text-left break-words">
+                            {{ $item->pengajar->mataKuliah->nama_mk }}
+                        </td>
 
-    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-3 text-center whitespace-nowrap">
+                            {{ $item->pengajar->mataKuliah->semester }}
+                        </td>
 
-        <td class="px-6 py-3 text-black">
-            {{ $item->pengajar->mataKuliah->kode_mk }}
-        </td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">
+                            @if(strtolower($item->status_wali) == 'pending' || strtolower($item->status_wali) ==
+                            'menunggu')
+                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                {{ $item->status_wali }}
+                            </span>
+                            @elseif(strtolower($item->status_wali) == 'approved' || strtolower($item->status_wali) ==
+                            'disetujui')
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                {{ $item->status_wali }}
+                            </span>
+                            @else
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                {{ $item->status_wali }}
+                            </span>
+                            @endif
+                        </td>
 
-        <td class="px-6 py-3 text-black">
-            {{ $item->pengajar->mataKuliah->nama_mk }}
-        </td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">
+                            {{ $item->pengajar->mataKuliah->sks }}
+                        </td>
 
-        <td class="px-6 py-3 text-black">
-            {{ $item->pengajar->mataKuliah->semester }}
-        </td>
+                        <td class="px-6 py-3 text-center">
+                            <div class="flex justify-center">
+                                @if(strtolower($item->status_wali) == 'pending' || strtolower($item->status_wali) ==
+                                'menunggu')
+                                <button type="button" onclick="openDelete(
+                                                '{{ $item->pengajar->mataKuliah->kode_mk }}',
+                                                '{{ $item->pengajar->mataKuliah->nama_mk }}',
+                                                '{{ $item->id_krs_detail }}'
+                                            )"
+                                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 rounded-full flex items-center justify-center shadow transition duration-200">
+                                    <i class="fa-solid fa-trash text-black text-xs"></i>
+                                </button>
+                                @else
+                                <span class="text-gray-400 text-xs italic">-</span>
+                                @endif
+                            </div>
+                        </td>
 
-        <td class="px-6 py-3 text-black">
-            {{ $item->status_wali }}
-        </td>
-
-        <td class="px-6 py-3 text-black">
-            {{ $item->pengajar->mataKuliah->sks }}
-        </td>
-
-        <td class="px-6 py-3 text-center">
-
-            @if($item->status_wali == 'pending')
-
-                <form action="/mahasiswa/krs/hapus/{{ $item->id_krs_detail }}"
-                    method="POST"
-                    class="inline">
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button
-                    type="button"
-                    onclick="openDelete(
-                    '{{ $item->pengajar->mataKuliah->kode_mk }}',
-                    '{{ $item->pengajar->mataKuliah->nama_mk }}',
-                    '{{ $item->id_krs_detail }}'
-                    )"
-                    class="w-8 h-8 bg-orange-400 hover:bg-orange-300 p-2 rounded-full">
-
-                    <i class="fa-solid fa-trash text-black"></i>
-
-                    </button>
-
-                </form>
-
-            @endif
-
-        </td>
-
-    </tr>
-
-    @endforeach
-
-@endforeach
-
-</tbody>
+                    </tr>
+                    @endforeach
+                    @endforeach
+                </tbody>
             </table>
 
         </div>
@@ -125,152 +124,94 @@ $maxSks = 20;
 
             @endif
 
-    </div>
-</div>
- <div id="deleteModal"
-class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-    <div class="bg-[#3b3f63] w-full max-w-md rounded-xl p-6 text-white shadow-lg opacity-0 transform translate-y-10 transition-all duration-300">
-
-    <h2 class="text-lg font-bold mb-4 text-center">
-    Batalkan Mata Kuliah
-    </h2>
-
-        <div class="bg-[#4a4f73] p-4 rounded mb-4 text-sm">
-
-        <p>
-        <b>Kode:</b>
-        <span id="d_kode"></span>
-        </p>
-
-        <p>
-        <b>Nama:</b>
-        <span id="d_nama"></span>
-        </p>
-
         </div>
 
-        <p class="text-gray-300 text-sm text-center mb-5">
-        Mata kuliah ini akan dihapus dari KRS kamu.
-        </p>
+    {{-- DELETE MODAL --}}
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+            class="bg-[#5a5f86] w-full max-w-md rounded-xl p-6 text-white shadow-lg modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+
+            <h2 class="text-lg font-bold mb-4 text-center">Batalkan Mata Kuliah</h2>
+
+            <div class="bg-[#4d5275] p-4 rounded-lg mb-4 text-sm space-y-2 border border-white/10">
+                <p><b>Kode:</b> <span id="d_kode"></span></p>
+                <p><b>Nama:</b> <span id="d_nama"></span></p>
+            </div>
+
+            <p class="text-gray-200 text-xs text-center mb-5">
+                Mata kuliah ini akan dihapus secara permanen dari rencana studi (KRS) kamu.
+            </p>
 
             <div class="flex justify-center gap-3">
-
-            <button
-            onclick="closeDelete()"
-            class="bg-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded">
-
-            Batal
-
-            </button>
-
-            <button
-            onclick="confirmDelete()"
-            class="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded font-semibold">
-
-            Ya, Hapus
-
-            </button>
-
+                <button onclick="closeDelete()"
+                    class="bg-gray-300 hover:bg-gray-200 text-black px-4 py-1.5 rounded-lg text-sm font-medium transition">
+                    Batal
+                </button>
+                <button onclick="confirmDelete()"
+                    class="bg-red-500 hover:bg-red-400 text-white px-4 py-1.5 rounded-lg text-sm font-semibold shadow transition">
+                    Ya, Hapus
+                </button>
             </div>
 
         </div>
-
     </div>
+
 </div>
+
 <script>
+let deleteData = {}
 
-let deleteData={}
-
-function openDelete(kode,nama,id){
-
-    deleteData={
+function openDelete(kode, nama, id) {
+    deleteData = {
         kode,
         nama,
         id
     }
 
-    document.getElementById(
-        'd_kode'
-    ).innerText=kode
+    document.getElementById('d_kode').innerText = kode
+    document.getElementById('d_nama').innerText = nama
 
-    document.getElementById(
-        'd_nama'
-    ).innerText=nama
+    const modal = document.getElementById('deleteModal');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
-    document
-    .getElementById(
-        'deleteModal'
-    )
-    .classList.remove(
-        'hidden'
-    )
+    modal.classList.remove('hidden');
 
-    setTimeout(()=>{
-
-        let modal=document.querySelector(
-            '#deleteModal .opacity-0'
-        )
-
-        modal.classList.remove(
-            'opacity-0'
-        )
-
-        modal.classList.remove(
-            'translate-y-10'
-        )
-
-    },10)
+    setTimeout(() => {
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
+    }, 10);
 }
 
-function closeDelete(){
+function closeDelete() {
+    const modal = document.getElementById('deleteModal');
+    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
 
-    document
-    .getElementById(
-        'deleteModal'
-    )
-    .classList.add(
-        'hidden'
-    )
+    content.classList.remove('opacity-100', 'translate-y-0');
+    content.classList.add('opacity-0', 'translate-y-10');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
 }
 
-function confirmDelete(){
+function confirmDelete() {
+    let form = document.createElement('form')
+    form.method = 'POST'
+    form.action = '/mahasiswa/krs/hapus/' + deleteData.id
 
-    let form=document.createElement(
-        'form'
-    )
-
-    form.method='POST'
-
-    form.action=
-    '/mahasiswa/krs/hapus/'
-    +deleteData.id
-
-    let csrf=document.createElement(
-        'input'
-    )
-
-    csrf.type='hidden'
-    csrf.name='_token'
-    csrf.value=
-    '{{ csrf_token() }}'
-
+    let csrf = document.createElement('input')
+    csrf.type = 'hidden'
+    csrf.name = '_token'
+    csrf.value = '{{ csrf_token() }}'
     form.appendChild(csrf)
 
-    let method=document.createElement(
-        'input'
-    )
-
-    method.type='hidden'
-    method.name='_method'
-    method.value='DELETE'
-
+    let method = document.createElement('input')
+    method.type = 'hidden'
+    method.name = '_method'
+    method.value = 'DELETE'
     form.appendChild(method)
 
-    document.body.appendChild(
-        form
-    )
-
+    document.body.appendChild(form)
     form.submit()
 }
 </script>

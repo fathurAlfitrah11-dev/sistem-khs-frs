@@ -200,74 +200,77 @@
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm shadow-slate-100/40">
-            <table class="w-full text-sm border-collapse">
-                
-                {{-- TABLE HEADER --}}
-                <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100">
-                    <tr>
-                        <th class="px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Kode</th>
-                        <th class="px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Mata Kuliah</th>
-                        <th class="px-5 py-3.5 text-left text-xs font-bold uppercase tracking-wider">Dosen Pengajar</th>
-                        <th class="px-5 py-3.5 text-center text-xs font-bold uppercase tracking-wider">SKS</th>
-                        <th class="px-5 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Nilai Angka</th>
-                        <th class="px-5 py-3.5 text-center text-xs font-bold uppercase tracking-wider">Nilai Huruf</th>
-                    </tr>
-                </thead>
+            <div class="bg-white overflow-hidden rounded-2xl">
 
-                {{-- TABLE BODY --}}
-                <tbody class="divide-y divide-slate-100 bg-white">
-                    
-                    {{-- Row 1 --}}
-                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
-                        <td class="px-5 py-4 text-slate-800 font-bold tracking-wide">IF202</td>
-                        <td class="px-5 py-4 font-semibold text-slate-700">Pemrograman Web</td>
-                        <td class="px-5 py-4 text-slate-500 font-medium">Ir. Zaid Hasbiya</td>
-                        <td class="px-5 py-4 text-center text-slate-700 font-bold">3</td>
-                        <td class="px-5 py-4 text-center font-bold text-slate-800 mono">100</td>
-                        <td class="px-5 py-4 text-center">
-                            <span class="inline-block bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-xs font-bold">A</span>
-                        </td>
-                    </tr>
+    <table class="w-full border-collapse">
+        
+        {{-- TABLE HEADER --}}
+        <thead class="bg-[#f5f6fa] border-b border-gray-300">
+            <tr>
+                <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Kode</th>
+                <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Mata Kuliah</th>
+                <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Dosen Pengajar</th>
+                <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">SKS</th>
+                <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Nilai Angka</th>
+                <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Nilai Huruf</th>
+            </tr>
+        </thead>
 
-                    {{-- Row 2 --}}
-                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
-                        <td class="px-5 py-4 text-slate-800 font-bold tracking-wide">IF204</td>
-                        <td class="px-5 py-4 font-semibold text-slate-700">Statistika & Probabilitas</td>
-                        <td class="px-5 py-4 text-slate-500 font-medium">Drs. Supriyadi, M.T.</td>
-                        <td class="px-5 py-4 text-center text-slate-700 font-bold">4</td>
-                        <td class="px-5 py-4 text-center font-bold text-slate-800 mono">82</td>
-                        <td class="px-5 py-4 text-center">
-                            <span class="inline-block bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full text-xs font-bold">B+</span>
-                        </td>
-                    </tr>
+        {{-- TABLE BODY --}}
+        <tbody class="divide-y divide-gray-200">
+            
+            {{-- Row 1 --}}
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF202</td>
+                <td class="px-6 py-3 text-left break-words">Pemrograman Web</td>
+                <td class="px-6 py-3 text-left break-words">Ir. Zaid Hasbiya</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">3</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">100</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap">
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">A</span>
+                </td>
+            </tr>
 
-                    {{-- Row 3 --}}
-                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
-                        <td class="px-5 py-4 text-slate-800 font-bold tracking-wide">IF206</td>
-                        <td class="px-5 py-4 font-semibold text-slate-700">Arsitektur Komputer</td>
-                        <td class="px-5 py-4 text-slate-500 font-medium">Prof. Hermawan</td>
-                        <td class="px-5 py-4 text-center text-slate-700 font-bold">3</td>
-                        <td class="px-5 py-4 text-center font-bold text-slate-800 mono">78</td>
-                        <td class="px-5 py-4 text-center">
-                            <span class="inline-block bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold">B</span>
-                        </td>
-                    </tr>
+            {{-- Row 2 --}}
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF204</td>
+                <td class="px-6 py-3 text-left break-words">Statistika & Probabilitas</td>
+                <td class="px-6 py-3 text-left break-words">Drs. Supriyadi, M.T.</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">4</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">82</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap">
+                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">B+</span>
+                </td>
+            </tr>
 
-                    {{-- Row 4 --}}
-                    <tr class="hover:bg-slate-50/50 transition-colors duration-150">
-                        <td class="px-5 py-4 text-slate-800 font-bold tracking-wide">IF208</td>
-                        <td class="px-5 py-4 font-semibold text-slate-700">Etika Profesi IT</td>
-                        <td class="px-5 py-4 text-slate-500 font-medium">Siti Aminah, M.Kom.</td>
-                        <td class="px-5 py-4 text-center text-slate-700 font-bold">2</td>
-                        <td class="px-5 py-4 text-center font-bold text-slate-800 mono">95</td>
-                        <td class="px-5 py-4 text-center">
-                            <span class="inline-block bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-xs font-bold">A</span>
-                        </td>
-                    </tr>
+            {{-- Row 3 --}}
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF206</td>
+                <td class="px-6 py-3 text-left break-words">Arsitektur Komputer</td>
+                <td class="px-6 py-3 text-left break-words">Prof. Hermawan</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">3</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">78</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap">
+                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">B</span>
+                </td>
+            </tr>
 
-                </tbody>
-            </table>
-        </div>
+            {{-- Row 4 --}}
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF208</td>
+                <td class="px-6 py-3 text-left break-words">Etika Profesi IT</td>
+                <td class="px-6 py-3 text-left break-words">Siti Aminah, M.Kom.</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">2</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">95</td>
+                <td class="px-6 py-3 text-center whitespace-nowrap">
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">A</span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    
+</div>
     </div>
 
 </div>
