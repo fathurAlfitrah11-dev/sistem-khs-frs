@@ -16,9 +16,10 @@ class Pengajar extends Model
     protected $primaryKey = 'id_pengajar';
     protected $fillable = [
         'nik',
-        'id_mata_kuliah',
+        'kode_mk',
         'id_tahun_ajaran',
         'semester',
+        'jenis',
         'kelas_id'
     ];
 
@@ -32,8 +33,8 @@ class Pengajar extends Model
         {
         return $this->belongsTo(
             MataKuliah::class,
-            'id_mata_kuliah',
-            'id_mata_kuliah'
+            'kode_mk',
+            'kode_mk'
         );
         }
     }

@@ -92,7 +92,7 @@
 
                                 {{-- EDIT --}}
                                 <button
-                                    onclick="openEdit('{{ $d->id_dosen }}','{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
+                                    onclick="openEdit('{{ $d->nik }}','{{ $d->user->name }}','{{ $d->kode_dosen }}')"
                                     class="w-9 h-9 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
 
                                     <i class="fa-solid fa-pen text-yellow-600 text-sm"></i>
@@ -100,7 +100,7 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/dosen/delete/{{ $d->id_dosen }}" onclick="return confirm('Yakin hapus?')"
+                                <a href="/dosen/delete/{{ $d->nik }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-9 h-9 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition">
 
                                     <i class="fa-solid fa-trash text-red-600 text-sm"></i>
@@ -283,7 +283,7 @@ function closeModal(id) {
 }
 
 // ===== EDIT =====
-function openEdit(id, nik, nama, kode) {
+function openEdit(nik, nama, kode) {
     showModal('editModal')
 
     document.getElementById('editNik').value = nik
@@ -293,7 +293,7 @@ function openEdit(id, nik, nama, kode) {
     // reset password
     document.getElementById('editPassword').value = ''
 
-    document.getElementById('formEdit').action = '/dosen/update/' + id
+    document.getElementById('formEdit').action = '/dosen/update/' + nik
 }
 
 // ===== DETAIL =====

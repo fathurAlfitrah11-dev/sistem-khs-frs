@@ -120,7 +120,7 @@
                         </td>
 
                         <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center break-words">
-                            {{ $d->mataKuliah->nama_mk }} - {{ ucfirst($d->mataKuliah->jenis) }}
+                            {{ $d->mataKuliah->nama_mk }} - {{ $d->jenis}}
                         </td>
 
                         <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
@@ -154,7 +154,8 @@
                                 <button onclick="openEdit(
                             '{{ $d->id_pengajar }}',
                             '{{ $d->nik }}',
-                            '{{ $d->id_mata_kuliah }}',
+                            '{{ $d->kode_mk }}',
+                            '{{ $d->jenis }}',
                             '{{ $d->kelas_id }}',
                             '{{ $d->id_tahun_ajaran }}',
                             '{{ $d->semester }}'
@@ -230,29 +231,26 @@
                 @endforeach
             </select>
 
-            <label class="block text-sm mb-1">Filter Jenis</label>
-            <select id="filterJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Semua</option>
-                <option value="teori">Teori</option>
-                <option value="praktikum">Praktikum</option>
-            </select>
-
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $mk)
-                @php
-                $jenisList = explode(',', $mk->jenis);
-                @endphp
 
-                <option value="{{ $mk->id_mata_kuliah }}" data-jenis="{{ $mk->jenis }}">
+                <option value="{{ $mk->kode_mk }}">
                     {{ $mk->kode_mk }}
                     - {{ $mk->nama_mk }}
                     Semester {{ $mk->semester }}
-                    ({{ str_replace(',', ' / ', $mk->jenis) }})
                 </option>
                 @endforeach
             </select>
+
+            <label class="block text-sm mb-1">Jenis</label>
+<select name="jenis" id="jenisSelect" class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="">Pilih Jenis</option>
+    <option value="teori">Teori</option>
+    <option value="praktikum">Praktikum</option>
+    <option value="teori_praktikum">Teori + Praktikum</option>
+</select>
 
             <label class="block text-sm mb-1">Kelas</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
@@ -316,23 +314,22 @@
             </select>
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_mata_kuliah">
+            <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $mk)
-                @php
-                $jenisList = explode(',', $mk->jenis);
-                @endphp
-
-                @foreach($jenisList as $jenis)
-                <option value="{{ $mk->id_mata_kuliah }}">
-                    {{ $mk->kode_mk }}
-                    - {{ $mk->nama_mk }}
-                    ({{ ucfirst(trim($jenis)) }})
+                <option value="{{ $mk->kode_mk }}">
+                    {{ $mk->kode_mk }} {{ $mk->nama_mk }} - semester {{ $mk->semester }}
                 </option>
                 @endforeach
-                @endforeach
             </select>
-
+            <label class="block text-sm mb-1">Jenis</label>
+<select name="jenis" id="editJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="">Pilih Jenis</option>
+    <option value="teori">Teori</option>
+    <option value="praktikum">Praktikum</option>
+    <option value="teori_praktikum">Teori + Praktikum</option>
+</select>
+    
             <label class="block text-sm mb-1">Kelas</label>
             <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
@@ -447,34 +444,13 @@ function closeModal(id) {
     hideModal(id)
 }
 
-// ===== FILTER JENIS =====
-const filterJenis = document.getElementById('filterJenis')
-const mkSelect = document.querySelector('select[name="id_mata_kuliah"]')
-
-filterJenis.addEventListener('change', function() {
-    const value = this.value.toLowerCase()
-
-    Array.from(mkSelect.options).forEach(option => {
-        const jenis = (option.getAttribute('data-jenis') || '').toLowerCase()
-
-        if (!value) {
-            option.style.display = 'block'
-        } else if (jenis.includes(value)) {
-            option.style.display = 'block'
-        } else {
-            option.style.display = 'none'
-        }
-    })
-
-    mkSelect.value = ''
-})
-
 // ===== EDIT =====
-function openEdit(id, nik, mk, kelas, tahun, semester) {
+function openEdit(id, nik, mk,jenis, kelas, tahun, semester) {
     showModal('editModal')
 
     document.getElementById('editDosen').value = nik
     document.getElementById('editMk').value = mk
+    document.getElementById('editJenis').value = jenis
     document.getElementById('editKelas').value = kelas
     document.getElementById('editTahun').value = tahun
 

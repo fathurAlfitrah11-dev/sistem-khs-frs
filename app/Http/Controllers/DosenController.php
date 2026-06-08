@@ -28,13 +28,10 @@ class DosenController extends Controller
    
     public function store(Request $request)
     {
-        $request->validate([
-            'nik' => 'required|unique:dosen,nik',
-            'nama_dosen' => 'required',
-            'kode_dosen' => 'required',
-        ], [
-            'nik.unique' => 'NIK sudah terdaftar!',
-        ]);
+       if (Dosen::where('nik', $request->nik)->exists()) {
+        return back()->with('error', 'NIK sudah terdaftar!');
+    }
+
         $user = User::create([
             'username' => $request->nik,
             'name' => $request->nama_dosen,
@@ -45,16 +42,17 @@ class DosenController extends Controller
             'nik' => $request->nik,
             'nama_dosen' => $request->nama_dosen,
             'kode_dosen' => $request->kode_dosen,
+            'username' => $user->username,
             'user_id' => $user->id
         ]);
 
         return redirect('/dosen-admin')
             ->with('success','Data dosen berhasil ditambahkan');
     }
-   
-public function update(Request $request, $id_dosen)
+
+public function update(Request $request, $nik)
 {
-    $dosen = Dosen::findOrFail($id_dosen);
+    $dosen = Dosen::findOrFail($nik);
 
     $request->validate([
         'nama_dosen' => 'required',
@@ -80,10 +78,10 @@ public function update(Request $request, $id_dosen)
     return redirect('/dosen-admin')
         ->with('success','Data dosen berhasil diubah');
 }
-    public function delete($id_dosen)
+    public function delete($nik)
     {
-        $dosen = Dosen::findOrFail($id_dosen);
-        User::where('id', $dosen->user_id)->delete();
+        $dosen = Dosen::findOrFail($nik);
+        User::where('username', $dosen->username)->delete();
         
         $dosen->delete();
         return redirect('/dosen-admin')

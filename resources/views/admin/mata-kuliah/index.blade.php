@@ -49,7 +49,6 @@
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Prodi</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">SKS</th>
-                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Jenis</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
                 </thead>
@@ -70,28 +69,26 @@
                             {{ $d->semester }}</td>
                         <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
                             {{ $d->sks }}</td>
-                        <td class="px-6 py-3 text-gray-800 text-xs md:text-sm text-center break-words">
-                            {{ ucwords(str_replace(',', ' dan ', $d->jenis)) }}</td>
 
                         <td class="px-6 py-3">
                             <div class="flex justify-center gap-3">
 
                                 {{-- VIEW --}}
                                 <button
-                                    onclick="openDetail('{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
+                                    onclick="openDetail('{{ $d->prodi->nama_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
                                     class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
                                 {{-- EDIT --}}
                                 <button
-                                    onclick="openEdit('{{ $d->id_mata_kuliah }}','{{ $d->id_prodi }}','{{ $d->kode_mk }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}','{{ $d->jenis }}')"
+                                    onclick="openEdit('{{ $d->kode_mk }}','{{ $d->id_prodi }}','{{ $d->nama_mk }}','{{ $d->semester }}','{{ $d->sks }}')"
                                     class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/mata-kuliah/delete/{{ $d->id_mata_kuliah }}"
+                                <a href="/mata-kuliah/delete/{{ $d->kode_mk }}"
                                     onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
                                     <i class="fa-solid fa-trash text-red-600 text-xs"></i>
@@ -112,20 +109,8 @@
         </div>
 
         {{-- PAGINATION --}}
-        <div class="flex justify-end mt-5 list-none">
-            <div class="bg-white p-1 rounded-xl shadow-xs list-none">
-                @if(method_exists($data, 'links'))
-                <div class="laravel-pagination-container">
+        <div class="flex justify-end mt-5">
                     {{ $data->appends(request()->query())->links() }}
-                </div>
-                @else
-                <div class="flex space-x-1 text-xs font-semibold p-1">
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">‹</button>
-                    <button class="bg-blue-600 text-white px-3 py-1.5 rounded-lg">1</button>
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">2</button>
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">›</button>
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -160,23 +145,7 @@
 
             <label class="block text-sm mb-1">SKS</label>
             <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
-                min="1">
-
-            <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
-
-            <div class="flex gap-4 mb-3">
-
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" name="jenis[]" value="teori">
-                    Teori
-                </label>
-
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" name="jenis[]" value="praktikum">
-                    Praktikum
-                </label>
-
-            </div>
+                min="2">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -214,8 +183,6 @@
             <label class="block text-sm mb-1">SKS</label>
             <p id="detailSks" class="bg-white text-black px-3 py-2 rounded"></p>
 
-            <label class="block text-sm mb-1">Jenis Mata Kuliah</label>
-            <p id="detailJenis" class="bg-white text-black px-3 py-2 rounded"></p>
         </div>
 
         <div class="flex justify-end mt-4">
@@ -255,21 +222,7 @@
 
             <label class="text-sm mb-1 block">SKS</label>
             <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
-                min="1">
-
-            <label class="block text-sm mb-2">Jenis Mata Kuliah</label>
-
-            <div class="flex gap-4 mb-3">
-
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" name="jenis[]" value="teori" id="editTeori">
-                    Teori
-                </label>
-                <label class="flex items-center gap-2">
-                    <input type="checkbox" name="jenis[]" value="praktikum" id="editPracticum">
-                    Praktikum
-                </label>
-            </div>
+                min="2">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -284,15 +237,6 @@
         </form>
     </div>
 </div>
-
-<style>
-/* Mengamankan agar bullet points bawaan pagination tidak muncul menjadi titik putih */
-.laravel-pagination-container ul,
-.laravel-pagination-container li {
-    list-style-type: none !important;
-    list-style: none !important;
-}
-</style>
 
 <script>
 function openModal(id) {
@@ -319,7 +263,7 @@ function closeModal(id) {
     }, 300)
 }
 
-function openDetail(prodi, kode, nama, semester, sks, jenis) {
+function openDetail(prodi, kode, nama, semester, sks) {
     openModal('detailModal')
 
     document.getElementById('detailProdi').innerText = prodi
@@ -327,29 +271,18 @@ function openDetail(prodi, kode, nama, semester, sks, jenis) {
     document.getElementById('detailNama').innerText = nama
     document.getElementById('detailSemester').innerText = semester
     document.getElementById('detailSks').innerText = sks
-    document.getElementById('detailJenis').innerText = jenis
 }
 
-function openEdit(id, prodi, kode, nama, semester, sks, jenis) {
+function openEdit(kode, prodi, nama, semester, sks) {
     openModal('editModal')
 
-    document.getElementById('editProdi').value = prodi
     document.getElementById('editKode').value = kode
+    document.getElementById('editProdi').value = prodi
     document.getElementById('editNama').value = nama
     document.getElementById('editSemester').value = semester
     document.getElementById('editSks').value = sks
-    document.getElementById('editTeori').checked = false
-    document.getElementById('editPracticum').checked = false
 
-    if (jenis.includes('teori')) {
-        document.getElementById('editTeori').checked = true
-    }
-
-    if (jenis.includes('praktikum')) {
-        document.getElementById('editPracticum').checked = true
-    }
-
-    document.getElementById('formEdit').action = '/mata-kuliah/update/' + id
+    document.getElementById('formEdit').action = '/mata-kuliah/update/' + kode
 }
 </script>
 

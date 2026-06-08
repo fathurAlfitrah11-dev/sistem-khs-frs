@@ -7,14 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     protected $table = 'mata_kuliah';
-    protected $primaryKey = 'id_mata_kuliah';
+    protected $primaryKey = 'kode_mk';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'kode_mk',
         'nama_mk',
         'sks',
         'semester',
-        'id_prodi',
-        'jenis'
+        'id_prodi'
     ];
 
    public function pengajar()

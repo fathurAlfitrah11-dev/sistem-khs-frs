@@ -10,9 +10,9 @@ class Dosen extends Model
 {
     protected $table = 'dosen';
 
-    protected $primaryKey = 'id_dosen';
-    public $incrementing = true;
-    protected $keyType = 'int';
+    protected $primaryKey = 'nik';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = ['nik','nama_dosen','kode_dosen','user_id'];
 

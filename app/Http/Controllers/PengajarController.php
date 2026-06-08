@@ -81,18 +81,20 @@ class PengajarController extends Controller
     {
         $request->validate([
             'nik' => 'required|exists:dosen,nik',
-            'id_mata_kuliah' => 'required|exists:mata_kuliah,id_mata_kuliah',
+            'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
+            'jenis' => 'required|in:teori,praktikum,teori_praktikum',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
         ]);
 
         Pengajar::create([
         'nik' => $request->nik,
-        'id_mata_kuliah' => $request->id_mata_kuliah,
+        'kode_mk' => $request->kode_mk,
         'kelas_id' => $request->kelas_id,
         'id_tahun_ajaran' => $request->id_tahun_ajaran,
         'semester' => $request->semester,
+        'jenis' => $request->jenis,
         ]);
 
        return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
@@ -104,17 +106,19 @@ class PengajarController extends Controller
         $pengajar = Pengajar::findOrFail($id_pengajar);
         $request->validate([
             'nik' => 'required|exists:dosen,nik',
-            'id_mata_kuliah' => 'required|exists:mata_kuliah,id_mata_kuliah',
+            'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
+            'jenis' => 'required|in:teori,praktikum,teori_praktikum',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
         ]);
          $pengajar->update([
     'nik' => $request->nik,
-    'id_mata_kuliah' => $request->id_mata_kuliah,
+    'kode_mk' => $request->kode_mk,
     'kelas_id' => $request->kelas_id,
     'id_tahun_ajaran' => $request->id_tahun_ajaran,
     'semester' => $request->semester,
+    'jenis' => $request->jenis
 ]);
         return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
     ->with('success','Data pengajar berhasil diupdate');

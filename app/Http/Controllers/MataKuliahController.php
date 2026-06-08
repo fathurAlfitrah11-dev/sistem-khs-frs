@@ -28,54 +28,46 @@ class MataKuliahController extends Controller
 }
      public function store(Request $request)
     {
-        $request->validate([
-            'kode_mk' => 'required|unique:mata_kuliah,kode_mk',
-            'nama_mk' => 'required',
-            'sks' => 'required|integer|max:4|min:2',
-            'semester' => 'required|integer',
-            'id_prodi' => 'required|exists:prodi,id_prodi',
-            'jenis' => 'required|array'
-        ], [
-            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
-            'jenis.required' => 'Jenis mata kuliah wajib dipilih!'
-        ]);
-
-        $data = $request->all();
-
-$data['jenis'] = implode(',', $request->jenis);
-
-MataKuliah::create($data);
+       if (MataKuliah::where('kode_mk', $request->kode_mk)->exists()) {
+        return back()->with('error', 'Kode mata kuliah sudah terdaftar!');
+    }
+        MataKuliah::create([
+    'kode_mk' => $request->kode_mk,
+    'nama_mk' => $request->nama_mk,
+    'sks' => $request->sks,
+    'semester' => $request->semester,
+    'id_prodi' => $request->id_prodi,
+]);
 
         return redirect('/mata-kuliah')
             ->with('success','Data mata kuliah berhasil ditambahkan');
     }
    
-    public function update(Request $request, $id_mata_kuliah)
+    public function update(Request $request, $kode_mk)
     {
-        $mata_kuliah = MataKuliah::findOrFail($id_mata_kuliah);
+        $mata_kuliah = MataKuliah::findOrFail($kode_mk);
         $request->validate([
-            'kode_mk' => 'required|unique:mata_kuliah,kode_mk,'.$mata_kuliah->id_mata_kuliah.',id_mata_kuliah',
+            'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $kode_mk . ',kode_mk',
             'nama_mk' => 'required',
             'sks' => 'required|integer|max:4|min:2',
             'semester' => 'required|integer',
-            'id_prodi' => 'required|exists:prodi,id_prodi',
-            'jenis' => 'required|array'
+            'id_prodi' => 'required|exists:prodi,id_prodi'
         ], [
-            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
-            'jenis.required' => 'Jenis mata kuliah wajib dipilih!'
+            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
         ]);
-        $data = $request->all();
-
-$data['jenis'] = implode(',', $request->jenis);
-
-$mata_kuliah->update($data);
+        $mata_kuliah->update([
+    'nama_mk' => $request->nama_mk,
+    'sks' => $request->sks,
+    'semester' => $request->semester,
+    'id_prodi' => $request->id_prodi,
+]);
 
         return redirect('/mata-kuliah')
             ->with('success','Data mata kuliah berhasil diupdate');
 }
-    public function delete($id_mata_kuliah)
+    public function delete($kode_mk)
     {
-        $mata_kuliah = MataKuliah::findOrFail($id_mata_kuliah);
+        $mata_kuliah = MataKuliah::findOrFail($kode_mk);
         $mata_kuliah->delete();
         return redirect('/mata-kuliah')
             ->with('success','Data mata kuliah berhasil dihapus');

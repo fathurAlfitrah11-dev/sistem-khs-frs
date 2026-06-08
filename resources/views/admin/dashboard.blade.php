@@ -41,7 +41,7 @@
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">
                     {{ number_format($totalMahasiswa) }}</p>
-                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Students</p>
+                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Mahasiswa</p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -62,7 +62,7 @@
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">{{ number_format($totalDosen) }}
                 </p>
-                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Lecturers</p>
+                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Dosen</p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -82,7 +82,7 @@
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">
                     {{ number_format($totalMataKuliah) }}</p>
-                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Courses</p>
+                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Mata Kuliah</p>
             </div>
 
             <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-5 hover:shadow-md transition-shadow duration-200"
@@ -133,7 +133,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
-                            style="text-decoration: none !important;">Manage Courses</p>
+                            style="text-decoration: none !important;">Kelola Mata Kuliah</p>
                         <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">
                             Organize
                             curriculum and lecturer assignments.</p>
@@ -158,7 +158,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
-                            style="text-decoration: none !important;">Manage Students</p>
+                            style="text-decoration: none !important;">Kelola Mahasiswa</p>
                         <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">Track
                             academic progress and enrollment data.</p>
                     </div>
@@ -181,7 +181,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
-                            style="text-decoration: none !important;">Manage Lecturers</p>
+                            style="text-decoration: none !important;">Kelola Dosen</p>
                         <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">
                             Update staff profiles and teaching qualifications.</p>
                     </div>

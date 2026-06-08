@@ -59,15 +59,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // DOSEN
     Route::get('/dosen-admin', [DosenController::class, 'index']);
-    Route::get('/dosen/create', [DosenController::class, 'create']);
     Route::post('/dosen/store', [DosenController::class, 'store']);
-    Route::post('/dosen/edit/{id_dosen}', [DosenController::class, 'edit']);
-    Route::post('/dosen/update/{id_dosen}', [DosenController::class, 'update']);
-    Route::get('/dosen/delete/{id_dosen}', [DosenController::class, 'delete']);
+    Route::post('/dosen/edit/{nik}', [DosenController::class, 'edit']);
+    Route::post('/dosen/update/{nik}', [DosenController::class, 'update']);
+    Route::get('/dosen/delete/{nik}', [DosenController::class, 'delete']);
 
     // KELAS
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas');
-    Route::get('/kelas/create', [KelasController::class, 'create']);
     Route::post('/kelas/store', [KelasController::class, 'store']);
     Route::get('/kelas/edit/{id_kelas}', [KelasController::class, 'edit']);
     Route::post('/kelas/update/{id_kelas}', [KelasController::class, 'update']);
@@ -89,14 +87,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // MATA KULIAH
     Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])->name('mata-kuliah');
     Route::post('/mata-kuliah/store', [MataKuliahController::class, 'store']);
-    Route::post('/mata-kuliah/update/{id_mata_kuliah}', [MataKuliahController::class, 'update']);
-    Route::get('/mata-kuliah/delete/{id_mata_kuliah}', [MataKuliahController::class, 'delete']);
+    Route::post('/mata-kuliah/update/{kode_mk}', [MataKuliahController::class, 'update']);
+    Route::get('/mata-kuliah/delete/{kode_mk}', [MataKuliahController::class, 'delete']);
 
     // MAHASISWA ADMIN SIDE
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
     Route::post('/mahasiswa/store', [MahasiswaController::class, 'store']);
-    Route::post('/mahasiswa/update/{id_mahasiswa}', [MahasiswaController::class, 'update']);
-    Route::get('/mahasiswa/delete/{id_mahasiswa}', [MahasiswaController::class, 'delete']);
+    Route::post('/mahasiswa/update/{nim}', [MahasiswaController::class, 'update']);
+    Route::get('/mahasiswa/delete/{nim}', [MahasiswaController::class, 'delete']);
 
     // PENGAJAR
     Route::get('/pengajar', [PengajarController::class, 'index']);

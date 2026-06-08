@@ -40,7 +40,7 @@ class MahasiswaController extends Controller
         });
     }
 
-    $data = $query->orderBy('id_mahasiswa', 'desc')
+    $data = $query->orderBy('nim', 'desc')
                   ->paginate(10)
                   ->appends($request->query());
 
@@ -52,6 +52,10 @@ class MahasiswaController extends Controller
    
     public function store(Request $request)
     {
+        if (Mahasiswa::where('nim', $request->nim)->exists()) {
+            return back()->with('error', 'NIM sudah terdaftar!');
+        }
+
         $request->validate([
         'nim' => 'required|unique:mahasiswa,nim',
         'nama' => 'required',
@@ -74,7 +78,6 @@ class MahasiswaController extends Controller
             'nim' => $request->nim,
             'nama' => $request->nama,
             'angkatan' => $request->angkatan,
-            'password' => bcrypt($request->password),
             'id_kelas' => $request->id_kelas,
             'id_prodi' => $request->id_prodi
         ]);
@@ -83,9 +86,9 @@ class MahasiswaController extends Controller
             ->with('success','Data mahasiswa berhasil ditambahkan');
     }
 
-    public function update(Request $request, $id_mahasiswa)
+    public function update(Request $request, $nim)
     {
-        $mhs = Mahasiswa::findOrFail($id_mahasiswa);
+        $mhs = Mahasiswa::findOrFail($nim);
 
         $mhs->update([
             'nim' => $request->nim,
@@ -113,9 +116,9 @@ class MahasiswaController extends Controller
             );
     }
 
-    public function delete($id_mahasiswa)
+    public function delete($nim)
     {
-        $mhs = Mahasiswa::findOrFail($id_mahasiswa);
+        $mhs = Mahasiswa::findOrFail($nim);
 
         User::where('id', $mhs->user_id)->delete();
         

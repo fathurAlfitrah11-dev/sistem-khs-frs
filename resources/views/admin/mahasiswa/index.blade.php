@@ -109,10 +109,9 @@
                                 {{-- EDIT --}}
                                 <button
                                     onclick="openEdit(
-                                        '{{ $d->id_mahasiswa }}',
+                                        '{{ $d->nim }}',
                                         '{{ $d->id_prodi }}',
                                         '{{ $d->id_kelas }}',
-                                        '{{ $d->nim }}',
                                         '{{ $d->nama }}',
                                         '{{ $d->angkatan }}'
                                     )"
@@ -121,7 +120,7 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/mahasiswa/delete/{{ $d->id_mahasiswa }}"
+                                <a href="/mahasiswa/delete/{{ $d->nim }}"
                                     onclick="return confirm('Yakin hapus data?')"
                                     class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
                                     <i class="fa-solid fa-trash text-red-600 text-xs"></i>
@@ -147,8 +146,7 @@
         </div>
         
         {{-- PAGINATION --}}
-     <div class="mt-4 flex justify-end">
-             
+     <div class="flex justify-end mt-5">
                         {{ $data->appends(request()->query())->links() }}
                  
         </div>
@@ -332,18 +330,18 @@ function closeModal(id) {
     hideModal(id);
 }
 
-function openEdit(id, prodi, kelas, nim, nama, angkatan) {
+function openEdit(nim, prodi, kelas, nama, angkatan) {
     showModal('editModal');
-
+    
+    document.getElementById('editNim').value = nim;
     document.getElementById('editProdi').value = prodi;
     document.getElementById('editKelas').value = kelas;
-    document.getElementById('editNim').value = nim;
     document.getElementById('editNama').value = nama;
     document.getElementById('editAngkatan').value = angkatan;
 
     document.getElementById('editPassword').value = '';
 
-    document.getElementById('formEdit').action = '/mahasiswa/update/' + id;
+    document.getElementById('formEdit').action = '/mahasiswa/update/' + nim;
 }
 
 function openDetail(nim, nama, prodi, angkatan, kelas) {

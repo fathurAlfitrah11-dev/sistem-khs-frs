@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('id_pengajar');
             $table->string('nik', 20);
             $table->foreign('nik')->references('nik')->on('dosen')->onDelete('cascade');
-            $table->unsignedBigInteger('id_mata_kuliah');
-            $table->foreign('id_mata_kuliah')
-            ->references('id_mata_kuliah')
+            $table->string('kode_mk', 10);
+            $table->foreign('kode_mk')
+            ->references('kode_mk')
             ->on('mata_kuliah')
             ->onDelete('cascade');
             $table->unsignedBigInteger('kelas_id');
@@ -32,6 +32,11 @@ return new class extends Migration
             ->onDelete('cascade');
             
             $table->integer('semester');
+            $table->enum('jenis', [
+        'teori',
+        'praktikum',
+        'teori_praktikum'
+    ]);
             $table->timestamps();
         });
     }
