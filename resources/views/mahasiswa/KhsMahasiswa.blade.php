@@ -4,6 +4,21 @@
 
 @section('content')
 
+@php
+$persenIpk = 0;
+@endphp
+
+
+@php
+$persenSks = ($totalSks / 144) * 100;
+
+if($persenSks > 100){
+    $persenSks = 100;
+}
+@endphp
+
+
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 
@@ -53,9 +68,13 @@
                     <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Akumulatif Nilai (IPK)</p>
                     <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-md">Sangat Baik</span>
                 </div>
-                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono">3.99</p>
+                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono"> {{number_format($ipk,2)}}</p>
                 <div class="mt-3 w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-[#f9b17a] h-full rounded-full" style="width: 99.75%"></div>
+                    
+
+<div class="bg-[#f9b17a] h-full rounded-full"
+    style="width: {{ $persenIpk }}%">
+</div>
                 </div>
                 <p class="text-[10px] text-slate-400 mt-1.5">dari skala maksimal 4.00</p>
             </div>
@@ -66,9 +85,11 @@
                     <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Total SKS Ditempuh</p>
                     <span class="text-[10px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-md">Kumulatif</span>
                 </div>
-                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono">90</p>
+                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono">{{$totalSks}}</p>
                 <div class="mt-3 w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
-                    <div class="bg-blue-500 h-full rounded-full" style="width: 62.5%"></div>
+                    <div class="bg-blue-500 h-full rounded-full"
+    style="width: {{ $persenSks }}%">
+</div>
                 </div>
                 <p class="text-[10px] text-slate-400 mt-1.5">dari target kelulusan ~144 SKS</p>
             </div>
@@ -79,13 +100,18 @@
                     <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Semester Saat Ini</p>
                     <span class="text-[10px] font-bold text-violet-600 bg-violet-50 border border-violet-100 px-2 py-0.5 rounded-md">Aktif</span>
                 </div>
-                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono">5</p>
+                <p class="text-3xl font-extrabold text-slate-800 tracking-tight mono"> {{$semesterSaatIni}}</p>
                 <div class="mt-3.5 flex gap-1.5">
-                    @for ($i = 1; $i <= 8; $i++) 
-                        <div class="h-1.5 flex-1 rounded-full {{ $i <= 5 ? 'bg-violet-500' : 'bg-slate-200' }}"></div>
+                    @for ($i = 1; $i <= 8; $i++)
+                        <div
+                        class="h-1.5 flex-1 rounded-full
+                        {{ $i <= $semesterSaatIni ? 'bg-violet-500' : 'bg-slate-200' }}">
+                        </div>
                     @endfor
                 </div>
-                <p class="text-[10px] text-slate-400 mt-2">Berjalan di semester 5 dari 8</p>
+                <p class="text-[10px] text-slate-400 mt-2">
+                Berjalan di semester {{ $semesterSaatIni }} dari 8
+                </p>
             </div>
 
         </div>
@@ -110,15 +136,19 @@
 
                 {{-- Action Controls --}}
                 <div class="flex items-center gap-2">
-                    <select class="sem-select text-xs text-slate-600 bg-slate-50 rounded-xl px-3 py-2 border border-slate-200 font-medium focus:outline-none focus:ring-1 focus:ring-[#f9b17a]">
-                        <option>Semester 6</option>
-                        <option selected>Semester 5</option>
-                        <option>Semester 4</option>
-                        <option>Semester 3</option>
-                        <option>Semester 2</option>
-                        <option>Semester 1</option>
-                    </select>
+                    <form method="GET">
+                    <select name="semester" onchange="this.form.submit()" class="sem-select text-xs text-slate-600 bg-slate-50 rounded-xl px-3 py-2 border border-slate-200 font-medium focus:outline-none focus:ring-1 focus:ring-[#f9b17a]">
+                        @foreach($semesterList as $semester)
+                        <option
+                        value="{{ $semester }}"
+                        {{ $semesterDipilih == $semester ? 'selected' : '' }}>
 
+                        Semester {{ $semester }}
+
+                        </option>
+                        @endforeach
+                    </select>
+                    </form>
                     <button class="inline-flex items-center gap-1.5 bg-[#f9b17a] hover:bg-[#e29d68] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-colors shadow-sm shadow-[#f9b17a]/10">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -131,13 +161,13 @@
             <div class="grid grid-cols-2 gap-4">
                 <div class="bg-slate-50/60 border border-slate-100 rounded-xl p-4">
                     <p class="text-[11px] font-semibold text-slate-400 mb-1">IPS Semester Ini</p>
-                    <p class="text-2xl font-extrabold text-slate-800 mono">3.99</p>
+                    <p class="text-2xl font-extrabold text-slate-800 mono">{{ number_format($ipsSemester, 2) }}</p>
                     <p class="text-[10px] text-slate-400 mt-0.5">Skala Batas 4.00</p>
                 </div>
 
                 <div class="bg-slate-50/60 border border-slate-100 rounded-xl p-4">
                     <p class="text-[11px] font-semibold text-slate-400 mb-1">SKS Diambil</p>
-                    <p class="text-2xl font-extrabold text-slate-800 mono">24</p>
+                    <p class="text-2xl font-extrabold text-slate-800 mono">{{ $sksSemester }}</p>
                     <p class="text-[10px] text-slate-400 mt-0.5">Beban semester berjalan</p>
                 </div>
             </div>
@@ -217,55 +247,71 @@
         </thead>
 
         {{-- TABLE BODY --}}
-        <tbody class="divide-y divide-gray-200">
-            
-            {{-- Row 1 --}}
-            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
-                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF202</td>
-                <td class="px-6 py-3 text-left break-words">Pemrograman Web</td>
-                <td class="px-6 py-3 text-left break-words">Ir. Zaid Hasbiya</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">3</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">100</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap">
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">A</span>
-                </td>
-            </tr>
+       <tbody>
 
-            {{-- Row 2 --}}
-            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
-                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF204</td>
-                <td class="px-6 py-3 text-left break-words">Statistika & Probabilitas</td>
-                <td class="px-6 py-3 text-left break-words">Drs. Supriyadi, M.T.</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">4</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">82</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap">
-                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">B+</span>
-                </td>
-            </tr>
+        @foreach($krs as $dataKrs)
 
-            {{-- Row 3 --}}
-            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
-                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF206</td>
-                <td class="px-6 py-3 text-left break-words">Arsitektur Komputer</td>
-                <td class="px-6 py-3 text-left break-words">Prof. Hermawan</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">3</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">78</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap">
-                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">B</span>
-                </td>
-            </tr>
+            @foreach($dataKrs->detail as $item)
 
-            {{-- Row 4 --}}
-            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
-                <td class="px-6 py-3 text-left whitespace-nowrap font-medium">IF208</td>
-                <td class="px-6 py-3 text-left break-words">Etika Profesi IT</td>
-                <td class="px-6 py-3 text-left break-words">Siti Aminah, M.Kom.</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold">2</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap font-bold text-gray-900">95</td>
-                <td class="px-6 py-3 text-center whitespace-nowrap">
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">A</span>
-                </td>
-            </tr>
+                @if($item->khs)
+
+                <tr>
+
+                    <td>
+                        {{ $item->pengajar->mataKuliah->kode_mk }}
+                    </td>
+
+                    <td>
+                        {{ $item->pengajar->mataKuliah->nama_mk }}
+                    </td>
+
+                    <td>
+                        {{ $item->pengajar->dosen->nama }}
+                    </td>
+
+                    <td>
+                        {{ $item->pengajar->mataKuliah->sks }}
+                    </td>
+
+                    <td class="text-center">
+
+                    @if($item->khs && $item->khs->status == 'Final')
+
+                        {{ $item->khs->na }}
+
+                    @else
+
+                        <span class="text-orange-500">
+                            Belum ada penilaian
+                        </span>
+
+                    @endif
+
+                    </td>
+
+                    <td class="text-center">
+
+                    @if($item->khs && $item->khs->status == 'Final')
+
+                        {{ $item->khs->nh }}
+
+                    @else
+
+                        <span class="text-gray-500">
+                            -
+                        </span>
+
+                    @endif
+
+                    </td>
+
+                </tr>
+
+                @endif
+
+            @endforeach
+
+        @endforeach
 
         </tbody>
     </table>

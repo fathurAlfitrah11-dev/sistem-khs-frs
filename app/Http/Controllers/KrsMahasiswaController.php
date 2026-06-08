@@ -10,20 +10,58 @@ use App\Models\KrsDetail;
 
 class KrsMahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $mahasiswa = Mahasiswa::where(
             'user_id',
             Auth::id()
         )->first();
 
-        $krs = Krs::with('detail.pengajar.mataKuliah')
-                ->where('nim', $mahasiswa->nim)
-                ->get();
+        $semesterDipilih = $request->semester ?? 1;
+
+        $krs = Krs::with([
+            'detail.pengajar.mataKuliah',
+            'detail.pengajar.kelas'
+        ])
+        ->where('nim',$mahasiswa->nim)
+        ->get();
+
+        $semesterList = KrsDetail::with('pengajar.kelas')
+            ->whereHas('krs', function($q) use ($mahasiswa){
+                $q->where('nim', $mahasiswa->nim);
+            })
+            ->get()
+            ->pluck('pengajar.kelas.semester')
+            ->filter()
+            ->unique()
+            ->sort()
+            ->values();
+
+        if($semesterDipilih){
+            $krs->each(function($krs) use ($semesterDipilih){
+
+                $krs->setRelation(
+                    'detail',
+                    $krs->detail->filter(function($detail) use ($semesterDipilih){
+
+                        return $detail->pengajar
+                            && $detail->pengajar->kelas
+                            && $detail->pengajar->kelas->semester == $semesterDipilih;
+
+                    })
+                );
+
+            });
+
+        }
 
         return view(
             'mahasiswa.KrsMahasiswa',
-            compact('krs')
+            compact(
+                'krs',
+                'semesterList',
+                'semesterDipilih'
+            )
         );
     }
 

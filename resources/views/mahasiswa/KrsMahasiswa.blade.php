@@ -24,7 +24,28 @@ $maxSks = 20;
         <h2 class="text-white text-3xl font-bold mb-6">Data Mata Kuliah</h2>
 
         <div class="bg-white overflow-hidden rounded-2xl">
+        <form method="GET" class="mb-4">
 
+            <select
+                name="semester"
+                onchange="this.form.submit()"
+                class="text-black rounded px-3 py-2">
+
+                @foreach($semesterList as $s)
+
+                    <option
+                        value="{{ $s }}"
+                        {{ $semesterDipilih == $s ? 'selected' : '' }}>
+
+                        Semester {{ $s }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
+
+        </form>
             <table class="w-full border-collapse">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>

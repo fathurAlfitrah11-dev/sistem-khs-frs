@@ -25,4 +25,5 @@ class KrsDetail extends Model
 {
     return $this->hasOne(Khs::class, 'krs_detail_id');
 }
+
 }

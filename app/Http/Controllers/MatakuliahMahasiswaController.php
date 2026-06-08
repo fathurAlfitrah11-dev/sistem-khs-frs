@@ -17,24 +17,52 @@ class MatakuliahMahasiswaController extends Controller
 public function index()
     {
         $mahasiswa = Mahasiswa::where(
-            'user_id',
-            Auth::id()
-        )->first();
+        'user_id',
+        Auth::id()
+    )->first();
 
-        if(!$mahasiswa){
-            abort(404,'Data mahasiswa tidak ditemukan');
-        }
-
-        $matakuliah = MataKuliah::where(
-            'id_prodi',
-            $mahasiswa->id_prodi
-        )->paginate(5);
-
-        return view(
-            'mahasiswa.MatakuliahMahasiswa',
-            compact('matakuliah')
-        );
+    if(!$mahasiswa){
+        abort(404,'Data mahasiswa tidak ditemukan');
     }
+
+    $tahun = TahunAjaran::latest()->first();
+
+    $krs = Krs::where(
+        'nim',
+        $mahasiswa->nim
+    )
+    ->where(
+        'id_tahun_ajaran',
+        $tahun->id_tahun_ajaran
+    )
+    ->first();
+
+    $idMatkulDipilih = [];
+
+    if($krs){
+
+        $idMatkulDipilih = KrsDetail::with('pengajar')
+            ->where('id_krs', $krs->id_krs)
+            ->get()
+            ->pluck('pengajar.id_mata_kuliah')
+            ->toArray();
+    }
+
+    $matakuliah = MataKuliah::where(
+        'id_prodi',
+        $mahasiswa->id_prodi
+    )
+    ->whereNotIn(
+        'id_mata_kuliah',
+        $idMatkulDipilih
+    )
+    ->paginate(5);
+
+    return view(
+        'mahasiswa.MatakuliahMahasiswa',
+        compact('matakuliah')
+    );
+}
 
     public function tambahKrs($id_mata_kuliah)
 {
