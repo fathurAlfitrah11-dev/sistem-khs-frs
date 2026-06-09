@@ -23,7 +23,6 @@ return new class extends Migration
           ->references('id_tahun_ajaran')
           ->on('tahun_ajaran')
           ->onDelete('cascade');
-    $table->enum('status', ['draft','diajukan','disetujui','ditolak'])->default('draft');
     $table->enum('status_wali', ['pending','disetujui','ditolak'])
               ->default('pending');
     $table->string('nik_wali', 20)->nullable();
