@@ -15,7 +15,15 @@ return new class extends Migration
             $table->id('id_khs');
 
             $table->unsignedBigInteger('krs_detail_id');
-            $table->unsignedBigInteger('dosen_id');
+            $table->foreign('krs_detail_id')
+                ->references('id_krs_detail')
+                ->on('krs_detail')
+                ->onDelete('cascade');
+            $table->string('nik');
+            $table->foreign('nik')
+                ->references('nik')
+                ->on('dosen')
+                ->onDelete('cascade');
 
             $table->float('partisipatif')->nullable();
             $table->float('tugas')->nullable();
