@@ -87,7 +87,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // MATA KULIAH
     Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])->name('mata-kuliah');
     Route::post('/mata-kuliah/store', [MataKuliahController::class, 'store']);
-    Route::post('/mata-kuliah/update/{kode_mk}', [MataKuliahController::class, 'update']);
+    Route::put('/mata-kuliah/update/{kode_mk}', [MataKuliahController::class, 'update']); 
     Route::get('/mata-kuliah/delete/{kode_mk}', [MataKuliahController::class, 'delete']);
 
     // MAHASISWA ADMIN SIDE
@@ -141,6 +141,8 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::delete('/mahasiswa/krs/hapus/{id}', [KrsMahasiswaController::class, 'hapusmatkul']);
     Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
     Route::get('/PengaturanAkunMahasiswa', [PengaturanAkunMahasiswaController::class, 'index']);
+    Route::get('/khsmahasiswa/cetak', [KhsMahasiswaController::class, 'cetakPdf'])->name('khs.cetak');
+    Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index'])->name('khs.index');  
 });
 
 /*

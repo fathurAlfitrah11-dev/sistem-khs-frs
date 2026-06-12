@@ -43,33 +43,40 @@ class MataKuliahController extends Controller
             ->with('success','Data mata kuliah berhasil ditambahkan');
     }
    
-    public function update(Request $request, $kode_mk)
-    {
-        $mata_kuliah = MataKuliah::findOrFail($kode_mk);
-        $request->validate([
-            'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $kode_mk . ',kode_mk',
-            'nama_mk' => 'required',
-            'sks' => 'required|integer|max:4|min:2',
-            'semester' => 'required|integer',
-            'id_prodi' => 'required|exists:prodi,id_prodi'
-        ], [
-            'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
-        ]);
-        $mata_kuliah->update([
-    'nama_mk' => $request->nama_mk,
-    'sks' => $request->sks,
-    'semester' => $request->semester,
-    'id_prodi' => $request->id_prodi,
-]);
+   public function update(Request $request, $kode_mk)
+{
+    $mata_kuliah = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
 
-        return redirect('/mata-kuliah')
-            ->with('success','Data mata kuliah berhasil diupdate');
+    $request->validate([
+    
+        'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $mata_kuliah->getKey() . ',' . $mata_kuliah->getKeyName(),
+        'nama_mk' => 'required',
+        'sks' => 'required|integer|max:4|min:2',
+        'semester' => 'required|integer',
+        'id_prodi' => 'required|exists:prodi,id_prodi'
+    ], [
+        'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+    ]);
+
+  
+    $mata_kuliah->update([
+        'kode_mk' => $request->kode_mk, 
+        'nama_mk' => $request->nama_mk,
+        'sks' => $request->sks,
+        'semester' => $request->semester,
+        'id_prodi' => $request->id_prodi,
+    ]);
+
+    return redirect('/mata-kuliah')
+        ->with('success', 'Data mata kuliah berhasil diupdate');
 }
-    public function delete($kode_mk)
-    {
-        $mata_kuliah = MataKuliah::findOrFail($kode_mk);
-        $mata_kuliah->delete();
-        return redirect('/mata-kuliah')
-            ->with('success','Data mata kuliah berhasil dihapus');
+   public function delete($kode_mk)
+{
+    $mata_kuliah = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
+    
+    $mata_kuliah->delete();
+
+    return redirect('/mata-kuliah')
+        ->with('success', 'Data mata kuliah berhasil dihapus');
 }
 }

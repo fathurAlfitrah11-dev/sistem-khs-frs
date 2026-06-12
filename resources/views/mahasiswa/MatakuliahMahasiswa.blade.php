@@ -66,15 +66,10 @@
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center">
 
-                                <button onclick="openConfirm(
-'{{ $mk->kode_mk }}',
-'{{ $mk->nama_mk }}',
-'{{ $mk->sks }}',
-'{{ $mk->id_mata_kuliah }}'
-)" class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
-
+                                <button type="button"
+                                    onclick="openConfirm('{{ $mk->kode_mk }}', '{{ $mk->nama_mk }}', '{{ $mk->sks }}', '{{ $mk->kode_mk }}')"
+                                    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
                                     + Tambah Mata Kuliah
-
                                 </button>
                             </div>
                         </td>
@@ -145,36 +140,38 @@
 </style>
 
 <script>
-let selectedMK = {}
+let selectedMK = {};
+
+// FITUR PENCARIAN
 document.getElementById('searchInput').addEventListener('keyup', function() {
     let filter = this.value.toLowerCase();
-
     let rows = document.querySelectorAll('tbody tr');
 
     rows.forEach(row => {
-
         let kode = row.cells[0] ? row.cells[0].textContent.toLowerCase() : '';
         let namaMk = row.cells[1] ? row.cells[1].textContent.toLowerCase() : '';
 
         if (kode.includes(filter) || namaMk.includes(filter)) {
-            row.style.display = ""; // Tampilkan baris
+            row.style.display = "";
         } else {
-            row.style.display = "none"; // Sembunyikan baris
+            row.style.display = "none";
         }
     });
 });
 
+// FUNGSI BUKA MODAL
 function openConfirm(kode, nama, sks, id) {
+    // Memasukkan data ke variabel global
     selectedMK = {
-        kode,
-        nama,
-        sks,
-        id
-    }
+        kode: kode,
+        nama: nama,
+        sks: sks,
+        id: id
+    };
 
-    document.getElementById('c_kode').innerText = kode
-    document.getElementById('c_nama').innerText = nama
-    document.getElementById('c_sks').innerText = sks
+    document.getElementById('c_kode').innerText = kode;
+    document.getElementById('c_nama').innerText = nama;
+    document.getElementById('c_sks').innerText = sks;
 
     const modal = document.getElementById('confirmModal');
     const content = modal.querySelector('.modal-content') || modal.querySelector('div');
@@ -187,6 +184,7 @@ function openConfirm(kode, nama, sks, id) {
     }, 10);
 }
 
+// FUNGSI TUTUP MODAL
 function closeConfirm() {
     const modal = document.getElementById('confirmModal');
     const content = modal.querySelector('.modal-content') || modal.querySelector('div');
@@ -199,19 +197,26 @@ function closeConfirm() {
     }, 300);
 }
 
+// FUNGSI SUBMIT FORM KE CONTROLLER
 function submitKRS() {
-    let form = document.createElement('form')
-    form.method = 'POST'
-    form.action = '/mahasiswa/tambah-krs/' + selectedMK.id
+    // Validasi pengaman untuk mendeteksi apakah ID kosong
+    if (!selectedMK.id || selectedMK.id === 'undefined' || selectedMK.id.trim() === '') {
+        alert('Gagal mengambil data! Nilai ID Mata Kuliah kosong atau tidak terbaca oleh JavaScript.');
+        return;
+    }
 
-    let csrf = document.createElement('input')
-    csrf.type = 'hidden'
-    csrf.name = '_token'
-    csrf.value = '{{ csrf_token() }}'
-    form.appendChild(csrf)
+    let form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/mahasiswa/tambah-krs/' + selectedMK.id;
 
-    document.body.appendChild(form)
-    form.submit()
+    let csrf = document.createElement('input');
+    csrf.type = 'hidden';
+    csrf.name = '_token';
+    csrf.value = '{{ csrf_token() }}';
+    form.appendChild(csrf);
+
+    document.body.appendChild(form);
+    form.submit();
 }
 </script>
 @endsection

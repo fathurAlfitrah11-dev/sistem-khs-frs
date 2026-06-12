@@ -49,7 +49,7 @@
 
                 <tbody>
 
-                    @foreach($krs as $d)
+                    @forelse($krs as $d)
                     <tr
                         class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
                         <td class="px-6 py-3 text-left whitespace-nowrap font-medium">
@@ -62,8 +62,8 @@
                             {{ $d->mahasiswa->kelas->nama_kelas ?? '-' }}
                         </td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">
-                            {{-- Kita cek status secara dinamis --}}
-                            @if($d->detail->contains('status_wali', 'pending'))
+                            {{-- Langsung cek status dari tabel KRS utama --}}
+                            @if($d->status_wali == 'pending')
                             <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                 Menunggu
                             </span>
@@ -76,7 +76,6 @@
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center">
-                                {{-- Mengarahkan link secara dinamis membawa ID KRS ke route detail --}}
                                 <a href="{{ route('perwalian.detail', $d->id_krs) }}"
                                     class="bg-orange-400 hover:bg-orange-300 text-black font-semibold text-xs px-4 py-1.5 rounded-lg shadow transition">
                                     Lihat KRS
@@ -84,8 +83,15 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
-
+                    @empty
+                    {{-- TAMPILAN JIKA MAHASISWA BIMBINGAN PERWALIAN KOSONG --}}
+                    <tr>
+                        <td colspan="5" class="text-center py-10 text-slate-400 bg-slate-50 font-medium text-sm">
+                            <i class="fa-solid fa-user-slash block text-gray-300 text-2xl mb-2"></i>
+                            Data perwalian mahasiswa tidak ditemukan untuk dosen wali ini.
+                        </td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
 

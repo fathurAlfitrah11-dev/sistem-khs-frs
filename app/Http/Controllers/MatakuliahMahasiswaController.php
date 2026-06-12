@@ -13,170 +13,107 @@ use Illuminate\Support\Facades\Auth;
 
 class MatakuliahMahasiswaController extends Controller
 {
-
-public function index()
+    public function index()
     {
-        $mahasiswa = Mahasiswa::where(
-        'user_id',
-        Auth::id()
-    )->first();
+        $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
 
-    if(!$mahasiswa){
-        abort(404,'Data mahasiswa tidak ditemukan');
+        if (!$mahasiswa) {
+            abort(404, 'Data mahasiswa tidak ditemukan');
+        }
+
+        $tahun = TahunAjaran::latest()->first();
+
+        $krs = Krs::where('nim', $mahasiswa->nim)
+            ->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
+            ->first();
+
+        $kodeMatkulDipilih = [];
+
+        if ($krs) {
+            $kodeMatkulDipilih = KrsDetail::with('pengajar')
+                ->where('id_krs', $krs->id_krs)
+                ->get()
+                ->pluck('pengajar.kode_mk')
+                ->filter()
+                ->toArray();
+                
+        }
+
+        // Tampilkan mata kuliah berdasarkan prodi mahasiswa yang BELUM dipilih
+        $matakuliah = MataKuliah::where('id_prodi', $mahasiswa->id_prodi)
+            ->whereNotIn('kode_mk', $kodeMatkulDipilih) // Saring berdasarkan kode_mk
+            ->paginate(5);
+
+        return view('mahasiswa.MatakuliahMahasiswa', compact('matakuliah'));
     }
-
-    $tahun = TahunAjaran::latest()->first();
-
-    $krs = Krs::where(
-        'nim',
-        $mahasiswa->nim
-    )
-    ->where(
-        'id_tahun_ajaran',
-        $tahun->id_tahun_ajaran
-    )
-    ->first();
-
-    $idMatkulDipilih = [];
-
-    if($krs){
-
-        $idMatkulDipilih = KrsDetail::with('pengajar')
-            ->where('id_krs', $krs->id_krs)
-            ->get()
-            ->pluck('pengajar.id_mata_kuliah')
-            ->toArray();
-    }
-
-    $matakuliah = MataKuliah::where(
-        'id_prodi',
-        $mahasiswa->id_prodi
-    )
-    ->whereNotIn(
-        'id_mata_kuliah',
-        $idMatkulDipilih
-    )
-    ->paginate(5);
-
-    return view(
-        'mahasiswa.MatakuliahMahasiswa',
-        compact('matakuliah')
-    );
-}
 
     public function tambahKrs($id_mata_kuliah)
-{
-    $mahasiswa = Mahasiswa::where(
-        'user_id',
-        Auth::id()
-    )->first();
+    {
+        $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+        $tahun = TahunAjaran::latest()->first();
 
-    // tahun ajaran aktif
-    $tahun = TahunAjaran::latest()->first();
-
-    // ambil pengajar berdasarkan matkul
-    $pengajar = Pengajar::where(
-        'id_mata_kuliah',
-        $id_mata_kuliah
-    )->first();
-
-    if(!$pengajar){
-        return back()
-        ->with('error','Pengajar belum tersedia');
-    }
-
-    // buat KRS jika belum ada
-    $krs = Krs::firstOrCreate(
-
-        [
-            'nim'=>$mahasiswa->nim,
-            'id_tahun_ajaran'=>$tahun->id_tahun_ajaran
-        ],
-
-        [
-            'status'=>'diajukan',
-            'status_wali'=>'pending',
-            'nik_wali'=>$mahasiswa->wali?->nik
-        ]
-    );
-
-    // cegah matkul dobel
-    $cek = KrsDetail::where(
-        'id_krs',
-        $krs->id_krs
-    )
-    ->where(
-        'pengajar_id',
-        $pengajar->id_pengajar
-    )
-    ->exists();
-
-    if($cek){
-        return back()
-        ->with(
-            'error',
-            'Mata kuliah sudah dipilih'
-        );
-    }
-
-
-    // ==========================
-    // VALIDASI TOTAL SKS MAX 20
-    // ==========================
-
-    $totalSks = 0;
-
-    $detailKrs = KrsDetail::with(
-        'pengajar.mataKuliah'
-    )
-    ->where(
-        'id_krs',
-        $krs->id_krs
-    )
-    ->get();
-
-    foreach($detailKrs as $detail){
-
-        $mk = $detail->pengajar?->mataKuliah;
-
-        if($mk){
-            $totalSks += $mk->sks;
+        // 1. CARI DATA MATA KULIAH
+        // Karena tombol kamu mengirimkan Kode MK atau ID, kita amankan pencariannya di sini
+        if (is_numeric($id_mata_kuliah)) {
+            $matkulDipilih = MataKuliah::find($id_mata_kuliah);
+        } else {
+            $matkulDipilih = MataKuliah::where('kode_mk', $id_mata_kuliah)->first();
         }
-    }
 
-    // SKS matkul yg mau ditambah
-    $matkulDipilih = MataKuliah::findOrFail(
-        $id_mata_kuliah
-    );
+        if (!$matkulDipilih) {
+            return back()->with('error', 'Mata kuliah tidak ditemukan.');
+        }
 
-    $totalBaru = $totalSks + $matkulDipilih->sks;
+        // 2. FIX: Cari pengajar berdasarkan 'kode_mk' sesuai isi database kamu!
+        $pengajar = Pengajar::where('kode_mk', $matkulDipilih->kode_mk)->first();
 
-    if($totalBaru > 20){
+        if (!$pengajar) {
+            return back()->with('error', 'Dosen pengajar belum tersedia untuk mata kuliah: ' . $matkulDipilih->nama_mk);
+        }
 
-        return back()
-        ->with(
-            'error',
-            'Gagal! Maksimal pengambilan SKS hanya 20'
+        // 3. BUAT ATAU AMBIL KRS INDUK MAHASISWA
+        $krs = Krs::firstOrCreate(
+            [
+                'nim' => $mahasiswa->nim,
+                'id_tahun_ajaran' => $tahun->id_tahun_ajaran
+            ]
         );
+
+        // 4. CEGAH MATA KULIAH DOBEL
+        $cek = KrsDetail::where('id_krs', $krs->id_krs)
+            ->where('pengajar_id', $pengajar->id_pengajar)
+            ->exists();
+
+        if ($cek) {
+            return back()->with('error', 'Mata kuliah sudah dipilih');
+        }
+
+        // 5. VALIDASI AKUMULASI SKS (MAKSIMAL 20)
+        $totalSks = 0;
+        $detailKrs = KrsDetail::with('pengajar.mataKuliah')
+            ->where('id_krs', $krs->id_krs)
+            ->get();
+
+        foreach ($detailKrs as $detail) {
+            $mk = MataKuliah::where('kode_mk', $detail->pengajar?->kode_mk)->first();
+            if ($mk) {
+                $totalSks += $mk->sks;
+            }
+        }
+
+        if (($totalSks + $matkulDipilih->sks) > 20) {
+            return back()->with('error', 'Gagal! Maksimal pengambilan SKS hanya 20 SKS.');
+        }
+
+    
+       // 6. SIMPAN DATA 
+        KrsDetail::create([
+            'id_krs' => $krs->id_krs,
+            'pengajar_id' => $pengajar->id_pengajar,
+            'status' => 'diajukan',        
+            'status_wali' => 'pending'    
+        ]);
+
+        return back()->with('success', 'Mata kuliah ' . $matkulDipilih->nama_mk . ' berhasil disimpan ke KRS!');
     }
-
-
-    // ==========================
-    // SIMPAN KRS
-    // ==========================
-
-    KrsDetail::create([
-
-        'id_krs'=>$krs->id_krs,
-        'pengajar_id'=>$pengajar->id_pengajar,
-        'status_wali'=>'pending'
-
-    ]);
-
-    return back()
-    ->with(
-        'success',
-        'Mata kuliah berhasil ditambahkan'
-    );
-}
 }

@@ -8,11 +8,30 @@ use App\Models\KrsDetail;
 
 class DosenWaliKrsController extends Controller
 {
-    public function index()
-    {
-        $krs = \App\Models\Krs::with(['mahasiswa.kelas'])->get();
-        return view('dosen.wali.krs.index', compact('krs'));
+   public function index()
+{
+    $dosen = \App\Models\Dosen::where('user_id', \Auth::id())->first();
+
+    if (!$dosen) {
+        return redirect()->back()->with('error', 'Data Dosen tidak ditemukan.');
     }
+
+    $kelasDosenWali = \App\Models\Kelas::where('nik_wali', $dosen->nik)->pluck('id_kelas')->toArray();
+    if (empty($kelasDosenWali)) {
+        $krs = collect();
+        return view('dosen.wali.krs.index', compact('krs'));
+    } 
+
+    $krs = \App\Models\Krs::with(['mahasiswa.kelas', 'detail'])
+        ->whereIn('nim', function($query) use ($kelasDosenWali) {
+            $query->select('nim')
+                  ->from('mahasiswa')
+                  ->whereIn('id_kelas', $kelasDosenWali);
+        })
+        ->get();
+
+    return view('dosen.wali.krs.index', compact('krs'));
+}
 
     public function detail($id_krs)
    {

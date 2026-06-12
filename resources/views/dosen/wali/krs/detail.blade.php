@@ -11,9 +11,17 @@
     </div>
     @endif
 
-    <p class="text-gray-200 mb-6 font-medium">
-        Nama Mahasiswa: <span class="text-white font-bold">{{ $krs->mahasiswa->nama }} ({{ $krs->nim }})</span>
-    </p>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <p class="text-gray-200 font-medium">
+            Nama Mahasiswa: <span class="text-white font-bold">{{ $krs->mahasiswa->nama }} ({{ $krs->nim }})</span>
+        </p>
+        
+        {{-- TOMBOL SETUJUI SEMUA --}}
+        <button type="button" onclick="checkAllApprove()"
+            class="bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded-xl transition text-xs shadow flex items-center gap-1 self-start md:self-auto">
+             Setujui Semua Mata Kuliah
+        </button>
+    </div>
 
     <form action="/dosen/wali/krs/proses" method="POST">
         @csrf
@@ -42,14 +50,14 @@
 
                         <td class="px-6 py-4 text-center">
                             <input type="checkbox" name="status_wali[{{ $d->id_krs_detail }}]" value="disetujui"
-                                class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 accent-emerald-500 cb-acc-{{ $d->id_krs_detail }}"
+                                class="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 accent-emerald-500 cb-approve cb-acc-{{ $d->id_krs_detail }}"
                                 onclick="handleCheckbox('{{ $d->id_krs_detail }}', 'disetujui')"
                                 {{ $d->status_wali == 'disetujui' ? 'checked' : '' }}>
                         </td>
 
                         <td class="px-6 py-4 text-center">
                             <input type="checkbox" name="status_wali[{{ $d->id_krs_detail }}]" value="ditolak"
-                                class="w-4 h-4 text-rose-600 rounded focus:ring-rose-500 accent-rose-500 cb-reject-{{ $d->id_krs_detail }}"
+                                class="w-4 h-4 text-rose-600 rounded focus:ring-rose-500 accent-rose-500 cb-reject cb-reject-{{ $d->id_krs_detail }}"
                                 onclick="handleCheckbox('{{ $d->id_krs_detail }}', 'ditolak')"
                                 {{ $d->status_wali == 'ditolak' ? 'checked' : '' }}>
                         </td>
@@ -73,7 +81,6 @@
 </div>
 
 <script>
-// Fungsi pengunci agar dosen tidak bisa mencentang Setuju & Tolak sekaligus
 function handleCheckbox(id, type) {
     const accBox = document.querySelector(`.cb-acc-${id}`);
     const rejectBox = document.querySelector(`.cb-reject-${id}`);
@@ -83,6 +90,21 @@ function handleCheckbox(id, type) {
     } else if (type === 'ditolak' && rejectBox.checked) {
         accBox.checked = false;
     }
+}
+
+function checkAllApprove() {
+    const allApproveBoxes = document.querySelectorAll('.cb-approve');
+    const allRejectBoxes = document.querySelectorAll('.cb-reject');
+
+    // 1. Centang semua box 'Setujui'
+    allApproveBoxes.forEach(box => {
+        box.checked = true;
+    });
+
+    // 2. Kosongkan semua box 'Tolak' agar tidak bentrok
+    allRejectBoxes.forEach(box => {
+        box.checked = false;
+    });
 }
 </script>
 

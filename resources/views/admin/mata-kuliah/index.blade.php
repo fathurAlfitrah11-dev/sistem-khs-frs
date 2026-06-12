@@ -88,8 +88,7 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/mata-kuliah/delete/{{ $d->kode_mk }}"
-                                    onclick="return confirm('Yakin hapus?')"
+                                <a href="/mata-kuliah/delete/{{ $d->kode_mk }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
                                     <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>
@@ -110,10 +109,10 @@
 
         {{-- PAGINATION --}}
         <div class="flex justify-end mt-5">
-                    {{ $data->appends(request()->query())->links() }}
-            </div>
+            {{ $data->appends(request()->query())->links() }}
         </div>
     </div>
+</div>
 </div>
 
 {{-- MODAL TAMBAH --}}
@@ -195,7 +194,7 @@
 
 {{-- MODAL EDIT --}}
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
+    @csrf
     <div
         class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Mata Kuliah</h2>
@@ -210,7 +209,7 @@
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
-
+            @method('PUT')
             <label class="text-sm mb-1 block">Kode Mata Kuliah</label>
             <input type="text" name="kode_mk" id="editKode" class="w-full mb-3 px-3 py-2 rounded text-black">
 
