@@ -310,7 +310,7 @@ $persenSksBar = 100;
                         {{-- DOSEN CHECK --}}
                         <td class="px-6 py-3 text-left break-words text-gray-600">
                             @if($item->pengajar && $item->pengajar->dosen)
-                            {{ $item->pengajar->dosen->nama }}
+                            {{ $item->pengajar->dosen->nama_dosen }}
                             @else
                             <span class="text-gray-400 italic">Belum Diplot</span>
                             @endif
