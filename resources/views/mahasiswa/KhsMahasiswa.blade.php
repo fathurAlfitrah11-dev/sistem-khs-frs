@@ -320,19 +320,22 @@ $persenSksBar = 100;
                             {{ $item->pengajar->mataKuliah->sks ?? 0 }}
                         </td>
 
+                        {{-- KOLOM NILAI ANGKA (FIX DRAFT) --}}
                         <td class="px-6 py-3 text-center whitespace-nowrap">
-                            @if($item->khs)
+                            @if($item->khs && $item->khs->id_khs !== null)
                             <span class="text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full text-xs font-bold">
                                 {{ $item->khs->na }}
                             </span>
                             @else
-                            <span class="text-amber-700 font-semibold bg-amber-100 px-3 py-1 rounded-full text-xs">Belum
-                                Dinilai</span>
+                            <span class="text-amber-700 font-semibold bg-amber-100 px-3 py-1 rounded-full text-xs">
+                                Belum Dinilai
+                            </span>
                             @endif
                         </td>
 
+                        {{-- KOLOM NILAI HURUF (FIX DRAFT) --}}
                         <td class="px-6 py-3 text-center whitespace-nowrap">
-                            @if($item->khs && $item->khs->nh)
+                            @if($item->khs && $item->khs->id_khs !== null && $item->khs->nh)
                             <span class="text-blue-700 bg-blue-100 px-3 py-1 rounded-full text-xs font-extrabold">
                                 {{ $item->khs->nh }}
                             </span>

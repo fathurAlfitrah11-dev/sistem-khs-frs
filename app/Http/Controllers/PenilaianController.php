@@ -24,14 +24,13 @@ class PenilaianController extends Controller
         // 2. CARI DATA DOSEN BERDASARKAN user_id UNTUK MENDAPATKAN NIK
         $dosen = \App\Models\Dosen::where('user_id', $userId)->first();
 
-        // Jika data dosen tidak ditemukan, set kosongan agar tidak crash
         $nikDosen = $dosen ? $dosen->nik : null;
 
         // 3. AMBIL DAFTAR MATA KULIAH YANG DIAMPUN OLEH DOSEN INI (Untuk Dropdown)
         $matkulDiampu = Pengajar::where('nik', $nikDosen)->with('mataKuliah')->get();
         $pengajarIds = $matkulDiampu->pluck('id_pengajar')->toArray();
 
-        // Jika dosen belum punya jadwal mengajar sama sekali, langsung kembalikan kosongan
+
         if (empty($pengajarIds)) {
             $mahasiswa = [];
             $matkulInDropdown = [];
@@ -87,7 +86,6 @@ class PenilaianController extends Controller
             ];
         });
 
-        // Kirim $matkulDiampu ke View agar dropdown terisi otomatis
         return view('dosen.penilaian', compact('mahasiswa', 'prodi', 'kelas', 'matkulDiampu'));
     }
 
@@ -118,11 +116,23 @@ class PenilaianController extends Controller
             $na = ($partisipatif * 0.1) + ($tugas * 0.2) + ($quiz * 0.1) + ($proyek * 0.2) + ($uts * 0.2) + ($uas * 0.2);
 
             // Tentukan Nilai Huruf (NH)
-            if ($na >= 85) { $nh = 'A'; } 
-            elseif ($na >= 75) { $nh = 'B'; } 
-            elseif ($na >= 65) { $nh = 'C'; } 
-            elseif ($na >= 50) { $nh = 'D'; } 
-            else { $nh = 'E'; }
+if ($na >= 85) { 
+    $nh = 'A'; 
+} elseif ($na >= 80) { 
+    $nh = 'B+';
+} elseif ($na >= 75) { 
+    $nh = 'B'; 
+} elseif ($na >= 70) { 
+    $nh = 'C+'; 
+} elseif ($na >= 65) { 
+    $nh = 'C'; 
+} elseif ($na >= 60) { 
+    $nh = 'D+'; 
+} elseif ($na >= 55) { 
+    $nh = 'D'; 
+} else { 
+    $nh = 'E'; 
+}
 
             // Cek data lama di DB
             $khs = \App\Models\Khs::where('krs_detail_id', $id)->first();

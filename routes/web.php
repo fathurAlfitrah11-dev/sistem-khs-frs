@@ -32,6 +32,7 @@ use App\Http\Controllers\DosenWaliKrsController;
 use App\Http\Controllers\DosenWaliLihatKrsController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\KpsPenguncianController;
+use App\Http\Controllers\PerwalianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,13 +152,11 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:dosen'])->group(function () {
-    // Dashboard Dosen Utama
     Route::get('/dosen', [DosenRealController::class, 'index']);
 
-    // Fitur Perwalian KRS (Dinamis Menggunakan DosenWaliKrsController)
-    Route::get('/perwalian', [DosenWaliKrsController::class, 'index'])->name('perwalian.index');
-    Route::get('/perwalian/detail/{id_krs}', [DosenWaliKrsController::class, 'detail'])->name('perwalian.detail');
-    Route::post('/dosen/wali/krs/proses', [DosenWaliKrsController::class, 'proses']);
+    Route::get('/perwalian', [PerwalianController::class, 'index'])->name('perwalian.index');
+    Route::get('/perwalian/detail/{id_krs}', [PerwalianController::class, 'detail'])->name('perwalian.detail');
+    Route::post('/dosen/wali/krs/proses', [PerwalianController::class, 'proses']);
 
     // Penilaian Nilai Kuliah
     Route::get('/penilaian', [PenilaianController::class, 'index']);
