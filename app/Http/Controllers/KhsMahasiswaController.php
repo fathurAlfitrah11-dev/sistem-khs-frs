@@ -47,14 +47,18 @@ class KhsMahasiswaController extends Controller
     $totalSksKumulatif = 0; 
     $bobotKumulatif = 0;   
     foreach ($krs as $dataKrs) {
-        foreach ($dataKrs->detail as $item) {
-            $sks = $item->pengajar->mataKuliah->sks ?? 0;
-            $semesterMatkul = isset($item->pengajar->semester) ? intval($item->pengajar->semester) : 0;
-            
-            // Hitung total SKS yang mutlak diambil mahasiswa pada semester ini (di dashboard tertulis 16)
-            if ($semesterMatkul === $semesterDipilih) {
-                $totalSksSemester += $sks; 
-            }
+    foreach ($dataKrs->detail as $item) {
+
+        if ($item->status_wali != 'disetujui') {
+            continue;
+        }
+
+        $sks = $item->pengajar->mataKuliah->sks ?? 0;
+        $semesterMatkul = intval($item->pengajar->semester ?? 0);
+
+        if ($semesterMatkul === $semesterDipilih) {
+            $totalSksSemester += $sks;
+        }
 
             // KUNCI UTAMA: Nilai HANYA diproses jika KHS ada, Nilai Huruf ada, DAN STATUSNYA SUDAH 'Final'!
             if ($item->khs && $item->khs->nh && $item->khs->status === 'Final') {

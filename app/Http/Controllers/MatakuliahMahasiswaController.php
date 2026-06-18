@@ -32,6 +32,7 @@ class MatakuliahMahasiswaController extends Controller
         if ($krs) {
             $kodeMatkulDipilih = KrsDetail::with('pengajar')
                 ->where('id_krs', $krs->id_krs)
+                ->where('status_wali','!=','ditolak')
                 ->get()
                 ->pluck('pengajar.kode_mk')
                 ->filter()

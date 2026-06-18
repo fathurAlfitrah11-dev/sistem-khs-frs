@@ -164,4 +164,24 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
 
     // Validasi Penguncian Nilai oleh KPS
     Route::get('/kps-penguncian', [KpsPenguncianController::class, 'index']);
+    Route::get('/kps-penilaian',[KpsPenguncianController::class,'index']);
+   Route::post(
+    '/kps-penilaian/simpan',
+    [KpsPenguncianController::class,'simpan']
+);
+
+Route::get(
+    '/kps-penilaian/{kode_mk}',
+    [KpsPenguncianController::class,'update']
+);
+
+Route::get(
+    '/kps-penilaian/kunci/{kode_mk}',
+    [KpsPenguncianController::class,'kunci']
+);
+
+Route::get(
+    '/kps-penilaian/buka/{kode_mk}',
+    [KpsPenguncianController::class,'bukaKunci']
+);
 });

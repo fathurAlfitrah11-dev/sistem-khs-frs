@@ -33,8 +33,8 @@ class PenilaianController extends Controller
 
         if (empty($pengajarIds)) {
             $mahasiswa = [];
-            $matkulInDropdown = [];
-            return view('dosen.penilaian', compact('mahasiswa', 'prodi', 'kelas', 'matkulInDropdown'))->with('error', 'Anda belum ditugaskan mengajar mata kuliah apapun.');
+            $matkuldiAmpu = collect([]);
+            return view('dosen.penilaian', compact('mahasiswa', 'prodi', 'kelas', 'matkuldiAmpu'))->with('error', 'Anda belum ditugaskan mengajar mata kuliah apapun.');
         }
 
         // 4. AMBIL DATA MAHASISWA DARI KrsDetail
@@ -98,7 +98,7 @@ class PenilaianController extends Controller
         $statusNilai = $request->input('action') === 'final' ? 'Final' : 'Draft';
 
         // Ambil NIK dosen yang login
-        $userId = auth()->id();
+        $userId = auth::id();
         $dosen = \App\Models\Dosen::where('user_id', $userId)->first();
         $nikDosen = $dosen ? $dosen->nik : null;
 
@@ -113,7 +113,36 @@ class PenilaianController extends Controller
             $uas = $request->uas[$id] ?? 0;
 
             // Hitung Nilai Akhir (NA)
-            $na = ($partisipatif * 0.1) + ($tugas * 0.2) + ($quiz * 0.1) + ($proyek * 0.2) + ($uts * 0.2) + ($uas * 0.2);
+           $detail = KrsDetail::with('pengajar.mataKuliah')
+    ->find($id);
+
+if (!$detail || !$detail->pengajar || !$detail->pengajar->mataKuliah) {
+    continue;
+}
+
+
+$mk = $detail->pengajar->mataKuliah;
+if(!$mk->dikunci)
+{
+    return back()
+    ->with(
+        'error',
+        'Bobot penilaian mata kuliah belum dikunci oleh KPS'
+    );
+}
+
+$na =
+($partisipatif * ($mk->persen_partisipatif/100))
++
+($tugas * ($mk->persen_tugas/100))
++
+($quiz * ($mk->persen_quiz/100))
++
+($proyek * ($mk->persen_proyek/100))
++
+($uts * ($mk->persen_uts/100))
++
+($uas * ($mk->persen_uas/100));
 
             // Tentukan Nilai Huruf (NH)
 if ($na >= 85) { 

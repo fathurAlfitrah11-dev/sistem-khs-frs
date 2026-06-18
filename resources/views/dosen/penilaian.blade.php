@@ -78,7 +78,7 @@
                     <select name="id_pengajar" class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border border-gray-300 focus:outline-none font-medium cursor-pointer">
                         <option value="">Semua Mata Kuliah</option>
                         {{-- Menggunakan ->unique('kode_mk') agar Sistem Komputer hanya keluar 1 baris saja di dropdown --}}
-                        @foreach($matkulDiampu->unique('kode_mk') as $row)
+                       @foreach(($matkulDiampu ?? collect())->unique('kode_mk') as $row)
                         <option value="{{ $row->id_pengajar }}" {{ request('id_pengajar') == $row->id_pengajar ? 'selected' : '' }}>
                             {{ $row->mataKuliah->nama_mk ?? $row->kode_mk }}
                         </option>

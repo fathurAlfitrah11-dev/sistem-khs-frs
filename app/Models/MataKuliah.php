@@ -11,11 +11,22 @@ class MataKuliah extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
-        'kode_mk',
-        'nama_mk',
-        'sks',
-        'semester',
-        'id_prodi'
+
+    'kode_mk',
+    'nama_mk',
+    'sks',
+    'semester',
+    'id_prodi',
+
+    'persen_partisipatif',
+    'persen_tugas',
+    'persen_quiz',
+    'persen_proyek',
+    'persen_uts',
+    'persen_uas',
+
+    'dikunci'
+
     ];
 
    public function pengajar()
