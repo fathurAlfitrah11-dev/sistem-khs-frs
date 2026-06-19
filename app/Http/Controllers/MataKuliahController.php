@@ -28,9 +28,15 @@ class MataKuliahController extends Controller
 }
      public function store(Request $request)
     {
-       if (MataKuliah::where('kode_mk', $request->kode_mk)->exists()) {
-        return back()->with('error', 'Kode mata kuliah sudah terdaftar!');
-    }
+     $cek = MataKuliah::where('nama_mk', $request->nama_mk)
+    ->where('id_prodi', $request->id_prodi)
+    ->first();
+
+if ($cek) {
+    return redirect()->back()
+        ->withInput()
+        ->with('error', 'Nama mata kuliah pada program studi tersebut sudah ada.');
+}
         MataKuliah::create([
     'kode_mk' => $request->kode_mk,
     'nama_mk' => $request->nama_mk,
@@ -46,7 +52,14 @@ class MataKuliahController extends Controller
    public function update(Request $request, $kode_mk)
 {
     $mata_kuliah = MataKuliah::where('kode_mk', $kode_mk)->firstOrFail();
-
+    $cek = MataKuliah::where('kode_mk', $request->kode_mk)
+        ->where('kode_mk', '!=', $mata_kuliah->kode_mk)
+        ->first();
+    if ($cek) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Kode mata kuliah sudah terdaftar.');
+    }
     $request->validate([
     
         'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $mata_kuliah->getKey() . ',' . $mata_kuliah->getKeyName(),

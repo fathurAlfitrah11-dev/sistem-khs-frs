@@ -83,18 +83,26 @@ class PengajarController extends Controller
             'nik' => 'required|exists:dosen,nik',
             'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
-            'jenis' => 'required|in:teori,praktikum,teori_praktikum',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
         ]);
+ 
+        $cek = Pengajar::where('kode_mk', $request->kode_mk)
+            ->where('kelas_id', $request->kelas_id)
+            ->where('id_tahun_ajaran', $request->id_tahun_ajaran)
+            ->first();
 
+        if ($cek) {
+            return redirect()->back()
+            ->withInput()
+            ->with('error', 'Mata kuliah pada kelas tersebut sudah memiliki pengajar.');
+}
         Pengajar::create([
         'nik' => $request->nik,
         'kode_mk' => $request->kode_mk,
         'kelas_id' => $request->kelas_id,
         'id_tahun_ajaran' => $request->id_tahun_ajaran,
         'semester' => $request->semester,
-        'jenis' => $request->jenis,
         ]);
 
        return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
@@ -108,17 +116,26 @@ class PengajarController extends Controller
             'nik' => 'required|exists:dosen,nik',
             'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
-            'jenis' => 'required|in:teori,praktikum,teori_praktikum',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
         ]);
+        $cek = Pengajar::where('kode_mk', $request->kode_mk)
+             ->where('kelas_id', $request->kelas_id)
+            ->where('id_tahun_ajaran', $request->id_tahun_ajaran)
+            ->where('id_pengajar', '!=', $id_pengajar)
+            ->first();
+
+        if ($cek) {
+            return redirect()->back()
+            ->withInput()
+            ->with('error', 'Mata kuliah pada kelas tersebut sudah memiliki pengajar.');
+}
          $pengajar->update([
     'nik' => $request->nik,
     'kode_mk' => $request->kode_mk,
     'kelas_id' => $request->kelas_id,
     'id_tahun_ajaran' => $request->id_tahun_ajaran,
     'semester' => $request->semester,
-    'jenis' => $request->jenis
 ]);
         return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
     ->with('success','Data pengajar berhasil diupdate');

@@ -19,7 +19,7 @@
             Ubah Password
         </h2>
 
-        <form action="/mahasiswa/password/update" method="POST">
+        <form action="{{ url('/mahasiswa/password/update') }}" method="POST">
 
             @csrf
 
@@ -72,17 +72,14 @@
 
                 </button>
 
-                <button type="button"
-                onclick="openModal('passwordModal')"
-                class="bg-orange-400 text-black font-semibold px-4 py-2 rounded">
-
-                    Simpan Password
-
-                </button>
+               <button type="button"
+onclick="openModal('passwordModal')"
+class="bg-orange-400 text-black font-semibold px-4 py-2 rounded">
+    Simpan Password
+</button>
 
             </div>
 
-        </form>
 
     </div>
 
@@ -112,20 +109,17 @@ class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
             </button>
 
-            <button
-            onclick="submitPassword()"
-            class="bg-orange-400 text-black font-semibold px-4 py-2 rounded">
-
-                Ya, Simpan
-
-            </button>
+           <button type="submit"
+class="bg-orange-400 text-black font-semibold px-4 py-2 rounded">
+    Ya, Simpan
+</button>
 
         </div>
 
     </div>
-
+    
 </div>
-
+</form>
 @endsection
 <script>
 

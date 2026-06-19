@@ -12,7 +12,7 @@ class KrsMahasiswaController extends Controller
 {
     public function index(Request $request)
 {
-    $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+    $mahasiswa = Mahasiswa::with('kelas')->where('user_id', Auth::id())->first();
 
     if (!$mahasiswa) {
         return redirect()->back()->with('error', 'Data Mahasiswa tidak ditemukan.');
@@ -27,26 +27,23 @@ class KrsMahasiswaController extends Controller
     ->where('nim', $mahasiswa->nim)
     ->get();
 
-    $semesterList = [1, 2, 3, 4, 5, 6, 7, 8];
+    $semesterAktif = $mahasiswa->kelas->semester ?? 1;
+    $semesterList = range(1, $semesterAktif);
 
-    if ($semesterDipilih) {
-        $krs->each(function($item) use ($semesterDipilih) {
-            $item->setRelation(
-                'detail',
-                $item->detail->filter(function($detail) use ($semesterDipilih) {
-                    return $detail->pengajar
-                        && $detail->pengajar->kelas
-                        && $detail->pengajar->kelas->semester == $semesterDipilih;
-                })
-            );
-        });
-    }
+   $semesterDipilih = $request->semester ?? $semesterAktif;
 
-    return view('mahasiswa.KrsMahasiswa', compact(
-        'krs',
-        'semesterList',
-        'semesterDipilih'
-    ));
+$krs = Krs::with([
+    'detail.pengajar.mataKuliah',
+    'detail.pengajar.kelas'
+])
+->where('nim', $mahasiswa->nim)
+->get();
+
+return view('mahasiswa.KrsMahasiswa', compact(
+    'krs',
+    'semesterList',
+    'semesterDipilih'
+));
 }
 
     public function hapusMatkul($id)

@@ -73,7 +73,7 @@
                                 </button>
 
                                 {{-- DELETE --}}
-                                <a href="/kelas/delete/{{ $d->id_prodi }}" onclick="return confirm('Yakin hapus?')"
+                                <a href="/prodi/delete/{{ $d->id_prodi }}" onclick="return confirm('Yakin hapus?')"
                                     class="w-8 h-8 rounded-full bg-red-100 hover:bg-red-200 flex items-center justify-center transition inline-flex">
                                     <i class="fa-solid fa-trash text-red-600 text-xs"></i>
                                 </a>

@@ -75,16 +75,39 @@ public function update(Request $request,$kode_mk)
     ->with('success','Bobot berhasil diubah');
 }
 
-public function kunci($kode_mk)
+public function kunci(Request $request, $kode_mk)
 {
     $mk = MataKuliah::findOrFail($kode_mk);
 
-      $mk->update([
-          'dikunci'=>true
-      ]);
+    if ($mk->dikunci) {
+        return back()->with('error', 'Bobot sudah dikunci');
+    }
 
-    return back()
-    ->with('success','Bobot berhasil dikunci');
+    // ambil input dengan aman
+    $partisipatif = (int) $request->persen_partisipatif;
+    $tugas = (int) $request->persen_tugas;
+    $quiz = (int) $request->persen_quiz;
+    $proyek = (int) $request->persen_proyek;
+    $uts = (int) $request->persen_uts;
+    $uas = (int) $request->persen_uas;
+
+    $total = $partisipatif + $tugas + $quiz + $proyek + $uts + $uas;
+
+    if ($total !== 100) {
+        return back()->with('error', 'Total bobot harus 100%');
+    }
+
+    $mk->update([
+        'persen_partisipatif' => $partisipatif,
+        'persen_tugas' => $tugas,
+        'persen_quiz' => $quiz,
+        'persen_proyek' => $proyek,
+        'persen_uts' => $uts,
+        'persen_uas' => $uas,
+        'dikunci' => true
+    ]);
+
+    return back()->with('success', 'Bobot berhasil dikunci');
 }
 
 public function bukaKunci($kode_mk)
@@ -99,53 +122,4 @@ public function bukaKunci($kode_mk)
     ->with('success','Bobot berhasil dibuka');
 }
 
-public function simpan(Request $request)
-{
-    foreach ($request->kode_mk as $kode_mk)
-    {
-        $mk = MataKuliah::findOrFail($kode_mk);
-
-        // kalau sudah dikunci tidak boleh diubah
-        if(!$mk->dikunci)
-          $total =
-            $request->persen_partisipatif[$kode_mk]
-            + $request->persen_tugas[$kode_mk]
-            + $request->persen_quiz[$kode_mk]
-            + $request->persen_proyek[$kode_mk]
-            + $request->persen_uts[$kode_mk]
-            + $request->persen_uas[$kode_mk];
-
-        if ($total != 100)
-        {
-            return back()
-                ->with('error', 'Total bobot '.$mk->nama_mk.' harus 100%');
-        }
-        {
-            $mk->update([
-
-                'persen_partisipatif' =>
-                $request->persen_partisipatif[$kode_mk],
-
-                'persen_tugas' =>
-                $request->persen_tugas[$kode_mk],
-
-                'persen_quiz' =>
-                $request->persen_quiz[$kode_mk],
-
-                'persen_proyek' =>
-                $request->persen_proyek[$kode_mk],
-
-                'persen_uts' =>
-                $request->persen_uts[$kode_mk],
-
-                'persen_uas' =>
-                $request->persen_uas[$kode_mk]
-
-            ]);
-        }
-    }
-
-    return back()
-        ->with('success','Bobot berhasil disimpan');
-}
 }

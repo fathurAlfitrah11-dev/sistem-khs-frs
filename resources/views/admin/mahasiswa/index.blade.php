@@ -159,7 +159,7 @@
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Mahasiswa</h2>
-
+        
         <form action="/mahasiswa/store" method="POST">
             @csrf
             <label class="block text-sm mb-1">Program Studi</label>
@@ -169,7 +169,7 @@
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
-
+          
             <label class="block text-sm mb-1">Kelas</label>
             <select name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
@@ -177,16 +177,16 @@
                 <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}  {{ $k->nama_kelas }} {{$k->kategori}}</option>
                 @endforeach
             </select>
-
+           
             <label class="block text-sm mb-1">NIM</label>
             <input type="text" name="nim" placeholder="NIM" class="w-full mb-3 px-3 py-2 border rounded text-black">
-
+           
             <label class="block text-sm mb-1">Nama</label>
             <input type="text" name="nama" placeholder="Nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
             
             <label class="block text-sm mb-1">Angkatan</label>
             <input type="number" name="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
-            
+
             <label class="block text-sm mb-1">Password</label>
             <input type="password" name="password" placeholder="Password" class="w-full mb-3 px-3 py-2 border rounded text-black">
 
@@ -209,7 +209,7 @@
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
         <h2 class="text-lg font-bold mb-4">Ubah Data Mahasiswa</h2>
-
+      
         <form id="formEdit" method="POST">
             @csrf
             <label class="block text-sm mb-1">Program Studi</label>
@@ -352,7 +352,7 @@ function openDetail(nim, nama, prodi, angkatan, kelas) {
     document.getElementById('detailProdi').innerText = prodi;
     document.getElementById('detailAngkatan').innerText = angkatan;
     document.getElementById('detailKelas').innerText = kelas;
-}
+};
 </script>
 
 @endsection

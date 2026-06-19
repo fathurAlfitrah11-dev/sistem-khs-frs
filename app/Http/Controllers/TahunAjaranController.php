@@ -46,7 +46,8 @@ class TahunAjaranController extends Controller
         'tahun_awal' => $request->tahun_awal,
         'tahun_akhir' => $request->tahun_akhir,
         'semester' => $request->semester,
-        'status' => 'aktif'
+        'status' => 'aktif',
+        'deadline_input_nilai' => $request->deadline_input_nilai
     ]);
 
         return redirect('/tahun-ajaran')
@@ -62,11 +63,21 @@ class TahunAjaranController extends Controller
         'tahun_akhir' => 'required',
         'semester' => 'required|in:ganjil,genap',
     ]);
-
+    $cek = TahunAjaran::where('tahun_awal', $request->tahun_awal)
+        ->where('tahun_akhir', $request->tahun_akhir)
+        ->where('semester', $request->semester)
+        ->where('id_tahun_ajaran', '!=', $id_tahun_ajaran)
+        ->first();
+    if ($cek) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Tahun ajaran dengan tahun awal, tahun akhir, dan semester tersebut sudah ada.');
+    }
     $tahun_ajaran->update([
         'tahun_awal' => $request->tahun_awal,
         'tahun_akhir' => $request->tahun_akhir,
         'semester' => $request->semester,
+        'deadline_input_nilai' => $request->deadline_input_nilai
     ]);
 
     return redirect('/tahun-ajaran')

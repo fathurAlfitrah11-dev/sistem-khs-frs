@@ -41,6 +41,7 @@
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Tahun Ajaran</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
+                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Deadline Input Nilai</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Status</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
@@ -55,6 +56,7 @@
                         <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}
                         </td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->semester }}</td>
+                        <td class="px-6 py-3 text-center whitespace-nowrap">{{ date('d M Y', strtotime($d->deadline_input_nilai)) }}</td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">
                             <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
                                 class="px-3 py-1 rounded text-white font-semibold transition text-xs
@@ -77,7 +79,7 @@
                                 {{-- EDIT --}}
                                 <button data-id="{{ $d->id_tahun_ajaran }}"
                                     data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-deadline="{{ $d->deadline_input_nilai }}"
                                     onclick="openEdit(this)"
                                     class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
@@ -137,6 +139,9 @@
                 <option value="genap">Genap</option>
             </select>
 
+            <label class="block text-sm mb-1">Deadline Input Nilai</label>
+            <input type="date" name="deadline_input_nilai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
+
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">Batal</button>
@@ -166,6 +171,9 @@
                 <option value="ganjil">Ganjil</option>
                 <option value="genap">Genap</option>
             </select>
+
+            <label class="block text-sm mb-1">Deadline Input Nilai</label>
+            <input type="date" name="deadline_input_nilai" id="editDeadlineInputNilai" class="w-full mb-3 px-3 py-2 text-black rounded"
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -253,6 +261,7 @@ function openEdit(el) {
     document.getElementById('editTahunAwal').value = tahun[0]
     document.getElementById('editTahunAkhir').value = tahun[1]
     document.getElementById('editSemester').value = el.dataset.semester
+    document.getElementById('editDeadlineInputNilai').value = el.dataset.deadline
     document.getElementById('formEdit').action = '/tahun-ajaran/update/' + el.dataset.id
 }
 

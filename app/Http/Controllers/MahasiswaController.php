@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Prodi;
+use App\Models\TahunAjaran;
 class MahasiswaController extends Controller
 {   
     public function index(Request $request)
@@ -46,6 +47,24 @@ class MahasiswaController extends Controller
 
     $kelas = Kelas::with('prodi')->get();
     $prodi = Prodi::all();
+    // ambil tahun ajaran aktif
+$tahunAktif = TahunAjaran::where('status', 'aktif')->first();
+
+// default genap kalau tidak ada data
+$semesterAktif = $tahunAktif?->semester ?? 'genap';
+
+// filter kelas berdasarkan semester ganjil/genap
+$kelasQuery = Kelas::with('prodi');
+
+if ($semesterAktif == 'ganjil') {
+    // 1,3,5,7
+    $kelasQuery->whereRaw('MOD(semester,2) = 1');
+} else {
+    // 2,4,6,8
+    $kelasQuery->whereRaw('MOD(semester,2) = 0');
+}
+
+$kelas = $kelasQuery->get();
 
     return view('admin.mahasiswa.index', compact('data', 'kelas', 'prodi'));
 }
@@ -61,9 +80,17 @@ class MahasiswaController extends Controller
         'nama' => 'required',
         'id_kelas' => 'required',
         'id_prodi' => 'required',
-        'angkatan' => 'required'
+        'angkatan' => 'required',
+        'password' => 'required|min:6',
     ], [
-        'nim.unique' => 'NIM sudah terdaftar!'
+        'nim.unique' => 'NIM sudah terdaftar!',
+        'nim.required' => 'NIM wajib diisi',
+        'nama.required' => 'Nama wajib diisi',
+        'id_kelas.required' => 'Kelas wajib diisi',
+        'id_prodi.required' => 'Program studi wajib diisi',
+        'angkatan.required' => 'Angkatan wajib diisi',
+        'password.required' => 'Password wajib diisi',
+        'password.min' => 'Password minimal 6 karakter',
     ]);
 
         $user = User::create([
@@ -88,6 +115,21 @@ class MahasiswaController extends Controller
 
     public function update(Request $request, $nim)
     {
+        $request->validate([
+        'nim' => 'required|unique:mahasiswa,nim,' . $nim . ',nim',
+        'nama' => 'required',
+        'id_kelas' => 'required',
+        'id_prodi' => 'required',
+        'angkatan' => 'required'
+    ], [
+        'nim.unique' => 'NIM sudah terdaftar!',
+        'nim.required' => 'NIM wajib diisi',
+        'nama.required' => 'Nama wajib diisi',
+        'id_kelas.required' => 'Kelas wajib diisi',
+        'id_prodi.required' => 'Program studi wajib diisi',
+        'angkatan.required' => 'Angkatan wajib diisi',
+    ]);
+
         $mhs = Mahasiswa::findOrFail($nim);
 
         $mhs->update([
@@ -112,8 +154,7 @@ class MahasiswaController extends Controller
         return redirect('/mahasiswa')
             ->with(
                 'success',
-                'Data mahasiswa berhasil diupdate'
-            );
+                'Data mahasiswa berhasil diupdate');
     }
 
     public function delete($nim)

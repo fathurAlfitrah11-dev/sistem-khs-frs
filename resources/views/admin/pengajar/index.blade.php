@@ -86,6 +86,9 @@
                         <th class="px-6 py-4 text-left text-[#243b63] font-bold text-sm">
                             NIK
                         </th>
+                        <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
+                            Nama Dosen
+                        </th>
 
                         <th class="px-4 py-4 text-center text-[#243b63] font-bold text-sm">
                             Mata Kuliah
@@ -116,11 +119,13 @@
                     <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
 
                         <td class="px-4 py-4 text-gray-800 text-xs md:text-sm whitespace-nowrap">
+                            {{ $d->dosen->nik }}
+                        </td>
+                        <td class="px-4 py-4 text-gray-800 text-xs md:text-sm whitespace-nowrap">
                             {{ $d->dosen->user->name }}
                         </td>
-
                         <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center break-words">
-                            {{ $d->mataKuliah->nama_mk }} - {{ $d->jenis}}
+                            {{ $d->mataKuliah->nama_mk }}
                         </td>
 
                         <td class="px-4 py-4 text-gray-800 text-xs md:text-sm text-center whitespace-nowrap">
@@ -143,7 +148,7 @@
 
                                 {{-- DETAIL --}}
                                 <button
-                                    onclick="openDetail('{{ $d->dosen->user->name }}','{{ $d->mataKuliah->nama_mk }}','{{$d->kelas->prodi->nama_prodi}} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }} {{ $d->kelas->kategori }}','{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}','{{ $d->semester }}')"
+                                    onclick="openDetail('{{ $d->dosen->nik }}','{{ $d->dosen->user->name }}','{{ $d->mataKuliah->nama_mk }}','{{$d->kelas->prodi->nama_prodi}} {{ $d->kelas->semester }}{{ $d->kelas->nama_kelas }} {{ $d->kelas->kategori }}','{{ $d->tahun->tahun_awal }} / {{ $d->tahun->tahun_akhir }} - {{ $d->tahun->semester }}','{{ $d->semester }}')"
                                     class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
 
                                     <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
@@ -155,7 +160,6 @@
                             '{{ $d->id_pengajar }}',
                             '{{ $d->nik }}',
                             '{{ $d->kode_mk }}',
-                            '{{ $d->jenis }}',
                             '{{ $d->kelas_id }}',
                             '{{ $d->id_tahun_ajaran }}',
                             '{{ $d->semester }}'
@@ -244,20 +248,14 @@
                 @endforeach
             </select>
 
-            <label class="block text-sm mb-1">Jenis</label>
-<select name="jenis" id="jenisSelect" class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Pilih Jenis</option>
-    <option value="teori">Teori</option>
-    <option value="praktikum">Praktikum</option>
-    <option value="teori_praktikum">Teori + Praktikum</option>
-</select>
-
             <label class="block text-sm mb-1">Kelas</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id" id="kelasSelect">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }}
-                    {{$k->kategori}}</option>
+                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}">
+                    {{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }}
+                    {{$k->kategori}}
+                </option>
                 @endforeach
             </select>
 
@@ -277,10 +275,9 @@
 
             </select>
 
-            <label class="block text-sm mb-1">Semester</label>
-            <select name="semester" id="semesterSelect" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Semester</option>
-            </select>
+           <label class="block text-sm mb-1">Semester</label>
+<input type="text" name="semester" id="semesterSelect" readonly
+       class="w-full mb-3 px-3 py-2 border rounded text-black">
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -322,20 +319,15 @@
                 </option>
                 @endforeach
             </select>
-            <label class="block text-sm mb-1">Jenis</label>
-<select name="jenis" id="editJenis" class="w-full mb-3 px-3 py-2 border rounded text-black">
-    <option value="">Pilih Jenis</option>
-    <option value="teori">Teori</option>
-    <option value="praktikum">Praktikum</option>
-    <option value="teori_praktikum">Teori + Praktikum</option>
-</select>
-    
+           
             <label class="block text-sm mb-1">Kelas</label>
             <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }}
-                    {{ $k->kategori }}</option>
+                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}">
+                    {{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }}
+                    {{ $k->kategori }}
+                </option>
                 @endforeach
             </select>
 
@@ -352,9 +344,8 @@
             </select>
 
             <label class="block text-sm mb-1">Semester</label>
-            <select id="editSemester" name="semester" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Semester</option>
-            </select>
+           <input type="text" id="editSemester" name="semester"
+       class="w-full mb-3 px-3 py-2 border rounded text-black" readonly>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -379,9 +370,12 @@
         <div class="space-y-3">
             <div>
                 <label class="text-sm">NIK</label>
-                <p id="detailDosen" class="bg-white text-black px-3 py-2 rounded"></p>
+                <p id="detailNik" class="bg-white text-black px-3 py-2 rounded"></p>
             </div>
-
+            <div>
+                <label class="text-sm">Nama Dosen</label>
+                <p id="detailNamaDosen" class="bg-white text-black px-3 py-2 rounded"></p>
+            </div>
             <div>
                 <label class="text-sm">Mata Kuliah</label>
                 <p id="detailMk" class="bg-white text-black px-3 py-2 rounded"></p>
@@ -410,7 +404,7 @@
 </div>
 
 <script>
-// ===== MODAL ANIMATION =====
+// ===== MODAL =====
 function showModal(id) {
     const modal = document.getElementById(id)
     const content = modal.querySelector('.modal-content')
@@ -435,7 +429,6 @@ function hideModal(id) {
     }, 300)
 }
 
-// ===== OPEN CLOSE =====
 function openModal(id) {
     showModal(id)
 }
@@ -445,91 +438,45 @@ function closeModal(id) {
 }
 
 // ===== EDIT =====
-function openEdit(id, nik, mk,jenis, kelas, tahun, semester) {
+function openEdit(id, nik, mk, kelas, tahun, semester) {
     showModal('editModal')
 
     document.getElementById('editDosen').value = nik
     document.getElementById('editMk').value = mk
-    document.getElementById('editJenis').value = jenis
     document.getElementById('editKelas').value = kelas
     document.getElementById('editTahun').value = tahun
-
-    const editTahun = document.getElementById('editTahun')
-    const editSemester = document.getElementById('editSemester')
-
-    const semesterType =
-        editTahun.options[editTahun.selectedIndex]
-        .getAttribute('data-semester')
-
-    editSemester.innerHTML = '<option value="">Pilih Semester</option>'
-
-    for (let i = 1; i <= 14; i++) {
-        if (semesterType === 'ganjil' && i % 2 !== 0) {
-            editSemester.innerHTML += `<option value="${i}">${i}</option>`
-        }
-        if (semesterType === 'genap' && i % 2 === 0) {
-            editSemester.innerHTML += `<option value="${i}">${i}</option>`
-        }
-    }
-
-    editSemester.value = semester
-
+    document.getElementById('editSemester').value = semester
+    
     document.getElementById('formEdit').action = '/pengajar/update/' + id
 }
 
-const editTahun = document.getElementById('editTahun')
-const editSemester = document.getElementById('editSemester')
-
-editTahun.addEventListener('change', function() {
-    const semesterType =
-        this.options[this.selectedIndex]
-        .getAttribute('data-semester')
-
-    editSemester.innerHTML = '<option value="">Pilih Semester</option>'
-
-    for (let i = 1; i <= 14; i++) {
-        if (semesterType === 'ganjil' && i % 2 !== 0) {
-            editSemester.innerHTML += `<option value="${i}">${i}</option>`
-        }
-        if (semesterType === 'genap' && i % 2 === 0) {
-            editSemester.innerHTML += `<option value="${i}">${i}</option>`
-        }
-    }
-})
-
 // ===== DETAIL =====
-function openDetail(dosen, mk, kelas, tahun, semester) {
+function openDetail(nik, namaDosen, mk, kelas, tahun, semester) {
     showModal('detailModal')
 
-    document.getElementById('detailDosen').innerText = dosen
+    document.getElementById('detailNik').innerText = nik
+    document.getElementById('detailNamaDosen').innerText = namaDosen
     document.getElementById('detailMk').innerText = mk
     document.getElementById('detailKelas').innerText = kelas
     document.getElementById('detailTahun').innerText = tahun
     document.getElementById('detailSemester').innerText = semester
 }
 
-// ===== TAHUN AJARAN SELECT =====
-const tahunSelect = document.getElementById('tahunAjaranSelect')
-const semesterSelect = document.getElementById('semesterSelect')
+const kelasSelect = document.getElementById('kelasSelect')
+const semesterInput = document.getElementById('semesterSelect')
 
-tahunSelect.addEventListener('change', function() {
-    const semesterType =
-        this.options[this.selectedIndex]
-        .getAttribute('data-semester')
+kelasSelect.addEventListener('change', function () {
+    const semester = this.options[this.selectedIndex].getAttribute('data-semester')
 
-    semesterSelect.innerHTML = '<option value="">Pilih Semester</option>'
+    semesterInput.value = semester || ''
+            })
+    const editKelas = document.getElementById('editKelas')
+const editSemester = document.getElementById('editSemester')
 
-    for (let i = 1; i <= 14; i++) {
-        if (semesterType === 'ganjil' && i % 2 !== 0) {
-            semesterSelect.innerHTML += `<option value="${i}">${i}</option>`
-        }
-        if (semesterType === 'genap' && i % 2 === 0) {
-            semesterSelect.innerHTML += `<option value="${i}">${i}</option>`
-        }
-    }
+editKelas.addEventListener('change', function () {
+    const semester = this.options[this.selectedIndex].getAttribute('data-semester')
+    editSemester.value = semester || ''
 })
-
-tahunSelect.dispatchEvent(new Event('change'))
 </script>
 
 @endsection

@@ -28,6 +28,19 @@ class DosenController extends Controller
    
     public function store(Request $request)
     {
+        $request->validate([
+        'nik' => 'required',
+        'nama_dosen' => 'required',
+        'kode_dosen' => 'required',
+        'password' => 'required|min:6',
+    ], [
+        'nik.required' => 'NIK wajib diisi',
+        'nama_dosen.required' => 'Nama dosen wajib diisi',
+        'kode_dosen.required' => 'Kode dosen wajib diisi',
+        'password.required' => 'Password wajib diisi',
+        'password.min' => 'Password minimal 6 karakter',
+    ]);
+
        if (Dosen::where('nik', $request->nik)->exists()) {
         return back()->with('error', 'NIK sudah terdaftar!');
     }
@@ -57,7 +70,14 @@ public function update(Request $request, $nik)
     $request->validate([
         'nama_dosen' => 'required',
         'kode_dosen' => 'required',
+    ], [
+        'nama_dosen.required' => 'Nama dosen wajib diisi',
+        'kode_dosen.required' => 'Kode dosen wajib diisi',
     ]);
+
+     if (Dosen::where('kode_dosen', $request->kode_dosen)->where('nik', '!=', $nik)->exists()) {
+        return back()->with('error', 'Kode dosen sudah terdaftar!');
+    }
 
     $dosen->update([
         'nama_dosen' => $request->nama_dosen,

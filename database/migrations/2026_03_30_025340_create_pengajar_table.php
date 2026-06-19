@@ -32,11 +32,6 @@ return new class extends Migration
             ->onDelete('cascade');
             
             $table->integer('semester');
-            $table->enum('jenis', [
-        'teori',
-        'praktikum',
-        'teori_praktikum'
-    ]);
             $table->timestamps();
         });
     }

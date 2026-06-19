@@ -110,18 +110,7 @@
 
         {{-- PAGINATION --}}
         <div class="flex justify-end mt-5">
-            <div class="bg-white p-1 rounded-xl shadow-xs">
-                @if(method_exists($prodiKps, 'links'))
                 {{ $prodiKps->appends(request()->query())->links() }}
-                @else
-                <div class="flex space-x-1 text-xs font-semibold p-1">
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">‹</button>
-                    <button class="bg-blue-600 text-white px-3 py-1.5 rounded-lg">1</button>
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">2</button>
-                    <button class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-gray-700">›</button>
-                </div>
-                @endif
-            </div>
         </div>
 
     </div>

@@ -7,12 +7,20 @@
 @php
 // 1. Hitung total SKS diambil secara mandiri di Blade agar semua matkul (dinilai/belum) ikut terhitung
 $totalSksPasti = 0;
+
 foreach($krs as $dataKrs) {
-foreach($dataKrs->detail as $item) {
-if(isset($item->pengajar->semester) && $item->pengajar->semester == $semesterDipilih) {
-$totalSksPasti += ($item->pengajar->mataKuliah->sks ?? 0);
-}
-}
+    foreach($dataKrs->detail as $item) {
+
+        // Hanya hitung semester yang dipilih DAN status disetujui
+        if(
+            isset($item->pengajar->semester) &&
+            $item->pengajar->semester == $semesterDipilih &&
+            strtolower($item->status_wali) == 'disetujui'
+        ){
+            $totalSksPasti += ($item->pengajar->mataKuliah->sks ?? 0);
+        }
+
+    }
 }
 
 // 2. Sinkronisasi progress bar IPK dari Controller (Gunakan fallback agar aman)

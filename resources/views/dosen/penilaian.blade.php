@@ -41,12 +41,19 @@
                 {{-- SEMESTER --}}
                 <div class="flex flex-col gap-1">
                     <label class="text-xs text-slate-300 font-medium">Semester</label>
-                    <select name="semester" class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border border-gray-300 focus:outline-none font-medium">
-                        <option value="">Pilih Semester</option>
-                        @for($i = 1; $i <= 8; $i++) 
-                            <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>Semester {{ $i }}</option>
-                        @endfor
-                    </select>
+                <select name="semester"
+        id="semester"
+        class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border">
+
+    <option value="">Pilih Semester</option>
+
+    @for($i = 1; $i <= 8; $i++)
+        <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
+            Semester {{ $i }}
+        </option>
+    @endfor
+
+</select>
                 </div>
 
                 {{-- SESI --}}
@@ -64,18 +71,18 @@
                     <label class="text-xs text-slate-300 font-medium">Kelas</label>
                     <select name="id_kelas" class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border border-gray-300 focus:outline-none font-medium">
                         <option value="">Pilih Kelas</option>
-                        @foreach($kelas as $k)
-                        <option value="{{ $k->id_kelas }}" {{ request('id_kelas') == $k->id_kelas ? 'selected' : '' }}>
-                            {{ $k->nama_kelas }}
-                        </option>
-                        @endforeach
+                       @foreach($kelas->unique('nama_kelas') as $k)
+    <option value="{{ $k->nama_kelas }}">
+        {{ $k->nama_kelas }}
+    </option>
+@endforeach
                     </select>
                 </div>
 
                 {{-- DROPDOWN MATA KULIAH (PINDAH KE ATAS DAN DI-FILTER UNIQUE AGAR KELAS A & B TIDAK MUNCUL GANDA) --}}
                 <div class="flex flex-col gap-1 col-span-2 xl:col-span-1">
                     <label class="text-xs text-slate-300 font-medium">Mata Kuliah</label>
-                    <select name="id_pengajar" class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border border-gray-300 focus:outline-none font-medium cursor-pointer">
+                    <select name="id_pengajar" id="id_pengajar" class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border border-gray-300 focus:outline-none font-medium cursor-pointer">
                         <option value="">Semua Mata Kuliah</option>
                         {{-- Menggunakan ->unique('kode_mk') agar Sistem Komputer hanya keluar 1 baris saja di dropdown --}}
                        @foreach(($matkulDiampu ?? collect())->unique('kode_mk') as $row)
@@ -117,15 +124,41 @@
             <table class="w-full text-sm">
                 <thead class="bg-slate-100 text-slate-700 border-b border-slate-200">
                     <tr>
+                       @php
+$mk = null;
+
+if(request('id_pengajar')) {
+    $pengajar = $matkulDiampu->firstWhere('id_pengajar', request('id_pengajar'));
+    $mk = $pengajar?->mataKuliah;
+}
+@endphp
                         <th class="text-left px-5 py-3.5 font-semibold">NIM</th>
                         <th class="text-left px-5 py-3.5 font-semibold">Nama Mahasiswa</th>
                         <th class="text-left px-5 py-3.5 font-semibold">Mata Kuliah</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">Partisipatif</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">Tugas</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">Proyek</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">Quiz</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">UTS</th>
-                        <th class="text-center px-3 py-3.5 font-semibold">UAS</th>
+                        <th class="text-center px-3 py-3.5 font-semibold">Partisipatif
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_partisipatif ?? 0 }}%)</span>
+                        </th>
+                        <th class="text-center px-3 py-3.5 font-semibold">Tugas
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_tugas ?? 0 }}%)</span>
+                        </th>
+                        <th class="text-center px-3 py-3.5 font-semibold">Proyek
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_proyek ?? 0 }}%)</span>
+                        </th>
+                        <th class="text-center px-3 py-3.5 font-semibold">Quiz
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_quiz ?? 0 }}%)</span>
+                        </th>
+                        <th class="text-center px-3 py-3.5 font-semibold">UTS
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_uts ?? 0 }}%)</span>
+                        </th>
+                        <th class="text-center px-3 py-3.5 font-semibold">UAS
+                            <br>
+                            <span class="text-xs font-normal text-slate-500">({{ $mk->persen_uas ?? 0 }}%)</span>
+                        </th>
                         <th class="text-center px-4 py-3.5 font-semibold bg-slate-100">NA</th>
                         <th class="text-center px-4 py-3.5 font-semibold bg-slate-100">NH</th>
                         <th class="text-left px-5 py-3.5 font-semibold">Keterangan</th>
@@ -217,4 +250,21 @@
     </div>
 </div>
 
+<script>
+document.getElementById('semester').addEventListener('change', function () {
+
+    fetch(`/penilaian?semester=${this.value}`)
+        .then(res => res.text())
+        .then(html => {
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const newOptions = doc.querySelector('#id_pengajar');
+
+            document.getElementById('id_pengajar').innerHTML = newOptions.innerHTML;
+        });
+
+});
+</script>
 @endsection

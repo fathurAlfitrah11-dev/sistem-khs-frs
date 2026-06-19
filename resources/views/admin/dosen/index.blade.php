@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="p-6">
-
+   
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Dosen</h1>
 
     <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
@@ -153,12 +153,12 @@
     <div
         class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Dosen</h2>
-
+        
         <form action="/dosen/store" method="POST">
             @csrf
             <label class="text-sm mb-1 block">NIK</label>
             <input type="text" name="nik" placeholder="NIK" class="w-full mb-3 px-3 py-2 border rounded text-black">
-
+           
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" placeholder="Nama Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -189,7 +189,15 @@
     <div
         class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
-
+        @if($errors->any())
+<div class="bg-red-500 text-white p-3 rounded mb-3">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
         <form id="formEdit" method="POST">
             @csrf
             <label class="text-sm mb-1 block">NIK</label>

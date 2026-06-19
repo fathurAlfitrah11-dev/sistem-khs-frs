@@ -26,17 +26,45 @@ class PenilaianController extends Controller
 
         $nikDosen = $dosen ? $dosen->nik : null;
 
-        // 3. AMBIL DAFTAR MATA KULIAH YANG DIAMPUN OLEH DOSEN INI (Untuk Dropdown)
-        $matkulDiampu = Pengajar::where('nik', $nikDosen)->with('mataKuliah')->get();
+     $matkulQuery = Pengajar::where('nik', $nikDosen)
+    ->when($request->semester, function ($q) use ($request) {
+        $q->whereHas('mataKuliah', function ($m) use ($request) {
+            $m->where('semester', $request->semester);
+        });
+    });
+        $matkulDiampu = $request->filled('semester')
+         ? $matkulQuery->get()
+        : collect();
         $pengajarIds = $matkulDiampu->pluck('id_pengajar')->toArray();
 
 
-        if (empty($pengajarIds)) {
-            $mahasiswa = [];
-            $matkuldiAmpu = collect([]);
-            return view('dosen.penilaian', compact('mahasiswa', 'prodi', 'kelas', 'matkuldiAmpu'))->with('error', 'Anda belum ditugaskan mengajar mata kuliah apapun.');
-        }
+       if (empty($pengajarIds)) {
 
+    $mahasiswa = collect();
+
+    return view('dosen.penilaian', compact(
+        'mahasiswa',
+        'prodi',
+        'kelas',
+        'matkulDiampu'
+    ));
+}
+$mahasiswa = collect();
+
+if (
+    !$request->filled('id_pengajar') &&
+    !$request->filled('id_prodi') &&
+    !$request->filled('semester') &&
+    !$request->filled('sesi') &&
+    !$request->filled('id_kelas')
+) {
+    return view('dosen.penilaian', compact(
+        'mahasiswa',
+        'prodi',
+        'kelas',
+        'matkulDiampu'
+    ));
+}
         // 4. AMBIL DATA MAHASISWA DARI KrsDetail
         $query = KrsDetail::with(['krs.mahasiswa.prodi', 'krs.mahasiswa.kelas', 'khs', 'pengajar.mataKuliah'])
             ->whereIn('pengajar_id', $pengajarIds) // Hanya matkul yang diajar dosen ini
@@ -55,17 +83,10 @@ class PenilaianController extends Controller
 
         // Filter Kelas
         if ($request->id_kelas) {
-            $query->whereHas('krs.mahasiswa', function ($q) use ($request) {
-                $q->where('id_kelas', $request->id_kelas);
-            });
-        }
-
-        // Filter Semester
-        if ($request->semester) {
-            $query->whereHas('krs.mahasiswa.kelas', function ($q) use ($request) {
-                $q->where('semester', $request->semester);
-            });
-        }
+    $query->whereHas('krs.mahasiswa.kelas', function ($q) use ($request) {
+        $q->where('nama_kelas', $request->id_kelas);
+    });
+}
 
         // Filter Sesi
         if ($request->sesi) {
@@ -73,6 +94,11 @@ class PenilaianController extends Controller
                 $q->where('kategori', $request->sesi); 
             });
         }
+        if ($request->semester) {
+    $query->whereHas('pengajar.mataKuliah', function ($q) use ($request) {
+        $q->where('semester', $request->semester);
+    });
+}
 
         $krsDetails = $query->get();
 
@@ -82,6 +108,7 @@ class PenilaianController extends Controller
                 'nim'           => $detail->krs->mahasiswa->nim ?? '-',
                 'nama'          => $detail->krs->mahasiswa->nama ?? '-',
                 'nama_mk'       => $detail->pengajar->mataKuliah->nama_mk ?? $detail->pengajar->kode_mk ?? '-',
+                'mataKuliah'    => $detail->pengajar->mataKuliah,
                 'khs'           => $detail->khs 
             ];
         });

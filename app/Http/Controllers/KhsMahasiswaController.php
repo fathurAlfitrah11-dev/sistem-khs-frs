@@ -6,13 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\Mahasiswa;
 use App\Models\Krs;
 use App\Models\Khs;
+use App\Models\TahunAjaran;
 use Illuminate\Support\Facades\Auth;
 
 class KhsMahasiswaController extends Controller
 {
    public function index(Request $request)
 {
-    $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+    
+    $mahasiswa = Mahasiswa::with('kelas')
+    ->where('user_id', Auth::id())
+    ->first();
     if (!$mahasiswa) {
         abort(404, 'Data Mahasiswa Tidak Ditemukan');
     }
@@ -25,7 +29,14 @@ class KhsMahasiswaController extends Controller
     ])
     ->where('nim', $mahasiswa->nim)
     ->get();
-
+    $krs->each(function ($dataKrs) {
+    $dataKrs->setRelation(
+        'detail',
+        $dataKrs->detail->filter(function ($item) {
+            return strtolower($item->status_wali) != 'ditolak';
+        })->values()
+    );
+});
     // 1. Ambil daftar semester dari KRS secara dinamis
     $semesterList = [];
     foreach ($krs as $dataKrs) {
@@ -36,9 +47,27 @@ class KhsMahasiswaController extends Controller
         }
     }
 
-    $semesterList = collect($semesterList)->unique()->sort()->values()->toArray();
-    $semesterSaatIni = !empty($semesterList) ? max($semesterList) : 1;
-    $semesterDipilih = $request->has('semester') ? intval($request->semester) : $semesterSaatIni;
+    $semesterList = collect($semesterList)
+    ->unique()
+    ->sort()
+    ->values()
+    ->toArray();
+
+$semesterAktif = $mahasiswa->kelas->semester ?? 1;
+
+for ($i = 1; $i <= $semesterAktif; $i++) {
+    if (!in_array($i, $semesterList)) {
+        $semesterList[] = $i;
+    }
+}
+
+sort($semesterList);
+
+$semesterSaatIni = $semesterAktif;
+
+$semesterDipilih = $request->filled('semester')
+    ? intval($request->semester)
+    : $semesterSaatIni;
 
 
     $totalSksSemester = 0;   

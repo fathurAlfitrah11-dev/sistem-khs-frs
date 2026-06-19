@@ -142,6 +142,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::delete('/mahasiswa/krs/hapus/{id}', [KrsMahasiswaController::class, 'hapusmatkul']);
     Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index']);
     Route::get('/PengaturanAkunMahasiswa', [PengaturanAkunMahasiswaController::class, 'index']);
+    Route::post('/mahasiswa/password/update', [PengaturanAkunMahasiswaController::class, 'updatePassword']);
     Route::get('/khsmahasiswa/cetak', [KhsMahasiswaController::class, 'cetakPdf'])->name('khs.cetak');
     Route::get('/khsmahasiswa', [KhsMahasiswaController::class, 'index'])->name('khs.index');  
 });
@@ -165,9 +166,9 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
     // Validasi Penguncian Nilai oleh KPS
     Route::get('/kps-penguncian', [KpsPenguncianController::class, 'index']);
     Route::get('/kps-penilaian',[KpsPenguncianController::class,'index']);
-   Route::post(
-    '/kps-penilaian/simpan',
-    [KpsPenguncianController::class,'simpan']
+Route::post(
+    '/kps-penilaian/kunci/{kode_mk}',
+    [KpsPenguncianController::class, 'kunci']
 );
 
 Route::get(

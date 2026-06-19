@@ -14,10 +14,9 @@
 <div class="relative w-full h-64 md:h-96 overflow-hidden rounded-2xl mb-6 shadow-sm border border-slate-100" data-aos="fade-up" data-aos-delay="100">
     
     <div id="slider" class="flex transition-transform duration-700 w-full h-full">
-        <img src="{{ asset('img/poltek4.jpeg') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
-        <img src="{{ asset('img/poltek2.jpg') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
-        <img src="{{ asset('img/poltek6.jpeg') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
-         <img src="{{ asset('img/poltek7.jpeg') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
+        <img src="{{ asset('img/foto_bangunan_1.png') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
+        <img src="{{ asset('img/foto_bangunan_2.png') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
+        <img src="{{ asset('img/foto_bangunan_3.png') }}" class="w-full flex-shrink-0 h-full object-cover object-center">
     </div>
 
 </div>

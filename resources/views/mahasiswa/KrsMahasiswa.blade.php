@@ -6,11 +6,17 @@
 
 @php
 $totalSks = 0;
+
 foreach($krs as $k){
-foreach($k->detail as $item){
-$totalSks += $item->pengajar->mataKuliah->sks ?? 0;
+    foreach($k->detail as $item){
+
+        if(strtolower($item->status_wali) != 'ditolak'){
+            $totalSks += $item->pengajar->mataKuliah->sks ?? 0;
+        }
+
+    }
 }
-}
+
 $maxSks = 20;
 @endphp
 
@@ -59,8 +65,8 @@ $maxSks = 20;
                     @php $adaData = false; @endphp
                     @foreach($krs as $k)
                     @foreach($k->detail as $item)
+                    @if(($item->pengajar->mataKuliah->semester ?? 0) == $semesterDipilih)
                     {{-- Hanya tampilkan mata kuliah yang sesuai dengan semester terpilih --}}
-                    @if(isset($item->pengajar->semester) && $item->pengajar->semester == $semesterDipilih)
                     @php $adaData = true; @endphp
                     <tr
                         class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
@@ -120,7 +126,6 @@ $maxSks = 20;
                                 @endif
                             </div>
                         </td>
-
                     </tr>
                     @endif
                     @endforeach
@@ -151,7 +156,7 @@ $maxSks = 20;
         @if($totalSks >= $maxSks)
         <div
             class="mt-3 bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 rounded-xl p-3 text-xs md:text-sm font-medium">
-            ⚠️ Batas maksimum beban pengambilan studi SKS telah tercapai (Maks {{ $maxSks }} SKS).
+            Batas maksimum beban pengambilan studi SKS telah tercapai (Maks {{ $maxSks }} SKS).
         </div>
         @endif
 

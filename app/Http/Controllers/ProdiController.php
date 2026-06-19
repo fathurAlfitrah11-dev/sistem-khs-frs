@@ -23,6 +23,15 @@ class ProdiController extends Controller
 
     public function store(Request $request)
     {
+        $cek = Prodi::where('nama_prodi', $request->nama_prodi)
+        ->where('jenjang', $request->jenjang)
+        ->first();
+
+    if ($cek) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Program studi dengan jenjang tersebut sudah ada.');
+    }
         Prodi::create($request->all());
 
         return redirect('/prodi')
@@ -32,6 +41,16 @@ class ProdiController extends Controller
     public function update(Request $request, $id_prodi)
     {
         $prodi = Prodi::findOrFail($id_prodi);
+        $cek = Prodi::where('nama_prodi', $request->nama_prodi)
+        ->where('jenjang', $request->jenjang)
+        ->where('id_prodi', '!=', $id_prodi)
+        ->first();
+
+    if ($cek) {
+        return redirect()->back()
+            ->withInput()
+            ->with('error', 'Program studi dengan jenjang tersebut sudah ada.');
+    }
         $prodi->update($request->all());
 
         return redirect('/prodi')

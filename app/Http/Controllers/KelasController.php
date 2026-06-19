@@ -45,6 +45,7 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'nama_kelas' => 'required',
             'kategori' => 'required',
@@ -56,7 +57,16 @@ class KelasController extends Controller
             'semester.required' => 'Semester wajib diisi',
             'id_prodi.required' => 'Program studi wajib diisi'
         ]);
-
+        $cek = Kelas::where('nama_kelas', $request->nama_kelas)
+        ->where('kategori', $request->kategori)
+        ->where('semester', $request->semester)
+        ->where('id_prodi', $request->id_prodi)
+        ->first();
+        if ($cek) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Kelas dengan kategori, semester, dan program studi tersebut sudah ada.');
+        }
         Kelas::create([
     'nama_kelas' => $request->nama_kelas,
     'kategori' => $request->kategori,
@@ -82,7 +92,17 @@ class KelasController extends Controller
         ]);
         
         $kelas = Kelas::findOrFail($id_kelas);
-
+        $cek = Kelas::where('nama_kelas', $request->nama_kelas)
+        ->where('kategori', $request->kategori)
+        ->where('semester', $request->semester)
+        ->where('id_prodi', $request->id_prodi)
+        ->where('id_kelas', '!=', $id_kelas)
+        ->first();
+        if ($cek) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Kelas dengan kategori, semester, dan program studi tersebut sudah ada.');
+        }
         $kelas->update([
     'nama_kelas' => $request->nama_kelas,
     'kategori' => $request->kategori,
