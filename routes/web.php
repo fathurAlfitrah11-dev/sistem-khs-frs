@@ -185,4 +185,13 @@ Route::get(
     '/kps-penilaian/buka/{kode_mk}',
     [KpsPenguncianController::class,'bukaKunci']
 );
+Route::post(
+    '/kps-penilaian/tutup-nilai',
+    [KpsPenguncianController::class, 'tutupNilai']
+);
+
+Route::post(
+    '/kps-penilaian/buka-nilai',
+    [KpsPenguncianController::class, 'bukaNilai']
+);
 });

@@ -42,6 +42,7 @@ class MatakuliahMahasiswaController extends Controller
 
         // Tampilkan mata kuliah berdasarkan prodi mahasiswa yang BELUM dipilih
         $matakuliah = MataKuliah::where('id_prodi', $mahasiswa->id_prodi)
+            ->where('semester', $mahasiswa->semester)
             ->whereNotIn('kode_mk', $kodeMatkulDipilih) // Saring berdasarkan kode_mk
             ->paginate(5);
 
@@ -61,8 +62,8 @@ class MatakuliahMahasiswaController extends Controller
             $matkulDipilih = MataKuliah::where('kode_mk', $id_mata_kuliah)->first();
         }
 
-        if (!$matkulDipilih) {
-            return back()->with('error', 'Mata kuliah tidak ditemukan.');
+        if ($matkulDipilih->semester != $mahasiswa->semester) {
+            return back()->with('error', 'Mata kuliah bukan untuk semester aktif.');
         }
 
         // 2. FIX: Cari pengajar berdasarkan 'kode_mk' sesuai isi database kamu!

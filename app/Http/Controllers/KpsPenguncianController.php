@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Dosen;
 use App\Models\MataKuliah;
+use App\Models\TahunAjaran;
+use App\Models\Khs;
+use App\Models\KrsDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -30,9 +33,17 @@ public function index()
         }
     )->get();
 
+    $tahun = TahunAjaran::where(
+        'status',
+        'aktif'
+    )->first();
+
     return view(
         'dosen.kps.index',
-        compact('matkul')
+        compact(
+            'matkul',
+            'tahun'
+        )
     );
 }
 
@@ -120,6 +131,65 @@ public function bukaKunci($kode_mk)
 
     return back()
     ->with('success','Bobot berhasil dibuka');
+}
+public function tutupNilai()
+{
+    $tahun = TahunAjaran::where(
+        'status',
+        'aktif'
+    )->first();
+
+    $tahun->update([
+        'nilai_dikunci' => true
+    ]);
+
+    $krsDetails = KrsDetail::with('pengajar')
+        ->doesntHave('khs')
+        ->get();
+
+    foreach ($krsDetails as $detail) {
+
+        Khs::create([
+            'krs_detail_id' => $detail->id_krs_detail,
+            'nik'           => $detail->pengajar->nik,
+
+            'partisipatif'  => 75,
+            'tugas'         => 75,
+            'quiz'          => 75,
+            'proyek'        => 75,
+            'uts'           => 75,
+            'uas'           => 75,
+
+            'na'            => 75,
+            'nh'            => 'B',
+
+            'status'        => 'Final'
+        ]);
+    }
+
+    return back()->with(
+        'success',
+        'Penginputan nilai berhasil ditutup'
+    );
+}
+
+
+public function bukaNilai()
+{
+    $tahun = TahunAjaran::where(
+        'status',
+        'aktif'
+    )->first();
+
+    $tahun->update([
+        'nilai_dikunci' => false
+    ]);
+
+    return back()
+        ->with(
+            'success',
+            'Penginputan nilai berhasil dibuka'
+        );
 }
 
 }

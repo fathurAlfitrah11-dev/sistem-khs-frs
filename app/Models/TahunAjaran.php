@@ -9,7 +9,7 @@ class TahunAjaran extends Model
     protected $table = 'tahun_ajaran';
     protected $primaryKey = 'id_tahun_ajaran';
     public $incrementing = true;
-    protected $fillable = ['tahun_awal','tahun_akhir','semester','status', 'deadline_input_nilai'];
+    protected $fillable = ['tahun_awal','tahun_akhir','semester','status', 'deadline_input_nilai', 'nilai_dikunci'];
 
     public function pengajar()
     {

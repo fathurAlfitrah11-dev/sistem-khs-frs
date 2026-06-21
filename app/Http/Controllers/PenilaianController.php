@@ -123,6 +123,22 @@ if (
         }
 
         $statusNilai = $request->input('action') === 'final' ? 'Final' : 'Draft';
+        $tahun = \App\Models\TahunAjaran::where(
+            'status',
+            'aktif'
+        )->first();
+
+        if (
+            $tahun->nilai_dikunci
+            ||
+            now()->gt($tahun->deadline_input_nilai)
+        )
+        {
+            return back()->with(
+                'error',
+                'Penginputan nilai telah ditutup'
+            );
+        }
 
         // Ambil NIK dosen yang login
         $userId = auth::id();

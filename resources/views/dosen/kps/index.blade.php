@@ -33,8 +33,28 @@
         <h2 class="text-white text-3xl font-bold mb-6">
             Data Persentase Nilai
         </h2>
+        @if(!$tahun->nilai_dikunci)
+
+<form action="{{ url('/kps-penilaian/tutup-nilai') }}" method="POST">
+    @csrf
+    <button class="bg-red-500 text-white px-4 py-2 rounded">
+        Tutup Penginputan Nilai
+    </button>
+</form>
+
+@else
+
+<form action="{{ url('/kps-penilaian/buka-nilai') }}" method="POST">
+    @csrf
+    <button class="bg-green-500 text-white px-4 py-2 rounded">
+        Buka Penginputan Nilai
+    </button>
+</form>
+
+@endif
 
         <div class="bg-white rounded-2xl overflow-x-auto">
+            
 
             <table class="w-full text-sm">
 
