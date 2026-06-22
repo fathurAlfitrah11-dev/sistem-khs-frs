@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Prodi;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Validator;
+
 class MahasiswaController extends Controller
 {   
     public function index(Request $request)
@@ -75,7 +77,7 @@ $kelas = $kelasQuery->get();
             return back()->with('error', 'NIM sudah terdaftar!');
         }
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
         'nim' => 'required|unique:mahasiswa,nim',
         'nama' => 'required',
         'id_kelas' => 'required',
@@ -93,6 +95,12 @@ $kelas = $kelasQuery->get();
         'password.min' => 'Password minimal 6 karakter',
     ]);
 
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'tambah')
+        ->with('open_modal', 'tambah');
+    }
         $user = User::create([
             'username' => $request->nim,
             'name' => $request->nama,
@@ -115,7 +123,7 @@ $kelas = $kelasQuery->get();
 
     public function update(Request $request, $nim)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
         'nim' => 'required|unique:mahasiswa,nim,' . $nim . ',nim',
         'nama' => 'required',
         'id_kelas' => 'required',
@@ -128,8 +136,14 @@ $kelas = $kelasQuery->get();
         'id_kelas.required' => 'Kelas wajib diisi',
         'id_prodi.required' => 'Program studi wajib diisi',
         'angkatan.required' => 'Angkatan wajib diisi',
+        'password.min' => 'Password minimal 6 karakter',
     ]);
-
+     if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'edit')
+        ->with('open_modal', 'edit');
+    }
         $mhs = Mahasiswa::findOrFail($nim);
 
         $mhs->update([
@@ -154,7 +168,7 @@ $kelas = $kelasQuery->get();
         return redirect('/mahasiswa')
             ->with(
                 'success',
-                'Data mahasiswa berhasil diupdate');
+                'Data mahasiswa berhasil diubah');
     }
 
     public function delete($nim)

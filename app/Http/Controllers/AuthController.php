@@ -13,32 +13,42 @@ class AuthController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
 {
+    $request->validate([
+        'username' => 'required',
+        'password' => 'required',
+    ], [
+        'username.required' => 'Username belum diisi',
+        'password.required' => 'Password belum diisi',
+    ]);
+
     $user = User::where('username', $request->username)->first();
 
-    if (!$user || !Hash::check($request->password, $user->password)) {
-        return back()->with('login_error','Login gagal');
-    }
+if (!$user) {
+    return back()
+        ->withInput()
+        ->with('login_error', 'Username tidak ditemukan');
+}
+
+if (!Hash::check($request->password, $user->password)) {
+    return back()
+        ->withInput()
+        ->with('login_error', 'Password salah');
+}
 
     Auth::login($user);
 
-    // redirect + notifikasi
     if ($user->role == 'admin') {
-        return redirect('/admin')->with('login_success','Login berhasil sebagai Admin');
+        return redirect('/admin')
+            ->with('login_success', 'Login berhasil sebagai Admin');
     } elseif ($user->role == 'mahasiswa') {
-        return redirect('/mahasiswa-real')->with('login_success','Login berhasil sebagai Mahasiswa');
-    }  elseif (
-    $user->role == 'dosen' ||
-    $user->role == 'dosen part time' ||
-    $user->role == 'laboran'
-) {
-
-    return redirect('/dosen')
-        ->with('login_success','Login berhasil');
-
-}  else {
-        return redirect('/dosen-wali')->with('login_success','Login berhasil sebagai Dosen Wali');
+        return redirect('/mahasiswa-real')
+            ->with('login_success', 'Login berhasil sebagai Mahasiswa');
+    } elseif (
+        $user->role == 'dosen') {
+        return redirect('/dosen')
+            ->with('login_success', 'Login berhasil sebagai Dosen');
     }
 }
   public function logout()

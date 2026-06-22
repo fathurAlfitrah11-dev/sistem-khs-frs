@@ -170,6 +170,10 @@
                 @endforeach
             </select>
           
+            @error('id_prodi','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+
             <label class="block text-sm mb-1">Kelas</label>
             <select name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
@@ -177,18 +181,34 @@
                 <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}  {{ $k->nama_kelas }} {{$k->kategori}}</option>
                 @endforeach
             </select>
-           
+        
+            @error('id_kelas','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+
             <label class="block text-sm mb-1">NIM</label>
             <input type="text" name="nim" placeholder="NIM" class="w-full mb-3 px-3 py-2 border rounded text-black">
-           
+                @error('nim','tambah')
+                <p class="text-red-400 text-sm">{{ $message }}</p>
+                @enderror
+
             <label class="block text-sm mb-1">Nama</label>
             <input type="text" name="nama" placeholder="Nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
-            
+            @error('nama','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+
             <label class="block text-sm mb-1">Angkatan</label>
             <input type="number" name="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('angkatan','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Password</label>
             <input type="password" name="password" placeholder="Password" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('password','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -219,7 +239,10 @@
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
-
+            @error('id_prodi','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+            
              <label class="block text-sm mb-1">Kelas</label>
             <select id="editKelas" name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
@@ -227,17 +250,33 @@
                 <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }} {{$k->kategori}}</option>
                 @endforeach
             </select>
+            @error('id_kelas','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+
             <label class="block text-sm mb-1">NIM</label>
             <input type="text" id="editNim" name="nim" readonly class="w-full mb-3 px-3 py-2 border rounded text-black bg-gray-100">
+            @error('nim','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Nama</label>
             <input type="text" id="editNama" name="nama" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('nama','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Angkatan</label>
             <input type="number" id="editAngkatan" name="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('angkatan','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Password Baru</label>
             <input type="password" id="editPassword" name="password" placeholder="Kosongkan jika tidak ingin mengubah" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('password','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded text-black">

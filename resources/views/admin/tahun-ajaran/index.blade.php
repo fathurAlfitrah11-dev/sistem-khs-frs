@@ -128,16 +128,25 @@
             <label class="block text-sm mb-1">Tahun Awal</label>
             <input type="year" name="tahun_awal" class="w-full mb-3 px-3 py-2 text-black rounded"
                 placeholder="Tahun Awal" required>
+            @error('tahun_awal','tambah')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Tahun Akhir</label>
             <input type="year" name="tahun_akhir" class="w-full mb-3 px-3 py-2 text-black rounded"
                 placeholder="Tahun Akhir" required>
+             @error('tahun_akhir','tambah')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
                 <option value="ganjil">Ganjil</option>
                 <option value="genap">Genap</option>
             </select>
+             @error('semester','tambah')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Deadline Input Nilai</label>
             <input type="date" name="deadline_input_nilai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
@@ -162,15 +171,24 @@
             @csrf
             <label class="block text-sm mb-1">Tahun Awal</label>
             <input type="year" name="tahun_awal" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
+             @error('tahun_awal','edit')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Tahun Akhir</label>
             <input type="year" name="tahun_akhir" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
+             @error('tahun_akhir','edit')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
                 <option value="ganjil">Ganjil</option>
                 <option value="genap">Genap</option>
             </select>
+             @error('semester','edit')
+             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Deadline Input Nilai</label>
             <input type="date" name="deadline_input_nilai" id="editDeadlineInputNilai" class="w-full mb-3 px-3 py-2 text-black rounded"
@@ -178,7 +196,7 @@
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">Tutup</button>
-                <button class="bg-yellow-500 text-white px-3 py-1 rounded" type="submit">Update</button>
+                <button class="bg-yellow-500 text-white px-3 py-1 rounded" type="submit">Ubah</button>
             </div>
         </form>
     </div>

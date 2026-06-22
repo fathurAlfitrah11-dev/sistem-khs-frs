@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Validator;
 class TahunAjaranController extends Controller
 {
     public function index(Request $request)
@@ -24,12 +25,23 @@ class TahunAjaranController extends Controller
 }
      public function store(Request $request)
     {
-    $request->validate([
-    'tahun_awal' => 'required',
-    'tahun_akhir' => 'required',
+    $validator = Validator::make($request->all(), [
+    'tahun_awal' => 'required|integer',
+    'tahun_akhir' => 'required|integer|gt:tahun_awal',
     'semester' => 'required|in:ganjil,genap',
+    ],
+    ['tahun_awal.required' => 'Tahun awal wajib diisi',
+    'tahun_akhir.required' => 'Tahun akhir wajib diisi',
+    'tahun_akhir.gt' => 'Tahun akhir harus lebih besar dari tahun awal',
+    'semester.required' => 'Semester wajib diisi'
     ]);
-    
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'tambah')
+        ->with('open_modal', 'tambah');
+    }
+
     $cek = TahunAjaran::where('tahun_awal', $request->tahun_awal)
         ->where('tahun_akhir', $request->tahun_akhir)
         ->where('semester', $request->semester)
@@ -58,11 +70,23 @@ class TahunAjaranController extends Controller
 {
     $tahun_ajaran = TahunAjaran::findOrFail($id_tahun_ajaran);
 
-    $request->validate([
-        'tahun_awal' => 'required',
-        'tahun_akhir' => 'required',
-        'semester' => 'required|in:ganjil,genap',
+    $validator = Validator::make($request->all(), [
+    'tahun_awal' => 'required|integer',
+    'tahun_akhir' => 'required|integer|gt:tahun_awal',
+    'semester' => 'required|in:ganjil,genap',
+    ],
+    ['tahun_awal.required' => 'Tahun awal wajib diisi',
+    'tahun_akhir.required' => 'Tahun akhir wajib diisi',
+    'tahun_akhir.gt' => 'Tahun akhir harus lebih besar dari tahun awal',
+    'semester.required' => 'Semester wajib diisi'
     ]);
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'edit')
+        ->with('open_modal', 'edit');
+    }
+
     $cek = TahunAjaran::where('tahun_awal', $request->tahun_awal)
         ->where('tahun_akhir', $request->tahun_akhir)
         ->where('semester', $request->semester)
@@ -81,7 +105,7 @@ class TahunAjaranController extends Controller
     ]);
 
     return redirect('/tahun-ajaran')
-        ->with('success','Data tahun ajaran berhasil diupdate');
+        ->with('success','Data tahun ajaran berhasil diubah');
 }
 
 public function setActive($id_tahun_ajaran)

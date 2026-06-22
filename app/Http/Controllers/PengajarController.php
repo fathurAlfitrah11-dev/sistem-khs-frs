@@ -6,6 +6,7 @@ use App\Models\Dosen;
 use App\Models\MataKuliah;
 use App\Models\TahunAjaran;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class PengajarController extends Controller
@@ -79,14 +80,26 @@ class PengajarController extends Controller
 }
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nik' => 'required|exists:dosen,nik',
             'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
+        ],[
+            'nik.required' => 'Dosen wajib diisi',
+            'kode_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
+            'id_tahun_ajaran.required' => 'Tahun Ajaran Wajib Diisi',
+            'semester.required' => 'Semester Wajib Diisi',
+            'kelas_id.required' => 'Kelas Wajib Diisi'
         ]);
- 
+        if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'tambah')
+        ->with('open_modal', 'tambah');
+    }
+
         $cek = Pengajar::where('kode_mk', $request->kode_mk)
             ->where('kelas_id', $request->kelas_id)
             ->where('id_tahun_ajaran', $request->id_tahun_ajaran)
@@ -112,13 +125,25 @@ class PengajarController extends Controller
     public function update(Request $request, $id_pengajar)
     {
         $pengajar = Pengajar::findOrFail($id_pengajar);
-        $request->validate([
+         $validator = Validator::make($request->all(), [
             'nik' => 'required|exists:dosen,nik',
             'kode_mk' => 'required|exists:mata_kuliah,kode_mk',
             'id_tahun_ajaran' => 'required|exists:tahun_ajaran,id_tahun_ajaran',
             'semester' => 'required|integer|min:1|max:14',
             'kelas_id' => 'required|exists:kelas,id_kelas'
+        ],[
+            'nik.required' => 'Dosen wajib diisi',
+            'kode_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
+            'id_tahun_ajaran.required' => 'Tahun Ajaran Wajib Diisi',
+            'semester.required' => 'Semester Wajib Diisi',
+            'kelas_id.required' => 'Kelas Wajib Diisi'
         ]);
+        if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'edit')
+        ->with('open_modal', 'edit');
+    }
         $cek = Pengajar::where('kode_mk', $request->kode_mk)
              ->where('kelas_id', $request->kelas_id)
             ->where('id_tahun_ajaran', $request->id_tahun_ajaran)
@@ -138,7 +163,7 @@ class PengajarController extends Controller
     'semester' => $request->semester,
 ]);
         return redirect('/pengajar?id_tahun_ajaran=' . $request->id_tahun_ajaran)
-    ->with('success','Data pengajar berhasil diupdate');
+    ->with('success','Data pengajar berhasil diubah');
     }
     public function delete($id_pengajar)
     {        $pengajar = Pengajar::findOrFail($id_pengajar);

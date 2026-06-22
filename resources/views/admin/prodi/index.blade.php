@@ -117,6 +117,9 @@
                 <option value="D4">D4</option>
                 <option value="S2">S2</option>
             </select>
+            @error('jenjang','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -128,7 +131,10 @@
                 <option value="TRM">Teknologi Rekayasa Multimedia</option>
                 <option value="RKS">Rekayasa Keamanan Siber</option>
             </select>
-
+            @error('nama_prodi','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+            
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
@@ -147,7 +153,6 @@
 
     <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Program Studi</h2>
-
         <form id="formEdit" method="POST">
             @csrf
 
@@ -157,6 +162,9 @@
                 <option value="D4">D4</option>
                 <option value="S2">S2</option>
             </select>
+            @error('jenjang','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Program Studi</label>
             <select name="nama_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -167,6 +175,9 @@
                 <option value="TRM">Teknologi Rekayasa Multimedia</option>
                 <option value="RKS">Rekayasa Keamanan Siber</option>
             </select>
+             @error('nama_prodi','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -174,7 +185,7 @@
                 </button>
 
                 <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
-                    Update
+                    Ubah
                 </button>
             </div>
         </form>

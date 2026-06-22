@@ -131,20 +131,35 @@
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
+             @error('id_prodi','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Kode Mata Kuliah</label>
             <input type="text" placeholder="Kode MK" name="kode_mk" class="w-full mb-3 px-3 py-2 rounded text-black">
+             @error('kode_mk','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Nama Mata Kuliah</label>
             <input type="text" placeholder="Nama MK" name="nama_mk" class="w-full mb-3 px-3 py-2 rounded text-black">
+             @error('nama_mk','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Semester</label>
             <input type="number" placeholder="Semester" name="semester"
                 class="w-full mb-3 px-3 py-2 rounded text-black">
+             @error('semester','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">SKS</label>
             <input type="number" placeholder="SKS" name="sks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
                 min="2">
+             @error('sks','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
@@ -209,20 +224,34 @@
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} {{ $p->nama_prodi }}</option>
                 @endforeach
             </select>
+             @error('id_prodi','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
             @method('PUT')
             <label class="text-sm mb-1 block">Kode Mata Kuliah</label>
             <input type="text" name="kode_mk" id="editKode" class="w-full mb-3 px-3 py-2 rounded text-black">
+             @error('kode_mk','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Nama Mata Kuliah</label>
             <input type="text" name="nama_mk" id="editNama" class="w-full mb-3 px-3 py-2 rounded text-black">
+            @error('nama_mk','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Semester</label>
             <input type="number" name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 rounded text-black">
+            @error('semester','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">SKS</label>
             <input type="number" name="sks" id="editSks" class="w-full mb-3 px-3 py-2 rounded text-black" max="4"
                 min="2">
-
+            @error('sks','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -230,7 +259,7 @@
                 </button>
 
                 <button type="submit" class="bg-yellow-500 px-3 py-1 rounded text-white">
-                    Update
+                    Ubah
                 </button>
             </div>
         </form>

@@ -234,30 +234,42 @@
                 <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
+             @error('nik','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk" id="mkSelect">
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $mk)
-
-                <option value="{{ $mk->kode_mk }}">
-                    {{ $mk->kode_mk }}
-                    - {{ $mk->nama_mk }}
-                    Semester {{ $mk->semester }}
-                </option>
+                <option value="{{ $mk->kode_mk }}"
+    data-prodi="{{ $mk->id_prodi }}">
+    {{ $mk->kode_mk }}
+    - {{ $mk->nama_mk }}
+    Semester {{ $mk->semester }}
+</option>
                 @endforeach
             </select>
+             @error('kode_mk','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Kelas</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id" id="kelasSelect">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}">
-                    {{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }}
-                    {{$k->kategori}}
-                </option>
+                <option value="{{ $k->id_kelas }}"
+    data-semester="{{ $k->semester }}"
+    data-prodi="{{ $k->id_prodi }}">
+    {{ $k->prodi->nama_prodi }}
+    {{ $k->semester }}{{ $k->nama_kelas }}
+    {{ $k->kategori }}
+</option>
                 @endforeach
             </select>
+             @error('kelas_id','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Tahun Ajaran</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran"
@@ -272,12 +284,17 @@
                     {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
                 </option>
                 @endforeach
-
             </select>
+             @error('id_tahun_ajaran','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
            <label class="block text-sm mb-1">Semester</label>
 <input type="text" name="semester" id="semesterSelect" readonly
        class="w-full mb-3 px-3 py-2 border rounded text-black">
+        @error('semester','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -309,27 +326,41 @@
                 <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
+             @error('nik','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $mk)
-                <option value="{{ $mk->kode_mk }}">
-                    {{ $mk->kode_mk }} {{ $mk->nama_mk }} - semester {{ $mk->semester }}
-                </option>
+                <option value="{{ $mk->kode_mk }}"
+    data-prodi="{{ $mk->id_prodi }}">
+    {{ $mk->kode_mk }}
+    {{ $mk->nama_mk }}
+    - Semester {{ $mk->semester }}
+</option>
                 @endforeach
             </select>
-           
+           @error('kode_mk','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
+
             <label class="block text-sm mb-1">Kelas</label>
             <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}">
+                <option value="{{ $k->id_kelas }}"
+    data-semester="{{ $k->semester }}"
+    data-prodi="{{ $k->id_prodi }}">
                     {{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }}
                     {{ $k->kategori }}
                 </option>
                 @endforeach
             </select>
+            @error('kelas_id','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Tahun Ajaran</label>
             <select id="editTahun" class="w-full mb-3 px-3 py-2 border rounded text-black" name="id_tahun_ajaran">
@@ -342,17 +373,23 @@
                 </option>
                 @endforeach
             </select>
+            @error('id_tahun_ajaran','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="block text-sm mb-1">Semester</label>
            <input type="text" id="editSemester" name="semester"
        class="w-full mb-3 px-3 py-2 border rounded text-black" readonly>
+       @error('semester','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
                     Batal
                 </button>
                 <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
-                    Update
+                    Ubah
                 </button>
             </div>
         </form>
@@ -449,7 +486,28 @@ function openEdit(id, nik, mk, kelas, tahun, semester) {
     
     document.getElementById('formEdit').action = '/pengajar/update/' + id
 }
+const editMk = document.getElementById('editMk')
+const editKelasSelect = document.getElementById('editKelas')
 
+editMk.addEventListener('change', function () {
+
+    const prodi =
+        this.options[this.selectedIndex]
+        .getAttribute('data-prodi')
+
+    Array.from(editKelasSelect.options).forEach(option => {
+
+        if (option.value === '') {
+            option.hidden = false
+            return
+        }
+
+        option.hidden =
+            option.getAttribute('data-prodi') != prodi
+    })
+
+    editKelasSelect.value = ''
+})
 // ===== DETAIL =====
 function openDetail(nik, namaDosen, mk, kelas, tahun, semester) {
     showModal('detailModal')
@@ -476,6 +534,33 @@ const editSemester = document.getElementById('editSemester')
 editKelas.addEventListener('change', function () {
     const semester = this.options[this.selectedIndex].getAttribute('data-semester')
     editSemester.value = semester || ''
+})
+const mkSelect = document.getElementById('mkSelect')
+const kelasSelect2 = document.getElementById('kelasSelect')
+
+mkSelect.addEventListener('change', function () {
+
+    const selectedOption =
+        this.options[this.selectedIndex]
+
+    const prodi =
+        selectedOption.getAttribute('data-prodi')
+
+    Array.from(kelasSelect2.options).forEach(option => {
+
+        if (option.value === '') {
+            option.hidden = false
+            return
+        }
+
+        const kelasProdi =
+            option.getAttribute('data-prodi')
+
+        option.hidden = kelasProdi != prodi
+    })
+
+    kelasSelect2.value = ''
+    semesterInput.value = ''
 })
 </script>
 

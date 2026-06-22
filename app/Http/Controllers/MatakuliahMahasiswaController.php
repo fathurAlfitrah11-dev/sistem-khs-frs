@@ -42,8 +42,6 @@ class MatakuliahMahasiswaController extends Controller
 
         // Tampilkan mata kuliah berdasarkan prodi mahasiswa yang BELUM dipilih
         $matakuliah = MataKuliah::where('id_prodi', $mahasiswa->id_prodi)
-            ->where('semester', $mahasiswa->semester)
-            ->whereNotIn('kode_mk', $kodeMatkulDipilih) // Saring berdasarkan kode_mk
             ->paginate(5);
 
         return view('mahasiswa.MatakuliahMahasiswa', compact('matakuliah'));
@@ -62,7 +60,7 @@ class MatakuliahMahasiswaController extends Controller
             $matkulDipilih = MataKuliah::where('kode_mk', $id_mata_kuliah)->first();
         }
 
-        if ($matkulDipilih->semester != $mahasiswa->semester) {
+        if ($matkulDipilih->semester != $mahasiswa->kelas->semester) {
             return back()->with('error', 'Mata kuliah bukan untuk semester aktif.');
         }
 

@@ -5,6 +5,8 @@ use App\Models\Dosen;
 use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 
 class DosenController extends Controller
@@ -28,7 +30,7 @@ class DosenController extends Controller
    
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
         'nik' => 'required',
         'nama_dosen' => 'required',
         'kode_dosen' => 'required',
@@ -40,7 +42,12 @@ class DosenController extends Controller
         'password.required' => 'Password wajib diisi',
         'password.min' => 'Password minimal 6 karakter',
     ]);
-
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'tambah')
+        ->with('open_modal', 'tambah');
+    }
        if (Dosen::where('nik', $request->nik)->exists()) {
         return back()->with('error', 'NIK sudah terdaftar!');
     }
@@ -67,14 +74,19 @@ public function update(Request $request, $nik)
 {
     $dosen = Dosen::findOrFail($nik);
 
-    $request->validate([
+    $validator = Validator::make($request->all(), [
         'nama_dosen' => 'required',
         'kode_dosen' => 'required',
     ], [
         'nama_dosen.required' => 'Nama dosen wajib diisi',
         'kode_dosen.required' => 'Kode dosen wajib diisi',
     ]);
-
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'edit')
+        ->with('open_modal', 'edit');
+    }
      if (Dosen::where('kode_dosen', $request->kode_dosen)->where('nik', '!=', $nik)->exists()) {
         return back()->with('error', 'Kode dosen sudah terdaftar!');
     }

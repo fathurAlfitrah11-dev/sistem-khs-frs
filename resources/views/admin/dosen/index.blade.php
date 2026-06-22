@@ -158,18 +158,30 @@
             @csrf
             <label class="text-sm mb-1 block">NIK</label>
             <input type="text" name="nik" placeholder="NIK" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('nik','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
            
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" placeholder="Nama Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('nama_dosen','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Kode Dosen</label>
             <input type="text" name="kode_dosen" placeholder="Kode Dosen"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('kode_dosen','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Password</label>
             <input type="password" name="password" placeholder="Password"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('password','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded">
@@ -189,25 +201,25 @@
     <div
         class="modal-content bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Dosen</h2>
-        @if($errors->any())
-<div class="bg-red-500 text-white p-3 rounded mb-3">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
         <form id="formEdit" method="POST">
             @csrf
             <label class="text-sm mb-1 block">NIK</label>
             <input type="text" id="editNik" readonly class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('nik','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Nama Dosen</label>
             <input type="text" name="nama_dosen" id="editNama" class="w-full mb-3 px-3 py-2 border rounded text-black">
+             @error('nama_dosen','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Kode Dosen</label>
             <input type="text" name="kode_dosen" id="editKode" class="w-full mb-3 px-3 py-2 border rounded text-black">
+             @error('kode_dosen','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <label class="text-sm mb-1 block">Password Baru</label>
             <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah"
@@ -219,7 +231,7 @@
                 </button>
 
                 <button type="submit" class="bg-yellow-500 text-white px-3 py-1 rounded">
-                    Update
+                    Ubah
                 </button>
             </div>
         </form>

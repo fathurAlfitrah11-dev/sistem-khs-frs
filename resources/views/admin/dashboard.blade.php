@@ -102,9 +102,10 @@
                 </div>
                 <p class="text-4xl font-extrabold text-gray-800 tracking-tight">
                     {{ number_format($totalEnrollment ?? 4892) }}</p>
-                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Active Enrollments</p>
-                <p class="text-xs text-green-600 font-medium">↑ {{ $growthEnrollment ?? '15%' }} <span
-                        class="text-gray-400 font-normal">vs last semester</span></p>
+                <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Mata Kuliah Diambil</p>
+              <p class="text-xs text-green-600 font-medium">
+    {{ $totalEnrollment }} Mata Kuliah Dipilih
+</p>
             </div>
 
         </div>
@@ -113,8 +114,8 @@
         <div class="bg-white/80 backdrop-blur-xl rounded-3xl border border-white/40 p-6 mb-6 shadow-sm"
             data-aos="fade-up" data-aos-delay="400">
             <div class="mb-4">
-                <h2 class="text-lg font-bold text-gray-900">Quick Access</h2>
-                <p class="text-xs text-gray-400">Frequently used administrative actions</p>
+                <h2 class="text-lg font-bold text-gray-900">Akses Cepat</h2>
+                <p class="text-xs text-gray-400">Aksi administratif yang biasanya digunakan</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -135,8 +136,7 @@
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
                             style="text-decoration: none !important;">Kelola Mata Kuliah</p>
                         <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">
-                            Organize
-                            curriculum and lecturer assignments.</p>
+                            Kelola data mata kuliah.</p>
                     </div>
                     <svg class="w-5 h-5 text-gray-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1"
                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -159,8 +159,8 @@
                     <div class="min-w-0">
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
                             style="text-decoration: none !important;">Kelola Mahasiswa</p>
-                        <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">Track
-                            academic progress and enrollment data.</p>
+                        <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">
+                            Kelola data mahasiswa.</p>
                     </div>
                     <svg class="w-5 h-5 text-gray-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1"
                         fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@
                         <p class="text-sm font-bold text-gray-900 group-hover:text-[#f9b17a] transition-colors"
                             style="text-decoration: none !important;">Kelola Dosen</p>
                         <p class="text-xs text-gray-500 leading-relaxed" style="text-decoration: none !important;">
-                            Update staff profiles and teaching qualifications.</p>
+                            Kelola data dosen.</p>
                     </div>
 
                     <svg class="w-5 h-5 text-gray-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1"
@@ -201,11 +201,11 @@
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-xl font-bold text-gray-800">
-                        Recent Activity
+                        Aktivitas Terbaru
                     </h2>
 
                     <p class="text-sm text-gray-400 mt-1">
-                        Latest system activities and updates
+                        Aktivitas sistem terkini
                     </p>
                 </div>
 
@@ -262,7 +262,7 @@
                             {{-- Timestamp --}}
                             <td class="py-5 px-4 whitespace-nowrap">
                                 <p class="text-sm text-gray-500">
-                                    {{ $item->timestamp }}
+                                    {{ \Carbon\Carbon::parse($item->timestamp)->format('d M Y H:i') }}
                                 </p>
                             </td>
 

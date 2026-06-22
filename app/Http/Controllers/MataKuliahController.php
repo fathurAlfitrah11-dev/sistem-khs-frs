@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Prodi;
 use App\Models\MataKuliah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MataKuliahController extends Controller
 {
@@ -31,13 +32,35 @@ class MataKuliahController extends Controller
      $cek = MataKuliah::where('nama_mk', $request->nama_mk)
     ->where('id_prodi', $request->id_prodi)
     ->first();
+    $validator = Validator::make($request->all(), [
+    
+        'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $request->kode_mk . ',kode_mk',
+        'nama_mk' => 'required',
+        'sks' => 'required|integer|max:4|min:2',
+        'semester' => 'required|integer',
+        'id_prodi' => 'required|exists:prodi,id_prodi'
+    ], [
+        'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
+        'sks.min' => 'SKS minimal 2',
+        'kode_mk' => 'Kode MK Wajib Diisi',
+        'nama_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
+        'sks.required' => 'SKS Wajib Diisi',
+        'semester.required' => 'Semester Wajib Diisi',
+        'id_prodi.required' => 'Prodi Wajib Diisi'
+    ]);
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'tambah')
+        ->with('open_modal', 'tambah');
+    }
 
 if ($cek) {
     return redirect()->back()
         ->withInput()
         ->with('error', 'Nama mata kuliah pada program studi tersebut sudah ada.');
 }
-        MataKuliah::create([
+    MataKuliah::create([
     'kode_mk' => $request->kode_mk,
     'nama_mk' => $request->nama_mk,
     'sks' => $request->sks,
@@ -45,8 +68,8 @@ if ($cek) {
     'id_prodi' => $request->id_prodi,
 ]);
 
-        return redirect('/mata-kuliah')
-            ->with('success','Data mata kuliah berhasil ditambahkan');
+return redirect('/mata-kuliah')
+    ->with('success','Data mata kuliah berhasil ditambahkan');
     }
    
    public function update(Request $request, $kode_mk)
@@ -60,7 +83,7 @@ if ($cek) {
             ->withInput()
             ->with('error', 'Kode mata kuliah sudah terdaftar.');
     }
-    $request->validate([
+    $validator = Validator::make($request->all(), [
     
         'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $mata_kuliah->getKey() . ',' . $mata_kuliah->getKeyName(),
         'nama_mk' => 'required',
@@ -68,9 +91,20 @@ if ($cek) {
         'semester' => 'required|integer',
         'id_prodi' => 'required|exists:prodi,id_prodi'
     ], [
-        'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!'
+        'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
+        'sks.min' => 'SKS minimal 2',
+        'kode_mk' => 'Kode MK Wajib Diisi',
+        'nama_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
+        'sks.required' => 'SKS Wajib Diisi',
+        'semester.required' => 'Semester Wajib Diisi',
+        'id_prodi.required' => 'Prodi Wajib Diisi'
     ]);
-
+    if ($validator->fails()) {
+    return redirect()->back()
+        ->withInput()
+        ->withErrors($validator, 'edit')
+        ->with('open_modal', 'edit');
+    }
   
     $mata_kuliah->update([
         'kode_mk' => $request->kode_mk, 
@@ -81,7 +115,7 @@ if ($cek) {
     ]);
 
     return redirect('/mata-kuliah')
-        ->with('success', 'Data mata kuliah berhasil diupdate');
+        ->with('success', 'Data mata kuliah berhasil diubah');
 }
    public function delete($kode_mk)
 {
