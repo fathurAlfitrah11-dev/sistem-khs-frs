@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Prodi;
 use App\Models\Kelas;
+use App\Models\KrsDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,8 @@ class DosenRealController extends Controller
     $totalDosen = \App\Models\Dosen::count();
     $totalMataKuliah = \App\Models\MataKuliah::count();
     $totalProdi = \App\Models\Prodi::count();
+    $totalEnrollment = KrsDetail::where('status_wali', '!=', 'ditolak')
+    ->count();
 
     return view('dosen.dashboard', compact(
         'isWali',
@@ -29,7 +32,8 @@ class DosenRealController extends Controller
         'totalMahasiswa',
         'totalDosen',
         'totalMataKuliah',
-        'totalProdi'
+        'totalProdi',
+        'totalEnrollment'
     ));
 }
 }

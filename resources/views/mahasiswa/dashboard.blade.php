@@ -7,7 +7,7 @@
 {{-- MAIN TITLE --}}
 <div class="mb-6" data-aos="fade-down">
     <h1 class="text-3xl font-bold text-slate-800 tracking-tight">Dashboard</h1>
-    <p class="text-sm text-slate-500 mt-0.5">Welcome back, {{ Auth::user()->name }}</p>
+    <p class="text-sm text-slate-500 mt-0.5">Selamat Datang, {{ Auth::user()->name }}</p>
 </div>
 
 {{-- BANNER SLIDER --}}
@@ -47,10 +47,7 @@
             </span>
         </div>
         <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalMahasiswa) }}</p>
-        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Students</p>
-        <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-            <span>↑ 12%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-        </p>
+        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Mahasiswa</p>
     </div>
 
     {{-- Card 2: Total Lecturers --}}
@@ -67,10 +64,7 @@
             </span>
         </div>
         <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalDosen) }}</p>
-        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Lecturers</p>
-        <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-            <span>↑ 5%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-        </p>
+        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Dosen</p>
     </div>
 
     {{-- Card 3: Total Courses --}}
@@ -86,10 +80,7 @@
             </span>
         </div>
         <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalMataKuliah) }}</p>
-        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Courses</p>
-        <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-            <span>↑ 8%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-        </p>
+        <p class="text-xs text-slate-400 font-medium mt-0.5">Total Mata Kuliah</p>
     </div>
 
     {{-- Card 4: Study Program --}}
@@ -104,11 +95,11 @@
                 Current
             </span>
         </div>
-        <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalEroll ?? 12) }}</p>
-        <p class="text-xs text-slate-400 font-medium mt-0.5">Active Enrollments</p>
-        <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-            <span>↑ 15%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-        </p>
+        <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalEnrollment ?? 12) }}</p>
+       <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Mata Kuliah Diambil</p>
+              <p class="text-xs text-green-600 font-medium">
+    {{ $totalEnrollment }} Mata Kuliah Dipilih
+</p>
     </div>
 
 </div>
@@ -116,8 +107,8 @@
 {{-- ===== QUICK ACCESS ===== --}}
 <div class="bg-white rounded-xl border border-slate-100 p-6 mb-6 shadow-sm shadow-slate-100/50" data-aos="fade-up" data-aos-delay="400">
     <div class="mb-4">
-        <h2 class="text-lg font-bold text-slate-800">Quick Access</h2>
-        <p class="text-xs text-slate-400">Frequently used administrative actions</p>
+        <h2 class="text-lg font-bold text-slate-800">Akses Cepat</h2>
+        <p class="text-xs text-slate-400">Menu Yang Bisa Digunakan</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -130,8 +121,8 @@
                 </svg>
             </div>
             <div class="min-w-0">
-                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">KRS Online</p>
-                <p class="text-xs text-slate-400 truncate leading-relaxed">Organize curriculum and semester plan.</p>
+                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">Lihat KRS</p>
+                <p class="text-xs text-slate-400 truncate leading-relaxed">Lihat KRS per semester.</p>
             </div>
             <svg class="w-4 h-4 text-slate-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -146,8 +137,8 @@
                 </svg>
             </div>
             <div class="min-w-0">
-                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">KHS & Transkrip</p>
-                <p class="text-xs text-slate-400 truncate leading-relaxed">Track academic progress and grades.</p>
+                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">Lihat KHS</p>
+                <p class="text-xs text-slate-400 truncate leading-relaxed">Lihat dan Cetak KHS</p>
             </div>
             <svg class="w-4 h-4 text-slate-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -155,15 +146,15 @@
         </a>
 
         {{-- Menu--}}
-        <a href="#" class="group flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-white hover:border-[#f9b17a] hover:shadow-sm transition-all duration-300">
+        <a href="/PengaturanAkunMahasiswa" class="group flex items-center gap-3 p-4 rounded-xl border border-slate-100 bg-white hover:border-[#f9b17a] hover:shadow-sm transition-all duration-300">
             <div class="w-10 h-10 flex-shrink-0 bg-slate-50 rounded-xl flex items-center justify-center group-hover:bg-[#f9b17a]/10 transition-all duration-300">
                 <svg class="w-5 h-5 text-slate-600 group-hover:text-[#f9b17a] transition-colors duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
             </div>
             <div class="min-w-0">
-                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">Profil Saya</p>
-                <p class="text-xs text-slate-400 truncate leading-relaxed">Update personal information and status.</p>
+                <p class="text-sm font-bold text-slate-800 group-hover:text-[#f9b17a] transition-colors">Ganti Password</p>
+                <p class="text-xs text-slate-400 truncate leading-relaxed">Ganti Password.</p>
             </div>
             <svg class="w-4 h-4 text-slate-300 group-hover:text-[#f9b17a] ml-auto flex-shrink-0 transition-all duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />

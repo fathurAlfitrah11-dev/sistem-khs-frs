@@ -23,9 +23,14 @@
         data-aos-delay="100">
         <div class="flex-1">
             <div class="flex items-center bg-white rounded px-3 py-2">
-                <input type="text" id="searchInput" placeholder="Telusuri Nama atau Kode Mata Kuliah..."
+                <form method="GET" class="w-full flex items-center">
+                <input type="text" name="search"
+            value="{{ request('search') }}" onkeyup="this.form.submit()" placeholder="Telusuri Nama atau Kode Mata Kuliah..."
                     class="w-full outline-none text-sm text-gray-700">
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                 <button type="submit">
+            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+        </button>
+    </form>
             </div>
         </div>
     </div>
@@ -130,23 +135,6 @@
 
 <script>
 let selectedMK = {};
-
-// FITUR PENCARIAN
-document.getElementById('searchInput').addEventListener('keyup', function() {
-    let filter = this.value.toLowerCase();
-    let rows = document.querySelectorAll('tbody tr');
-
-    rows.forEach(row => {
-        let kode = row.cells[0] ? row.cells[0].textContent.toLowerCase() : '';
-        let namaMk = row.cells[1] ? row.cells[1].textContent.toLowerCase() : '';
-
-        if (kode.includes(filter) || namaMk.includes(filter)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
-        }
-    });
-});
 
 // FUNGSI BUKA MODAL
 function openConfirm(kode, nama, sks, id) {

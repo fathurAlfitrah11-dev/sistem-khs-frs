@@ -16,7 +16,7 @@
                 </h1>
 
                 <p class="text-sm text-gray-400 font-medium mt-1">
-                    Welcome back, {{ Auth::user()->name }}
+                    Selamat Datang, {{ Auth::user()->name }}
                 </p>
             </div>
 

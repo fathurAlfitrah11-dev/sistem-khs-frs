@@ -55,10 +55,7 @@
                 </span>
             </div>
             <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalMahasiswa) }}</p>
-            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Students</p>
-            <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                <span>↑ 12%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-            </p>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Mahasiswa</p>
         </div>
 
         {{-- Card 2: Total Lecturers --}}
@@ -79,10 +76,7 @@
                 </span>
             </div>
             <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalDosen) }}</p>
-            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Lecturers</p>
-            <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                <span>↑ 5%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-            </p>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Dosen</p>
         </div>
 
         {{-- Card 3: Total Courses --}}
@@ -102,7 +96,7 @@
                 </span>
             </div>
             <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalMataKuliah) }}</p>
-            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Courses</p>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">Total Mata Kuliah</p>
             <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
                 <span>↑ 8%</span> <span class="text-slate-400 font-normal">vs last semester</span>
             </p>
@@ -124,11 +118,11 @@
                     Current
                 </span>
             </div>
-            <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalEnroll ?? 12)}}</p>
-            <p class="text-xs text-slate-400 font-medium mt-0.5">Active Enrollments</p>
-            <p class="text-[11px] text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                <span>↑ 15%</span> <span class="text-slate-400 font-normal">vs last semester</span>
-            </p>
+            <p class="text-3xl font-extrabold text-slate-800 tracking-tight">{{ number_format($totalEnrollment ?? 12) }}</p>
+       <p class="text-sm text-gray-400 font-medium mt-0.5 mb-3">Total Mata Kuliah Diambil</p>
+              <p class="text-xs text-green-600 font-medium">
+    {{ $totalEnrollment }} Mata Kuliah Dipilih
+</p>
         </div>
 
     </div>

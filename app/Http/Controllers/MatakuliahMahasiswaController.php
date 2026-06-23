@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class MatakuliahMahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
 
@@ -41,10 +41,22 @@ class MatakuliahMahasiswaController extends Controller
         }
 
         // Tampilkan mata kuliah berdasarkan prodi mahasiswa yang BELUM dipilih
-        $matakuliah = MataKuliah::where('id_prodi', $mahasiswa->id_prodi)
-            ->paginate(5);
+         $search = $request->search;
 
-        return view('mahasiswa.MatakuliahMahasiswa', compact('matakuliah'));
+    $matakuliah = MataKuliah::where('id_prodi', $mahasiswa->id_prodi)
+        ->when($search, function ($query) use ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('kode_mk', 'like', '%' . $search . '%')
+                  ->orWhere('nama_mk', 'like', '%' . $search . '%');
+            });
+        })
+        ->paginate(5)
+        ->withQueryString();
+
+    return view('mahasiswa.MatakuliahMahasiswa', compact(
+        'matakuliah',
+        'search'
+    ));
     }
 
     public function tambahKrs($id_mata_kuliah)
