@@ -51,12 +51,12 @@ return view('mahasiswa.KrsMahasiswa', compact(
         $detail = KrsDetail::findOrFail($id);
 
         // cuma boleh hapus kalau pending
-        if($detail->status_wali != 'pending'){
-            return back()->with(
-                'error',
-                'Mata kuliah yang sudah disetujui tidak dapat dihapus'
-            );
-        }
+        if (!in_array(strtolower($detail->status_wali), ['pending', 'ditolak'])) {
+        return back()->with(
+            'error',
+            'Hanya mata kuliah berstatus Pending atau Ditolak yang dapat dihapus'
+        );
+    }
 
         $detail->delete();
 

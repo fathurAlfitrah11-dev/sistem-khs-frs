@@ -60,7 +60,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach($matakuliah as $mk)
+                    @forelse($matakuliah as $mk)
                     <tr
                         class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
                         <td class="px-6 py-3 text-left whitespace-nowrap font-medium">{{ $mk->kode_mk }}</td>
@@ -79,7 +79,17 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+    <tr>
+        <td colspan="5" class="py-10 text-center text-gray-500 text-sm">
+            @if(request('search'))
+                Data dengan pencarian "<b>{{ request('search') }}</b>" tidak ditemukan.
+            @else
+                Data mata kuliah tidak tersedia.
+            @endif
+        </td>
+    </tr>
+                    @endforelse
                 </tbody>
             </table>
 

@@ -107,8 +107,10 @@ $maxSks = 20;
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center">
-                                @if(strtolower($item->status_wali) == 'pending' || strtolower($item->status_wali) ==
-                                'menunggu')
+                               @if(
+    strtolower($item->status_wali) == 'pending' ||
+    strtolower($item->status_wali) == 'ditolak'
+)
                                 <button type="button" onclick="openDelete(
                                                     '{{ $item->pengajar->mataKuliah->kode_mk }}',
                                                     '{{ $item->pengajar->mataKuliah->nama_mk }}',

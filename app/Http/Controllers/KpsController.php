@@ -64,23 +64,32 @@ class KpsController extends Controller
             ->with('success', 'KPS berhasil ditambahkan');
     }
 
-   public function update(Request $request, $id_prodi)
+  public function update(Request $request, $id_prodi)
 {
     $request->validate([
-        'nik_kps' => 'required'
+        'nik_kps' => 'required|exists:dosen,nik',
+        'id_prodi' => 'required|exists:prodi,id_prodi'
     ]);
 
-    Prodi::where('nik_kps', $request->nik_kps)
-        ->update(['nik_kps' => null]);
+    $prodiLama = Prodi::findOrFail($id_prodi);
 
-    $prodi = Prodi::findOrFail($id_prodi);
+    $nikKps = $request->nik_kps;
+    $prodiTujuan = Prodi::findOrFail($request->id_prodi);
 
-    $prodi->update([
-        'nik_kps' => $request->nik_kps
+    if ($prodiTujuan->nik_kps && $prodiTujuan->nik_kps != $nikKps) {
+        return back()->with('error', 'Program studi sudah memiliki KPS');
+    }
+
+    $prodiLama->update([
+        'nik_kps' => null
+    ]);
+
+    $prodiTujuan->update([
+        'nik_kps' => $nikKps
     ]);
 
     return redirect('/kps')
-        ->with('success', 'KPS berhasil diupdate');
+        ->with('success', 'KPS berhasil dipindahkan');
 }
 
     public function delete($id_prodi)

@@ -41,6 +41,9 @@ class PengajarController extends Controller
             $query->whereHas('dosen.user', function ($q) use ($search) {
                 $q->where('name', 'like', "%$search%");
             })
+            ->orWhereHas('dosen.user', function ($q) use ($search) {
+                $q->where('username', 'like', "%$search%");
+            })
             ->orWhereHas('mataKuliah', function ($q) use ($search) {
                 $q->where('nama_mk', 'like', "%$search%");
             })

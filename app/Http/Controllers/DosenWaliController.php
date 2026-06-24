@@ -71,25 +71,28 @@ class DosenWaliController extends Controller
    public function update(Request $request, $id_kelas)
 {
     $request->validate([
-        'nik_wali' => 'required|exists:dosen,nik'
+        'nik_wali' => 'required|exists:dosen,nik',
+        'id_kelas' => 'required|exists:kelas,id_kelas'
     ]);
 
-    $kelasBaru = Kelas::findOrFail($id_kelas);
+    $kelasLama = Kelas::findOrFail($id_kelas);
 
-    $nikBaru = $request->nik_wali;
+    $nikWali = $request->nik_wali;
+    $kelasTujuan = Kelas::findOrFail($request->id_kelas);
 
-    $kelasLama = Kelas::where('nik_wali', $nikBaru)
-        ->where('id_kelas', '!=', $id_kelas)
-        ->first();
-
-    if ($kelasLama) {
-        $kelasLama->update([
-            'nik_wali' => null
-        ]);
+      // jika kelas tujuan sudah punya wali
+    if ($kelasTujuan->nik_wali && $kelasTujuan->nik_wali != $nikWali) {
+        return back()->with('error', 'Kelas tujuan sudah memiliki dosen wali');
     }
 
-    $kelasBaru->update([
-        'nik_wali' => $nikBaru
+    // hapus wali dari kelas lama
+    $kelasLama->update([
+        'nik_wali' => null
+    ]);
+
+    // pasang wali ke kelas tujuan
+    $kelasTujuan->update([
+        'nik_wali' => $nikWali
     ]);
 
     return redirect('/dosen-wali')
