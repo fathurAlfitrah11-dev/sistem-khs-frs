@@ -41,7 +41,6 @@
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Tahun Ajaran</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Semester</th>
-                        <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Deadline Input Nilai</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Status</th>
                         <th class="px-6 py-3 text-center text-[#243b63] font-bold text-sm">Aksi</th>
                     </tr>
@@ -56,12 +55,11 @@
                         <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}
                         </td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->semester }}</td>
-                        <td class="px-6 py-3 text-center whitespace-nowrap">{{ date('d M Y', strtotime($d->deadline_input_nilai)) }}</td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">
                             <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
                                 class="px-3 py-1 rounded text-white font-semibold transition text-xs
                             {{ $d->status == 'aktif' ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 hover:bg-gray-600' }}">
-                                {{ $d->status == 'aktif' ? 'Aktif' : 'Nonaktif' }}
+                                {{ $d->status == 'aktif' ? 'Aktif' : 'Non-aktif' }}
                             </a>
                         </td>
 
@@ -70,7 +68,7 @@
 
                                 {{-- VIEW --}}
                                 <button data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}" data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
                                     onclick="openDetail(this)"
                                     class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
@@ -79,7 +77,7 @@
                                 {{-- EDIT --}}
                                 <button data-id="{{ $d->id_tahun_ajaran }}"
                                     data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-deadline="{{ $d->deadline_input_nilai }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"data-tanggal-mulai="{{ $d->tanggal_mulai }}" data-tanggal-selesai="{{ ($d->tanggal_selesai) }}"
                                     onclick="openEdit(this)"
                                     class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
@@ -125,19 +123,13 @@
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
         <form action="/tahun-ajaran/store" method="POST">
             @csrf
-            <label class="block text-sm mb-1">Tahun Awal</label>
-            <input type="year" name="tahun_awal" class="w-full mb-3 px-3 py-2 text-black rounded"
-                placeholder="Tahun Awal" required>
-            @error('tahun_awal','tambah')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
-            @enderror
-
-            <label class="block text-sm mb-1">Tahun Akhir</label>
-            <input type="year" name="tahun_akhir" class="w-full mb-3 px-3 py-2 text-black rounded"
-                placeholder="Tahun Akhir" required>
-             @error('tahun_akhir','tambah')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
-            @enderror
+           <label class="block text-sm mb-1">Tahun Ajaran</label>
+<input
+    type="text"
+    id="tahun_ajaran"
+    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
+    readonly
+>
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
@@ -148,9 +140,16 @@
              <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
-            <label class="block text-sm mb-1">Deadline Input Nilai</label>
-            <input type="date" name="deadline_input_nilai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
+            <label class="block text-sm mb-1">Tanggal Mulai</label>
+            <input type="date" name="tanggal_mulai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
 
+            <label class="block text-sm mb-1">Tanggal Selesai</label>
+            <input
+    type="text"
+    id="tanggal_selesai"
+    class="w-full mb-3 px-3 py-2 rounded text-black bg-gray-100"
+    readonly
+>
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">Batal</button>
@@ -169,17 +168,14 @@
 
         <form id="formEdit" method="POST">
             @csrf
-            <label class="block text-sm mb-1">Tahun Awal</label>
-            <input type="year" name="tahun_awal" id="editTahunAwal" class="w-full mb-3 px-3 py-2 text-black rounded">
-             @error('tahun_awal','edit')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
-            @enderror
+            <label class="block text-sm mb-1">Tahun Ajaran</label>
 
-            <label class="block text-sm mb-1">Tahun Akhir</label>
-            <input type="year" name="tahun_akhir" id="editTahunAkhir" class="w-full mb-3 px-3 py-2 text-black rounded">
-             @error('tahun_akhir','edit')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
-            @enderror
+<input
+    type="text"
+    id="editTahunAjaran"
+    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
+    readonly
+>
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
@@ -190,8 +186,15 @@
              <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
-            <label class="block text-sm mb-1">Deadline Input Nilai</label>
-            <input type="date" name="deadline_input_nilai" id="editDeadlineInputNilai" class="w-full mb-3 px-3 py-2 text-black rounded"
+            <label class="block text-sm mb-1">Tanggal Mulai</label>
+            <input type="date" name="tanggal_mulai" id="editTanggalMulai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
+
+            <label class="block text-sm mb-1">Tanggal Selesai</label>
+            <input
+    type="text"
+    id="editTanggalSelesai"
+    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
+    readonly>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -236,82 +239,130 @@
 </style>
 
 <script>
-// ===== MODAL ANIMATION =====
 function showModal(id) {
-    const modal = document.getElementById(id)
-    const content = modal.querySelector('.modal-content')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('.modal-content');
 
-    modal.classList.remove('hidden')
+    modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0', 'translate-y-10')
-        content.classList.add('opacity-100', 'translate-y-0')
-    }, 10)
+        content.classList.remove('opacity-0', 'translate-y-10');
+        content.classList.add('opacity-100', 'translate-y-0');
+    }, 10);
 }
 
 function hideModal(id) {
-    const modal = document.getElementById(id)
-    const content = modal.querySelector('.modal-content')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('.modal-content');
 
-    content.classList.remove('opacity-100', 'translate-y-0')
-    content.classList.add('opacity-0', 'translate-y-10')
+    content.classList.remove('opacity-100', 'translate-y-0');
+    content.classList.add('opacity-0', 'translate-y-10');
 
-    setTimeout(() => {
-        modal.classList.add('hidden')
-    }, 300)
+    setTimeout(() => modal.classList.add('hidden'), 300);
 }
 
-// ===== OPEN CLOSE =====
 function openModal(id) {
-    showModal(id)
-}
+    showModal(id);
 
-function closeModal(id) {
-    hideModal(id)
-}
-
-// ===== EDIT =====
-function openEdit(el) {
-    openModal('editModal')
-
-    let tahun = el.dataset.tahun.split('/')
-
-    document.getElementById('editTahunAwal').value = tahun[0]
-    document.getElementById('editTahunAkhir').value = tahun[1]
-    document.getElementById('editSemester').value = el.dataset.semester
-    document.getElementById('editDeadlineInputNilai').value = el.dataset.deadline
-    document.getElementById('formEdit').action = '/tahun-ajaran/update/' + el.dataset.id
-}
-
-// ===== DETAIL =====
-function openDetail(el) {
-    openModal('detailModal')
-
-    document.getElementById('dTahunAwal').innerText = el.dataset.tahun.split('/')[0]
-    document.getElementById('dTahunAkhir').innerText = el.dataset.tahun.split('/')[1]
-    document.getElementById('dSemester').innerText = el.dataset.semester
-    document.getElementById('dStatus').innerText = el.dataset.status
-}
-
-// ===== GENERATE TAHUN (DINAMIS) =====
-function setupTahun(awalId, akhirId, hasilId) {
-    const awal = document.getElementById(awalId)
-    const akhir = document.getElementById(akhirId)
-    const hasil = document.getElementById(hasilId)
-
-    if (awal && akhir && hasil) {
-        function generate() {
-            if (awal.value && akhir.value) {
-                hasil.value = awal.value + '/' + akhir.value
-            }
-        }
-        awal.addEventListener('input', generate)
-        akhir.addEventListener('input', generate)
+    if (id === 'tambahModal') {
+        setTimeout(() => hitungOtomatis(), 200);
     }
 }
 
-setupTahun('tahunAwal', 'tahunAkhir', 'hasilTahun')
+function closeModal(id) {
+    hideModal(id);
+}
 
-setupTahun('editTahunAwal', 'editTahunAkhir', 'editHasilTahun')
+// HITUNG OTOMATIS TAHUN AJARAN DAN TANGGAL SELESAI
+
+function hitungOtomatis() {
+    const modal = document.getElementById('tambahModal');
+
+    const semester = modal.querySelector('select[name="semester"]')?.value;
+    const tanggalMulai = modal.querySelector('input[name="tanggal_mulai"]')?.value;
+
+    if (!semester || !tanggalMulai) return;
+
+    const year = parseInt(tanggalMulai.substring(0, 4));
+
+    let tahunAwal, tahunAkhir, tanggalSelesai;
+
+    if (semester === 'ganjil') {
+        tahunAwal = year;
+        tahunAkhir = year + 1;
+        tanggalSelesai = `${tahunAkhir}-01-31`;
+    } else {
+        tahunAwal = year - 1;
+        tahunAkhir = year;
+        tanggalSelesai = `${tahunAkhir}-07-31`;
+    }
+
+    document.getElementById('tahun_ajaran').value = `${tahunAwal}/${tahunAkhir}`;
+    document.getElementById('tanggal_selesai').value = tanggalSelesai;
+}
+
+// EVENT LISTENER
+
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('tambahModal');
+
+    const semester = modal.querySelector('select[name="semester"]');
+    const tanggal = modal.querySelector('input[name="tanggal_mulai"]');
+
+    semester?.addEventListener('change', hitungOtomatis);
+    tanggal?.addEventListener('change', hitungOtomatis);
+    tanggal?.addEventListener('input', hitungOtomatis);
+});
+
+// EDIT MODAL
+
+function openEdit(el) {
+    openModal('editModal');
+
+    const id = el.dataset.id;
+    const semester = el.dataset.semester;
+    const tanggalMulai = el.dataset.tanggalMulai;
+
+    if (!tanggalMulai) return;
+
+    // set action form (INI WAJIB)
+    document.getElementById('formEdit').action = `/tahun-ajaran/update/${id}`;
+
+    // set value form
+    document.getElementById('editSemester').value = semester;
+    document.getElementById('editTanggalMulai').value = tanggalMulai;
+
+    const year = parseInt(tanggalMulai.split('-')[0]);
+
+    let tahunAwal, tahunAkhir, tanggalSelesai;
+
+    if (semester === 'ganjil') {
+        tahunAwal = year;
+        tahunAkhir = year + 1;
+        tanggalSelesai = `${tahunAkhir}-01-31`;
+    } else {
+        tahunAwal = year - 1;
+        tahunAkhir = year;
+        tanggalSelesai = `${tahunAkhir}-07-31`;
+    }
+
+    document.getElementById('editTahunAjaran').value = `${tahunAwal}/${tahunAkhir}`;
+    document.getElementById('editTanggalSelesai').value = tanggalSelesai;
+}
+
+// DETAIL
+
+function openDetail(el) {
+    openModal('detailModal');
+
+    const tahun = el.dataset.tahun.split('/');
+
+    document.getElementById('dTahunAwal').innerText = tahun[0];
+    document.getElementById('dTahunAkhir').innerText = tahun[1];
+    document.getElementById('dSemester').innerText = el.dataset.semester;
+    document.getElementById('dStatus').innerText =
+        el.dataset.status === 'aktif' ? 'Aktif' : 'Non-aktif';
+}
 </script>
+
 @endsection

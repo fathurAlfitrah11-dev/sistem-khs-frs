@@ -21,6 +21,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->enum('nama_kelas', ['A', 'B', 'C', 'D', 'E']);
             $table->enum('kategori', ['Pagi', 'Malam']);
+            $table->year('angkatan');
             $table->string('nik_wali', 20)->nullable()->unique();
             $table->foreign('nik_wali')->references('nik')->on('dosen')->onDelete('set null');
             $table->timestamps();

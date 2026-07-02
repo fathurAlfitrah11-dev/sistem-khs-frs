@@ -4,120 +4,133 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kelas;
-use App\Models\Dosen;
 use App\Models\Prodi;
+use App\Models\TahunAjaran;
 
 class KelasController extends Controller
 {
-    public function index(Request $request)
+//HITUNG SEMESTER
+private function hitungSemester($angkatan)
 {
-    $search = $request->search;
+   $tahunAjaran = TahunAjaran::where('status', 'aktif')->first();
 
-    $data = Kelas::with('prodi')
-    ->when($search, function ($query) use ($search) {
+    if (!$tahunAjaran) {
+        return 1;
+    }
 
-        $query->where(function ($q) use ($search) {
+    $tahunAktif = $tahunAjaran->tahun_awal;
 
-            if (is_numeric($search)) {
-                $q->where('semester', $search);
-            } else {
+    // offset: ganjil = 1 (semester 1), genap = 2 (semester 2)
+    $offset = $tahunAjaran->semester === 'ganjil' ? 1 : 2;
 
-                $q->where('nama_kelas', 'like', "%{$search}%")
-                  ->orWhere('kategori', 'like', "%{$search}%")
-                  ->orWhereRaw("CONCAT(semester, nama_kelas) LIKE ?", ["%{$search}%"])
-                  ->orWhereHas('prodi', function ($p) use ($search) {
-                      $p->where('nama_prodi', 'like', "%{$search}%")
-                        ->orWhere('jenjang', 'like', "%{$search}%");
-                  });
-            }
-        });
+    $selisih = $tahunAktif - $angkatan;
+    if ($selisih < 0) $selisih = 0;
 
-    })
-    ->orderBy('id_kelas', 'desc')
-    ->paginate(10)
-    ->appends($request->query());
-
-    $dosen = Dosen::all();
-    $prodi = Prodi::all();
-
-    return view('admin.kelas.index', compact('data', 'dosen', 'prodi', 'search'));
+    return ($selisih * 2) + $offset;
 }
 
+    /**
+     * LIST DATA KELAS
+     */
+    public function index(Request $request)
+    {
+        $search = $request->search;
+
+        $data = Kelas::with('prodi')
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    if (is_numeric($search)) {
+                        $q->where('semester', $search);
+                    } else {
+                        $q->where('nama_kelas', 'like', "%{$search}%")
+                          ->orWhere('kategori', 'like', "%{$search}%")
+                          ->orWhereHas('prodi', function ($p) use ($search) {
+                              $p->where('nama_prodi', 'like', "%{$search}%")
+                                ->orWhere('jenjang', 'like', "%{$search}%");
+                          });
+                    }
+                });
+            })
+            ->orderBy('id_kelas', 'desc')
+            ->paginate(10)
+            ->appends($request->query());
+
+        $prodi = Prodi::all();
+        $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
+
+        return view('admin.kelas.index', compact('data', 'prodi', 'search', 'tahunAktif'));
+    }
+
+    /**
+     * SIMPAN DATA KELAS
+     */
     public function store(Request $request)
     {
-        
         $request->validate([
             'nama_kelas' => 'required',
-            'kategori' => 'required',
-            'semester' => 'required',
-            'id_prodi' => 'required',
-        ], [
-            'nama_kelas.required' => 'Nama kelas wajib diisi',
-            'kategori.required' => 'Kategori wajib diisi',
-            'semester.required' => 'Semester wajib diisi',
-            'id_prodi.required' => 'Program studi wajib diisi'
+            'kategori'   => 'required',
+            'id_prodi'   => 'required',
+            'angkatan'   => 'required|numeric',
         ]);
-        $cek = Kelas::where('nama_kelas', $request->nama_kelas)
-        ->where('kategori', $request->kategori)
-        ->where('semester', $request->semester)
-        ->where('id_prodi', $request->id_prodi)
-        ->first();
+
+        $semester = $this->hitungSemester($request->angkatan);
+
+        $cek = Kelas::where([
+            'nama_kelas' => $request->nama_kelas,
+            'kategori'   => $request->kategori,
+            'id_prodi'   => $request->id_prodi,
+            'angkatan'   => $request->angkatan,
+        ])->first();
+
         if ($cek) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Kelas dengan kategori, semester, dan program studi tersebut sudah ada.');
+            return back()->with('error', 'Kelas sudah ada.');
         }
+
         Kelas::create([
-    'nama_kelas' => $request->nama_kelas,
-    'kategori' => $request->kategori,
-    'semester' => $request->semester,
-    'id_prodi' => $request->id_prodi
-]);
-        return redirect('/kelas')
-            ->with('success','Kelas berhasil ditambahkan');
+            'nama_kelas' => $request->nama_kelas,
+            'kategori'   => $request->kategori,
+            'id_prodi'   => $request->id_prodi,
+            'angkatan'   => $request->angkatan,
+            'semester'   => $semester,
+        ]);
+
+        return redirect('/kelas')->with('success', 'Kelas berhasil ditambahkan');
     }
-   
+
+    /**
+     * UPDATE DATA KELAS
+     */
     public function update(Request $request, $id_kelas)
     {
         $request->validate([
             'nama_kelas' => 'required',
-            'kategori' => 'required',
-            'semester' => 'required',
-            'id_prodi' => 'required',
-        ], [
-            'nama_kelas.required' => 'Nama kelas wajib diisi',
-            'kategori.required' => 'Kategori wajib diisi',
-            'semester.required' => 'Semester wajib diisi',
-            'id_prodi.required' => 'Program studi wajib diisi',
+            'kategori'   => 'required',
+            'id_prodi'   => 'required',
+            'angkatan'   => 'required|numeric',
         ]);
-        
-        $kelas = Kelas::findOrFail($id_kelas);
-        $cek = Kelas::where('nama_kelas', $request->nama_kelas)
-        ->where('kategori', $request->kategori)
-        ->where('semester', $request->semester)
-        ->where('id_prodi', $request->id_prodi)
-        ->where('id_kelas', '!=', $id_kelas)
-        ->first();
-        if ($cek) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Kelas dengan kategori, semester, dan program studi tersebut sudah ada.');
-        }
-        $kelas->update([
-    'nama_kelas' => $request->nama_kelas,
-    'kategori' => $request->kategori,
-    'semester' => $request->semester,
-    'id_prodi' => $request->id_prodi,
-]);
 
-        return redirect('/kelas')
-            ->with('success','Kelas berhasil diupdate');
+        $kelas = Kelas::findOrFail($id_kelas);
+
+        $semester = $this->hitungSemester($request->angkatan);
+
+        $kelas->update([
+            'nama_kelas' => $request->nama_kelas,
+            'kategori'   => $request->kategori,
+            'id_prodi'   => $request->id_prodi,
+            'angkatan'   => $request->angkatan,
+            'semester'   => $semester,
+        ]);
+
+        return redirect('/kelas')->with('success', 'Kelas berhasil diupdate');
     }
+
+    /**
+     * DELETE DATA
+     */
     public function delete($id_kelas)
     {
         Kelas::findOrFail($id_kelas)->delete();
 
-        return redirect('/kelas')
-            ->with('success','Kelas berhasil dihapus');
+        return back()->with('success', 'Kelas berhasil dihapus');
     }
 }

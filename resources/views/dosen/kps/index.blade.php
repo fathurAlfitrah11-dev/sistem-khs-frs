@@ -33,7 +33,7 @@
         <h2 class="text-white text-3xl font-bold mb-6">
             Data Persentase Nilai
         </h2>
-        @if(!$tahun->nilai_dikunci)
+        @if(!$prodi->nilai_dikunci)
 
 <form action="{{ url('/kps-penilaian/tutup-nilai') }}" method="POST">
     @csrf

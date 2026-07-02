@@ -76,6 +76,7 @@
                                 '{{ $d->id_prodi }}',
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
+                                '{{ $d->angkatan }}',
                                 '{{ $d->kategori }}'
                                 )" class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
@@ -144,10 +145,11 @@
                 <option value="Pagi">Pagi</option>
                 <option value="Malam">Malam</option>
             </select>
-            
+            <label class="text-sm mb-1 block">Angkatan</label>
+            <input type="number" name="angkatan" id="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="hitungSemesterTambah()">
+
             <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" placeholder="Semester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" name="semester" id="semester" class="w-full mb-3 px-3 py-2 border rounded text-black" readonly>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
@@ -186,10 +188,19 @@
                 <option value="D">Kelas D</option>
                 <option value="E">Kelas E</option>
             </select>
+            
+           <label class="text-sm mb-1 block">Angkatan</label>
+<input type="number"
+        name="angkatan"
+        id="editAngkatan"
+        class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="hitungSemesterEdit()">
 
-            <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" id="editSemester"
-                class="w-full mb-3 px-3 py-2 border rounded text-black" min="1" max="8">
+<label class="text-sm mb-1 block">Semester</label>
+<input type="number"
+    name="semester"
+    id="editSemester"
+    class="w-full mb-3 px-3 py-2 border rounded text-black bg-gray-100"
+    readonly>
 
             <label class="text-sm mb-1 block">Kategori</label>
             <select name="kategori" id="editKategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -248,11 +259,15 @@
 </div>
 
 <script>
-function openModal(id) {
+const tahunAktif = {{ $tahunAktif->tahun_awal ?? date('Y') }};
+const offset = {{ $tahunAktif->semester === 'ganjil' ? 1 : 2 }};
+
+function showModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
+    const content = modal.querySelector('.modal-content');
 
     modal.classList.remove('hidden');
+    modal.classList.add('flex');
 
     setTimeout(() => {
         content.classList.remove('opacity-0', 'translate-y-10');
@@ -260,36 +275,87 @@ function openModal(id) {
     }, 10);
 }
 
-function closeModal(id) {
+function hideModal(id) {
     const modal = document.getElementById(id);
-    const content = modal.querySelector('.modal-content') || modal.querySelector('div');
+    const content = modal.querySelector('.modal-content');
 
     content.classList.remove('opacity-100', 'translate-y-0');
     content.classList.add('opacity-0', 'translate-y-10');
 
     setTimeout(() => {
+        modal.classList.remove('flex');
         modal.classList.add('hidden');
     }, 300);
 }
 
-function openEdit(id, prodi, nama_kelas, semester, kategori) {
+// wrapper biar sesuai tombol kamu
+function openModal(id) {
+    showModal(id);
+}
+
+function closeModal(id) {
+    hideModal(id);
+}
+
+function openEdit(id, prodi, nama_kelas, semester, angkatan, kategori){
     openModal('editModal');
 
-    document.getElementById('editProdi').value = prodi
-    document.getElementById('editNama').value = nama_kelas
-    document.getElementById('editSemester').value = semester
-    document.getElementById('editKategori').value = kategori
-    document.getElementById('formEdit').action = '/kelas/update/' + id
+    document.getElementById('editProdi').value = prodi;
+    document.getElementById('editNama').value = nama_kelas;
+    document.getElementById('editSemester').value = semester;
+    document.getElementById('editAngkatan').value = angkatan;
+    document.getElementById('editKategori').value = kategori;
+    hitungSemesterEdit();
+
+    document.getElementById('formEdit').action = '/kelas/update/' + id;
 }
 
-function openDetail(prodi, nama_kelas, semester, kategori) {
+function openDetail(prodi, nama, semester, kategori){
     openModal('detailModal');
-    
-    document.getElementById('detailProdi').innerText = prodi
-    document.getElementById('detailNamaKelas').innerText = nama_kelas
-    document.getElementById('detailSemester').innerText = semester
-    document.getElementById('detailKategori').innerText = kategori
+
+    document.getElementById('detailProdi').innerText = prodi;
+    document.getElementById('detailNamaKelas').innerText = nama;
+    document.getElementById('detailSemester').innerText = semester;
+    document.getElementById('detailKategori').innerText = kategori;
 }
+
+function getOffset() {
+    return semesterAktif === 'ganjil' ? 1 : 2;
+}
+
+function hitungSemesterTambah() {
+    let angkatanInput = document.getElementById('angkatan');
+    let semesterInput = document.getElementById('semester');
+
+    if (angkatanInput.value === '') {
+        semesterInput.value = '';
+        return;
+    }
+
+    let angkatan = parseInt(angkatanInput.value);
+
+    let selisih = tahunAktif - angkatan;
+    if (selisih < 0) selisih = 0;
+
+    semesterInput.value = (selisih * 2) + offset;
+}
+
+function hitungSemesterEdit() {
+    let angkatanInput = document.getElementById('editAngkatan');
+    let semesterInput = document.getElementById('editSemester');
+
+    if (angkatanInput.value === '') {
+        semesterInput.value = '';
+        return;
+    }
+
+    let angkatan = parseInt(angkatanInput.value);
+
+    let selisih = tahunAktif - angkatan;
+    if (selisih < 0) selisih = 0;
+
+    semesterInput.value = (selisih * 2) + offset;
+};
 </script>
 
 @endsection

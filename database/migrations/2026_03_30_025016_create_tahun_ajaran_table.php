@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('tahun_akhir', 9);
             $table->enum('semester', ['ganjil', 'genap']);
             $table->enum('status', ['aktif', 'non-aktif'])->default('non-aktif');
-            $table->date('deadline_input_nilai')->nullable();
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
             $table->timestamps();
         });
     }

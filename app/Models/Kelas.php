@@ -11,7 +11,7 @@ class Kelas extends Model
 
     protected $primaryKey = 'id_kelas';
 
-    protected $fillable = ['nama_kelas','kategori','semester','id_prodi','nik_wali'];
+    protected $fillable = ['nama_kelas','kategori','semester','id_prodi','angkatan','nik_wali'];
 
     public function mahasiswa()
     {

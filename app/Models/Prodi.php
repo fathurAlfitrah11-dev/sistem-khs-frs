@@ -20,5 +20,9 @@ class Prodi extends Model
 {
     return $this->belongsTo(Dosen::class, 'nik_kps', 'nik');
 }
+public function matkul()
+{
+    return $this->hasMany(MataKuliah::class, 'id_prodi');
+}
 
 }

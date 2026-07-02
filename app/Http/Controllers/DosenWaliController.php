@@ -76,27 +76,37 @@ class DosenWaliController extends Controller
     ]);
 
     $kelasLama = Kelas::findOrFail($id_kelas);
-
-    $nikWali = $request->nik_wali;
     $kelasTujuan = Kelas::findOrFail($request->id_kelas);
 
-      // jika kelas tujuan sudah punya wali
-    if ($kelasTujuan->nik_wali && $kelasTujuan->nik_wali != $nikWali) {
+    // Cek apakah dosen sudah menjadi wali di kelas lain
+    $sudahJadiWali = Kelas::where('nik_wali', $request->nik_wali)
+        ->where('id_kelas', '!=', $id_kelas)
+        ->exists();
+
+    if ($sudahJadiWali) {
+        return back()->with('error', 'Dosen tersebut sudah menjadi wali kelas lain');
+    }
+
+    // Jika pindah ke kelas lain, pastikan kelas tujuan kosong
+    if (
+        $kelasTujuan->id_kelas != $kelasLama->id_kelas &&
+        $kelasTujuan->nik_wali != null
+    ) {
         return back()->with('error', 'Kelas tujuan sudah memiliki dosen wali');
     }
 
-    // hapus wali dari kelas lama
+    // Lepas dari kelas lama
     $kelasLama->update([
         'nik_wali' => null
     ]);
 
-    // pasang wali ke kelas tujuan
+    // Pasang ke kelas tujuan
     $kelasTujuan->update([
-        'nik_wali' => $nikWali
+        'nik_wali' => $request->nik_wali
     ]);
 
     return redirect('/dosen-wali')
-        ->with('success', 'Dosen wali berhasil dipindahkan');
+        ->with('success', 'Dosen wali berhasil diperbarui');
 }
 
     public function delete($id_kelas)

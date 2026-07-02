@@ -8,21 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('tahun_ajaran', function (Blueprint $table) {
-
+        Schema::table('prodi', function (Blueprint $table) {
             $table->boolean('nilai_dikunci')
                   ->default(false)
-                  ->after('tanggal_selesai');
-
+                  ->after('nik_kps');
         });
     }
 
     public function down(): void
     {
-        Schema::table('tahun_ajaran', function (Blueprint $table) {
-
+        Schema::table('prodi', function (Blueprint $table) {
             $table->dropColumn('nilai_dikunci');
-
         });
     }
 };

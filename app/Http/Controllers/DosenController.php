@@ -75,12 +75,14 @@ public function update(Request $request, $nik)
     $dosen = Dosen::findOrFail($nik);
 
     $validator = Validator::make($request->all(), [
-        'nama_dosen' => 'required',
-        'kode_dosen' => 'required',
-    ], [
-        'nama_dosen.required' => 'Nama dosen wajib diisi',
-        'kode_dosen.required' => 'Kode dosen wajib diisi',
-    ]);
+    'nama_dosen' => 'required',
+    'kode_dosen' => 'required',
+    'password' => 'nullable|min:6',
+], [
+    'nama_dosen.required' => 'Nama dosen wajib diisi',
+    'kode_dosen.required' => 'Kode dosen wajib diisi',
+    'password.min' => 'Password minimal 6 karakter',
+]);
     if ($validator->fails()) {
     return redirect()->back()
         ->withInput()

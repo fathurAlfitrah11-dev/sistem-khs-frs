@@ -3,6 +3,14 @@
 @section('title','Data Pengajar')
 
 @section('content')
+<style>
+    .select2-black-text .select2-selection__rendered,
+.select2-container--default .select2-results__option,
+.select2-container--default .select2-search--dropdown input {
+    color: #000 !important;
+    
+    }
+</style>
 
 <div class="p-6">
 
@@ -228,7 +236,7 @@
             @csrf
 
             <label class="block text-sm mb-1">Dosen</label>
-            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="nik">
+            <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="nik" id="dosenTambah">
                 <option value="">Pilih Dosen</option>
                 @foreach($dosen as $d)
                 <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
@@ -241,13 +249,26 @@
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk" id="mkSelect">
                 <option value="">Pilih Mata Kuliah</option>
-                @foreach($mataKuliah as $mk)
-                <option value="{{ $mk->kode_mk }}"
-    data-prodi="{{ $mk->id_prodi }}">
-    {{ $mk->kode_mk }}
-    - {{ $mk->nama_mk }}
-    Semester {{ $mk->semester }}
-</option>
+                @foreach($mataKuliah as $semester => $list)
+
+                    <optgroup label="Semester {{ $semester }}">
+
+                        @foreach($list as $mk)
+
+                            <option
+                                value="{{ $mk->kode_mk }}"
+                                data-prodi="{{ $mk->id_prodi }}">
+
+                                {{ $mk->kode_mk }}
+                                -
+                                {{ $mk->nama_mk }}
+
+                            </option>
+
+                        @endforeach
+
+                    </optgroup>
+
                 @endforeach
             </select>
              @error('kode_mk','tambah')
@@ -333,13 +354,26 @@
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
                 <option value="">Pilih Mata Kuliah</option>
-                @foreach($mataKuliah as $mk)
-                <option value="{{ $mk->kode_mk }}"
-    data-prodi="{{ $mk->id_prodi }}">
-    {{ $mk->kode_mk }}
-    {{ $mk->nama_mk }}
-    - Semester {{ $mk->semester }}
-</option>
+               @foreach($mataKuliah as $semester => $list)
+
+                    <optgroup label="Semester {{ $semester }}">
+
+                        @foreach($list as $mk)
+
+                            <option
+                                value="{{ $mk->kode_mk }}"
+                                data-prodi="{{ $mk->id_prodi }}">
+
+                                {{ $mk->kode_mk }}
+                                -
+                                {{ $mk->nama_mk }}
+
+                            </option>
+
+                        @endforeach
+
+                    </optgroup>
+
                 @endforeach
             </select>
            @error('kode_mk','edit')
@@ -441,127 +475,336 @@
 </div>
 
 <script>
-// ===== MODAL =====
+$(document).ready(function () {
+
+    $('#dosenTambah').select2({
+        width: '100%',
+        placeholder: 'Pilih Dosen',
+        allowClear: true,
+        dropdownParent: $('#tambahModal'),
+       dropdownCssClass: 'select2-black-text'
+    });
+
+    $('#mkSelect').select2({
+        width: '100%',
+        placeholder: 'Pilih Mata Kuliah',
+        allowClear: true,
+        dropdownParent: $('#tambahModal'),
+       dropdownCssClass: 'select2-black-text'
+    });
+
+    $('#editDosen').select2({
+        width: '100%',
+        placeholder: 'Pilih Dosen',
+        allowClear: true,
+        dropdownParent: $('#editModal'),
+       dropdownCssClass: 'select2-black-text'
+    });
+
+    $('#editMk').select2({
+        width: '100%',
+        placeholder: 'Pilih Mata Kuliah',
+        allowClear: true,
+        dropdownParent: $('#editModal'),
+       dropdownCssClass: 'select2-black-text'
+    });
+
+});
+
+function formatState(state) {
+
+    if (!state.id) {
+        return state.text;
+    }
+
+    return $('<span>' + state.text + '</span>');
+}
+
+
+// =====================================
+// SHOW MODAL
+// =====================================
 function showModal(id) {
-    const modal = document.getElementById(id)
-    const content = modal.querySelector('.modal-content')
 
-    modal.classList.remove('hidden')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('.modal-content');
+
+    modal.classList.remove('hidden');
 
     setTimeout(() => {
-        content.classList.remove('opacity-0', 'translate-y-10')
-        content.classList.add('opacity-100', 'translate-y-0')
-    }, 10)
+
+        content.classList.remove(
+            'opacity-0',
+            'translate-y-10'
+        );
+
+        content.classList.add(
+            'opacity-100',
+            'translate-y-0'
+        );
+
+    }, 10);
+
 }
 
+
+// =====================================
+// HIDE MODAL
+// =====================================
 function hideModal(id) {
-    const modal = document.getElementById(id)
-    const content = modal.querySelector('.modal-content')
 
-    content.classList.remove('opacity-100', 'translate-y-0')
-    content.classList.add('opacity-0', 'translate-y-10')
+    const modal = document.getElementById(id);
+    const content = modal.querySelector('.modal-content');
+
+    content.classList.remove(
+        'opacity-100',
+        'translate-y-0'
+    );
+
+    content.classList.add(
+        'opacity-0',
+        'translate-y-10'
+    );
 
     setTimeout(() => {
-        modal.classList.add('hidden')
-    }, 300)
+
+        modal.classList.add('hidden');
+
+    }, 300);
+
 }
 
+
+// =====================================
+// OPEN MODAL
+// =====================================
 function openModal(id) {
-    showModal(id)
+
+    showModal(id);
+
+    setTimeout(function () {
+
+        if (id === 'tambahModal') {
+
+            $('#dosenTambah').val(null).trigger('change');
+            $('#mkSelect').val(null).trigger('change');
+
+            $('#kelasSelect').val('');
+            $('#semesterSelect').val('');
+
+        }
+
+    },100);
+
 }
 
+
+// =====================================
+// CLOSE MODAL
+// =====================================
 function closeModal(id) {
-    hideModal(id)
+
+    hideModal(id);
+
+    if(id === 'editModal'){
+
+        $('#editDosen').val(null).trigger('change');
+        $('#editMk').val(null).trigger('change');
+        $('#editKelas').val('');
+        $('#editTahun').val('');
+        $('#editSemester').val('');
+
+    }
+
 }
 
-// ===== EDIT =====
-function openEdit(id, nik, mk, kelas, tahun, semester) {
-    showModal('editModal')
+// =====================================
+// DETAIL
+// =====================================
+function openDetail(
+    nik,
+    namaDosen,
+    mk,
+    kelas,
+    tahun,
+    semester
+) {
 
-    document.getElementById('editDosen').value = nik
-    document.getElementById('editMk').value = mk
-    document.getElementById('editKelas').value = kelas
-    document.getElementById('editTahun').value = tahun
-    document.getElementById('editSemester').value = semester
-    
-    document.getElementById('formEdit').action = '/pengajar/update/' + id
+    showModal('detailModal');
+
+    document.getElementById('detailNik').innerText =
+        nik;
+
+    document.getElementById('detailNamaDosen').innerText =
+        namaDosen;
+
+    document.getElementById('detailMk').innerText =
+        mk;
+
+    document.getElementById('detailKelas').innerText =
+        kelas;
+
+    document.getElementById('detailTahun').innerText =
+        tahun;
+
+    document.getElementById('detailSemester').innerText =
+        semester;
+
 }
-const editMk = document.getElementById('editMk')
-const editKelasSelect = document.getElementById('editKelas')
+// =====================================
+// MODAL TAMBAH
+// FILTER KELAS BERDASARKAN PRODI
+// =====================================
 
-editMk.addEventListener('change', function () {
+const mkSelect = document.getElementById('mkSelect');
+const kelasSelect = document.getElementById('kelasSelect');
+const semesterInput = document.getElementById('semesterSelect');
 
-    const prodi =
-        this.options[this.selectedIndex]
-        .getAttribute('data-prodi')
+$('#mkSelect').on('change', function () {
 
-    Array.from(editKelasSelect.options).forEach(option => {
+    const selected = this.options[this.selectedIndex];
 
-        if (option.value === '') {
-            option.hidden = false
-            return
+    if (!selected) return;
+
+    const prodi = selected.getAttribute('data-prodi');
+
+    Array.from(kelasSelect.options).forEach(function(option){
+
+        if(option.value === ''){
+            option.hidden = false;
+            return;
         }
 
         option.hidden =
-            option.getAttribute('data-prodi') != prodi
-    })
+            option.getAttribute('data-prodi') != prodi;
 
-    editKelasSelect.value = ''
-})
-// ===== DETAIL =====
-function openDetail(nik, namaDosen, mk, kelas, tahun, semester) {
-    showModal('detailModal')
+    });
 
-    document.getElementById('detailNik').innerText = nik
-    document.getElementById('detailNamaDosen').innerText = namaDosen
-    document.getElementById('detailMk').innerText = mk
-    document.getElementById('detailKelas').innerText = kelas
-    document.getElementById('detailTahun').innerText = tahun
-    document.getElementById('detailSemester').innerText = semester
-}
+    // reset pilihan kelas
+    kelasSelect.value = '';
+    semesterInput.value = '';
 
-const kelasSelect = document.getElementById('kelasSelect')
-const semesterInput = document.getElementById('semesterSelect')
+    // refresh select2 kalau nanti kelas juga dibuat select2
+    $('#kelasSelect').trigger('change');
 
-kelasSelect.addEventListener('change', function () {
-    const semester = this.options[this.selectedIndex].getAttribute('data-semester')
+});
 
-    semesterInput.value = semester || ''
-            })
-    const editKelas = document.getElementById('editKelas')
-const editSemester = document.getElementById('editSemester')
 
-editKelas.addEventListener('change', function () {
-    const semester = this.options[this.selectedIndex].getAttribute('data-semester')
-    editSemester.value = semester || ''
-})
-const mkSelect = document.getElementById('mkSelect')
-const kelasSelect2 = document.getElementById('kelasSelect')
+// =====================================
+// AUTO ISI SEMESTER
+// =====================================
 
-mkSelect.addEventListener('change', function () {
+$('#kelasSelect').on('change', function () {
 
-    const selectedOption =
-        this.options[this.selectedIndex]
+    const selected = this.options[this.selectedIndex];
 
-    const prodi =
-        selectedOption.getAttribute('data-prodi')
+    if(!selected){
 
-    Array.from(kelasSelect2.options).forEach(option => {
+        semesterInput.value = '';
+        return;
 
-        if (option.value === '') {
-            option.hidden = false
-            return
+    }
+
+    semesterInput.value =
+        selected.getAttribute('data-semester') ?? '';
+
+});
+
+// =====================================
+// MODAL EDIT
+// FILTER KELAS BERDASARKAN PRODI
+// =====================================
+
+const editMk = document.getElementById('editMk');
+const editKelas = document.getElementById('editKelas');
+const editSemester = document.getElementById('editSemester');
+
+$('#editMk').on('change', function () {
+
+    const selected = this.options[this.selectedIndex];
+
+    if (!selected) return;
+
+    const prodi = selected.getAttribute('data-prodi');
+
+    Array.from(editKelas.options).forEach(function(option){
+
+        if(option.value === ''){
+            option.hidden = false;
+            return;
         }
 
-        const kelasProdi =
-            option.getAttribute('data-prodi')
+        option.hidden =
+            option.getAttribute('data-prodi') != prodi;
 
-        option.hidden = kelasProdi != prodi
-    })
+    });
 
-    kelasSelect2.value = ''
-    semesterInput.value = ''
-})
+    // reset kelas
+    editKelas.value = '';
+    editSemester.value = '';
+
+    $('#editKelas').trigger('change');
+
+});
+
+
+// =====================================
+// AUTO ISI SEMESTER
+// =====================================
+
+$('#editKelas').on('change', function () {
+
+    const selected = this.options[this.selectedIndex];
+
+    if(!selected){
+
+        editSemester.value = '';
+        return;
+
+    }
+
+    editSemester.value =
+        selected.getAttribute('data-semester') ?? '';
+
+});
+
+
+// =====================================
+// OPEN EDIT
+// =====================================
+
+function openEdit(
+    id,
+    nik,
+    mk,
+    kelas,
+    tahun,
+    semester
+){
+
+    showModal('editModal');
+
+    $('#editDosen').val(nik).trigger('change');
+
+    $('#editMk').val(mk).trigger('change');
+
+    // Tunggu filter kelas selesai
+    setTimeout(function(){
+
+        $('#editKelas').val(kelas).trigger('change');
+
+        $('#editTahun').val(tahun).trigger('change');
+
+        $('#editSemester').val(semester);
+
+    },100);
+
+    $('#formEdit').attr(
+        'action',
+        '/pengajar/update/' + id
+    );
+
+}
 </script>
 
 @endsection

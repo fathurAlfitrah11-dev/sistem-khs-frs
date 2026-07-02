@@ -175,7 +175,7 @@
             @enderror
 
             <label class="block text-sm mb-1">Kelas</label>
-            <select name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_kelas" id="kelasTambah" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
                 <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}  {{ $k->nama_kelas }} {{$k->kategori}}</option>
@@ -199,7 +199,7 @@
             @enderror
 
             <label class="block text-sm mb-1">Angkatan</label>
-            <input type="number" name="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" name="angkatan" id="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="filterKelas()">
             @error('angkatan','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
@@ -337,6 +337,10 @@
 </style>
 
 <script>
+const tahunAktif = {{ $tahunAktif->tahun_awal }};
+const offset = {{ $tahunAktif->semester == 'ganjil' ? 1 : 2 }};
+const semuaKelas = @json($kelas);
+
 function showModal(id) {
     const modal = document.getElementById(id);
     const content = modal.querySelector('.modal-content') || modal.querySelector('div');
@@ -380,6 +384,11 @@ function openEdit(nim, prodi, kelas, nama, angkatan) {
 
     document.getElementById('editPassword').value = '';
 
+    filterKelasEdit();
+    setTimeout(() => {
+        document.getElementById('editKelas').value = kelas;
+    }, 50);
+    
     document.getElementById('formEdit').action = '/mahasiswa/update/' + nim;
 }
 
@@ -391,6 +400,52 @@ function openDetail(nim, nama, prodi, angkatan, kelas) {
     document.getElementById('detailProdi').innerText = prodi;
     document.getElementById('detailAngkatan').innerText = angkatan;
     document.getElementById('detailKelas').innerText = kelas;
+}
+function hitungSemester(angkatan) {
+    let selisih = tahunAktif - angkatan;
+    if (selisih < 0) selisih = 0;
+    return (selisih * 2) + offset;
+}
+
+function filterKelasTambah() {
+    let angkatan = parseInt(document.getElementById('angkatan').value);
+    let select = document.getElementById('kelasTambah');
+
+    select.innerHTML = '<option value="">Pilih Kelas</option>';
+
+    if (isNaN(angkatan)) return;
+
+    let semester = hitungSemester(angkatan);
+
+    semuaKelas.forEach(k => {
+        if (parseInt(k.semester) === semester) {
+            select.innerHTML += `
+                <option value="${k.id_kelas}">
+                    ${k.prodi.nama_prodi} ${k.semester}${k.nama_kelas} ${k.kategori}
+                </option>
+            `;
+        }
+    });
+}
+function filterKelasEdit() {
+    let angkatan = parseInt(document.getElementById('editAngkatan').value);
+    let select = document.getElementById('editKelas');
+
+    select.innerHTML = '<option value="">Pilih Kelas</option>';
+
+    if (isNaN(angkatan)) return;
+
+    let semester = hitungSemester(angkatan);
+
+    semuaKelas.forEach(k => {
+        if (parseInt(k.semester) === semester) {
+            select.innerHTML += `
+                <option value="${k.id_kelas}">
+                    ${k.prodi.nama_prodi} ${k.semester}${k.nama_kelas} ${k.kategori}
+                </option>
+            `;
+        }
+    });
 };
 </script>
 

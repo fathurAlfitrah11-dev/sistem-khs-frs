@@ -37,11 +37,12 @@ class MataKuliahController extends Controller
         'kode_mk' => 'required|unique:mata_kuliah,kode_mk,' . $request->kode_mk . ',kode_mk',
         'nama_mk' => 'required',
         'sks' => 'required|integer|max:4|min:2',
-        'semester' => 'required|integer',
+        'semester' => 'required|integer|min:1|max:8',
         'id_prodi' => 'required|exists:prodi,id_prodi'
     ], [
         'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
         'sks.min' => 'SKS minimal 2',
+        'sks.max' => 'SKS maksimal 4',
         'kode_mk' => 'Kode MK Wajib Diisi',
         'nama_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
         'sks.required' => 'SKS Wajib Diisi',
@@ -93,6 +94,7 @@ return redirect('/mata-kuliah')
     ], [
         'kode_mk.unique' => 'Kode mata kuliah sudah terdaftar!',
         'sks.min' => 'SKS minimal 2',
+        'sks.max' => 'SKS maksimal 4',
         'kode_mk' => 'Kode MK Wajib Diisi',
         'nama_mk.required' => 'Kode Mata Kuliah Wajib Diisi',
         'sks.required' => 'SKS Wajib Diisi',

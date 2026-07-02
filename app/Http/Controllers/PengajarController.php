@@ -67,7 +67,12 @@ class PengajarController extends Controller
         }
     }
 
-    $mataKuliah = $mataKuliah->get();
+    $mataKuliah = $mataKuliah
+    ->orderBy('semester')
+    ->orderBy('kode_mk')
+    ->get()
+    ->groupBy('semester');
+    
     $tahunAjaran = TahunAjaran::all();
 
     return view('admin.pengajar.index', compact(

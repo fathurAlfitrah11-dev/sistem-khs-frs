@@ -224,6 +224,9 @@
             <label class="text-sm mb-1 block">Password Baru</label>
             <input type="password" name="password" id="editPassword" placeholder="Kosongkan jika tidak ingin mengubah"
                 class="w-full mb-3 px-3 py-2 border rounded text-black">
+                @error('password','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
+            @enderror
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded">
