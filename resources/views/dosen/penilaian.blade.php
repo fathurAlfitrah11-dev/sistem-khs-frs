@@ -93,6 +93,35 @@
                     </select>
                 </div>
 
+               {{-- TAHUN AJARAN --}}
+<div class="flex flex-col gap-1">
+    <label class="text-xs text-slate-300 font-medium">Tahun Ajaran</label>
+
+    <select name="id_tahun_ajaran"
+        class="w-full px-2 py-1.5 text-xs rounded bg-white text-black border">
+
+        <option value="">Pilih Tahun Ajaran</option>
+
+        @foreach($tahunAjaranList as $ta)
+
+            <option value="{{ $ta->id_tahun_ajaran }}"
+                {{ request('id_tahun_ajaran') == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+
+                {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+                - {{ ucfirst($ta->semester) }}
+
+                {{-- LABEL AKTIF --}}
+                @if($ta->status == 'aktif')
+                    (AKTIF)
+                @endif
+
+            </option>
+
+        @endforeach
+
+    </select>
+</div>
+
                 {{-- TOMBOL CARI --}}
                 <div class="col-span-2 xl:col-span-1">
                     <button type="submit" class="w-full bg-[#f4a261] hover:bg-[#e76f51] text-white font-semibold text-xs px-4 py-2 rounded shadow transition-all duration-200 h-[34px]">
@@ -234,14 +263,14 @@ if(request('id_pengajar')) {
 
             <div class="flex gap-3">
                 @php
-                    $isFinal = isset($mahasiswa[0]->khs) && $mahasiswa[0]->khs->status === 'Final';
-                @endphp
+                $kpsLocked = \App\Models\PenguncianNilai::where('status', 'dikunci')->exists();
+            @endphp
 
-                <button type="submit" name="action" value="draft" form="formSimpanNilai" {{ $isFinal ? 'disabled' : '' }} class="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-500 disabled:cursor-not-allowed text-slate-900 px-5 py-2 rounded-xl font-semibold transition-all duration-150 shadow-md">
+                <button type="submit" name="action" value="draft" form="formSimpanNilai" {{ $kpsLocked ? 'disabled' : '' }} class="bg-orange-400 hover:bg-orange-500 disabled:bg-gray-500 disabled:cursor-not-allowed text-slate-900 px-5 py-2 rounded-xl font-semibold transition-all duration-150 shadow-md">
                     Simpan Draft
                 </button>
 
-                <button type="submit" name="action" value="final" form="formSimpanNilai" {{ $isFinal ? 'disabled' : '' }} onclick="return confirm('Apakah Anda yakin ingin melakukan finalisasi? Nilai yang sudah difinalisasi tidak akan dapat diubah kembali.')" class="bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-5 py-2 rounded-xl font-bold transition-all duration-150 shadow-md">
+                <button type="submit" name="action" value="final" form="formSimpanNilai" {{ $kpsLocked ? 'disabled' : '' }} onclick="return confirm('Apakah Anda yakin ingin melakukan finalisasi? Nilai yang sudah difinalisasi tidak akan dapat diubah kembali.')" class="bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-5 py-2 rounded-xl font-bold transition-all duration-150 shadow-md">
                     Finalisasi Nilai
                 </button>
             </div>

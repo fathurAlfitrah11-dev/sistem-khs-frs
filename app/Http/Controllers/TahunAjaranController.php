@@ -29,7 +29,7 @@ class TahunAjaranController extends Controller
 
     public function index(Request $request)
     {
-        $today = Carbon::parse('2027-02-15');
+        $today = Carbon::parse('2027-08-03');
 
 TahunAjaran::query()->update([
     'status' => 'non-aktif'

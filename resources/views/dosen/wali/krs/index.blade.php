@@ -11,22 +11,56 @@
     </h1>
 
     {{-- SEARCH --}}
-    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
-        data-aos-delay="200">
+    <div class="bg-[#4f547d] p-4 rounded-lg mb-6" data-aos="fade-up" data-aos-delay="200">
 
-        <div class="flex-1">
+        <form method="GET" action="{{ url('/perwalian') }}">
 
-            <div class="flex items-center bg-white rounded px-3 py-2">
+            <div class="flex flex-col gap-3">
 
-                <input type="text" placeholder="Cari Mahasiswa / NIM" class="w-full outline-none text-sm text-gray-700">
+                {{-- SEARCH --}}
+                <div class="flex items-center bg-white rounded px-3 py-2">
+                    <input type="text"
+                        placeholder="Cari Mahasiswa / NIM"
+                        class="w-full outline-none text-sm text-gray-700">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </div>
 
-                <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                {{-- TAHUN AJARAN --}}
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs text-slate-300 font-medium">
+                        Tahun Ajaran
+                    </label>
+
+                    <select name="id_tahun_ajaran"
+                        onchange="this.form.submit()"
+                        class="w-full px-3 py-2 text-xs rounded bg-white text-black border">
+
+                        <option value="">
+                            -- Semua Tahun Ajaran --
+                        </option>
+
+                        @foreach($tahunAjaranList as $ta)
+                            <option value="{{ $ta->id_tahun_ajaran }}"
+                                {{ ($selectedTahun ?? null) == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+
+                                {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+                                - {{ ucfirst($ta->semester) }}
+
+                                @if($ta->status === 'aktif')
+                                    (AKTIF)
+                                @endif
+
+                            </option>
+                        @endforeach
+
+                    </select>
+                </div>
 
             </div>
 
-        </div>
-    </div>
+        </form>
 
+    </div>
     {{-- TABLE --}}
     <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="200">
 

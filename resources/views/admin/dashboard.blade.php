@@ -193,254 +193,98 @@
                 </a>
             </div>
         </div>
+        
         {{-- ===== RECENT ACTIVITY ===== --}}
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6" data-aos="fade-up"
-            data-aos-delay="700">
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6"
+     data-aos="fade-up" data-aos-delay="700">
 
-            {{-- Header --}}
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">
-                        Aktivitas Terbaru
-                    </h2>
+    <div class="mb-6">
+        <h2 class="text-xl font-bold text-gray-800">
+            Aktivitas Terbaru
+        </h2>
+        <p class="text-sm text-gray-400 mt-1">
+            Aktivitas sistem terkini
+        </p>
+    </div>
 
-                    <p class="text-sm text-gray-400 mt-1">
-                        Aktivitas sistem terkini
-                    </p>
-                </div>
+    <div class="overflow-x-auto">
 
-                <a href="#"
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-all duration-200"
-                    style="text-decoration: none !important;">
+        <table class="w-full">
 
-                    View All
+            <thead class="bg-gray-50/80">
+                <tr class="border-b border-gray-100">
 
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                </a>
-            </div>
+                    <th class="py-4 px-6 text-center text-xs font-bold uppercase text-gray-400">
+                        Timestamp
+                    </th>
 
-            {{-- Table --}}
-            <div class="overflow-x-auto">
-                <table class="w-full">
+                    <th class="py-4 px-6 text-center text-xs font-bold uppercase text-gray-400">
+                        Activity
+                    </th>
 
-                    {{-- Table Head --}}
-                    <thead class="bg-gray-50/80">
-                        <tr class="border-b border-gray-100">
+                    <th class="py-4 px-6 text-center text-xs font-bold uppercase text-gray-400">
+                        User
+                    </th>
 
-                            <th class="py-4 px-6 text-center text-xs font-bold uppercase tracking-wider text-gray-400">
-                                Timestamp
-                            </th>
+                    <th class="py-4 px-6 text-center text-xs font-bold uppercase text-gray-400">
+                        Description
+                    </th>
 
-                            <th class="py-4 px-6 text-center text-xs font-bold uppercase tracking-wider text-gray-400">
-                                Activity
-                            </th>
+                </tr>
+            </thead>
 
-                            <th class="py-4 px-6 text-center text-xs font-bold uppercase tracking-wider text-gray-400">
-                                User
-                            </th>
+            <tbody class="divide-y divide-gray-100">
 
-                            <th class="py-4 px-6 text-center text-xs font-bold uppercase tracking-wider text-gray-400">
-                                Description
-                            </th>
+                @forelse ($aktivitas as $item)
 
-                            <th class="py-4 px-6 text-center text-xs font-bold uppercase tracking-wider text-gray-400">
-                                Status
-                            </th>
+                    <tr class="hover:bg-gray-50/70 transition-all duration-200">
 
-                        </tr>
-                    </thead>
+                        {{-- Timestamp --}}
+                        <td class="py-5 px-4 text-center whitespace-nowrap">
+                            <p class="text-sm text-gray-500">
+                                {{ \Carbon\Carbon::parse($item->timestamp)->format('d M Y H:i') }}
+                            </p>
+                        </td>
 
-                    {{-- Table Body --}}
-                    <tbody class="divide-y divide-gray-100">
+                        {{-- Activity (NO ICON) --}}
+                        <td class="py-5 px-4 text-center whitespace-nowrap">
+                            <span class="text-sm font-semibold text-gray-700">
+                                {{ $item->tipe }}
+                            </span>
+                        </td>
 
-                        @forelse ($aktivitas ?? [] as $item)
+                        {{-- User --}}
+                        <td class="py-5 px-4 text-center whitespace-nowrap">
+                            <span class="text-sm font-medium text-gray-700">
+                                {{ $item->user }}
+                            </span>
+                        </td>
 
-                        <tr class="hover:bg-gray-50/70 transition-all duration-200">
+                        {{-- Description --}}
+                        <td class="py-5 px-4 text-center">
+                            <p class="text-sm text-gray-500 leading-relaxed">
+                                {{ $item->deskripsi }}
+                            </p>
+                        </td>
 
-                            {{-- Timestamp --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
-                                <p class="text-sm text-gray-500">
-                                    {{ \Carbon\Carbon::parse($item->timestamp)->format('d M Y H:i') }}
-                                </p>
-                            </td>
+                    </tr>
 
-                            {{-- Activity --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
+                @empty
 
-                                <div class="inline-flex items-center gap-2">
+                    <tr>
+                        <td colspan="4" class="text-center py-10 text-gray-400 text-sm">
+                            Belum ada aktivitas apa pun
+                        </td>
+                    </tr>
 
-                                    <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                @endforelse
 
-                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
+            </tbody>
 
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </table>
 
-                                        </svg>
-                                    </div>
-
-                                    <span class="text-sm font-semibold text-gray-700">
-                                        {{ $item->tipe }}
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-                            {{-- User --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
-
-                                <div class="flex items-center gap-3">
-
-                                    <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-
-                                        <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-
-                                            <path
-                                                d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-
-                                        </svg>
-                                    </div>
-
-                                    <span class="text-sm font-medium text-gray-700">
-                                        {{ $item->user }}
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-                            {{-- Description --}}
-                            <td class="py-5 px-4">
-
-                                <p class="text-sm text-gray-500 leading-relaxed">
-                                    {{ $item->deskripsi }}
-                                </p>
-
-                            </td>
-
-                            {{-- Status --}}
-                            <td class="py-5 px-4 text-center">
-
-                                <span @class([ 'inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold'
-                                    , 'bg-green-100 text-green-700'=> $item->status === 'Success',
-                                    'bg-red-100 text-red-700' => $item->status === 'Failed',
-                                    'bg-yellow-100 text-yellow-700' => $item->status === 'Pending',
-                                    ])>
-
-                                    {{ $item->status }}
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        @empty
-
-                        @php
-                        $dummyRows = [
-                        ['2025-04-07 14:32', 'Student Added', 'John Smith', 'New student registration completed',
-                        'Success'],
-                        ['2025-04-07 13:18', 'Course Updated', 'Dr. Sarah Johnson', 'Updated CS101 course syllabus',
-                        'Success'],
-                        ['2025-04-07 12:45', 'KRS Submitted', 'Emily Davis', 'Student submitted KRS for semester
-                        2025/1', 'Success'],
-                        ];
-                        @endphp
-
-                        @foreach ($dummyRows as $row)
-
-                        <tr class="hover:bg-gray-50/70 transition-all duration-200">
-
-                            {{-- Timestamp --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
-                                <p class="text-sm text-gray-500">
-                                    {{ $row[0] }}
-                                </p>
-                            </td>
-
-                            {{-- Activity --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
-
-                                <div class="inline-flex items-center gap-2">
-
-                                    <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
-
-                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
-                                            stroke-width="2" viewBox="0 0 24 24">
-
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                                        </svg>
-                                    </div>
-
-                                    <span class="text-sm font-semibold text-gray-700">
-                                        {{ $row[1] }}
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-                            {{-- User --}}
-                            <td class="py-5 px-4 whitespace-nowrap">
-
-                                <div class="flex items-center gap-3">
-
-                                    <div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center">
-
-                                        <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-
-                                            <path
-                                                d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-
-                                        </svg>
-                                    </div>
-
-                                    <span class="text-sm font-medium text-gray-700">
-                                        {{ $row[2] }}
-                                    </span>
-
-                                </div>
-
-                            </td>
-
-                            {{-- Description --}}
-                            <td class="py-5 px-4">
-
-                                <p class="text-sm text-gray-500 leading-relaxed">
-                                    {{ $row[3] }}
-                                </p>
-
-                            </td>
-
-                            {{-- Status --}}
-                            <td class="py-5 px-4 text-center">
-
-                                <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-
-                                    {{ $row[4] }}
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        @endforeach
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
+    </div>
+</div>
 
     </div>
 

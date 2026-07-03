@@ -77,7 +77,7 @@
                                 {{-- EDIT --}}
                                 <button data-id="{{ $d->id_tahun_ajaran }}"
                                     data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"data-tanggal-mulai="{{ $d->tanggal_mulai }}" data-tanggal-selesai="{{ ($d->tanggal_selesai) }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}" data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
                                     onclick="openEdit(this)"
                                     class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>

@@ -13,28 +13,57 @@ use Illuminate\View\View;
 
 class PerwalianController extends Controller
 {
+    private function getSemesterFromTahun($tahun)
+{
+    return $tahun->semester; // ganjil / genap
+}
 
-    public function index(): View
-    {
+   public function index(Request $request): View
+{
+    $nikDosen = Auth::user()->username;
 
-        $nikDosen = Auth::user()->username; 
+    $kelasDosenWali = Kelas::where('nik_wali', $nikDosen)
+        ->pluck('id_kelas')
+        ->toArray();
 
-        $kelasDosenWali = Kelas::where('nik_wali', $nikDosen)->pluck('id_kelas')->toArray();
-
-        if (empty($kelasDosenWali)) {
-            return view('dosen.wali.krs.index', ['krs' => collect()]);
-        }
-
-        $krs = Krs::with(['mahasiswa.kelas', 'detail'])
-            ->whereIn('nim', function($query) use ($kelasDosenWali) {
-                $query->select('nim')
-                      ->from('mahasiswa')
-                      ->whereIn('id_kelas', $kelasDosenWali);
-            })
-            ->get();
-
-        return view('dosen.wali.krs.index', compact('krs'));
+    if (empty($kelasDosenWali)) {
+        return view('dosen.wali.krs.index', [
+            'krs' => collect(),
+            'tahunAjaranList' => collect(),
+            'tahunAktif' => null,
+            'selectedTahun' => null
+        ]);
     }
+
+    // LIST SEMUA TAHUN
+    $tahunAjaranList = \App\Models\TahunAjaran::orderBy('tahun_awal', 'desc')->get();
+
+    // TAHUN AKTIF
+    $tahunAktif = \App\Models\TahunAjaran::where('status', 'aktif')->first();
+
+    // FIX: kalau tidak pilih, pakai tahun aktif
+    $selectedTahun = $request->id_tahun_ajaran ?? $tahunAktif?->id_tahun_ajaran;
+
+    // QUERY KRS (SUPPORT HISTORY + FILTER)
+    $krs = Krs::with(['mahasiswa.kelas', 'detail.pengajar.mataKuliah'])
+        ->whereIn('nim', function ($query) use ($kelasDosenWali) {
+            $query->select('nim')
+                ->from('mahasiswa')
+                ->whereIn('id_kelas', $kelasDosenWali);
+        })
+        ->when($selectedTahun, function ($q) use ($selectedTahun) {
+            $q->where('id_tahun_ajaran', $selectedTahun);
+        })
+        ->orderBy('id_krs', 'desc')
+        ->get();
+
+    return view('dosen.wali.krs.index', compact(
+        'krs',
+        'tahunAjaranList',
+        'tahunAktif',
+        'selectedTahun'
+    ));
+}
 
     public function detail($id_krs): View
     {

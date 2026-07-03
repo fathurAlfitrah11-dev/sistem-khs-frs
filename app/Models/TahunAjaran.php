@@ -9,7 +9,7 @@ class TahunAjaran extends Model
     protected $table = 'tahun_ajaran';
     protected $primaryKey = 'id_tahun_ajaran';
     public $incrementing = true;
-    protected $cast = [
+    protected $casts = [
         'tanggal_mulai' => 'date',
         'tanggal_selesai' => 'date',
     ];

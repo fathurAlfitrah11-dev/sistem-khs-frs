@@ -30,23 +30,82 @@
     {{-- Card Tabel --}}
     <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg">
 
-        <h2 class="text-white text-3xl font-bold mb-6">
+  <div class="flex justify-between items-center mb-6">
+
+    <div>
+
+        <h2 class="text-white text-3xl font-bold">
             Data Persentase Nilai
         </h2>
-        @if(!$prodi->nilai_dikunci)
 
-<form action="{{ url('/kps-penilaian/tutup-nilai') }}" method="POST">
+        <div class="mt-3">
+            <p class="text-white text-sm">
+                Deadline Penginputan Nilai
+            </p>
+
+            <p class="font-bold {{ $deadlineLewat ? 'text-red-400' : 'text-yellow-300' }}">
+                {{ $tahun->deadline_nilai->format('d F Y') }}
+            </p>
+        </div>
+
+    </div>
+
+    <div class="text-left">
+
+        <p class="text-white text-sm mb-2">
+            Tahun Ajaran
+        </p>
+
+        <form method="GET">
+            <select
+                name="id_tahun_ajaran"
+                onchange="this.form.submit()"
+                class="rounded-lg text-black px-3 py-2">
+
+                @foreach($tahunAjaran as $ta)
+                    <option
+                        value="{{ $ta->id_tahun_ajaran }}"
+                        {{ $tahun->id_tahun_ajaran == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+
+                        {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
+                        - semester {{ ucfirst($ta->semester) }}
+                        {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
+
+                    </option>
+                @endforeach
+
+            </select>
+        </form>
+
+    </div>
+
+</div>
+       @if($penguncian->status == 'tidak_dikunci')
+
+<form action="{{ url('/kps-penilaian/tutup-nilai') }}" method="POST" class="mb-5">
     @csrf
-    <button class="bg-red-500 text-white px-4 py-2 rounded">
+
+    <input
+        type="hidden"
+        name="id_tahun_ajaran"
+        value="{{ $tahun->id_tahun_ajaran }}">
+
+    <button class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-lg">
         Tutup Penginputan Nilai
     </button>
 </form>
 
 @else
 
-<form action="{{ url('/kps-penilaian/buka-nilai') }}" method="POST">
+<form action="{{ url('/kps-penilaian/buka-nilai') }}" method="POST" class="mb-5">
     @csrf
-    <button class="bg-green-500 text-white px-4 py-2 rounded">
+
+    <input
+        type="hidden"
+        name="id_tahun_ajaran"
+        value="{{ $tahun->id_tahun_ajaran }}">
+
+    <button class="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg">
         Buka Penginputan Nilai
     </button>
 </form>
@@ -78,6 +137,18 @@
                 </thead>
 
                 <tbody>
+@if($matkul->isEmpty())
+
+<tr>
+    <td colspan="10" class="py-8 text-center text-gray-500">
+
+        Belum ada data mata kuliah pada semester
+        <b>{{ ucfirst($tahun->semester) }}</b>.
+
+    </td>
+</tr>
+
+@else
 
 @foreach($matkul as $mk)
 
@@ -180,7 +251,7 @@
 </tr>
 
 @endforeach
-
+@endif
 </tbody>
 
             </table>

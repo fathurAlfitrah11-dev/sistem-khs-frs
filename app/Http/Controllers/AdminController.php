@@ -64,24 +64,27 @@ class AdminController extends Controller
 
     // DOSEN INPUT NILAI
     $aktivitasNilai = Khs::with([
-        'krsDetail.krs.mahasiswa'
-    ])
-    ->latest()
-    ->take(10)
-    ->get()
-    ->map(function ($item) {
-        return (object)[
-            'timestamp' => $item->updated_at,
-            'tipe'       => 'Input Nilai',
-            'user'       => $item->nik,
-            'deskripsi'  =>
-                'Menginput nilai mahasiswa ' .
-                ($item->krsDetail->krs->mahasiswa->nama ?? '-'),
-            'status'     => $item->status == 'Final'
-                            ? 'Success'
-                            : 'Pending'
-        ];
-    });
+    'krsDetail.krs.mahasiswa',
+    'krsDetail.pengajar.dosen'
+])
+->latest()
+->take(10)
+->get()
+->map(function ($item) {
+
+    return (object)[
+        'timestamp' => $item->updated_at,
+        'tipe'       => 'Input Nilai',
+
+        //USER
+        'user'       => $item->krsDetail->pengajar->dosen->nama_dosen
+                        ?? $item->nik,
+
+        'deskripsi'  =>
+            'Menginput nilai mahasiswa ' .
+            ($item->krsDetail->krs->mahasiswa->nama ?? '-')
+    ];
+});
 
     // SEMUA AKTIVITAS
     $aktivitas = collect()

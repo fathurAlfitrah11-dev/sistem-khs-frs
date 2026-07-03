@@ -27,4 +27,8 @@ class Krs extends Model
     {
         return $this->hasMany(KrsDetail::class,'id_krs','id_krs');
     }
+    public function tahunAjaran()
+{
+    return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+}
 }

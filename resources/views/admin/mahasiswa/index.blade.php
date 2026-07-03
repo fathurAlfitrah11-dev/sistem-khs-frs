@@ -163,7 +163,7 @@
         <form action="/mahasiswa/store" method="POST">
             @csrf
             <label class="block text-sm mb-1">Program Studi</label>
-            <select name="id_prodi" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_prodi" onchange="filterKelasTambah()" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
@@ -176,11 +176,8 @@
 
             <label class="block text-sm mb-1">Kelas</label>
             <select name="id_kelas" id="kelasTambah" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Kelas</option>
-                @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}  {{ $k->nama_kelas }} {{$k->kategori}}</option>
-                @endforeach
-            </select>
+    <option value="">Isi Program Studi dan Angkatan terlebih dahulu</option>
+</select>
         
             @error('id_kelas','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
@@ -199,7 +196,13 @@
             @enderror
 
             <label class="block text-sm mb-1">Angkatan</label>
-            <input type="number" name="angkatan" id="angkatan" placeholder="Angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="filterKelas()">
+            <input
+    type="number"
+    id="angkatan"
+    name="angkatan"
+    oninput="filterKelasTambah()"
+    placeholder="Angkatan"
+    class="w-full mb-3 px-3 py-2 border rounded text-black">
             @error('angkatan','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
@@ -244,12 +247,9 @@
             @enderror
             
              <label class="block text-sm mb-1">Kelas</label>
-            <select id="editKelas" name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
-                <option value="">Pilih Kelas</option>
-                @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}">{{$k->prodi->nama_prodi}} {{$k->semester}}{{ $k->nama_kelas }} {{$k->kategori}}</option>
-                @endforeach
-            </select>
+           <select id="editKelas" name="id_kelas" class="w-full mb-3 px-3 py-2 border rounded text-black">
+    <option value="">Isi Program Studi dan Angkatan terlebih dahulu</option>
+</select>
             @error('id_kelas','edit')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
@@ -408,25 +408,45 @@ function hitungSemester(angkatan) {
 }
 
 function filterKelasTambah() {
+
     let angkatan = parseInt(document.getElementById('angkatan').value);
+    let prodi = document.querySelector('[name="id_prodi"]').value;
     let select = document.getElementById('kelasTambah');
 
     select.innerHTML = '<option value="">Pilih Kelas</option>';
 
-    if (isNaN(angkatan)) return;
+    if (isNaN(angkatan) || !prodi) {
+        select.innerHTML = '<option value="">Isi Program Studi dan Angkatan terlebih dahulu</option>';
+        return;
+    }
 
     let semester = hitungSemester(angkatan);
 
+    let ada = false;
+
     semuaKelas.forEach(k => {
-        if (parseInt(k.semester) === semester) {
+
+        if (
+            parseInt(k.semester) === semester &&
+            k.id_prodi == prodi
+        ) {
+
+            ada = true;
+
             select.innerHTML += `
                 <option value="${k.id_kelas}">
                     ${k.prodi.nama_prodi} ${k.semester}${k.nama_kelas} ${k.kategori}
                 </option>
             `;
         }
+
     });
+
+    if (!ada) {
+        select.innerHTML = '<option value="">Tidak ada kelas untuk semester tersebut</option>';
+    }
 }
+
 function filterKelasEdit() {
     let angkatan = parseInt(document.getElementById('editAngkatan').value);
     let select = document.getElementById('editKelas');
