@@ -29,18 +29,20 @@ class TahunAjaranController extends Controller
 
     public function index(Request $request)
     {
-        $today = Carbon::parse('2027-08-03');
+        // 💡 UBAH DI SINI: Gunakan waktu hari ini, jangan di-hardcode ke 2027
+        $today = now(); 
 
-TahunAjaran::query()->update([
-    'status' => 'non-aktif'
-]);
+        TahunAjaran::query()->update([
+            'status' => 'non-aktif'
+        ]);
 
-TahunAjaran::whereDate('tanggal_mulai', '<=', $today)
-    ->whereDate('tanggal_selesai', '>=', $today)
-    ->update([
-        'status' => 'aktif'
-    ]);
-    $this->updateSemesterKelas();
+        TahunAjaran::whereDate('tanggal_mulai', '<=', $today)
+            ->whereDate('tanggal_selesai', '>=', $today)
+            ->update([
+                'status' => 'aktif'
+            ]);
+            
+        $this->updateSemesterKelas();
         $search = $request->search;
 
         // Tahun ajaran yang sedang aktif berdasarkan tanggal hari ini
@@ -59,13 +61,14 @@ TahunAjaran::whereDate('tanggal_mulai', '<=', $today)
             ->paginate(10)
             ->appends($request->query());
 
-        $data->getCollection()->transform(function ($item) {
-    $item->aktif = now()->between($item->tanggal_mulai, $item->tanggal_selesai)
-        ? 'aktif'
-        : 'nonaktif';
+        // 💡 OPTIONAL FIX: Bagian transform ini juga samakan agar statusnya 'aktif' / 'non-aktif' sesuai database
+        $data->getCollection()->transform(function ($item) use ($today) {
+            $item->aktif = $today->between($item->tanggal_mulai, $item->tanggal_selesai)
+                ? 'aktif'
+                : 'non-aktif';
 
-    return $item;
-});
+            return $item;
+        });
 
         return view('admin.tahun-ajaran.index', compact(
             'data',

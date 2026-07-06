@@ -56,8 +56,8 @@
                         </td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">{{ $d->semester }}</td>
                         <td class="px-6 py-3 text-center whitespace-nowrap">
-                            <a href="/tahun-ajaran/status/{{ $d->id_tahun_ajaran }}"
-                                class="px-3 py-1 rounded text-white font-semibold transition text-xs
+                            <a {{ $d->id_tahun_ajaran }}"
+                                class="px-3 py-1 rounded text-white font-semibold    text-xs
                             {{ $d->status == 'aktif' ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500 hover:bg-gray-600' }}">
                                 {{ $d->status == 'aktif' ? 'Aktif' : 'Non-aktif' }}
                             </a>
@@ -68,7 +68,9 @@
 
                                 {{-- VIEW --}}
                                 <button data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}" data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}"
+                                    data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
                                     onclick="openDetail(this)"
                                     class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
@@ -77,7 +79,9 @@
                                 {{-- EDIT --}}
                                 <button data-id="{{ $d->id_tahun_ajaran }}"
                                     data-tahun="{{ $d->tahun_awal }}/{{ $d->tahun_akhir }}"
-                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}" data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}" data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
+                                    data-semester="{{ $d->semester }}" data-status="{{ $d->status }}"
+                                    data-tanggal-mulai="{{ \Carbon\Carbon::parse($d->tanggal_mulai)->format('Y-m-d') }}"
+                                    data-tanggal-selesai="{{ \Carbon\Carbon::parse($d->tanggal_selesai)->format('Y-m-d') }}"
                                     onclick="openEdit(this)"
                                     class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
@@ -107,12 +111,12 @@
 
         {{-- PAGINATION --}}
         <div class="flex justify-end mt-5">
-                    {{ $data->appends(request()->query())->links() }}
-                </div>
-            </div>
+            {{ $data->appends(request()->query())->links() }}
         </div>
-
     </div>
+</div>
+
+</div>
 </div>
 
 {{-- MODAL TAMBAH --}}
@@ -123,33 +127,24 @@
         <h2 class="mb-4 font-bold">Tambah Tahun Ajaran</h2>
         <form action="/tahun-ajaran/store" method="POST">
             @csrf
-           <label class="block text-sm mb-1">Tahun Ajaran</label>
-<input
-    type="text"
-    id="tahun_ajaran"
-    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
-    readonly
->
+            <label class="block text-sm mb-1">Tahun Ajaran</label>
+            <input type="text" id="tahun_ajaran" class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded" readonly>
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" class="w-full mb-3 px-3 py-2 text-black rounded">
                 <option value="ganjil">Ganjil</option>
                 <option value="genap">Genap</option>
             </select>
-             @error('semester','tambah')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @error('semester','tambah')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
             <label class="block text-sm mb-1">Tanggal Mulai</label>
             <input type="date" name="tanggal_mulai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
 
             <label class="block text-sm mb-1">Tanggal Selesai</label>
-            <input
-    type="text"
-    id="tanggal_selesai"
-    class="w-full mb-3 px-3 py-2 rounded text-black bg-gray-100"
-    readonly
->
+            <input type="text" id="tanggal_selesai" class="w-full mb-3 px-3 py-2 rounded text-black bg-gray-100"
+                readonly>
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('tambahModal')"
                     class="bg-gray-300 px-3 py-1 rounded text-black">Batal</button>
@@ -170,31 +165,25 @@
             @csrf
             <label class="block text-sm mb-1">Tahun Ajaran</label>
 
-<input
-    type="text"
-    id="editTahunAjaran"
-    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
-    readonly
->
+            <input type="text" id="editTahunAjaran" class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
+                readonly>
 
             <label class="block text-sm mb-1">Semester</label>
             <select name="semester" id="editSemester" class="w-full mb-3 px-3 py-2 text-black rounded">
                 <option value="ganjil">Ganjil</option>
                 <option value="genap">Genap</option>
             </select>
-             @error('semester','edit')
-             <p class="text-red-400 text-sm">{{ $message }}</p>
+            @error('semester','edit')
+            <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
             <label class="block text-sm mb-1">Tanggal Mulai</label>
-            <input type="date" name="tanggal_mulai" id="editTanggalMulai" class="w-full mb-3 px-3 py-2 text-black rounded" required>
+            <input type="date" name="tanggal_mulai" id="editTanggalMulai"
+                class="w-full mb-3 px-3 py-2 text-black rounded" required>
 
             <label class="block text-sm mb-1">Tanggal Selesai</label>
-            <input
-    type="text"
-    id="editTanggalSelesai"
-    class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
-    readonly>
+            <input type="text" id="editTanggalSelesai" class="w-full mb-3 px-3 py-2 text-black bg-gray-100 rounded"
+                readonly>
 
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeModal('editModal')"
@@ -303,7 +292,7 @@ function hitungOtomatis() {
 
 // EVENT LISTENER
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('tambahModal');
 
     const semester = modal.querySelector('select[name="semester"]');
