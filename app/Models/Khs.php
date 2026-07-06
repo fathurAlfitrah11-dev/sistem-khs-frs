@@ -10,7 +10,7 @@ class Khs extends Model
 
     protected $primaryKey = 'id_khs';
 
- protected $fillable = [
+    protected $fillable = [
     'krs_detail_id', 'nik', 'partisipatif', 'tugas', 
     'quiz', 'proyek', 'uts', 'uas', 'na', 'nh', 'status'
 ];

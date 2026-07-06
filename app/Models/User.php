@@ -4,10 +4,13 @@ namespace App\Models;
 
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
+use Illuminate\Database\Eloquent\Factories\HasFactory; 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use HasFactory; 
+
     protected $fillable = ['username','name','password','role'];
 
     public function mahasiswa()
