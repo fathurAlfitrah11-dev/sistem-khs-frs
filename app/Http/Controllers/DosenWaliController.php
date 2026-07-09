@@ -26,6 +26,8 @@ class DosenWaliController extends Controller
                   });
             });
         })
+        ->orderBy('semester', 'asc')   
+        ->orderBy('nama_kelas', 'asc') 
         ->paginate(10)
         ->withQueryString();
 

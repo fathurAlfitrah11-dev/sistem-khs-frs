@@ -13,42 +13,81 @@ use Illuminate\Support\Facades\Auth;
 
 class MatakuliahMahasiswaController extends Controller
 {
-    public function index(Request $request)
-    {
-        $mahasiswa = Mahasiswa::with('kelas')
+ public function index(Request $request)
+{
+    $mahasiswa = Mahasiswa::with('kelas')
         ->where('user_id', Auth::id())->first();
 
-        if (!$mahasiswa) {
-            abort(404, 'Data mahasiswa tidak ditemukan');
-        }
+    if (!$mahasiswa) {
+        abort(404, 'Data mahasiswa tidak ditemukan');
+    }
 
-        $tahun = TahunAjaran::where('status', 'aktif')->first();
+    $tahun = TahunAjaran::where('status', 'aktif')->first();
 
-if (!$tahun) {
-    return back()->with('error', 'Tidak ada tahun ajaran aktif');
-}
-        $idProdi = $mahasiswa->kelas->id_prodi;
-        $krs = Krs::where('nim', $mahasiswa->nim)
-            ->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
-            ->first();
+    if (!$tahun) {
+        return back()->with('error', 'Tidak ada tahun ajaran aktif');
+    }
+    
+    $idProdi = $mahasiswa->kelas->id_prodi;
+    $krs = Krs::where('nim', $mahasiswa->nim)
+        ->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
+        ->first();
 
-        $kodeMatkulDipilih = [];
+    $kodeMatkulDipilih = [];
+    $totalSks = 0;
 
-        if ($krs) {
-            $kodeMatkulDipilih = KrsDetail::with('pengajar')
-                ->where('id_krs', $krs->id_krs)
-                ->where('status_wali','!=','ditolak')
-                ->get()
-                ->pluck('pengajar.kode_mk')
-                ->filter()
-                ->toArray();
-                
-        }
+    if ($krs) {
+        $kodeMatkulDipilih = KrsDetail::with('pengajar')
+            ->where('id_krs', $krs->id_krs)
+            ->where('status_wali', '!=', 'ditolak')
+            ->get()
+            ->pluck('pengajar.kode_mk')
+            ->filter()
+            ->toArray();
 
-        // Tampilkan mata kuliah berdasarkan prodi mahasiswa yang BELUM dipilih
-         $search = $request->search;
+        $totalSks = KrsDetail::with('pengajar.mataKuliah')
+            ->where('id_krs', $krs->id_krs)
+            ->where('status_wali', '!=', 'ditolak')
+            ->get()
+            ->sum(function ($detail) {
+                return $detail->pengajar->mataKuliah->sks ?? 0;
+            });
+    }
 
+    $namaTahun = strtolower($tahun->nama_tahun_ajaran ?? ''); 
+    
+    // Tentukan target basic ganjil / genap
+    if (str_contains($namaTahun, 'genap')) {
+        $semesterTarget = [2, 4, 6, 8];
+    } else {
+        $semesterTarget = [1, 3, 5, 7, 9];
+    }
+
+    //  1. HITUNG SEMESTER MAKSIMAL YANG REAL DIBUAT OLEH ADMIN DI PRODI INI
+    $maxSemesterAdmin = MataKuliah::where('id_prodi', $idProdi)
+        ->whereIn('semester', $semesterTarget)
+        ->max('semester') ?? 0;
+
+    //  2. FILTER OPTION UNTUK DROPDOWN AGAR TIDAK MELEBIHI BUATAN ADMIN
+    $dropdownSemesters = array_filter($semesterTarget, function($sem) use ($maxSemesterAdmin) {
+        return $sem <= $maxSemesterAdmin;
+    });
+
+    $search = $request->search;
+    $selectedSemester = $request->semester;
+
+    // 💡 3. QUERY UTAMA DENGAN FILTER DROPDOWN SEMESTER
     $matakuliah = MataKuliah::where('id_prodi', $idProdi)
+        ->whereNotIn('kode_mk', $kodeMatkulDipilih)
+        ->when($selectedSemester, function ($query) use ($selectedSemester) {
+            // Jika dropdown dipilih, kunci ke semester tersebut
+            $query->where('semester', $selectedSemester);
+        })
+        ->when(!$selectedSemester, function ($query) use ($semesterTarget) {
+            // Jika default (semua), tampilkan range ganjil/genap
+            $query->whereIn('semester', $semesterTarget);
+        })
+        ->orderBy('semester', 'asc')                  
         ->when($search, function ($query) use ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('kode_mk', 'like', '%' . $search . '%')
@@ -60,54 +99,58 @@ if (!$tahun) {
 
     return view('mahasiswa.MatakuliahMahasiswa', compact(
         'matakuliah',
-        'search'
+        'search',
+        'totalSks',
+        'dropdownSemesters', 
+        'selectedSemester'   
     ));
-    }
+}
 
-    public function tambahKrs($id_mata_kuliah)
+   public function tambahKrs($id_mata_kuliah)
 {
-    $mahasiswa = Mahasiswa::where('user_id', Auth::id())->first();
+    $mahasiswa = Mahasiswa::with('kelas')
+        ->where('user_id', Auth::id())->first();
 
     if (!$mahasiswa) {
         abort(404, 'Data mahasiswa tidak ditemukan');
     }
 
-    // WAJIB: ambil tahun ajaran AKTIF
+    // Ambil tahun ajaran AKTIF
     $tahun = TahunAjaran::where('status', 'aktif')->first();
 
     if (!$tahun) {
         return back()->with('error', 'Tidak ada tahun ajaran aktif');
     }
 
-    // ambil matkul
-    if (is_numeric($id_mata_kuliah)) {
-        $matkulDipilih = MataKuliah::find($id_mata_kuliah);
-    } else {
-        $matkulDipilih = MataKuliah::where('kode_mk', $id_mata_kuliah)->first();
-    }
+    // Cari matkul berdasarkan kode_mk
+    $matkulDipilih = MataKuliah::where('kode_mk', $id_mata_kuliah)->first();
 
     if (!$matkulDipilih) {
         return back()->with('error', 'Mata kuliah tidak ditemukan');
     }
 
-    if ($matkulDipilih->semester != $mahasiswa->kelas->semester) {
-        return back()->with('error', 'Mata kuliah bukan untuk semester aktif.');
+    // 💡 PERBAIKAN UTAMA: Validasi Semester Mahasiswa vs Semester Mata Kuliah
+    $semesterMahasiswa = $mahasiswa->kelas->semester ?? null;
+    if ($semesterMahasiswa && $matkulDipilih->semester != $semesterMahasiswa) {
+        return back()->with('error', 'Mata kuliah ini ditujukan untuk Semester ' . $matkulDipilih->semester . ', bukan untuk semester aktif Anda yakni Semester ' . $semesterMahasiswa . '.');
     }
 
-    // pengajar
-    $pengajar = Pengajar::where('kode_mk', $matkulDipilih->kode_mk)->first();
+    // Cari pengajar yang spesifik untuk kelas mahasiswa
+    $pengajar = Pengajar::where('kode_mk', $matkulDipilih->kode_mk)
+        ->where('kelas_id', $mahasiswa->id_kelas ?? $mahasiswa->kelas_id) 
+        ->first();
 
     if (!$pengajar) {
-        return back()->with('error', 'Dosen pengajar belum tersedia');
+        return back()->with('error', 'Mata kuliah ini belum dijadwalkan atau pengajar belum tersedia untuk kelas Anda.');
     }
 
-    // FIX KRS: selalu pakai tahun ajaran AKTIF
+    // Ambil atau buat data KRS semester aktif
     $krs = Krs::firstOrCreate([
         'nim' => $mahasiswa->nim,
         'id_tahun_ajaran' => $tahun->id_tahun_ajaran
     ]);
 
-    // cek duplikat
+    // Cek duplikat matkul di KRS Detail
     $cek = KrsDetail::where('id_krs', $krs->id_krs)
         ->where('pengajar_id', $pengajar->id_pengajar)
         ->exists();
@@ -116,7 +159,7 @@ if (!$tahun) {
         return back()->with('error', 'Mata kuliah sudah dipilih');
     }
 
-    // hitung SKS
+    // Hitung akumulasi SKS saat ini
     $totalSks = KrsDetail::with('pengajar.mataKuliah')
         ->where('id_krs', $krs->id_krs)
         ->get()
@@ -125,10 +168,10 @@ if (!$tahun) {
         });
 
     if (($totalSks + $matkulDipilih->sks) > 20) {
-        return back()->with('error', 'Maksimal SKS 20');
+        return back()->with('error', 'Maksimal kuota pengambilan adalah 20 SKS');
     }
 
-    // simpan
+    // Simpan ke KRS Detail
     KrsDetail::create([
         'id_krs' => $krs->id_krs,
         'pengajar_id' => $pengajar->id_pengajar,
@@ -136,6 +179,6 @@ if (!$tahun) {
         'status_wali' => 'pending'
     ]);
 
-    return back()->with('success', 'Mata kuliah berhasil ditambahkan');
+    return back()->with('success', 'Mata kuliah berhasil ditambahkan ke KRS');
 }
 }

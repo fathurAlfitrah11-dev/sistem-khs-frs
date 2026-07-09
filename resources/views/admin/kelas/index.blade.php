@@ -8,27 +8,38 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Kelas</h1>
 
-    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
-        data-aos-delay="100">
+    <div class="bg-[#4f547d] p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4 mb-6"
+        data-aos="fade-up" data-aos-delay="100">
 
-       <div class="flex-1 mr-4">
-            <form method="GET" action="/kelas">
-                <div class="flex items-center bg-white rounded px-3 py-2 w-full">
-                    <input type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Telusuri Kelas"
+        <div class="flex-1 w-full">
+            <form method="GET" action="/kelas" class="flex flex-col sm:flex-row gap-3 w-full">
+
+                {{-- Input Kata Kunci Pencarian --}}
+                <div class="flex items-center bg-white rounded px-3 py-2 flex-1">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Telusuri Kelas"
                         class="w-full outline-none text-sm text-gray-700">
 
                     <button type="submit">
                         <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
                     </button>
                 </div>
+
+                {{-- 💡 BARU: Dropdown Filter Program Studi --}}
+                <select name="id_prodi" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded text-black text-sm font-medium outline-none bg-white min-w-[200px]">
+                    <option value="">Semua Program Studi</option>
+                    @foreach($prodi as $p)
+                    <option value="{{ $p->id_prodi }}" {{ request('id_prodi') == $p->id_prodi ? 'selected' : '' }}>
+                        {{ $p->jenjang }} - {{ $p->nama_prodi }}
+                    </option>
+                    @endforeach
+                </select>
+
             </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
-            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg whitespace-nowrap">
             + Tambah Kelas
         </button>
     </div>
@@ -39,7 +50,7 @@
 
         <div class="bg-white rounded-2xl overflow-hidden">
 
-         <table class="w-full border-collapse">
+            <table class="w-full border-collapse">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">No</th>
@@ -51,7 +62,8 @@
 
                 <tbody>
                     @forelse($data as $d)
-                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
+                    <tr
+                        class="border-b border-gray-200 hover:bg-gray-50 transition-colors text-gray-800 text-xs md:text-sm">
                         <td class="px-6 py-3 text-left whitespace-nowrap">{{ $loop->iteration }}</td>
                         <td class="px-6 py-3 text-center break-words">
                             {{ $d->prodi->nama_prodi }}-{{ $d->semester }}{{$d->nama_kelas}} {{ $d->kategori }}</td>
@@ -66,7 +78,8 @@
                                 '{{ $d->nama_kelas }}',
                                 '{{ $d->semester }}',
                                 '{{ $d->kategori }}'
-                                )" class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
+                                )"
+                                    class="w-8 h-8 rounded-full bg-blue-100 hover:bg-blue-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-eye text-blue-600 text-xs"></i>
                                 </button>
 
@@ -78,7 +91,8 @@
                                 '{{ $d->semester }}',
                                 '{{ $d->angkatan }}',
                                 '{{ $d->kategori }}'
-                                )" class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
+                                )"
+                                    class="w-8 h-8 rounded-full bg-yellow-100 hover:bg-yellow-200 flex items-center justify-center transition">
                                     <i class="fa-solid fa-pen text-yellow-600 text-xs"></i>
                                 </button>
 
@@ -93,7 +107,8 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-10 text-center text-gray-500 text-sm">Data Kelas tidak ditemukan</td>
+                        <td colspan="4" class="px-6 py-10 text-center text-gray-500 text-sm">Data Kelas tidak ditemukan
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -103,10 +118,10 @@
         </div>
 
         {{-- PAGINATION --}}
-         <div class="mt-4 flex justify-end">
-             
-                        {{ $data->appends(request()->query())->links() }}
-                 
+        <div class="mt-4 flex justify-end">
+
+            {{ $data->appends(request()->query())->links() }}
+
         </div>
 
     </div>
@@ -115,7 +130,8 @@
 {{-- MODAL TAMBAH --}}
 <div id="tambahModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Tambah Kelas</h2>
 
         <form action="/kelas/store" method="POST">
@@ -146,13 +162,16 @@
                 <option value="Malam">Malam</option>
             </select>
             <label class="text-sm mb-1 block">Angkatan</label>
-            <input type="number" name="angkatan" id="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="hitungSemesterTambah()">
+            <input type="number" name="angkatan" id="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black"
+                oninput="hitungSemesterTambah()">
 
             <label class="text-sm mb-1 block">Semester</label>
-            <input type="number" name="semester" id="semester" class="w-full mb-3 px-3 py-2 border rounded text-black" readonly>
+            <input type="number" name="semester" id="semester" class="w-full mb-3 px-3 py-2 border rounded text-black"
+                readonly>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('tambahModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
+                <button type="button" onclick="closeModal('tambahModal')"
+                    class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
                 </button>
 
@@ -166,7 +185,8 @@
 
 {{-- MODAL EDIT --}}
 <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-4xl rounded-xl p-8 text-white relative modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Ubah Kelas</h2>
 
         <form id="formEdit" method="POST">
@@ -188,19 +208,14 @@
                 <option value="D">Kelas D</option>
                 <option value="E">Kelas E</option>
             </select>
-            
-           <label class="text-sm mb-1 block">Angkatan</label>
-<input type="number"
-        name="angkatan"
-        id="editAngkatan"
-        class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="hitungSemesterEdit()">
 
-<label class="text-sm mb-1 block">Semester</label>
-<input type="number"
-    name="semester"
-    id="editSemester"
-    class="w-full mb-3 px-3 py-2 border rounded text-black bg-gray-100"
-    readonly>
+            <label class="text-sm mb-1 block">Angkatan</label>
+            <input type="number" name="angkatan" id="editAngkatan"
+                class="w-full mb-3 px-3 py-2 border rounded text-black" oninput="hitungSemesterEdit()">
+
+            <label class="text-sm mb-1 block">Semester</label>
+            <input type="number" name="semester" id="editSemester"
+                class="w-full mb-3 px-3 py-2 border rounded text-black bg-gray-100" readonly>
 
             <label class="text-sm mb-1 block">Kategori</label>
             <select name="kategori" id="editKategori" class="w-full mb-3 px-3 py-2 border rounded text-black">
@@ -209,7 +224,8 @@
             </select>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal('editModal')" class="bg-gray-300 px-3 py-1 rounded text-black">
+                <button type="button" onclick="closeModal('editModal')"
+                    class="bg-gray-300 px-3 py-1 rounded text-black">
                     Batal
                 </button>
 
@@ -223,7 +239,8 @@
 
 {{-- MODAL DETAIL --}}
 <div id="detailModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+    <div
+        class="bg-[#5a5f86] w-full max-w-2xl rounded-xl p-6 text-white modal-content transform opacity-0 translate-y-10 transition-all duration-300">
         <h2 class="text-lg font-bold mb-4">Detail Kelas</h2>
 
         <div class="space-y-3">
@@ -259,8 +276,16 @@
 </div>
 
 <script>
-const tahunAktif = {{ $tahunAktif->tahun_awal ?? date('Y') }};
-const offset = {{ $tahunAktif->semester === 'ganjil' ? 1 : 2 }};
+const tahunAktif = {
+    {
+        $tahunAktif - > tahun_awal ?? date('Y')
+    }
+};
+const offset = {
+    {
+        $tahunAktif - > semester === 'ganjil' ? 1 : 2
+    }
+};
 
 function showModal(id) {
     const modal = document.getElementById(id);
@@ -297,7 +322,7 @@ function closeModal(id) {
     hideModal(id);
 }
 
-function openEdit(id, prodi, nama_kelas, semester, angkatan, kategori){
+function openEdit(id, prodi, nama_kelas, semester, angkatan, kategori) {
     openModal('editModal');
 
     document.getElementById('editProdi').value = prodi;
@@ -310,7 +335,7 @@ function openEdit(id, prodi, nama_kelas, semester, angkatan, kategori){
     document.getElementById('formEdit').action = '/kelas/update/' + id;
 }
 
-function openDetail(prodi, nama, semester, kategori){
+function openDetail(prodi, nama, semester, kategori) {
     openModal('detailModal');
 
     document.getElementById('detailProdi').innerText = prodi;

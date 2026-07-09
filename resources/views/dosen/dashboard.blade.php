@@ -219,63 +219,68 @@
         </div>
     </div>
 
-    {{-- DATA DUMMY PHP --}}
-    @php
-    $matakuliah = [
-    (object)['kode' => 'IF201', 'nama' => 'Pemrograman Web', 'prodi' => 'DIII Teknik Informatika'],
-    (object)['kode' => 'IF202', 'nama' => 'Basis Data', 'prodi' => 'DIII Teknik Informatika'],
-    (object)['kode' => 'IF203', 'nama' => 'Struktur Data', 'prodi' => 'DIII Teknik Informatika'],
-    (object)['kode' => 'IF204', 'nama' => 'Jaringan Komputer', 'prodi' => 'DIII Teknik Informatika'],
-    (object)['kode' => 'IF205', 'nama' => 'Sistem Operasi', 'prodi' => 'DIII Teknik Informatika'],
-    ];
-    @endphp
-
-    {{-- TABLES (Dipercantik Sangat Bersih dengan Head & Row Ringan) --}}
+  {{-- TABLES  --}}
     <div class="mb-6" data-aos="fade-up" data-aos-delay="450">
         <div class="mb-4">
-            <h2 class="text-lg font-bold text-slate-800">Mata Kuliah Yang Anda Ampu</h2>
-            <p class="text-xs text-slate-400">Daftar kelas aktif pada semester ini</p>
+            <h2 class="text-lg font-bold text-gray-800">Mata Kuliah Yang Anda Ampu</h2>
+            <p class="text-xs text-gray-400">Daftar kelas aktif pada semester ini</p>
         </div>
 
-        <div class="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm shadow-slate-100/40">
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
             <div class="overflow-x-auto">
                 <table class="w-full text-sm border-collapse">
-                    <thead class="bg-slate-50 text-slate-600 font-semibold border-b border-slate-100">
+                    <thead class="bg-gray-50 text-gray-600 font-semibold border-b border-gray-100">
                         <tr>
-                            <th class="text-left px-6 py-4 font-semibold">Kode</th>
-                            <th class="text-left px-6 py-4 font-semibold">Mata Kuliah</th>
-                            <th class="text-left px-6 py-4 font-semibold">Program Studi</th>
-                            <th class="text-center px-6 py-4 font-semibold">Aksi</th>
+                            <th class="py-4 px-4 text-center font-semibold whitespace-nowrap">Kode</th>
+                            <th class="py-4 px-4 text-center font-semibold whitespace-nowrap">Mata Kuliah</th>
+                            <th class="py-4 px-4 text-center font-semibold whitespace-nowrap">Kelas & Program Studi</th>
+                            <th class="py-4 px-4 text-center font-semibold whitespace-nowrap">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        @foreach($matakuliah as $mk)
-                        <tr class="hover:bg-slate-50/70 transition-colors">
-                            <td class="px-6 py-4 text-slate-800 font-semibold tracking-wide">
-                                {{ $mk->kode }}
-                            </td>
-                            <td class="px-6 py-4 text-slate-700 font-medium">
-                                {{ $mk->nama }}
-                            </td>
-                            <td class="px-6 py-4 text-slate-500 text-xs">
-                                <span class="bg-slate-100 px-2.5 py-1 rounded-md font-medium text-slate-600">
-                                    {{ $mk->prodi }}
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse($kelasAmpu as $item)
+                        <tr class="hover:bg-gray-50/70 transition-all duration-200">
+                            
+                            {{-- Kode (Mengikuti Gaya "Tipe/User" Admin) --}}
+                            <td class="py-5 px-4 text-center whitespace-nowrap">
+                                <span class="text-sm font-semibold text-gray-700 tracking-wide font-mono">
+                                    {{ $item->mataKuliah->kode_mk ?? $item->kode_mk ?? '-' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <a href="/penilaian"
-                                    class="inline-flex items-center justify-center bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs px-4 py-2 rounded-lg shadow-sm transition-all duration-200">
-                                    Buka Kelas
+
+                            {{-- Mata Kuliah (Mengikuti Gaya "Deskripsi" Admin) --}}
+                            <td class="py-5 px-4 text-center">
+                                <p class="text-sm text-gray-500 font-medium leading-relaxed">
+                                    {{ $item->mataKuliah->nama_mk ?? $item->nama_mk ?? '-' }}
+                                </p>
+                            </td>
+
+                            {{-- Kelas / Program Studi --}}
+                            <td class="py-5 px-4 text-center whitespace-nowrap">
+                                <span class="bg-gray-100 px-2.5 py-1 rounded-md text-xs font-semibold text-gray-600 inline-block">
+                                    {{ $item->kelas->nama_kelas ?? 'Kelas N/A' }} - {{ $item->kelas->prodi->nama_prodi ?? 'Prodi N/A' }}
+                                </span>
+                            </td>
+
+                            {{-- Aksi (Tombol Perwalian Kelas) --}}
+                            <td class="py-5 px-4 text-center whitespace-nowrap">
+                                <a href="/perwalian"
+                                    class="inline-flex items-center justify-center bg-gray-900 hover:bg-gray-800 text-white font-medium text-xs px-4 py-2 rounded-lg shadow-sm transition-all duration-200">
+                                    Perwalian Kelas
                                 </a>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-10 text-gray-400 text-sm">
+                                Anda belum memiliki jadwal mengampu mata kuliah pada semester aktif ini
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-</div>
 
 @endsection

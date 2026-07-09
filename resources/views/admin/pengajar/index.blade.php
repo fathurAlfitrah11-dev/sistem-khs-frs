@@ -4,12 +4,12 @@
 
 @section('content')
 <style>
-    .select2-black-text .select2-selection__rendered,
+.select2-black-text .select2-selection__rendered,
 .select2-container--default .select2-results__option,
 .select2-container--default .select2-search--dropdown input {
     color: #000 !important;
-    
-    }
+
+}
 </style>
 
 <div class="p-6">
@@ -61,27 +61,39 @@
     </div>
 
     <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="300">
-
-        <div class="flex justify-between items-center mb-6">
+{{-- ===== HEADER DATA & DROPDOWN FILTER SEMESTER + TA ===== --}}
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <h2 class="text-white text-3xl font-bold">
                 Data Pengajar
             </h2>
 
-            <form method="GET" action="/pengajar">
-                <select name="id_tahun_ajaran" onchange="this.form.submit()"
-                    class="px-3 py-2 rounded text-black text-sm">
+            {{-- 💡 Disatukan dalam satu form agar filter Tahun Ajaran & Semester bisa saling melengkapi --}}
+            <form method="GET" action="/pengajar" class="flex flex-wrap gap-3">
+                @if(request('search'))
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+                @endif
 
+                {{-- DROPDOWN SEMESTER 1-8 --}}
+                <select name="semester" onchange="this.form.submit()" class="px-3 py-2 rounded text-black text-sm font-medium">
+                    <option value="">Semua Semester</option>
+                    @for($i = 1; $i <= 8; $i++)
+                        <option value="{{ $i }}" {{ request('semester') == $i ? 'selected' : '' }}>
+                            Semester {{ $i }}
+                        </option>
+                    @endfor
+                </select>
+
+                {{-- DROPDOWN TAHUN AJARAN --}}
+                <select name="id_tahun_ajaran" onchange="this.form.submit()" class="px-3 py-2 rounded text-black text-sm font-medium">
                     @if(count($tahunAjaran) > 0)
-                    @foreach($tahunAjaran as $ta)
-                    <option value="{{ $ta->id_tahun_ajaran }}" {{ $idTahun == $ta->id_tahun_ajaran ? 'selected' : '' }}>
-                        {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }}
-                        - {{ ucfirst($ta->semester) }}
-                    </option>
-                    @endforeach
+                        @foreach($tahunAjaran as $ta)
+                        <option value="{{ $ta->id_tahun_ajaran }}" {{ $idTahun == $ta->id_tahun_ajaran ? 'selected' : '' }}>
+                            {{ $ta->tahun_awal }}/{{ $ta->tahun_akhir }} - {{ ucfirst($ta->semester) }}
+                        </option>
+                        @endforeach
                     @else
-                    <option disabled>Belum ada tahun ajaran</option>
+                        <option disabled>Belum ada tahun ajaran</option>
                     @endif
-
                 </select>
             </form>
         </div>
@@ -242,7 +254,7 @@
                 <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
-             @error('nik','tambah')
+            @error('nik','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -251,27 +263,25 @@
                 <option value="">Pilih Mata Kuliah</option>
                 @foreach($mataKuliah as $semester => $list)
 
-                    <optgroup label="Semester {{ $semester }}">
+                <optgroup label="Semester {{ $semester }}">
 
-                        @foreach($list as $mk)
+                    @foreach($list as $mk)
 
-                            <option
-                                value="{{ $mk->kode_mk }}"
-                                data-prodi="{{ $mk->id_prodi }}">
+                    <option value="{{ $mk->kode_mk }}" data-prodi="{{ $mk->id_prodi }}">
 
-                                {{ $mk->kode_mk }}
-                                -
-                                {{ $mk->nama_mk }}
+                        {{ $mk->kode_mk }}
+                        -
+                        {{ $mk->nama_mk }}
 
-                            </option>
+                    </option>
 
-                        @endforeach
+                    @endforeach
 
-                    </optgroup>
+                </optgroup>
 
                 @endforeach
             </select>
-             @error('kode_mk','tambah')
+            @error('kode_mk','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -279,16 +289,14 @@
             <select class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id" id="kelasSelect">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}"
-    data-semester="{{ $k->semester }}"
-    data-prodi="{{ $k->id_prodi }}">
-    {{ $k->prodi->nama_prodi }}
-    {{ $k->semester }}{{ $k->nama_kelas }}
-    {{ $k->kategori }}
-</option>
+                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}" data-prodi="{{ $k->id_prodi }}">
+                    {{ $k->prodi->nama_prodi }}
+                    {{ $k->semester }}{{ $k->nama_kelas }}
+                    {{ $k->kategori }}
+                </option>
                 @endforeach
             </select>
-             @error('kelas_id','tambah')
+            @error('kelas_id','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -306,14 +314,14 @@
                 </option>
                 @endforeach
             </select>
-             @error('id_tahun_ajaran','tambah')
+            @error('id_tahun_ajaran','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
-           <label class="block text-sm mb-1">Semester</label>
-<input type="text" name="semester" id="semesterSelect" readonly
-       class="w-full mb-3 px-3 py-2 border rounded text-black">
-        @error('semester','tambah')
+            <label class="block text-sm mb-1">Semester</label>
+            <input type="text" name="semester" id="semesterSelect" readonly
+                class="w-full mb-3 px-3 py-2 border rounded text-black">
+            @error('semester','tambah')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -347,36 +355,34 @@
                 <option value="{{ $d->nik }}">{{ $d->user->name }}</option>
                 @endforeach
             </select>
-             @error('nik','edit')
+            @error('nik','edit')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
             <label class="block text-sm mb-1">Mata Kuliah</label>
             <select id="editMk" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kode_mk">
                 <option value="">Pilih Mata Kuliah</option>
-               @foreach($mataKuliah as $semester => $list)
+                @foreach($mataKuliah as $semester => $list)
 
-                    <optgroup label="Semester {{ $semester }}">
+                <optgroup label="Semester {{ $semester }}">
 
-                        @foreach($list as $mk)
+                    @foreach($list as $mk)
 
-                            <option
-                                value="{{ $mk->kode_mk }}"
-                                data-prodi="{{ $mk->id_prodi }}">
+                    <option value="{{ $mk->kode_mk }}" data-prodi="{{ $mk->id_prodi }}">
 
-                                {{ $mk->kode_mk }}
-                                -
-                                {{ $mk->nama_mk }}
+                        {{ $mk->kode_mk }}
+                        -
+                        {{ $mk->nama_mk }}
 
-                            </option>
+                    </option>
 
-                        @endforeach
+                    @endforeach
 
-                    </optgroup>
+                </optgroup>
 
                 @endforeach
             </select>
-           @error('kode_mk','edit')
+            @error('kode_mk','edit')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -384,9 +390,7 @@
             <select id="editKelas" class="w-full mb-3 px-3 py-2 border rounded text-black" name="kelas_id">
                 <option value="">Pilih Kelas</option>
                 @foreach($kelas as $k)
-                <option value="{{ $k->id_kelas }}"
-    data-semester="{{ $k->semester }}"
-    data-prodi="{{ $k->id_prodi }}">
+                <option value="{{ $k->id_kelas }}" data-semester="{{ $k->semester }}" data-prodi="{{ $k->id_prodi }}">
                     {{ $k->prodi->nama_prodi }} {{ $k->semester }} {{ $k->nama_kelas }}
                     {{ $k->kategori }}
                 </option>
@@ -412,9 +416,9 @@
             @enderror
 
             <label class="block text-sm mb-1">Semester</label>
-           <input type="text" id="editSemester" name="semester"
-       class="w-full mb-3 px-3 py-2 border rounded text-black" readonly>
-       @error('semester','edit')
+            <input type="text" id="editSemester" name="semester" class="w-full mb-3 px-3 py-2 border rounded text-black"
+                readonly>
+            @error('semester','edit')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
 
@@ -475,14 +479,14 @@
 </div>
 
 <script>
-$(document).ready(function () {
+$(document).ready(function() {
 
     $('#dosenTambah').select2({
         width: '100%',
         placeholder: 'Pilih Dosen',
         allowClear: true,
         dropdownParent: $('#tambahModal'),
-       dropdownCssClass: 'select2-black-text'
+        dropdownCssClass: 'select2-black-text'
     });
 
     $('#mkSelect').select2({
@@ -490,7 +494,7 @@ $(document).ready(function () {
         placeholder: 'Pilih Mata Kuliah',
         allowClear: true,
         dropdownParent: $('#tambahModal'),
-       dropdownCssClass: 'select2-black-text'
+        dropdownCssClass: 'select2-black-text'
     });
 
     $('#editDosen').select2({
@@ -498,7 +502,7 @@ $(document).ready(function () {
         placeholder: 'Pilih Dosen',
         allowClear: true,
         dropdownParent: $('#editModal'),
-       dropdownCssClass: 'select2-black-text'
+        dropdownCssClass: 'select2-black-text'
     });
 
     $('#editMk').select2({
@@ -506,7 +510,7 @@ $(document).ready(function () {
         placeholder: 'Pilih Mata Kuliah',
         allowClear: true,
         dropdownParent: $('#editModal'),
-       dropdownCssClass: 'select2-black-text'
+        dropdownCssClass: 'select2-black-text'
     });
 
 });
@@ -582,7 +586,7 @@ function openModal(id) {
 
     showModal(id);
 
-    setTimeout(function () {
+    setTimeout(function() {
 
         if (id === 'tambahModal') {
 
@@ -594,7 +598,7 @@ function openModal(id) {
 
         }
 
-    },100);
+    }, 100);
 
 }
 
@@ -606,7 +610,7 @@ function closeModal(id) {
 
     hideModal(id);
 
-    if(id === 'editModal'){
+    if (id === 'editModal') {
 
         $('#editDosen').val(null).trigger('change');
         $('#editMk').val(null).trigger('change');
@@ -660,7 +664,7 @@ const mkSelect = document.getElementById('mkSelect');
 const kelasSelect = document.getElementById('kelasSelect');
 const semesterInput = document.getElementById('semesterSelect');
 
-$('#mkSelect').on('change', function () {
+$('#mkSelect').on('change', function() {
 
     const selected = this.options[this.selectedIndex];
 
@@ -668,9 +672,9 @@ $('#mkSelect').on('change', function () {
 
     const prodi = selected.getAttribute('data-prodi');
 
-    Array.from(kelasSelect.options).forEach(function(option){
+    Array.from(kelasSelect.options).forEach(function(option) {
 
-        if(option.value === ''){
+        if (option.value === '') {
             option.hidden = false;
             return;
         }
@@ -694,11 +698,11 @@ $('#mkSelect').on('change', function () {
 // AUTO ISI SEMESTER
 // =====================================
 
-$('#kelasSelect').on('change', function () {
+$('#kelasSelect').on('change', function() {
 
     const selected = this.options[this.selectedIndex];
 
-    if(!selected){
+    if (!selected) {
 
         semesterInput.value = '';
         return;
@@ -719,7 +723,7 @@ const editMk = document.getElementById('editMk');
 const editKelas = document.getElementById('editKelas');
 const editSemester = document.getElementById('editSemester');
 
-$('#editMk').on('change', function () {
+$('#editMk').on('change', function() {
 
     const selected = this.options[this.selectedIndex];
 
@@ -727,9 +731,9 @@ $('#editMk').on('change', function () {
 
     const prodi = selected.getAttribute('data-prodi');
 
-    Array.from(editKelas.options).forEach(function(option){
+    Array.from(editKelas.options).forEach(function(option) {
 
-        if(option.value === ''){
+        if (option.value === '') {
             option.hidden = false;
             return;
         }
@@ -752,11 +756,11 @@ $('#editMk').on('change', function () {
 // AUTO ISI SEMESTER
 // =====================================
 
-$('#editKelas').on('change', function () {
+$('#editKelas').on('change', function() {
 
     const selected = this.options[this.selectedIndex];
 
-    if(!selected){
+    if (!selected) {
 
         editSemester.value = '';
         return;
@@ -780,7 +784,7 @@ function openEdit(
     kelas,
     tahun,
     semester
-){
+) {
 
     showModal('editModal');
 
@@ -789,7 +793,7 @@ function openEdit(
     $('#editMk').val(mk).trigger('change');
 
     // Tunggu filter kelas selesai
-    setTimeout(function(){
+    setTimeout(function() {
 
         $('#editKelas').val(kelas).trigger('change');
 
@@ -797,7 +801,7 @@ function openEdit(
 
         $('#editSemester').val(semester);
 
-    },100);
+    }, 100);
 
     $('#formEdit').attr(
         'action',

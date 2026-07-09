@@ -13,48 +13,55 @@ use Illuminate\Support\Facades\Validator;
 class MahasiswaController extends Controller
 {   
     public function index(Request $request)
-{
-    $query = Mahasiswa::with('kelas.prodi', 'prodi');
-
-    if ($request->prodi) {
-        $query->where('id_prodi', $request->prodi);
-    }
-
-    if ($request->search) {
+    {
         $search = $request->search;
+        $prodiFilter = $request->prodi;
+        $angkatanFilter = $request->angkatan; //
 
-        $query->where(function ($q) use ($search) {
+        $query = Mahasiswa::select('mahasiswa.*')
+            ->join('prodi', 'mahasiswa.id_prodi', '=', 'prodi.id_prodi')
+            ->join('kelas', 'mahasiswa.id_kelas', '=', 'kelas.id_kelas')
+            ->with('kelas.prodi', 'prodi');
 
-            $q->where('nim', 'like', "%{$search}%")
-              ->orWhere('nama', 'like', "%{$search}%")
-              ->orWhere('angkatan', 'like', "%{$search}%")
+        // Filter Berdasarkan Program Studi
+        if ($prodiFilter) {
+            $query->where('mahasiswa.id_prodi', $prodiFilter);
+        }
 
-              ->orWhereHas('kelas', function ($k) use ($search) {
-                  $k->where('nama_kelas', 'like', "%{$search}%")
-                    ->orWhere('kategori', 'like', "%{$search}%")
-                    ->orWhereRaw("CONCAT(semester, nama_kelas) LIKE ?", ["%{$search}%"]);
-              })
+        // Filter Berdasarkan Angkatan
+        if ($angkatanFilter) {
+            $query->where('mahasiswa.angkatan', $angkatanFilter);
+        }
 
-              // prodi
-              ->orWhereHas('prodi', function ($p) use ($search) {
-                  $p->where('nama_prodi', 'like', "%{$search}%");
-              });
+        // Fitur Pencarian Kata Kunci
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('mahasiswa.nim', 'like', "%{$search}%")
+                  ->orWhere('mahasiswa.nama', 'like', "%{$search}%")
+                  ->orWhere('mahasiswa.angkatan', 'like', "%{$search}%")
+                  ->orWhere('kelas.nama_kelas', 'like', "%{$search}%")
+                  ->orWhere('kelas.kategori', 'like', "%{$search}%")
+                  ->orWhere('prodi.nama_prodi', 'like', "%{$search}%");
+            });
+        }
 
-        });
+        $data = $query->orderBy('prodi.nama_prodi', 'asc')
+                      ->orderBy('mahasiswa.angkatan', 'desc') // Angkatan terbaru di atas
+                      ->orderBy('kelas.semester', 'asc')
+                      ->orderBy('kelas.nama_kelas', 'asc')
+                      ->orderBy('mahasiswa.nama', 'asc')
+                      ->paginate(10)
+                      ->appends($request->query());
+
+        $kelas = Kelas::with('prodi')->get();
+        $prodi = Prodi::all();
+        
+        $listAngkatan = Mahasiswa::select('angkatan')->distinct()->orderBy('angkatan', 'desc')->pluck('angkatan');
+        
+        $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
+
+        return view('admin.mahasiswa.index', compact('data', 'kelas', 'prodi', 'listAngkatan', 'tahunAktif'));
     }
-
-    $data = $query->orderBy('nim', 'desc')
-                  ->paginate(10)
-                  ->appends($request->query());
-
-    $kelas = Kelas::with('prodi')->get();
-    $prodi = Prodi::all();
-    // ambil tahun ajaran aktif
-    $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
-
-
-    return view('admin.mahasiswa.index', compact('data', 'kelas', 'prodi', 'tahunAktif'));
-}
    
     public function store(Request $request)
     {

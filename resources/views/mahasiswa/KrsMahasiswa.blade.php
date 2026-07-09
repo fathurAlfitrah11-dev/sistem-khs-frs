@@ -8,13 +8,13 @@
 $totalSks = 0;
 
 foreach($krs as $k){
-    foreach($k->detail as $item){
+foreach($k->detail as $item){
 
-        if(strtolower($item->status_wali) != 'ditolak'){
-            $totalSks += $item->pengajar->mataKuliah->sks ?? 0;
-        }
+if(strtolower($item->status_wali) != 'ditolak'){
+$totalSks += $item->pengajar->mataKuliah->sks ?? 0;
+}
 
-    }
+}
 }
 
 $maxSks = 20;
@@ -87,16 +87,19 @@ $maxSks = 20;
                             @if(strtolower($item->status_wali) == 'pending' || strtolower($item->status_wali) ==
                             'menunggu')
                             <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                {{ $item->status_wali }}
+                                {{-- 💡 MENGGUNAKAN ucfirst() AGAR HURUF AWAL KAPITAL --}}
+                                {{ ucfirst($item->status_wali) }}
                             </span>
                             @elseif(strtolower($item->status_wali) == 'approved' || strtolower($item->status_wali) ==
                             'disetujui')
                             <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                {{ $item->status_wali }}
+                                {{-- 💡 MENGGUNAKAN ucfirst() AGAR HURUF AWAL KAPITAL --}}
+                                {{ ucfirst($item->status_wali) }}
                             </span>
                             @else
                             <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                {{ $item->status_wali }}
+                                {{-- 💡 MENGGUNAKAN ucfirst() AGAR HURUF AWAL KAPITAL --}}
+                                {{ ucfirst($item->status_wali) }}
                             </span>
                             @endif
                         </td>
@@ -107,15 +110,15 @@ $maxSks = 20;
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center">
-                               @if(
-    strtolower($item->status_wali) == 'pending' ||
-    strtolower($item->status_wali) == 'ditolak'
-)
+                                @if(
+                                strtolower($item->status_wali) == 'pending' ||
+                                strtolower($item->status_wali) == 'ditolak'
+                                )
                                 <button type="button" onclick="openDelete(
-                                                    '{{ $item->pengajar->mataKuliah->kode_mk }}',
-                                                    '{{ $item->pengajar->mataKuliah->nama_mk }}',
-                                                    '{{ $item->id_krs_detail }}'
-                                                )"
+                                    '{{ $item->pengajar->mataKuliah->kode_mk }}',
+                                    '{{ $item->pengajar->mataKuliah->nama_mk }}',
+                                    '{{ $item->id_krs_detail }}'
+                                )"
                                     class="w-8 h-8 bg-orange-400 hover:bg-orange-300 rounded-full flex items-center justify-center shadow transition duration-200">
                                     <svg class="w-3.5 h-3.5 text-black" fill="none" stroke="currentColor"
                                         stroke-width="2.5" viewBox="0 0 24 24">

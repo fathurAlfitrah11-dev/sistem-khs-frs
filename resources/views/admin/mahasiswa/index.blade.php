@@ -8,34 +8,13 @@
 
     <h1 class="text-2xl font-bold text-gray-800 mb-6" data-aos="fade-up" data-aos-delay="100">Data Mahasiswa</h1>
 
-    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
-        data-aos-delay="150">
+    {{-- ===== FORM PENCARIAN & MULTI-FILTER DROPDOWN ===== --}}
+    <div class="bg-[#4f547d] p-4 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4 mb-6" data-aos="fade-up" data-aos-delay="150">
 
-        <div class="flex gap-3 flex-1 mr-4">
-
-            {{-- Filter Prodi --}}
-            <form method="GET" action="/mahasiswa">
-                <select name="prodi" onchange="this.form.submit()"
-                    class="px-3 py-2 rounded-lg text-sm text-gray-700 bg-white border border-gray-300 font-medium outline-none cursor-pointer">
-
-                    <option value="">Semua Prodi</option>
-
-                    @foreach($prodi as $p)
-                        <option 
-                            value="{{ $p->id_prodi }}"
-                            {{ request('prodi') == $p->id_prodi ? 'selected' : '' }}>
-
-                            {{ $p->nama_prodi }}
-
-                        </option>
-                    @endforeach
-
-                </select>
-            </form>
-
-            {{-- Search --}}
-            <form method="GET" action="/mahasiswa" class="flex-1 mr-4">
-                <div class="flex items-center bg-white rounded-lg px-3 py-2 w-full border border-gray-300">
+        <div class="flex-1 w-full">
+            <form method="GET" action="/mahasiswa" class="flex flex-col sm:flex-row gap-3 w-full">
+   
+                <div class="flex items-center bg-white rounded px-3 py-2 flex-1 border border-gray-300">
                     <input type="text"
                         name="search"
                         value="{{ request('search') }}"
@@ -46,12 +25,32 @@
                         <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
                     </button>
                 </div>
-            </form>
 
+                <select name="prodi" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded text-black text-sm font-medium outline-none bg-white min-w-[180px] border border-gray-300 cursor-pointer">
+                    <option value="">Semua Prodi</option>
+                    @foreach($prodi as $p)
+                        <option value="{{ $p->id_prodi }}" {{ request('prodi') == $p->id_prodi ? 'selected' : '' }}>
+                            {{ $p->nama_prodi }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <select name="angkatan" onchange="this.form.submit()"
+                    class="px-3 py-2 rounded text-black text-sm font-medium outline-none bg-white min-w-[150px] border border-gray-300 cursor-pointer">
+                    <option value="">Semua Angkatan</option>
+                    @foreach($listAngkatan as $a)
+                        <option value="{{ $a }}" {{ request('angkatan') == $a ? 'selected' : '' }}>
+                            {{ $a }}
+                        </option>
+                    @endforeach
+                </select>
+
+            </form>
         </div>
 
         <button onclick="openModal('tambahModal')"
-            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg transition">
+            class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg transition whitespace-nowrap">
             + Tambah Mahasiswa
         </button>
     </div>

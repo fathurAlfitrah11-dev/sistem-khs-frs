@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class PengajarController extends Controller
 {
-   public function index(Request $request)
+public function index(Request $request)
 {
     $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
 
@@ -19,6 +19,8 @@ class PengajarController extends Controller
         ?? optional($tahunAktif)->id_tahun_ajaran;
 
     $search = $request->search;
+
+    $semesterFilter = $request->semester; 
 
     $tahunTerpilih = TahunAjaran::find($idTahun);
 
@@ -37,21 +39,28 @@ class PengajarController extends Controller
             $query->where('id_tahun_ajaran', $idTahun);
         })
 
+        ->when($semesterFilter, function ($query) use ($semesterFilter) {
+            $query->where('semester', $semesterFilter);
+        })
+
         ->when($search, function ($query) use ($search) {
-            $query->whereHas('dosen.user', function ($q) use ($search) {
-                $q->where('name', 'like', "%$search%");
-            })
-            ->orWhereHas('dosen.user', function ($q) use ($search) {
-                $q->where('username', 'like', "%$search%");
-            })
-            ->orWhereHas('mataKuliah', function ($q) use ($search) {
-                $q->where('nama_mk', 'like', "%$search%");
-            })
-            ->orWhereHas('kelas', function ($q) use ($search) {
-                $q->where('nama_kelas', 'like', "%$search%");
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->whereHas('dosen.user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%");
+                })
+                ->orWhereHas('dosen.user', function ($q) use ($search) {
+                    $q->where('username', 'like', "%$search%");
+                })
+                ->orWhereHas('mataKuliah', function ($q) use ($search) {
+                    $q->where('nama_mk', 'like', "%$search%");
+                })
+                ->orWhereHas('kelas', function ($q) use ($search) {
+                    $q->where('nama_kelas', 'like', "%$search%");
+                });
             });
         })
 
+        ->orderBy('semester', 'asc')
         ->paginate(10)
         ->withQueryString();
 
@@ -68,10 +77,10 @@ class PengajarController extends Controller
     }
 
     $mataKuliah = $mataKuliah
-    ->orderBy('semester')
-    ->orderBy('kode_mk')
-    ->get()
-    ->groupBy('semester');
+        ->orderBy('semester')
+        ->orderBy('kode_mk')
+        ->get()
+        ->groupBy('semester');
     
     $tahunAjaran = TahunAjaran::all();
 
@@ -83,7 +92,8 @@ class PengajarController extends Controller
         'kelas',
         'tahunAktif',
         'idTahun',
-        'search'
+        'search',
+        'semesterFilter' 
     ));
 }
     public function store(Request $request)

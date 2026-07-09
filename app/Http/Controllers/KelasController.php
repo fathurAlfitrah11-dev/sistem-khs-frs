@@ -35,32 +35,43 @@ private function hitungSemester($angkatan)
     public function index(Request $request)
     {
         $search = $request->search;
+        $idProdi = $request->id_prodi; // 💡 BARU: Mengambil input filter Program Studi
 
-        $data = Kelas::with('prodi')
+        // Menggunakan join agar bisa melakukan sorting berdasarkan nama_prodi dari tabel prodi
+        $data = Kelas::select('kelas.*')
+            ->join('prodi', 'kelas.id_prodi', '=', 'prodi.id_prodi')
+            ->with('prodi')
+            
+            // 💡 BARU: Filter berdasarkan Program Studi jika dipilih
+            ->when($idProdi, function ($query) use ($idProdi) {
+                $query->where('kelas.id_prodi', $idProdi);
+            })
+            
+            // Fitur Pencarian
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     if (is_numeric($search)) {
-                        $q->where('semester', $search);
+                        $q->where('kelas.semester', $search);
                     } else {
-                        $q->where('nama_kelas', 'like', "%{$search}%")
-                          ->orWhere('kategori', 'like', "%{$search}%")
-                          ->orWhereHas('prodi', function ($p) use ($search) {
-                              $p->where('nama_prodi', 'like', "%{$search}%")
-                                ->orWhere('jenjang', 'like', "%{$search}%");
-                          });
+                        $q->where('kelas.nama_kelas', 'like', "%{$search}%")
+                          ->orWhere('kelas.kategori', 'like', "%{$search}%")
+                          ->orWhere('prodi.nama_prodi', 'like', "%{$search}%")
+                          ->orWhere('prodi.jenjang', 'like', "%{$search}%");
                     }
                 });
             })
-            ->orderBy('id_kelas', 'desc')
+          
+            ->orderBy('prodi.nama_prodi', 'asc') 
+            ->orderBy('kelas.semester', 'asc')   
+            ->orderBy('kelas.nama_kelas', 'asc')
             ->paginate(10)
             ->appends($request->query());
 
         $prodi = Prodi::all();
         $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
 
-        return view('admin.kelas.index', compact('data', 'prodi', 'search', 'tahunAktif'));
+        return view('admin.kelas.index', compact('data', 'prodi', 'search', 'tahunAktif', 'idProdi'));
     }
-
     /**
      * SIMPAN DATA KELAS
      */

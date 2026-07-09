@@ -18,21 +18,34 @@
     </div>
     @endif
 
-    {{-- SEARCH + BUTTON --}}
-    <div class="bg-[#4f547d] p-4 rounded-lg flex justify-between items-center mb-6" data-aos="fade-up"
-        data-aos-delay="100">
-        <div class="flex-1">
-            <div class="flex items-center bg-white rounded px-3 py-2">
-                <form method="GET" class="w-full flex items-center">
-                <input type="text" name="search"
-            value="{{ request('search') }}" onkeyup="this.form.submit()" placeholder="Telusuri Nama atau Kode Mata Kuliah..."
+    {{-- SEARCH + DROPDOWN SEMESTER --}}
+    <div class="bg-[#4f547d] p-4 rounded-lg mb-6" data-aos="fade-up" data-aos-delay="100">
+        <form method="GET" class="flex flex-col md:flex-row gap-4 items-center w-full">
+
+            {{-- Input Teks Pencarian --}}
+            <div class="flex flex-1 items-center bg-white rounded px-3 py-2 w-full">
+                <input type="text" name="search" value="{{ request('search') }}" onkeyup="this.form.submit()"
+                    placeholder="Telusuri Nama atau Kode Mata Kuliah..."
                     class="w-full outline-none text-sm text-gray-700">
-                 <button type="submit">
-            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-        </button>
-    </form>
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                </button>
             </div>
-        </div>
+
+            {{-- Dropdown Filter Semester Dinamis --}}
+            <div class="w-full md:w-52">
+                <select name="semester" onchange="this.form.submit()"
+                    class="w-full bg-white text-gray-700 rounded px-3 py-2 text-sm font-semibold outline-none cursor-pointer border border-transparent focus:border-orange-400 transition-all">
+                    <option value="">Semua Semester</option>
+                    @foreach($dropdownSemesters as $sem)
+                    <option value="{{ $sem }}" {{ $selectedSemester == $sem ? 'selected' : '' }}>
+                        Semester {{ $sem }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+
+        </form>
     </div>
 
     {{-- TABLE --}}
@@ -70,68 +83,76 @@
 
                         <td class="px-6 py-3 text-center">
                             <div class="flex justify-center">
-
                                 <button type="button"
                                     onclick="openConfirm('{{ $mk->kode_mk }}', '{{ $mk->nama_mk }}', '{{ $mk->sks }}', '{{ $mk->kode_mk }}')"
-                                    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg">
+                                    class="bg-orange-400 hover:bg-orange-300 text-black font-semibold px-4 py-2 rounded-lg text-xs md:text-sm transition shadow">
                                     + Tambah Mata Kuliah
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
-    <tr>
-        <td colspan="5" class="py-10 text-center text-gray-500 text-sm">
-            @if(request('search'))
-                Data dengan pencarian "<b>{{ request('search') }}</b>" tidak ditemukan.
-            @else
-                Data mata kuliah tidak tersedia.
-            @endif
-        </td>
-    </tr>
+                    <tr>
+                        <td colspan="5" class="py-10 text-center text-gray-500 text-sm">
+                            @if(request('search'))
+                            Data dengan pencarian "<b>{{ request('search') }}</b>" tidak ditemukan.
+                            @else
+                            Data mata kuliah tidak tersedia.
+                            @endif
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>
 
         </div>
 
+        {{-- INFO SKS FOOTER (MENGIKUTI STYLE KELOLA KRS KAMU) --}}
+        <div class="flex justify-between items-center mt-4 text-white text-xs md:text-sm font-semibold px-2">
+            <div>
+                Total SKS Diambil: <span>{{ $totalSks }}</span>
+            </div>
+            <div>
+                Maksimal Kuota SKS: <span class="text-orange-300">20</span>
+            </div>
+        </div>
+
         {{-- PAGINATION --}}
         <div class="flex justify-end mt-5 list-none">
-                    {{ $matakuliah->links() }}     
-            </div>
+            {{ $matakuliah->links() }}
         </div>
-
     </div>
 
-    {{-- CONFIRM MODAL --}}
-    <div id="confirmModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div
-            class="bg-[#5a5f86] w-full max-w-md rounded-xl p-6 text-white shadow-lg modal-content transform opacity-0 translate-y-10 transition-all duration-300">
+</div>
 
-            <h2 class="text-lg font-bold mb-4 text-center">Konfirmasi Mata Kuliah</h2>
+{{-- CONFIRM MODAL --}}
+<div id="confirmModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div
+        class="bg-[#5a5f86] w-full max-w-md rounded-xl p-6 text-white shadow-lg modal-content transform opacity-0 translate-y-10 transition-all duration-300">
 
-            <div class="bg-[#4d5275] p-4 rounded-lg mb-4 text-sm space-y-2 border border-white/10">
-                <p><b>Kode:</b> <span id="c_kode"></span></p>
-                <p><b>Nama:</b> <span id="c_nama"></span></p>
-                <p><b>SKS:</b> <span id="c_sks"></span></p>
-            </div>
+        <h2 class="text-lg font-bold mb-4 text-center">Konfirmasi Mata Kuliah</h2>
 
-            <p class="text-gray-200 text-xs text-center mb-5">
-                Pastikan mata kuliah yang dipilih sudah benar sebelum disimpan ke KRS Anda.
-            </p>
-
-            <div class="flex justify-center gap-3">
-                <button onclick="closeConfirm()"
-                    class="bg-gray-300 hover:bg-gray-200 text-black px-4 py-1.5 rounded-lg text-sm font-medium transition">
-                    Batal
-                </button>
-                <button onclick="submitKRS()"
-                    class="bg-orange-400 hover:bg-orange-300 text-black px-4 py-1.5 rounded-lg text-sm font-semibold shadow transition">
-                    Ya, Ambil
-                </button>
-            </div>
-
+        <div class="bg-[#4d5275] p-4 rounded-lg mb-4 text-sm space-y-2 border border-white/10">
+            <p><b>Kode:</b> <span id="c_kode"></span></p>
+            <p><b>Nama:</b> <span id="c_nama"></span></p>
+            <p><b>SKS:</b> <span id="c_sks"></span></p>
         </div>
+
+        <p class="text-gray-200 text-xs text-center mb-5">
+            Pastikan mata kuliah yang dipilih sudah benar sebelum disimpan ke KRS Anda.
+        </p>
+
+        <div class="flex justify-center gap-3">
+            <button onclick="closeConfirm()"
+                class="bg-gray-300 hover:bg-gray-200 text-black px-4 py-1.5 rounded-lg text-sm font-medium transition">
+                Batal
+            </button>
+            <button onclick="submitKRS()"
+                class="bg-orange-400 hover:bg-orange-300 text-black px-4 py-1.5 rounded-lg text-sm font-semibold shadow transition">
+                Ya, Ambil
+            </button>
+        </div>
+
     </div>
 </div>
 
@@ -148,7 +169,6 @@ let selectedMK = {};
 
 // FUNGSI BUKA MODAL
 function openConfirm(kode, nama, sks, id) {
-    // Memasukkan data ke variabel global
     selectedMK = {
         kode: kode,
         nama: nama,
@@ -186,15 +206,15 @@ function closeConfirm() {
 
 // FUNGSI SUBMIT FORM KE CONTROLLER
 function submitKRS() {
-    // Validasi pengaman untuk mendeteksi apakah ID kosong
-    if (!selectedMK.id || selectedMK.id === 'undefined' || selectedMK.id.trim() === '') {
-        alert('Gagal mengambil data! Nilai ID Mata Kuliah kosong atau tidak terbaca oleh JavaScript.');
+    // Validasi diubah agar menerima string (kode_mk) selama tidak kosong
+    if (!selectedMK.id || selectedMK.id === 'undefined' || selectedMK.id.toString().trim() === '') {
+        alert('Gagal mengambil data! Kode Mata Kuliah kosong atau tidak terbaca oleh JavaScript.');
         return;
     }
 
     let form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/mahasiswa/tambah-krs/' + selectedMK.id;
+    form.action = '/mahasiswa/tambah-krs/' + selectedMK.id; // Ini akan mengirim kode_mk (cth: IF201)
 
     let csrf = document.createElement('input');
     csrf.type = 'hidden';

@@ -83,7 +83,7 @@ class PenilaianController extends Controller
         });
     }
 
-    // FILTER SESI
+    // FILTER SESI 
     if ($request->sesi) {
         $query->whereHas('krs.mahasiswa.kelas', function ($q) use ($request) {
             $q->where('kategori', $request->sesi);
@@ -94,6 +94,12 @@ class PenilaianController extends Controller
     if ($request->semester) {
         $query->whereHas('pengajar.mataKuliah', function ($q) use ($request) {
             $q->where('semester', $request->semester);
+        });
+    }
+
+    if ($request->filled('kode_mk')) {
+        $query->whereHas('pengajar.mataKuliah', function ($q) use ($request) {
+            $q->where('kode_mk', $request->kode_mk);
         });
     }
 
