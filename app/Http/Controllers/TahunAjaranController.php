@@ -29,7 +29,7 @@ class TahunAjaranController extends Controller
 
     public function index(Request $request)
     {
-        // 💡 UBAH DI SINI: Gunakan waktu hari ini, jangan di-hardcode ke 2027
+        // UBAH DI SINI: Gunakan waktu hari ini, jangan di-hardcode ke 2027
         $today = now(); 
 
         TahunAjaran::query()->update([

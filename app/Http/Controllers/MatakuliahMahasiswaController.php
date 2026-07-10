@@ -54,14 +54,13 @@ class MatakuliahMahasiswaController extends Controller
             });
     }
 
-    $namaTahun = strtolower($tahun->nama_tahun_ajaran ?? ''); 
-    
-    // Tentukan target basic ganjil / genap
-    if (str_contains($namaTahun, 'genap')) {
-        $semesterTarget = [2, 4, 6, 8];
-    } else {
-        $semesterTarget = [1, 3, 5, 7, 9];
-    }
+    $semesterAktif = strtolower($tahun->semester);
+
+if ($semesterAktif == 'genap') {
+    $semesterTarget = [2, 4, 6, 8];
+} else {
+    $semesterTarget = [1, 3, 5, 7, 9];
+}
 
     //  1. HITUNG SEMESTER MAKSIMAL YANG REAL DIBUAT OLEH ADMIN DI PRODI INI
     $maxSemesterAdmin = MataKuliah::where('id_prodi', $idProdi)
@@ -76,7 +75,7 @@ class MatakuliahMahasiswaController extends Controller
     $search = $request->search;
     $selectedSemester = $request->semester;
 
-    // 💡 3. QUERY UTAMA DENGAN FILTER DROPDOWN SEMESTER
+    // 3. QUERY UTAMA DENGAN FILTER DROPDOWN SEMESTER
     $matakuliah = MataKuliah::where('id_prodi', $idProdi)
         ->whereNotIn('kode_mk', $kodeMatkulDipilih)
         ->when($selectedSemester, function ($query) use ($selectedSemester) {
@@ -129,7 +128,7 @@ class MatakuliahMahasiswaController extends Controller
         return back()->with('error', 'Mata kuliah tidak ditemukan');
     }
 
-    // 💡 PERBAIKAN UTAMA: Validasi Semester Mahasiswa vs Semester Mata Kuliah
+    //  PERBAIKAN UTAMA: Validasi Semester Mahasiswa vs Semester Mata Kuliah
     $semesterMahasiswa = $mahasiswa->kelas->semester ?? null;
     if ($semesterMahasiswa && $matkulDipilih->semester != $semesterMahasiswa) {
         return back()->with('error', 'Mata kuliah ini ditujukan untuk Semester ' . $matkulDipilih->semester . ', bukan untuk semester aktif Anda yakni Semester ' . $semesterMahasiswa . '.');

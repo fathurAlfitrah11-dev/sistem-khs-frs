@@ -31,7 +31,7 @@ class MataKuliah extends Model
 
    public function pengajar()
     {
-        return $this->hasMany(Pengajar::class, 'mata_kuliah_id');
+        return $this->hasMany(Pengajar::class, 'kode_mk', 'kode_mk');
     }
     public function prodi()
     {

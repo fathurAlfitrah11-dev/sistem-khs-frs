@@ -163,6 +163,7 @@ class KpsPenguncianController extends Controller
 
     $prodi = Prodi::where('nik_kps', $dosen->nik)->firstOrFail();
 
+    // Kunci penginputan
     PenguncianNilai::updateOrCreate(
         [
             'id_prodi' => $prodi->id_prodi,
@@ -173,10 +174,48 @@ class KpsPenguncianController extends Controller
         ]
     );
 
-    // AUTO GENERATE KHS LANGSUNG
-    $this->storeNilaiOtomatis();
+    // Ambil seluruh KRS Detail pada prodi & tahun ajaran tersebut
+    $details = KrsDetail::with(['krs', 'pengajar'])
+        ->whereHas('krs', function ($q) use ($tahun, $prodi) {
 
-    return back()->with('success', 'Penginputan nilai berhasil ditutup & KHS dibuat.');
+            $q->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
+              ->whereHas('mahasiswa.kelas', function ($q2) use ($prodi) {
+                    $q2->where('id_prodi', $prodi->id_prodi);
+              });
+
+        })
+        ->get();
+
+    foreach ($details as $detail) {
+
+        // Kalau sudah punya nilai, lewati
+        if (Khs::where('krs_detail_id', $detail->id_krs_detail)->exists()) {
+            continue;
+        }
+
+        // Buat nilai default 75
+        Khs::create([
+            'krs_detail_id' => $detail->id_krs_detail,
+            'nik' => $detail->pengajar->nik,
+
+            'partisipatif' => 75,
+            'tugas' => 75,
+            'quiz' => 75,
+            'proyek' => 75,
+            'uts' => 75,
+            'uas' => 75,
+
+            'na' => 75,
+            'nh' => 'B',
+
+            'status' => 'final',
+        ]);
+    }
+
+    return back()->with(
+        'success',
+        'Penginputan nilai ditutup. Mahasiswa yang belum memiliki nilai otomatis diberi nilai 75.'
+    );
 }
 
     public function bukaNilai(Request $request)
@@ -199,66 +238,5 @@ class KpsPenguncianController extends Controller
 
         return back()->with('success', 'Penginputan nilai berhasil dibuka.');
     }
-   public function storeNilaiOtomatis()
-{
-    $tahun = TahunAjaran::where('status', 'aktif')->first();
-
-    if (!$tahun) {
-        return back()->with('error', 'Tidak ada tahun ajaran aktif.');
-    }
-
-    $dosen = Dosen::where('user_id', Auth::id())->firstOrFail();
-
-    $prodi = Prodi::where('nik_kps', $dosen->nik)->firstOrFail();
-
-    $penguncian = PenguncianNilai::where('id_prodi', $prodi->id_prodi)
-        ->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
-        ->first();
-
-    if (!$penguncian || $penguncian->status != 'dikunci') {
-        return back()->with('error', 'Penginputan nilai belum dikunci.');
-    }
-
-    // AMBIL KRS DETAIL YANG BENAR (FILTER TAHUN AJARAN + PRODI)
-    $krsDetails = KrsDetail::with(['krs.mahasiswa', 'pengajar.mataKuliah'])
-        ->whereHas('krs', function ($q) use ($tahun, $prodi) {
-            $q->where('id_tahun_ajaran', $tahun->id_tahun_ajaran)
-              ->whereHas('mahasiswa.kelas', function ($q2) use ($prodi) {
-                  $q2->where('id_prodi', $prodi->id_prodi);
-              });
-        })
-        ->get();
-
-    foreach ($krsDetails as $detail) {
-
-        // CEGAH DUPLIKAT
-        $cek = Khs::where('krs_detail_id', $detail->id_krs_detail)->exists();
-
-        if ($cek) continue;
-
-        // AMBIL BOBOT DARI MATKUL
-        $mk = $detail->pengajar->mataKuliah;
-
-        Khs::create([
-            'krs_detail_id' => $detail->id_krs_detail,
-            'nik'           => $detail->pengajar->nik ?? null,
-
-            // DEFAULT NILAI OTOMATIS
-            'partisipatif'  => 75,
-            'tugas'         => 75,
-            'quiz'          => 75,
-            'proyek'        => 75,
-            'uts'           => 75,
-            'uas'           => 75,
-
-            // HITUNG NA SIMPLE
-            'na' => 75,
-            'nh' => 'B',
-
-            'status' => 'draft',
-        ]);
-    }
-
-    return back()->with('success', 'Nilai berhasil digenerate.');
-}
+   
 }
