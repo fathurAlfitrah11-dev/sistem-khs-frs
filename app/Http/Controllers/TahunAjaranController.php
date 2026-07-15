@@ -61,7 +61,7 @@ class TahunAjaranController extends Controller
             ->paginate(10)
             ->appends($request->query());
 
-        // 💡 OPTIONAL FIX: Bagian transform ini juga samakan agar statusnya 'aktif' / 'non-aktif' sesuai database
+        // status'aktif' / 'non-aktif'
         $data->getCollection()->transform(function ($item) use ($today) {
             $item->aktif = $today->between($item->tanggal_mulai, $item->tanggal_selesai)
                 ? 'aktif'
@@ -136,7 +136,7 @@ class TahunAjaranController extends Controller
     ]);
 
     return redirect('/tahun-ajaran')
-        ->with('success', 'Berhasil ditambahkan');
+        ->with('success', 'Tahun Ajaran Berhasil ditambahkan');
 }
 
     public function update(Request $request, $id_tahun_ajaran)
@@ -200,7 +200,7 @@ class TahunAjaranController extends Controller
     ]);
 
     return redirect('/tahun-ajaran')
-        ->with('success', 'Data berhasil diupdate');
+        ->with('success', 'Tahun Ajaran Berhasil diupdate');
 }
 
     public function delete($id_tahun_ajaran)

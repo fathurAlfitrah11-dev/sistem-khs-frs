@@ -276,16 +276,9 @@
 </div>
 
 <script>
-const tahunAktif = {
-    {
-        $tahunAktif - > tahun_awal ?? date('Y')
-    }
-};
-const offset = {
-    {
-        $tahunAktif - > semester === 'ganjil' ? 1 : 2
-    }
-};
+const tahunAktif = {{ $tahunAktif->tahun_awal ?? date('Y') }};
+
+const offset = {{ ($tahunAktif->semester ?? 'ganjil') === 'ganjil' ? 1 : 2 }};
 
 function showModal(id) {
     const modal = document.getElementById(id);

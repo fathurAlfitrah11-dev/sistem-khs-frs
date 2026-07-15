@@ -303,6 +303,51 @@ document.addEventListener('DOMContentLoaded', function() {
     tanggal?.addEventListener('input', hitungOtomatis);
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+
+    const editSemester = document.getElementById('editSemester');
+    const editTanggal = document.getElementById('editTanggalMulai');
+
+    editSemester?.addEventListener('change', hitungEditOtomatis);
+    editTanggal?.addEventListener('change', hitungEditOtomatis);
+    editTanggal?.addEventListener('input', hitungEditOtomatis);
+
+});
+
+function hitungEditOtomatis() {
+
+    const semester = document.getElementById('editSemester').value;
+    const tanggalMulai = document.getElementById('editTanggalMulai').value;
+
+    if (!semester || !tanggalMulai) return;
+
+    const year = parseInt(tanggalMulai.substring(0,4));
+
+    let tahunAwal, tahunAkhir, tanggalSelesai;
+
+
+    if (semester === 'ganjil') {
+
+        tahunAwal = year;
+        tahunAkhir = year + 1;
+        tanggalSelesai = `${tahunAkhir}-01-31`;
+
+    } else {
+
+        tahunAwal = year - 1;
+        tahunAkhir = year;
+        tanggalSelesai = `${tahunAkhir}-07-31`;
+
+    }
+
+
+    document.getElementById('editTahunAjaran').value =
+        `${tahunAwal}/${tahunAkhir}`;
+
+    document.getElementById('editTanggalSelesai').value =
+        tanggalSelesai;
+}
+
 // EDIT MODAL
 
 function openEdit(el) {

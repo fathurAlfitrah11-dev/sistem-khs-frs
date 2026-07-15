@@ -42,7 +42,7 @@ private function hitungSemester($angkatan)
             ->join('prodi', 'kelas.id_prodi', '=', 'prodi.id_prodi')
             ->with('prodi')
             
-            // 💡 BARU: Filter berdasarkan Program Studi jika dipilih
+            //Filter berdasarkan Program Studi jika dipilih
             ->when($idProdi, function ($query) use ($idProdi) {
                 $query->where('kelas.id_prodi', $idProdi);
             })

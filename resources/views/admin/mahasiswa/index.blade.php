@@ -235,7 +235,7 @@
         <form id="formEdit" method="POST">
             @csrf
             <label class="block text-sm mb-1">Program Studi</label>
-            <select name="id_prodi" id="editProdi" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <select name="id_prodi" id="editProdi" onchange="filterKelasEdit()" class="w-full mb-3 px-3 py-2 border rounded text-black">
                 <option value="">Pilih Program Studi</option>
                 @foreach($prodi as $p)
                 <option value="{{ $p->id_prodi }}">{{$p->jenjang}} - {{ $p->nama_prodi }}</option>
@@ -266,7 +266,11 @@
             @enderror
 
             <label class="block text-sm mb-1">Angkatan</label>
-            <input type="number" id="editAngkatan" name="angkatan" class="w-full mb-3 px-3 py-2 border rounded text-black">
+            <input type="number" 
+       id="editAngkatan" 
+       name="angkatan" 
+       oninput="filterKelasEdit()"
+       class="w-full mb-3 px-3 py-2 border rounded text-black">
             @error('angkatan','edit')
             <p class="text-red-400 text-sm">{{ $message }}</p>
             @enderror
@@ -383,10 +387,10 @@ function openEdit(nim, prodi, kelas, nama, angkatan) {
 
     document.getElementById('editPassword').value = '';
 
-    filterKelasEdit();
-    setTimeout(() => {
-        document.getElementById('editKelas').value = kelas;
-    }, 50);
+   filterKelasEdit();
+   setTimeout(() => {
+    document.getElementById('editKelas').value = kelas;
+}, 100);
     
     document.getElementById('formEdit').action = '/mahasiswa/update/' + nim;
 }
@@ -447,25 +451,55 @@ function filterKelasTambah() {
 }
 
 function filterKelasEdit() {
+
     let angkatan = parseInt(document.getElementById('editAngkatan').value);
+    let prodi = document.getElementById('editProdi').value;
     let select = document.getElementById('editKelas');
+
 
     select.innerHTML = '<option value="">Pilih Kelas</option>';
 
-    if (isNaN(angkatan)) return;
+
+    if (isNaN(angkatan) || !prodi) {
+
+        select.innerHTML =
+            '<option value="">Isi Program Studi dan Angkatan terlebih dahulu</option>';
+
+        return;
+    }
+
 
     let semester = hitungSemester(angkatan);
 
+    let ada = false;
+
+
     semuaKelas.forEach(k => {
-        if (parseInt(k.semester) === semester) {
+
+        if (
+            parseInt(k.semester) === semester &&
+            k.id_prodi == prodi
+        ) {
+
+            ada = true;
+
             select.innerHTML += `
                 <option value="${k.id_kelas}">
                     ${k.prodi.nama_prodi} ${k.semester}${k.nama_kelas} ${k.kategori}
                 </option>
             `;
         }
+
     });
-};
+
+
+    if (!ada) {
+
+        select.innerHTML =
+            '<option value="">Tidak ada kelas untuk semester tersebut</option>';
+
+    }
+}
 </script>
 
 @endsection
