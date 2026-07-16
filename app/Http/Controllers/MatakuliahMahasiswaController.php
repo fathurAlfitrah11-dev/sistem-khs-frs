@@ -62,15 +62,14 @@ if ($semesterAktif == 'genap') {
     $semesterTarget = [1, 3, 5, 7, 9];
 }
 
-    //  1. HITUNG SEMESTER MAKSIMAL YANG REAL DIBUAT OLEH ADMIN DI PRODI INI
-    $maxSemesterAdmin = MataKuliah::where('id_prodi', $idProdi)
-        ->whereIn('semester', $semesterTarget)
-        ->max('semester') ?? 0;
-
-    //  2. FILTER OPTION UNTUK DROPDOWN AGAR TIDAK MELEBIHI BUATAN ADMIN
-    $dropdownSemesters = array_filter($semesterTarget, function($sem) use ($maxSemesterAdmin) {
-        return $sem <= $maxSemesterAdmin;
-    });
+// Ambil semester yang benar-benar ada di tabel mata_kuliah
+$dropdownSemesters = MataKuliah::where('id_prodi', $idProdi)
+    ->whereIn('semester', $semesterTarget)
+    ->select('semester')
+    ->distinct()
+    ->orderBy('semester')
+    ->pluck('semester')
+    ->toArray();
 
     $search = $request->search;
     $selectedSemester = $request->semester;

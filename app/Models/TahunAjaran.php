@@ -21,7 +21,7 @@ class TahunAjaran extends Model
     }
     public function getDeadlineNilaiAttribute()
 {
-    return $this->tanggal_selesai->copy()->subDays(14);
+    return $this->tanggal_selesai;
 }
 
 }
