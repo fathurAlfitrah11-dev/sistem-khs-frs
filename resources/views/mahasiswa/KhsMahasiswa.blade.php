@@ -306,9 +306,9 @@ if ($ipk > 0) {
         <h2 class="text-white text-3xl font-bold mb-6">Daftar Nilai Kuliah</h2>
 
         <div class="overflow-x-auto rounded-2xl border border-gray-100 shadow-sm shadow-slate-900/20">
-            <div class="bg-white overflow-hidden rounded-2xl">
+            <div class="w-full overflow-x-auto rounded-2xl border border-gray-100 shadow-sm shadow-slate-900/20 bg-white">
 
-                <table class="w-full border-collapse">
+                <table class="w-full min-w-[700px] border-collapse">
 
                     {{-- TABLE HEADER --}}
                     <thead class="bg-[#f5f6fa] border-b border-gray-300">

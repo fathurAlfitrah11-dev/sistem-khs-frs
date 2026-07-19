@@ -21,23 +21,23 @@
     </style>
 </head>
 
-<body>
+<body class=" m-0 p-0">
 
     <x-alert />
 
-    <div class="flex">
+    <div class="flex min-h-screen bg-gray-50">
 
         {{-- SIDEBAR --}}
         @include('layout.sidebar_dosen')
 
         {{-- MAIN CONTENT --}}
-        <div class="flex-1 ml-64 pt-16">
+        <div id="mainContent" class="flex-1 lg:ml-646 transition-all duration-300">
 
             {{-- NAVBAR --}}
             @include('layout.navbar')
 
             {{-- CONTENT --}}
-            <div id="swup" class="p-6 transition-fade">
+            <div id="swup" class="p-6 transition-fade flex-1">
                 <x-dashboard-layout>
                     @yield('content')
                 </x-dashboard-layout>
@@ -53,14 +53,54 @@
     });
     </script>
     <script>
-    let index = 0;
-    const slider = document.getElementById('slider');
-    const totalSlides = slider.children.length;
+    // Fungsi pembantu untuk membuka dan menutup sidebar secara sinkron
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        
+        if (sidebar && overlay) {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+    }
 
-    setInterval(() => {
-        index = (index + 1) % totalSlides;
-        slider.style.transform = `translateX(-${index * 100}%)`;
-    }, 3000); // 3 detik
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.getElementById('menuButton');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        // Hubungkan tombol burger di navbar ke fungsi toggle
+        if (menuButton) {
+            menuButton.addEventListener('click', toggleSidebar);
+        }
+
+        // Hubungkan backdrop overlay hitam ke fungsi toggle
+        if (overlay) {
+            overlay.addEventListener('click', toggleSidebar);
+        }
+    });
+    // Sambungkan fungsi ke overlay klik agar saat area gelap diklik, menu menutup otomatis
+    document.getElementById('sidebarOverlay')?.addEventListener('click', toggleSidebar);
+
+    // Inisialisasi library animasi AOS
+    AOS.init({
+        once: true,
+        duration: 800
+    });
+    </script>
+
+    {{-- JAVASCRIPT SLIDER (DENGAN SECURITY CHECK) --}}
+    <script>
+        // Penambahan conditional check (if) agar script tidak error jika halaman tidak memiliki element slider
+        const slider = document.getElementById('slider');
+        if (slider && slider.children.length > 0) {
+            let index = 0;
+            const totalSlides = slider.children.length;
+
+            setInterval(() => {
+                index = (index + 1) % totalSlides;
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            }, 3000);
+        }
     </script>
 </body>
 </body>

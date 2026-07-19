@@ -1,4 +1,4 @@
-<div class="w-64 h-screen bg-[#3b3f63] fixed left-0 top-0 flex flex-col">
+<div id="sidebar" class="fixed top-0 left-0 w-64 h-screen bg-[#3b3f64] flex flex-col z-50 transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
 
     <!-- LOGO -->
 <div class="p-4 border-b border-white/10 flex items-center justify-center">
@@ -60,13 +60,7 @@
 
     </div>
 </div>
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
 <script>
-function toggleDosen() {
-    const menu = document.getElementById('dropdownDosen');
-    const arrow = document.getElementById('arrowDosen');
 
-    menu.classList.toggle('hidden');
-
-    arrow.classList.toggle('rotate-180');
-}
 </script>

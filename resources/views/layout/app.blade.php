@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    
     <title>@yield('title')</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,7 +30,7 @@
 
     <x-alert />
 
-    <div class="flex">
+    <div class="flex min-h-screen">
 
         {{-- SIDEBAR --}}
         @if(Auth::user()->role == 'dosen')
@@ -38,24 +39,25 @@
         @include('layout.sidebar') {{-- Ini buat admin atau role lain jika ada --}}
         @endif
 
-        {{-- MAIN CONTENT --}}
-        <div class="flex-1 ml-64 pt-16">
+        {{-- SIDEBAR OVERLAY (Backdrop gelap saat sidebar mobile aktif) --}}
+                <div id="sidebarOverlay" class="fixed inset-0 bg-black/40 hidden lg:hidden z-40"></div>
 
-            {{-- NAVBAR --}}
-            @include('layout.navbar')
+                {{-- MAIN CONTENT BUNDLER --}}
+                <div id="mainContent" class="flex-1 lg:ml-64 flex flex-col transition-all duration-300">
 
-            {{-- CONTENT --}}
-            <div id="swup" class="p-6 transition-fade">
+                    {{-- NAVBAR --}}
+                    @include('layout.navbar')
 
-                <x-dashboard-layout>
-                    @yield('content')
-                </x-dashboard-layout>
+                    {{-- CONTENT AREA --}}
+                    <div id="swup" class="p-4 md:p-6 transition-fade flex-1">
+                        <x-dashboard-layout>
+                            @yield('content')
+                        </x-dashboard-layout>
+                    </div>
+
+                </div>
 
             </div>
-
-        </div>
-
-    </div>
 
     <script>
     AOS.init({
@@ -67,7 +69,37 @@
 </body>
 
 <script>
-const swup = new Swup();
-</script>
+        const menuButton = document.getElementById('menuButton');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar && overlay) {
+                // Membuka / Menutup Sidebar dengan memanipulasi utility class Tailwind
+                sidebar.classList.toggle('-translate-x-full');
+                
+                // Memunculkan / Menyembunyikan lapisan backdrop gelap di belakangnya
+                overlay.classList.toggle('hidden');
+            }
+        }
+
+        // Tambahan: Pastikan ketika area backdrop hitam diklik, sidebar otomatis menutup kembali
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const menuButton = document.getElementById('menuButton');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            if (menuButton) {
+                menuButton.addEventListener('click', toggleSidebar);
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', toggleSidebar);
+            }
+
+        });
+    </script>
 </html>

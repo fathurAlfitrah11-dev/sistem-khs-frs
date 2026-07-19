@@ -1,8 +1,7 @@
-@extends('layout.app')
+@extends('layout.dosen_app')
 
 @section('title','KPS Penilaian')
 
-```blade
 @section('content')
 
 <div class="p-6">

@@ -3,6 +3,7 @@
 
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>@yield('title')</title>
 
         <script src="https://cdn.tailwindcss.com"></script>
@@ -22,7 +23,8 @@
         </style>
     </head>
 
-    <body>
+        
+    <body class="m-0 p-0">
 
         <x-alert />
         <div class="flex">
@@ -30,8 +32,12 @@
             {{-- SIDEBAR --}}
             @include('layout.sidebar_mahasiswa')
 
+                <div
+                    id="overlay"
+                    class="fixed inset-0 bg-black/40 hidden lg:hidden z-40">
+                </div>
             {{-- MAIN CONTENT --}}
-            <div class="flex-1 ml-64 pt-16">
+            <div id="mainContent" class="flex-1 lg:ml-646 transition-all duration-300">
 
                 {{-- NAVBAR --}}
                 @include('layout.navbar')
@@ -64,6 +70,23 @@
                 slider.style.transform = `translateX(-${index * 100}%)`;
             }, 3000);
         }
+        </script>
+        <script>
+            const menuButton = document.getElementById('menuButton');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            // Fungsi Buka / Tutup Sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('-translate-x-full');
+                sidebarOverlay.classList.toggle('hidden');
+            }
+
+            // Event Klik pada Tombol Hamburger
+            menuButton.addEventListener('click', toggleSidebar);
+
+            // Event Klik pada Overlay (Menutup kembali jika area luar sidebar diklik)
+            sidebarOverlay.addEventListener('click', toggleSidebar);
         </script>
     </body>
 

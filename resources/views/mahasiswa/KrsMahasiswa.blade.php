@@ -20,10 +20,10 @@ $totalSks += $item->pengajar->mataKuliah->sks ?? 0;
 $maxSks = 20;
 @endphp
 
-<div class="p-6">
+<div class="p-4 md:p-6">
 
     {{-- CONTAINER UTAMA DENGAN WARNA UNGER/NAVY GELAP --}}
-    <div class="bg-[#4f547d] rounded-3xl p-8 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+    <div class="bg-[#4f547d] rounded-3xl p-4 sm:p-8 shadow-lg" data-aos="fade-up" data-aos-delay="100">
 
         <h2 class="text-white text-3xl font-bold mb-6">Data Rencana Studi (KRS)</h2>
 
@@ -48,8 +48,11 @@ $maxSks = 20;
         </div>
 
         {{-- CONTAINER TABEL PUTIH KELUARAN OVAL --}}
-        <div class="bg-white overflow-hidden rounded-2xl">
-            <table class="w-full border-collapse">
+        <div class="bg-white rounded-2xl overflow-hidden">
+            
+            <div class="w-full overflow-x-auto">
+                
+                <table class="w-full min-w-[700px] text-left border-collapse">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Kode</th>

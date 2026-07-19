@@ -59,9 +59,9 @@
             </a>
         </div>
 
-        <div class="bg-white overflow-hidden rounded-2xl">
+        <div class="w-full overflow-x-auto rounded-2xl border border-gray-100 shadow-sm shadow-slate-900/20 bg-white">
 
-            <table class="w-full border-collapse">
+            <table class="w-full min-w-[700px] border-collapse">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">Kode</th>

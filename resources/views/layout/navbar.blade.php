@@ -1,7 +1,17 @@
 <div
-    class="h-16 bg-[#e4ecff] fixed top-0 left-64 right-0 z-50 flex items-center justify-between px-6 border-b border-[#cbd5e1] shadow-sm">
+    class="h-16 bg-[#e4ecff] sticky top-0 z-30 flex items-center justify-between px-4 md:px-6 border-b border-[#cbd5e1] shadow-sm">
 
     {{-- PAGE TITLE --}}
+    <div class="flex items-center gap-4">
+
+    <button
+        id="menuButton"
+        class="lg:hidden text-xl text-slate-700">
+
+        <i class="fa-solid fa-bars"></i>
+
+    </button>
+
     <div>
         <h1 class="text-lg font-semibold text-slate-800">
             @yield('title')
@@ -12,10 +22,12 @@
         </p>
     </div>
 
-    {{-- USER --}}
-    <div class="flex items-center gap-3">
+</div>
 
-        <div class="text-right">
+    {{-- USER --}}
+    <div class="flex items-center gap-2 md:gap-3">
+
+        <div class="text-right hidden sm:block">
             <p class="text-sm font-medium text-slate-800">
                 {{ Auth::user()->name }}
             </p>

@@ -141,8 +141,8 @@
         </div>
 
         {{-- CONTAINER TABEL --}}
-        <div class="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-inner">
-            <table class="w-full text-sm">
+        <div class="bg-white rounded-xl overflow-hidden border border-slate-200 shadow-inner w-full overflow-x-auto rounded-xl">
+            <table class="w-full min-w-[700px] text-left border-collapse ">
                 <thead class="bg-slate-100 text-slate-700 border-b border-slate-200">
                     <tr>
 

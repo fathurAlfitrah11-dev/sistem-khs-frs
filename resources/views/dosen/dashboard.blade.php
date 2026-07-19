@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="p-6">
+
 
     {{-- MAIN TITLE (Sesuai Gaya Admin & Mahasiswa) --}}
     <div class="mb-6" data-aos="fade-down">
@@ -281,6 +281,6 @@
                 </table>
             </div>
         </div>
-    </div>
+
 
 @endsection
