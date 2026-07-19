@@ -27,8 +27,8 @@
         @csrf
         <input type="hidden" name="id_krs" value="{{ $krs->id_krs }}">
 
-        <div class="bg-white rounded-xl overflow-hidden shadow-sm">
-            <table class="w-full text-sm text-gray-800 border-collapse">
+        <div class="bg-white rounded-xl w-full overflow-x-auto overflow-hidden shadow-sm">
+            <table class="w-full min-w-[700px] text-sm text-gray-800 border-collapse">
                 <thead class="bg-gray-100 text-[#243b63] border-b border-gray-200">
                     <tr>
                         <th class="px-6 py-3 text-left font-bold">Mata Kuliah</th>

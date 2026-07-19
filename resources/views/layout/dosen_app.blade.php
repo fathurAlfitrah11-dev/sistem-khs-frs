@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,13 +26,13 @@
 
     <x-alert />
 
-    <div class="flex min-h-screen bg-gray-50">
+    <div class="min-h-screen">
 
         {{-- SIDEBAR --}}
         @include('layout.sidebar_dosen')
 
         {{-- MAIN CONTENT --}}
-        <div id="mainContent" class="flex-1 lg:ml-646 transition-all duration-300">
+        <div id="mainContent" class="flex-1 lg:ml-64 transition-all duration-300">
 
             {{-- NAVBAR --}}
             @include('layout.navbar')

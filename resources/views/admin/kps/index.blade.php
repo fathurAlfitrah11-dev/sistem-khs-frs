@@ -38,8 +38,8 @@
 
         <div class="bg-white rounded-2xl overflow-hidden">
 
-            <table class="w-full border-collapse">
-                <thead class="bg-[#f5f6fa] border-b border-gray-300">
+            <div class="bg-white rounded-xl w-full overflow-x-auto overflow-hidden shadow-sm">
+            <table class="w-full min-w-[700px] text-sm text-gray-800 border-collapse">
                     <tr>
                         <th class="px-4 py-4 text-left text-[#243b63] font-bold text-xs md:text-sm">No</th>
                         <th class="px-4 py-4 text-center text-[#243b63] font-bold text-xs md:text-sm">NIK</th>

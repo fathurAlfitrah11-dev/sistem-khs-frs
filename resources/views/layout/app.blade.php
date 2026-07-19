@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,12 +16,15 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <style>
     body {
         font-family: 'Poppins', sans-serif;
         background: #fff;
         color: #fff;
+    overflow-x: hidden;
+    max-width: 100%;
     }
     </style>
 </head>
@@ -30,7 +33,7 @@
 
     <x-alert />
 
-    <div class="flex min-h-screen">
+    <div class="min-h-screen">
 
         {{-- SIDEBAR --}}
         @if(Auth::user()->role == 'dosen')
@@ -49,7 +52,7 @@
                     @include('layout.navbar')
 
                     {{-- CONTENT AREA --}}
-                    <div id="swup" class="p-4 md:p-6 transition-fade flex-1">
+                    <div id="swup" class="flex-1 p-4 md:p-6 overflow-x-hidden">
                         <x-dashboard-layout>
                             @yield('content')
                         </x-dashboard-layout>

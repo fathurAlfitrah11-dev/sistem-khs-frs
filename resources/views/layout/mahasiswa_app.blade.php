@@ -37,7 +37,7 @@
                     class="fixed inset-0 bg-black/40 hidden lg:hidden z-40">
                 </div>
             {{-- MAIN CONTENT --}}
-            <div id="mainContent" class="flex-1 lg:ml-646 transition-all duration-300">
+            <div id="mainContent" class="flex-1 lg:ml-64 transition-all duration-300">
 
                 {{-- NAVBAR --}}
                 @include('layout.navbar')

@@ -37,9 +37,8 @@
 
         <h2 class="text-white text-3xl font-bold mb-6">Data Dosen Wali</h2>
 
-        <div class="bg-white rounded-2xl overflow-hidden">
-
-            <table class="w-full border-collapse">
+        <div class="bg-white rounded-xl w-full overflow-x-auto overflow-hidden shadow-sm">
+            <table class="w-full min-w-[700px] text-sm text-gray-800 border-collapse">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
                         <th class="px-8 py-3 text-left text-[#243b63] font-bold text-sm">NIK</th>

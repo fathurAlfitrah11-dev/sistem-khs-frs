@@ -68,9 +68,9 @@
             Data Perwalian Mahasiswa
         </h2>
 
-        <div class="bg-white rounded-2xl overflow-hidden">
+        <div class="bg-white rounded-2xl overflow-hidden w-full overflow-x-auto">
 
-            <table class="w-full border-collapse">
+            <table class="w-full min-w-[700px] border-collapse text-left">
                 <thead class="bg-[#f5f6fa] border-b border-gray-300">
                     <tr>
                         <th class="px-6 py-3 text-left text-[#243b63] font-bold text-sm">NIM</th>
